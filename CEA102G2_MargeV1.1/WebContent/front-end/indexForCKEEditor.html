@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+  <html>
+  <head>
+  <meta charset="utf-8">
+  <title>CKEditor Sample</title>
+<script src="/CEA102G2/ckeditor/jquery.min.js"></script>
+<script src="/CEA102G2/ckeditor/ckeditor.js"></script>
+<link rel="stylesheet" href="/CEA102G2/ckeditor/contents.css">
+  <script type="text/javascript">
+   $(document).ready(function() {
+    CKEDITOR.replace('content');
+    console.log("ready!");
+   });
+  </script>
+  </head>
+  <body>
+   <form id="detaform" method="post">
+    <textarea id="content" name="content"></textarea>
+   </form>
+  </body>
+  </html>
