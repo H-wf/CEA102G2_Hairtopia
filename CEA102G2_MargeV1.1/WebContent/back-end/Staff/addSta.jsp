@@ -11,7 +11,7 @@
 
 <title>講師資料新增 - addSta.jsp</title>
 </head>
-<body>
+
 <body bgcolor='white'>
 
 	<table id="table-1">
