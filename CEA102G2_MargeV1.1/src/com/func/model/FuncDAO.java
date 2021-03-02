@@ -24,7 +24,7 @@ public class FuncDAO implements FuncDAO_interface{
 			e.printStackTrace();
 		}
 	}
-	
+	//fjdsfjdsoijfdsoifjdsoijf
 	private static final String INSERT_STMT = "INSERT INTO Func (funcName) VALUES (?)";
 	private static final String GET_ALL_STMT = "SELECT funcNo,funcName FROM func order by funcNo";
 	private static final String GET_ONE_STMT = "SELECT funcNo,funcName FROM func where funcNo= ?";
