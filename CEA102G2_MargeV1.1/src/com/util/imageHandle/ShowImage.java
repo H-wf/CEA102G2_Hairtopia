@@ -45,7 +45,7 @@ public class ShowImage extends HttpServlet {
 				}
 				in.close();
 			} else {
-				InputStream in = getServletContext().getResourceAsStream("/resource/images/null2.jpg");
+				InputStream in = getServletContext().getResourceAsStream("/resource/images/unupload.jpg");
 				byte[] b = new byte[in.available()];
 				in.read(b);
 				out.write(b);
@@ -53,7 +53,7 @@ public class ShowImage extends HttpServlet {
 			}
 			rs.close();
 		} catch (Exception e) {
-			InputStream in = getServletContext().getResourceAsStream("/resource/images/null2.jpg");
+			InputStream in = getServletContext().getResourceAsStream("/resource/images/unupload.jpg");
 			byte[] b = new byte[in.available()];
 			in.read(b);
 			out.write(b);
