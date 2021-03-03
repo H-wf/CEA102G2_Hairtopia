@@ -1,13 +1,13 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<html>
+<!DOCTYPE html>
+<html lang="en">
 
 <head>
-    <title>Hairtopia Post</title>
+    <title>Hairtopia</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Prata&display=swap">
     <link rel="stylesheet" href="<%=request.getContextPath()%>/dist/css/open-iconic-bootstrap.min.css">
     <link rel="stylesheet" href="<%=request.getContextPath()%>/dist/css/animate.css">
     <link rel="stylesheet" href="<%=request.getContextPath()%>/dist/css/owl.carousel.min.css">
@@ -17,48 +17,28 @@
     <link rel="stylesheet" href="<%=request.getContextPath()%>/dist/css/bootstrap-datepicker.css">
     <link rel="stylesheet" href="<%=request.getContextPath()%>/dist/css/jquery.timepicker.css">
     <link rel="stylesheet" href="<%=request.getContextPath()%>/dist/css/style.css">
-    <link rel="stylesheet" href="<%=request.getContextPath()%>/dist/tagify/tagify.css">
-    <script src="<%=request.getContextPath()%>/dist/js/jquery-3.2.1.min.js"></script>
-	<script src="<%=request.getContextPath()%>/dist/js/jquery-migrate-3.0.1.min.js"></script>
-	<script src="<%=request.getContextPath()%>/dist/js/jquery.easing.1.3.js"></script>
-	<script src="<%=request.getContextPath()%>/dist/js/jquery.waypoints.min.js"></script><!-- << -->
-	<script src="<%=request.getContextPath()%>/dist/js/jquery.stellar.min.js"></script>
-	<script src="<%=request.getContextPath()%>/dist/js/jquery.magnific-popup.min.js"></script>
-	<script src="<%=request.getContextPath()%>/dist/js/jquery.animateNumber.min.js"></script>
-	<script src="<%=request.getContextPath()%>/dist/js/jquery.timepicker.min.js"></script>
-	<script src="<%=request.getContextPath()%>/dist/js/bootstrap.min.js"></script>
-	<script src="<%=request.getContextPath()%>/dist/js/bootstrap-datepicker.js"></script>
-	<script src="<%=request.getContextPath()%>/dist/js/popper.min.js"></script>
-	
 </head>
 <style>
-	   .navbar-brand img{
-		width: 250px;
-		margin: 0;
-	}
-	.navbar-nav{
-		margin-right: 1em;
-	}
-	/* .navbar-icon i{font-size: 2em;
-	display: flex;
-	margin-right: 0.25em;
-	justify-content: center;
-	align-items: center;
-	padding-left: 10px;
-	padding-right: 10px;
-	padding-top: 10px;
-	} */
-	.btn-login{
-		height: 4em;
-		display: flex;
-		justify-content: center;
-		align-items: center;
-	}
-	.ftco-navbar-light .navbar-nav > .nav-item > .nav-link {
-		font-size: 0.86em;
-		padding-top: 1rem;
-		padding-bottom: 1rem;
-	}
+    .navbar-brand img{
+width: 250px;
+margin: 0;
+background-color: transparent
+}
+.navbar-nav{
+margin-right: 1em;
+}
+.btn-login{
+height: 4em;
+display: flex;
+justify-content: center;
+align-items: center;
+margin: 0 1rem 0 0;
+}
+.ftco-navbar-light .navbar-nav > .nav-item > .nav-link {
+font-size: 0.86em;
+padding-top: 1rem;
+padding-bottom: 1rem;
+}
     .carousel-caption {
                 top: 55%;
             }
@@ -78,7 +58,6 @@
 	.img-profile {
 	    height: 3.5rem;
 	    width: 3.5rem;
-	    margin: 0 1rem;
 	}
 	
 	.rounded-circle {
@@ -88,13 +67,23 @@
 	    vertical-align: middle;
 	    border-style: none;
 	}
+	.dropdown-menu{
+	margin:0;
+	}
 	.dropdown.no-arrow .dropdown-toggle::after {
 	    display: none;
 	}
+	.dropdown-toggle::after{
+	display:none;
+	}
+	.profileBtn{
+	padding:0;
+	}
+
 </style>
 
 <body>
-      <!-- navBar -->
+    <!-- navBar -->
     <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
         <a class="navbar-brand justify-content-center" href="#">
             <img src="<%=request.getContextPath()%>/dist/images/logo/HairtopiaLogo3.png" class="ml-4">
@@ -119,29 +108,43 @@
                 <!--  <div class="navbar-icon">
                     <i class="bi bi-search"></i>
                 </div> -->
-                <li class="nav-item dropdown no-arrow">
-                    <a class="dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <img class="img-profile rounded-circle" src="<%=request.getContextPath()%>/dist/images/offer-deal-2.jpg">
-                    </a>
-                    <!-- Dropdown - User Information -->
-                    <div class="dropdown-menu" aria-labelledby="userDropdown">
-                        <a class="dropdown-item" href="#">
-                            <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
-                            Profile
-                        </a>
-                        <a class="dropdown-item" href="#">
-                            <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
-                            Settings
-                        </a>
-                        <a class="dropdown-item" href="#">
-                            <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
-                            Activity Log
-                        </a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
-                            <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-                            Logout
-                        </a>
+                <li class="nav-item">
+                	<div class="dropdown">
+						  <button class="btn dropdown-toggle profileBtn" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+						    <img class="img-profile rounded-circle" src="<%=request.getContextPath()%>/dist/images/offer-deal-2.jpg">
+						  </button>
+						  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+						    <a class="dropdown-item" href="#">Action</a>
+						    <a class="dropdown-item" href="#">Another action</a>
+						    <a class="dropdown-item" href="#">Something else here</a>
+						  </div>
+						</div>
+                
+                
+<!-- 	                <div class="dropdown no-arrow"> -->
+<!-- 	                    <a class="dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> -->
+<%-- 	                        <img class="img-profile rounded-circle" src="<%=request.getContextPath()%>/dist/images/offer-deal-2.jpg"> --%>
+<!-- 	                    </a> -->
+<!-- 	                    Dropdown - User Information -->
+<!-- 	                    <div class="dropdown-menu" aria-labelledby="userDropdown"> -->
+<!-- 	                        <a class="dropdown-item" href="#"> -->
+<!-- 	                            <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i> -->
+<!-- 	                            Profile -->
+<!-- 	                        </a> -->
+<!-- 	                        <a class="dropdown-item" href="#"> -->
+<!-- 	                            <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i> -->
+<!-- 	                            Settings -->
+<!-- 	                        </a> -->
+<!-- 	                        <a class="dropdown-item" href="#"> -->
+<!-- 	                            <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i> -->
+<!-- 	                            Activity Log -->
+<!-- 	                        </a> -->
+<!-- 	                        <div class="dropdown-divider"></div> -->
+<!-- 	                        <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal"> -->
+<!-- 	                            <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i> -->
+<!-- 	                            Logout -->
+<!-- 	                        </a> -->
+<!-- 	                    </div> -->
                     </div>
                 </li>
                 <a href="#" class="btn btn-outline-primary btn-login">Login</a>
@@ -307,28 +310,28 @@
             </div>
             <div class="row">
                 <div class="col-md-3 ftco-animate">
-                    <a href="<%=request.getContextPath()%>/dist/images/gallery-1.jpg" class="gallery image-popup img d-flex align-items-center" style="background-image: url(<%=request.getContextPath()%>/dist/images/gallery-1.jpg);">
+                    <a href="images/gallery-1.jpg" class="gallery image-popup img d-flex align-items-center" style="background-image: url(images/gallery-1.jpg);">
                         <div class="icon mb-4 d-flex align-items-center justify-content-center">
                             <span class="icon-instagram"></span>
                         </div>
                     </a>
                 </div>
                 <div class="col-md-3 ftco-animate">
-                    <a href="<%=request.getContextPath()%>/dist/images/gallery-2.jpg" class="gallery image-popup img d-flex align-items-center" style="background-image: url(<%=request.getContextPath()%>/dist/images/gallery-2.jpg);">
+                    <a href="images/gallery-2.jpg" class="gallery image-popup img d-flex align-items-center" style="background-image: url(images/gallery-2.jpg);">
                         <div class="icon mb-4 d-flex align-items-center justify-content-center">
                             <span class="icon-instagram"></span>
                         </div>
                     </a>
                 </div>
                 <div class="col-md-3 ftco-animate">
-                    <a href="<%=request.getContextPath()%>/dist/images/gallery-3.jpg" class="gallery image-popup img d-flex align-items-center" style="background-image: url(<%=request.getContextPath()%>/dist/images/gallery-3.jpg);">
+                    <a href="images/gallery-3.jpg" class="gallery image-popup img d-flex align-items-center" style="background-image: url(images/gallery-3.jpg);">
                         <div class="icon mb-4 d-flex align-items-center justify-content-center">
                             <span class="icon-instagram"></span>
                         </div>
                     </a>
                 </div>
                 <div class="col-md-3 ftco-animate">
-                    <a href="<%=request.getContextPath()%>/dist/images/gallery-4.jpg" class="gallery image-popup img d-flex align-items-center" style="background-image: url(<%=request.getContextPath()%>/dist/images/gallery-4.jpg);">
+                    <a href="images/gallery-4.jpg" class="gallery image-popup img d-flex align-items-center" style="background-image: url(images/gallery-4.jpg);">
                         <div class="icon mb-4 d-flex align-items-center justify-content-center">
                             <span class="icon-instagram"></span>
                         </div>
@@ -359,7 +362,7 @@
                                         </span>
                                     </div>
                                     <div class="d-flex align-items-center">
-                                        <div class="user-img" style="background-image: url(<%=request.getContextPath()%>/dist/images/person_1.jpg)">
+                                        <div class="user-img" style="background-image: url(images/person_1.jpg)">
                                         </div>
                                         <div class="ml-4">
                                             <p class="name">Gabby Smith</p>
@@ -379,7 +382,7 @@
                                         </span>
                                     </div>
                                     <div class="d-flex align-items-center">
-                                        <div class="user-img" style="background-image: url(<%=request.getContextPath()%>/dist/images/person_2.jpg)">
+                                        <div class="user-img" style="background-image: url(images/person_2.jpg)">
                                         </div>
                                         <div class="ml-4">
                                             <p class="name">Floyd Weather</p>
@@ -399,7 +402,7 @@
                                         </span>
                                     </div>
                                     <div class="d-flex align-items-center">
-                                        <div class="user-img" style="background-image: url(<%=request.getContextPath()%>/dist/images/person_3.jpg)">
+                                        <div class="user-img" style="background-image: url(images/person_3.jpg)">
                                         </div>
                                         <div class="ml-4">
                                             <p class="name">James Dee</p>
@@ -419,7 +422,7 @@
                                         </span>
                                     </div>
                                     <div class="d-flex align-items-center">
-                                        <div class="user-img" style="background-image: url(<%=request.getContextPath()%>/dist/images/person_4.jpg)">
+                                        <div class="user-img" style="background-image: url(images/person_4.jpg)">
                                         </div>
                                         <div class="ml-4">
                                             <p class="name">Lance Roger</p>
@@ -439,7 +442,7 @@
                                         </span>
                                     </div>
                                     <div class="d-flex align-items-center">
-                                        <div class="user-img" style="background-image: url(<%=request.getContextPath()%>/dist/images/person_2.jpg)">
+                                        <div class="user-img" style="background-image: url(images/person_2.jpg)">
                                         </div>
                                         <div class="ml-4">
                                             <p class="name">Kenny Bufer</p>
@@ -465,7 +468,7 @@
             <div class="row d-flex">
                 <div class="col-md-4 d-flex ftco-animate">
                     <div class="blog-entry justify-content-end">
-                        <a href="blog-single.html" class="block-20" style="background-image: url('<%=request.getContextPath()%>/dist/images/image_1.jpg');">
+                        <a href="blog-single.html" class="block-20" style="background-image: url('images/image_1.jpg');">
                         </a>
                         <div class="text p-4 float-right d-block">
                             <div class="d-flex align-items-center pt-2 mb-4">
@@ -484,7 +487,7 @@
                 </div>
                 <div class="col-md-4 d-flex ftco-animate">
                     <div class="blog-entry justify-content-end">
-                        <a href="blog-single.html" class="block-20" style="background-image: url('<%=request.getContextPath()%>/dist/images/image_2.jpg');">
+                        <a href="blog-single.html" class="block-20" style="background-image: url('images/image_2.jpg');">
                         </a>
                         <div class="text p-4 float-right d-block">
                             <div class="d-flex align-items-center pt-2 mb-4">
@@ -503,7 +506,7 @@
                 </div>
                 <div class="col-md-4 d-flex ftco-animate">
                     <div class="blog-entry">
-                        <a href="blog-single.html" class="block-20" style="background-image: url('<%=request.getContextPath()%>/dist/images/image_3.jpg');">
+                        <a href="blog-single.html" class="block-20" style="background-image: url('images/image_3.jpg');">
                         </a>
                         <div class="text p-4 float-right d-block">
                             <div class="d-flex align-items-center pt-2 mb-4">
@@ -586,10 +589,27 @@
             </div>
         </div>
     </footer>
+    <!-- loader -->
+    <div id="ftco-loader" class="show fullscreen"><svg class="circular" width="48px" height="48px">
+            <circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee" />
+            <circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10" stroke="#F96D00" /></svg></div>
+    <script src="<%=request.getContextPath()%>/dist/js/jquery.min.js"></script>
+    <script src="<%=request.getContextPath()%>/dist/js/jquery-migrate-3.0.1.min.js"></script>
+    <script src="<%=request.getContextPath()%>/dist/js/jquery.easing.1.3.js"></script>
+    <script src="<%=request.getContextPath()%>/dist/js/jquery.waypoints.min.js"></script><!-- << -->
+    <script src="<%=request.getContextPath()%>/dist/js/jquery.stellar.min.js"></script>
+    <script src="<%=request.getContextPath()%>/dist/js/jquery.magnific-popup.min.js"></script>
+    <script src="<%=request.getContextPath()%>/dist/js/jquery.animateNumber.min.js"></script>
+    <script src="<%=request.getContextPath()%>/dist/js/jquery.timepicker.min.js"></script>
+    <script src="<%=request.getContextPath()%>/dist/js/bootstrap.min.js"></script>
+    <script src="<%=request.getContextPath()%>/dist/js/bootstrap-datepicker.js"></script>
+    <script src="<%=request.getContextPath()%>/dist/js/popper.min.js"></script>
+    <script src="<%=request.getContextPath()%>/dist/js/aos.js"></script>
+    <script src="<%=request.getContextPath()%>/dist/js/owl.carousel.min.js"></script><!-- << -->
+    <script src="<%=request.getContextPath()%>/dist/js/scrollax.min.js"></script>
+    <script src="<%=request.getContextPath()%>/dist/js/main.js"></script>
 </body>
-	<script src="<%=request.getContextPath()%>/dist/js/aos.js"></script>
-	<script src="<%=request.getContextPath()%>/dist/js/owl.carousel.min.js"></script><!-- << -->
-	<script src="<%=request.getContextPath()%>/dist/js/scrollax.min.js"></script>
-	<script src="<%=request.getContextPath()%>/dist/js/main.js"></script>
-	<script src="<%=request.getContextPath()%>/dist/tagify/jQuery.tagify.min.js"></script>
+<script>
+</script>
+
 </html>
