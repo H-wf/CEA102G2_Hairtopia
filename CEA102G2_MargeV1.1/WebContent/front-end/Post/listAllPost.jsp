@@ -187,7 +187,7 @@ padding-bottom: 1rem;
                 
                     </div>
                 </li>
-                <a href="#" class="btn btn-outline-primary btn-login">Login</a>
+                <a href="#" class="btn btn-outline-primary btn-login" data-toggle="modal" data-target="#loginModal">Login</a>
             </ul>
         </div>
     </nav>
@@ -238,9 +238,6 @@ padding-bottom: 1rem;
                     </div>
                 </div>
             </div>
-            <script>
- 			$("#postModal").modal({show: true},'handleUpdate');
-            </script>
 	<!-- Post END -->
 	</c:if>
 	
@@ -277,5 +274,6 @@ padding-bottom: 1rem;
 		$('#loginModal').on('shown.bs.modal', function() {
 		    $('#myInput').trigger('focus')
 		})
+		$("#postModal").modal({show: true},'handleUpdate');
 	</script>
 </html>

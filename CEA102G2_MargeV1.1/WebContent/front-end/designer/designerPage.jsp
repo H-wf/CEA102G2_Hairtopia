@@ -119,6 +119,54 @@
 		padding-left: 15px; 
 		padding-right:15px;
 	}
+
+/* IncludeModalCSS */
+	@media (min-width: 576px) {
+  		.card-columns {
+	    	column-count: 2;
+	  	}
+	}
+	@media (min-width: 768px) {
+	  .card-columns {
+	    column-count: 4;
+	  }
+	}
+	@media (min-width: 992px) {
+	  .card-columns {
+	    column-count: 4;
+	  }
+	}
+	@media (min-width: 1200px) {
+	  .card-columns {
+	    column-count: 4;
+	  }
+	}
+	.post{
+		padding-left: 8em;
+		padding-right: 7em;
+	}
+ 	.card:hover{ 
+      transform: scale(1.05); 
+ 	  box-shadow: 0 10px 20px rgba(0,0,0,.12), 0 4px 8px rgba(0,0,0,.06); 
+ 	}
+
+	.listOne {
+ 	  max-width: 70%;
+ 	  overflow: hidden;
+	}
+	.includePage{
+		max-width:90%;
+	}
+	.modal-content .postClose{
+		position:absolute;
+		top:3%;
+		left:93%;
+		z-index: 9999999;
+		border:none;
+		background-color: transparent;
+		font-size:16px;
+	}
+	
 </style>
 
 <body>
@@ -173,7 +221,10 @@
                     </div>
                 </li>
                 <li>
-                <a href="#" class="btn btn-outline-primary btn-login">Login</a>
+	                <button type="button" class="btn btn-outline-primary btn-login" data-toggle="modal" data-target="#loginModal">
+						 Login
+					</button>
+<!--                 	<a href="#" class="btn btn-outline-primary btn-login" data-toggle="modal" data-target="#loginModal">Login</a> -->
                 </li>
             </ul>
         </div>
@@ -193,7 +244,7 @@
                         <div class="media-body mb-5 text-white myrow">
                             <h4 class="mt-0 mb-0" >${designerVO.desName}</h4>
                             <div class="row  justify-content-end"">
-                            <a href="#" class="btn btn-outline-primary profileBtn">Follow</a>
+                            <a href="#" class="btn btn-outline-primary profileBtn" id="followBtn">Follow</a>
                             </div>
                         </div>
                     </div>
@@ -277,11 +328,29 @@
                     </div>
                 </div>
             </div>
-            <script>
- 			$("#postModal").modal({show: true},'handleUpdate');
-            </script>
 	</c:if>
 <!-- Post END -->
+<!-- Login Modal -->
+		    <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		        <div class="modal-dialog modal-dialog-centered">
+		            <div class="modal-content">
+		                <div class="modal-header">
+		                    <h5 class="modal-title" id="exampleModalLabel">登入</h5>
+		                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+		                        <span aria-hidden="true">&times;</span>
+		                    </button>
+		                </div>
+		                <div class="modal-body">
+		                    ...
+		                </div>
+		                <div class="modal-footer">
+		                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+		                    <button type="button" class="btn btn-primary">Save changes</button>
+		                </div>
+		            </div>
+		        </div>
+		    </div>
+<!-- Login Modal END -->
         <script src="<%=request.getContextPath()%>/dist/js/jquery.min.js"></script>
         <script src="<%=request.getContextPath()%>/dist/js/jquery-migrate-3.0.1.min.js"></script>
         <script src="<%=request.getContextPath()%>/dist/js/jquery.easing.1.3.js"></script>
@@ -300,6 +369,10 @@
         <script src="<%=request.getContextPath()%>/dist/slick/slick.min.js"></script>
 </body>
 <script>
+	$('#loginModal').on('shown.bs.modal', function() {
+	    $('#myInput').trigger('focus')
+	})
+	$("#postModal").modal({show: true});
 </script>
 
 </html>
