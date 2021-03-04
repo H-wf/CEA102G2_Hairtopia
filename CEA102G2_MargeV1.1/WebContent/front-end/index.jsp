@@ -68,16 +68,16 @@ padding-bottom: 1rem;
 	    border-style: none;
 	}
 	.dropdown-menu{
-	margin:0;
+		margin:0;
 	}
 	.dropdown.no-arrow .dropdown-toggle::after {
 	    display: none;
 	}
 	.dropdown-toggle::after{
-	display:none;
+		display:none;
 	}
 	.profileBtn{
-	padding:0;
+		padding:0;
 	}
 
 </style>
@@ -121,30 +121,6 @@ padding-bottom: 1rem;
 						</div>
                 
                 
-<!-- 	                <div class="dropdown no-arrow"> -->
-<!-- 	                    <a class="dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> -->
-<%-- 	                        <img class="img-profile rounded-circle" src="<%=request.getContextPath()%>/dist/images/offer-deal-2.jpg"> --%>
-<!-- 	                    </a> -->
-<!-- 	                    Dropdown - User Information -->
-<!-- 	                    <div class="dropdown-menu" aria-labelledby="userDropdown"> -->
-<!-- 	                        <a class="dropdown-item" href="#"> -->
-<!-- 	                            <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i> -->
-<!-- 	                            Profile -->
-<!-- 	                        </a> -->
-<!-- 	                        <a class="dropdown-item" href="#"> -->
-<!-- 	                            <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i> -->
-<!-- 	                            Settings -->
-<!-- 	                        </a> -->
-<!-- 	                        <a class="dropdown-item" href="#"> -->
-<!-- 	                            <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i> -->
-<!-- 	                            Activity Log -->
-<!-- 	                        </a> -->
-<!-- 	                        <div class="dropdown-divider"></div> -->
-<!-- 	                        <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal"> -->
-<!-- 	                            <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i> -->
-<!-- 	                            Logout -->
-<!-- 	                        </a> -->
-<!-- 	                    </div> -->
                     </div>
                 </li>
                 <a href="#" class="btn btn-outline-primary btn-login">Login</a>
@@ -590,6 +566,28 @@ padding-bottom: 1rem;
         </div>
     </footer>
     <!-- loader -->
+    
+     <!-- Login Modal -->
+    <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">登入</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    ...
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Login Modal END -->
     <div id="ftco-loader" class="show fullscreen"><svg class="circular" width="48px" height="48px">
             <circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee" />
             <circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10" stroke="#F96D00" /></svg></div>
@@ -610,6 +608,9 @@ padding-bottom: 1rem;
     <script src="<%=request.getContextPath()%>/dist/js/main.js"></script>
 </body>
 <script>
+	$('#loginModal').on('shown.bs.modal', function() {
+	    $('#myInput').trigger('focus')
+	})
 </script>
 
 </html>

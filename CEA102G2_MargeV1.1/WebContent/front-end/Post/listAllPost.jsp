@@ -35,33 +35,26 @@
 	<script src="<%=request.getContextPath()%>/dist/js/popper.min.js"></script>
 </head>
 <style>
-	   .navbar-brand img{
-		width: 250px;
-		margin: 0;
-	}
-	.navbar-nav{
-		margin-right: 1em;
-	}
-	/* .navbar-icon i{font-size: 2em;
-	display: flex;
-	margin-right: 0.25em;
-	justify-content: center;
-	align-items: center;
-	padding-left: 10px;
-	padding-right: 10px;
-	padding-top: 10px;
-	} */
-	.btn-login{
-		height: 4em;
-		display: flex;
-		justify-content: center;
-		align-items: center;
-	}
-	.ftco-navbar-light .navbar-nav > .nav-item > .nav-link {
-		font-size: 0.86em;
-		padding-top: 1rem;
-		padding-bottom: 1rem;
-	}
+    .navbar-brand img{
+width: 250px;
+margin: 0;
+background-color: transparent
+}
+.navbar-nav{
+margin-right: 1em;
+}
+.btn-login{
+height: 4em;
+display: flex;
+justify-content: center;
+align-items: center;
+margin: 0 1rem 0 0;
+}
+.ftco-navbar-light .navbar-nav > .nav-item > .nav-link {
+font-size: 0.86em;
+padding-top: 1rem;
+padding-bottom: 1rem;
+}
     .carousel-caption {
                 top: 55%;
             }
@@ -81,7 +74,6 @@
 	.img-profile {
 	    height: 3.5rem;
 	    width: 3.5rem;
-	    margin: 0 1rem;
 	}
 	
 	.rounded-circle {
@@ -91,13 +83,71 @@
 	    vertical-align: middle;
 	    border-style: none;
 	}
+	.dropdown-menu{
+		margin:0;
+	}
 	.dropdown.no-arrow .dropdown-toggle::after {
 	    display: none;
+	}
+	.dropdown-toggle::after{
+		display:none;
+	}
+	.profileBtn{
+		padding:0;
+	}
+	
+/* 	navBarCSS */
+
+/* postCSS */
+	@media (min-width: 576px) {
+  .card-columns {
+	    column-count: 2;
+	  	}
+	}
+	@media (min-width: 768px) {
+	  .card-columns {
+	    column-count: 4;
+	  }
+	}
+	@media (min-width: 992px) {
+	  .card-columns {
+	    column-count: 4;
+	  }
+	}
+	@media (min-width: 1200px) {
+	  .card-columns {
+	    column-count: 4;
+	  }
+	}
+	.post{
+		padding-left: 8em;
+		padding-right: 7em;
+	}
+ 	.card:hover{ 
+      transform: scale(1.05); 
+ 	  box-shadow: 0 10px 20px rgba(0,0,0,.12), 0 4px 8px rgba(0,0,0,.06); 
+ 	}
+
+	.listOne {
+ 	  max-width: 70%;
+ 	  overflow: hidden;
+	}
+	.includePage{
+		max-width:90%;
+	}
+	.modal-content .postClose{
+		position:absolute;
+		top:3%;
+		left:93%;
+		z-index: 9999999;
+		border:none;
+		background-color: transparent;
+		font-size:16px;
 	}
 </style>
 
 <body>
-<!-- navBar -->
+ <!-- navBar -->
     <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
         <a class="navbar-brand justify-content-center" href="#">
             <img src="<%=request.getContextPath()%>/dist/images/logo/HairtopiaLogo3.png" class="ml-4">
@@ -119,76 +169,28 @@
                 <li class="nav-item">
                     <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">風格誌</a>
                 </li>
-                <div class="navbar-icon">
+                <!--  <div class="navbar-icon">
                     <i class="bi bi-search"></i>
-                </div>
-                 <li class="nav-item "><!-- dropdown no-arrow -->
-                 
-                 	<div class="dropdown">
-  <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-    <img class="img-profile rounded-circle" src="<%=request.getContextPath()%>/dist/images/offer-deal-2.jpg">
-  </a>
-
-  <div class="dropdown-menu" style="border: 1px solid red;margin-top: 0;" aria-labelledby="dropdownMenuLink">
-    <a class="dropdown-item" href="#">Action</a>
-    <a class="dropdown-item" href="#">Another action</a>
-    <a class="dropdown-item" href="#">Something else here</a>
-  </div>
-</div>
-                 
-                 	<!--
-                    <a class="dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <img class="img-profile rounded-circle" src="<%=request.getContextPath()%>/dist/images/offer-deal-2.jpg">
-                    </a>
-                    -->
-                    
-                    <!-- Dropdown - User Information -->
-                    <!-- 
-                    <div class="dropdown-menu" aria-labelledby="userDropdown">
-                        <a class="dropdown-item" href="#">
-                            <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
-                            Profile
-                        </a>
-                        <a class="dropdown-item" href="#">
-                            <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
-                            Settings
-                        </a>
-                        <a class="dropdown-item" href="#">
-                            <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
-                            Activity Log
-                        </a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
-                            <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-                            Logout
-                        </a>
+                </div> -->
+                <li class="nav-item">
+                	<div class="dropdown">
+						  <button class="btn dropdown-toggle profileBtn" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+						    <img class="img-profile rounded-circle" src="<%=request.getContextPath()%>/dist/images/offer-deal-2.jpg">
+						  </button>
+						  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+						    <a class="dropdown-item" href="#">Action</a>
+						    <a class="dropdown-item" href="#">Another action</a>
+						    <a class="dropdown-item" href="#">Something else here</a>
+						  </div>
+						</div>
+                
+                
                     </div>
-                    -->
                 </li>
-                <a href="#" class="btn btn-outline-primary btn-login" data-toggle="modal" data-target="#loginModal">Login</a>
+                <a href="#" class="btn btn-outline-primary btn-login">Login</a>
             </ul>
         </div>
     </nav>
-    <!-- Login Modal -->
-    <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">登入</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    ...
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save changes</button>
-                </div>
-            </div>
-        </div>
-    </div>
     <!-- END nav -->
    
 <!-- carousel -->
@@ -213,15 +215,13 @@
 			<a href="<%=request.getContextPath()%>/front-end/post/post.do?postNo=${postVO.postNo}&action=Display_fromListAll" >
 				<div class="card">
 					<img src="<%=request.getContextPath()%>/PicFinder?pic=1&table=post&column=postPic1&idname=postNo&id=${postVO.postNo}"
-					 class="card-img-top post-img" data-toggle="modal" data-target="#post${postVO.postNo}Modal" />
+					 class="card-img-top post-img" data-toggle="modal" data-target="#postModal" />
 				</div>
 			</a>
 		</c:forEach>
 		</div>
 	</div>
 
-
-    <h1>內容</h1>
     <c:if test="${openModal != null}" >
     <!-- Post Modal -->
             <div class="modal fade" id="postModal" tabindex="-1"  aria-hidden="true">
@@ -243,6 +243,28 @@
             </script>
 	<!-- Post END -->
 	</c:if>
+	
+<!-- Login Modal -->
+		    <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		        <div class="modal-dialog modal-dialog-centered">
+		            <div class="modal-content">
+		                <div class="modal-header">
+		                    <h5 class="modal-title" id="exampleModalLabel">登入</h5>
+		                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+		                        <span aria-hidden="true">&times;</span>
+		                    </button>
+		                </div>
+		                <div class="modal-body">
+		                    ...
+		                </div>
+		                <div class="modal-footer">
+		                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+		                    <button type="button" class="btn btn-primary">Save changes</button>
+		                </div>
+		            </div>
+		        </div>
+		    </div>
+<!-- Login Modal END -->
 	
 	
 	<script src="<%=request.getContextPath()%>/dist/js/aos.js"></script>
