@@ -2,7 +2,6 @@ package com.staff.model;
 
 import java.util.List;
 
-
 public class StaffService {
 	private StaffDAO_interface dao;
 
@@ -48,7 +47,7 @@ public class StaffService {
 		return dao.getAll();
 	}
 	
-	
-	
-
+	public StaffVO validate(String staAcct, String staPswd) {
+		return dao.validate(staAcct, staPswd);
+	}
 }

@@ -1,76 +1,69 @@
-<%@ page contentType="text/html; charset=UTF-8" pageEncoding="Big5"%>
-<%@ page import="java.util.*,com.orderdetail.model.*,com.member.model.*"%>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page import="java.util.*,com.product.model.*,com.member.model.*"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <html>
 <head>
- <title>Mode II ½d¨Òµ{¦¡ - Checkout.jsp</title>
- <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/css/ShoppingCart.css">
+ <title>Mode II ç¯„ä¾‹ç¨‹å¼ - Checkout.jsp</title>
  </head>
 
 <body>
-<img src="images/tomcat.gif"> <font size="+3">ºô¸ô®Ñ©± - µ²±b¡G¡]Checkout.jsp¡^</font>
+<img src="images/tomcat.gif"> <font size="+3">ç¶²è·¯æ›¸åº— - çµå¸³ï¼šï¼ˆCheckout.jspï¼‰</font>
 <hr><p>
 <jsp:useBean id="productSvc" scope="page" class="com.product.model.ProductService" /> 
 <jsp:useBean id="ptypeSvc" scope="page" class="com.ptype.model.PtypeService" /> 
 <jsp:useBean id="brandSvc" scope="page" class="com.brand.model.BrandService" /> 
 <table id="table-1" style="margin: auto;">
 	<tr>
-		<th>°Ó«~Ãş§O</th>
-	    <th>«~µP¦WºÙ</th>
-	    <th>°Ó«~¦WºÙ</th>
-	    <th>»ù®æ</th>
-	    <th>°Ó«~¥D¹Ï</th>
-	    <th>°Ó«~°Æ¹Ï</th>
-	    <th>°Ó«~´y­z</th>
-	    <th>¼Æ¶q</th>
-		<th width="120"><h3>Á`»ù</h3></th>
+		<th>å•†å“é¡åˆ¥</th>
+	    <th>å“ç‰Œåç¨±</th>
+	    <th>å•†å“åç¨±</th>
+	    <th>åƒ¹æ ¼</th>
+	    <th>å•†å“ä¸»åœ–</th>
+	    <th>å•†å“å‰¯åœ–</th>
+	    <th>å•†å“æè¿°</th>
+	    <th>æ•¸é‡</th>
+		<th width="120"><h3>å°è¨ˆ</h3></th>
 	</tr></table>
 	
 <form action="<%=request.getContextPath()%>/ordermaster/ordermaster.do" method="POST">		
 
 <table style="margin: auto;">
-	<%  @SuppressWarnings("unchecked")
-		Vector<OrderDetailVO> buylist = (Vector<OrderDetailVO>) session.getAttribute("shoppingcart");
-	 	MemVO memVO = (MemVO)session.getAttribute("memVO");
-		String ordAmt =  (String) request.getAttribute("ordAmt");
-	%>
-	<%	for (int i = 0; i < buylist.size(); i++) {
-			OrderDetailVO order = buylist.get(i);
-			Integer proNo = order.getProNo();
-			Integer ordDetAmt = order.getOrdDetAmt();
-			Integer ordDetPrice = order.getOrdDetPrice();
-			
-	%>
+	
+ <%  @SuppressWarnings("unchecked") 
+   Vector<ProductVO> buylist = (Vector<ProductVO>) session.getAttribute("shoppingcart");
+   MemVO memVO = (MemVO)session.getAttribute("memVO");
+   String ordAmt =  (String) request.getAttribute("ordAmt");%>
+
+<c:forEach var="productVO" items="<%=buylist%>">
 	<tr>
-		<td width="200"><%=ptypeSvc.getOnePtype(productSvc.getOneProduct(order.getProNo()).getPtypeNo()).getPtypeName()%>     </td>
-		<td width="100"><%=brandSvc.getOneBrand(productSvc.getOneProduct(order.getProNo()).getBraNo()).getBraName()%>   </td>
-		<td width="100"><%=productSvc.getOneProduct(order.getProNo()).getProName()%></td>
-		<td width="100"><%=order.getOrdDetPrice()%>    </td>
-		<td><img src="<%=request.getContextPath()%>/PicFinder?pic=1&table=product&column=proMpic&idname=proNo&id=${ProductVO.proNo}" alt='¨S¦³¹Ï¤ù'></td>
-		<td><img src="<%=request.getContextPath()%>/PicFinder?pic=1&table=product&column=proPic&idname=proNo&id=${ProductVO.proNo}" alt='¨S¦³¹Ï¤ù'></td>
-		<td width="120"><%=productSvc.getOneProduct(order.getProNo()).getProDesc()%> </td>
-		<td width="100"><%=order.getOrdDetAmt()%>    </td>
+		<td width="200">${ptypeSvc.getOnePtype(productVO.ptypeNo).ptypeName}</td>
+		<td width="100">${brandSvc.getOneBrand(productVO.braNo).braName}</td>
+		<td width="100">${productVO.proName}</td>
+		<td width="100">${productVO.proPrice}</td>
+		<td><img src="<%=request.getContextPath()%>/PicFinder?pic=1&table=product&column=proMpic&idname=proNo&id=${productVO.proNo}" alt='æ²’æœ‰åœ–ç‰‡' width="50"></td>
+		<td><img src="<%=request.getContextPath()%>/PicFinder?pic=1&table=product&column=proPic&idname=proNo&id=${productVO.proNo}" alt='æ²’æœ‰åœ–ç‰‡' width="50"></td>
+		<td width="120">${productVO.proDesc}</td>
+		<td width="100">${productVO.quantity}</td>
+		<td width="100">${(productVO.proPrice)*(productVO.quantity)}</td>
         <td width="120"></td>
 	</tr>
-	<%
-		}
-	%>
-	 
+ </c:forEach> 
 	
 	<tr>
 		<td colspan="6" style="text-align:right;"> 
-		   <font size="+2">Á`ª÷ÃB¡G <h4>$<%=ordAmt%></h4> </font>
+		   <font size="+2">ç¸½é‡‘é¡ï¼š <h4><%=ordAmt%></h4> </font>
 	    </td>
 	</tr>
 </table>
 <%session.setAttribute("buylist",buylist);%>
 
-<input type="hidden" name="memNo" value="${memVO.memNo}">
-<input type="hidden" name="ordAmt" value="${ordAmt}">	                
+<input type="hidden" name="memNo" value="${sessionScope.memVO.memNo}">	                                
+<input type="hidden" name="ordAmt" value="<%=ordAmt%>">	                
 <input type="hidden" name="action" value="PAY">
-<input type="submit" value="°e¥X">
+<input type="submit" value="é€å‡º">
 </form>       
        
-       <p><a href="<%=request.getContextPath()%>/front-end/product/EShop.jsp"><font size="+1"> ¬O §_ Ä~ Äò ÁÊ ª«</font></a>
+       <p><a href="<%=request.getContextPath()%>/front-end/product/EShop.jsp"><font size="+1"> æ˜¯ å¦ ç¹¼ çºŒ è³¼ ç‰©</font></a>
 
 </body>
 </html>

@@ -15,6 +15,6 @@ public interface StaffDAO_interface {
 
 	public List<StaffVO> getAll();
 	
+	public StaffVO validate(String staAcct, String staPswd);
 	
-
 }

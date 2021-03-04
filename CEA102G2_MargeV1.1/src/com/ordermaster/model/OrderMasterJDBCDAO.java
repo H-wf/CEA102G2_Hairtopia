@@ -266,7 +266,7 @@ public class OrderMasterJDBCDAO implements OrderMasterDAO_interface{
 	}
 
 	
-	public OrderMasterVO insertWithOrderDetails(OrderMasterVO ordermasterVO, Vector<OrderDetailVO> vector) {
+	public OrderMasterVO insertWithOrderDetails(OrderMasterVO ordermasterVO, List<OrderDetailVO> list) {
 
 		Connection con = null;
 		PreparedStatement pstmt = null;
@@ -299,8 +299,8 @@ public class OrderMasterJDBCDAO implements OrderMasterDAO_interface{
 			rs.close();
 			// 再同時新增訂單明細
 			OrderDetailJDBCDAO dao = new OrderDetailJDBCDAO();
-			System.out.println("list.size()-A="+vector.size());
-			for (OrderDetailVO aOrderDetail : vector) {
+			System.out.println("list.size()-A="+list.size());
+			for (OrderDetailVO aOrderDetail : list) {
 				aOrderDetail.setOrdNo(new Integer(next_ordNo)) ;
 				dao.insert2(aOrderDetail,con);
 			}
@@ -308,8 +308,8 @@ public class OrderMasterJDBCDAO implements OrderMasterDAO_interface{
 			// 2●設定於 pstm.executeUpdate()之後
 			con.commit();
 			con.setAutoCommit(true);
-			System.out.println("list.size()-B="+vector.size());
-			System.out.println("新增訂單編號" + next_ordNo + "時,共有訂單明細" + vector.size()
+			System.out.println("list.size()-B="+list.size());
+			System.out.println("新增訂單編號" + next_ordNo + "時,共有訂單明細" + list.size()
 					+ "筆同時被新增");
 			
 			OrderMasterService ordermasterSvc = new OrderMasterService();

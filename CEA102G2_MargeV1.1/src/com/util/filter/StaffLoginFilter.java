@@ -4,7 +4,7 @@ import java.io.*;
 import javax.servlet.*;
 import javax.servlet.http.*;
 
-public class LoginFilter implements Filter {
+public class StaffLoginFilter implements Filter {
 
 	private FilterConfig config;
 
@@ -24,10 +24,9 @@ public class LoginFilter implements Filter {
 		// 【取得 session】
 		HttpSession session = req.getSession();
 		// 【從 session 判斷此user是否登入過】
-		Object account = session.getAttribute("account");
-		if (account == null) {
-			session.setAttribute("location", req.getRequestURI());
-			res.sendRedirect(req.getContextPath() + "/front-end/member/login.jsp");
+		Object staAcct = session.getAttribute("staAcct");
+		if (staAcct == null) {
+			res.sendRedirect(req.getContextPath() + "/back-end/Staff/login.jsp");
 			return;
 		} else {
 			chain.doFilter(request, response);

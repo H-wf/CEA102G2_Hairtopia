@@ -39,6 +39,60 @@ public class ProductServlet extends HttpServlet {
 		@SuppressWarnings("unchecked")
 		List<ProductVO> buylist = (Vector<ProductVO>) session.getAttribute("shoppingcart");
 
+		if (action.equals("DELETE")||action.equals("ADD")) {
+
+			// 刪除購物車中的商品
+			if (action.equals("DELETE")) {
+				String del = req.getParameter("del");
+				int d = Integer.parseInt(del);
+				buylist.remove(d);
+			}
+			// 新增訂單明細至購物車中
+			else if (action.equals("ADD")) {
+				
+				// 取得後來新增的商品
+				Integer proNo = new Integer(req.getParameter("proNo"));
+				ProductService productSvc = new ProductService();
+				ProductVO productVO = productSvc.getOneProduct(proNo);				
+				Integer quantity = new Integer(req.getParameter("quantity"));
+				productVO.setQuantity(quantity);
+	
+				if (buylist == null) {
+					buylist = new Vector<ProductVO>();
+					buylist.add(productVO);
+				} else {
+					if (buylist.contains(productVO)) {
+						ProductVO innerProductVO = buylist.get(buylist.indexOf(productVO));
+						innerProductVO.setQuantity(innerProductVO.getQuantity() + productVO.getQuantity());
+					} else {
+						buylist.add(productVO);
+					}
+				}									
+			}
+	
+			session.setAttribute("shoppingcart", buylist);
+			String url = "/front-end/product/EShop.jsp";
+			RequestDispatcher rd = req.getRequestDispatcher(url);
+			rd.forward(req, res);
+			
+		}
+
+		// 結帳，計算購物車訂單明細價錢總數
+		else if (action.equals("CHECKOUT")) {
+			Integer total = 0;		
+			for (int i = 0; i < buylist.size(); i++) {
+				ProductVO order = buylist.get(i);
+				Integer ordDetAmt = order.getProPrice()*order.getQuantity();				
+				total += ordDetAmt ;
+			}
+		
+			String ordAmt = String.valueOf(total);
+			req.setAttribute("ordAmt", ordAmt);
+			String url = "/front-end/product/Checkout.jsp";
+			RequestDispatcher rd = req.getRequestDispatcher(url);
+			rd.forward(req, res);
+		}
+
 		
 		if ("getOne_For_Display".equals(action)) { // 來自select_page.jsp的請求
 

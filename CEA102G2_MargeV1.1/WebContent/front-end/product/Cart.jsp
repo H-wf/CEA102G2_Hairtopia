@@ -1,61 +1,66 @@
-<%@ page contentType="text/html; charset=UTF-8" pageEncoding="Big5"%>
-<%@ page import="java.util.* , com.orderdetail.model.*" %>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page import="java.util.* , com.product.model.*" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <html>
 <head>
  <title>Cart.jsp</title>
 </head>
 <body><br>
-   <% @SuppressWarnings("unchecked")
-   Vector<OrderDetailVO> buylist = (Vector<OrderDetailVO>) session.getAttribute("shoppingcart");%>
+<%-- <% @SuppressWarnings("unchecked") --%>
+<%-- Vector<ProductVO> buylist = (Vector<ProductVO>) session.getAttribute("shoppingcart");%> --%>
 <jsp:useBean id="productSvc" scope="page" class="com.product.model.ProductService" /> 
 <jsp:useBean id="ptypeSvc" scope="page" class="com.ptype.model.PtypeService" /> 
 <jsp:useBean id="brandSvc" scope="page" class="com.brand.model.BrandService" /> 
-<%if (buylist != null && (buylist.size() > 0)) {%>
 
-<img src="images/tomcat.gif"> <font size="+3">¥Ø«eÁÊª«¨®ªº¤º®e¦p¤U¡G¡]Cart.jsp¡^</font>
+<c:if test="${not empty sessionScope.shoppingcart}">
+<%-- <%if (buylist != null && (buylist.size() > 0)) {%> --%>
+<img src="images/tomcat.gif"> <font size="+3">ç›®å‰è³¼ç‰©è»Šçš„å…§å®¹å¦‚ä¸‹ï¼šï¼ˆCart.jspï¼‰</font>
 
 <table id="table-1">
     <tr> 
-	    <th>°Ó«~Ãş§O</th>
-	    <th>«~µP¦WºÙ</th>
-	    <th>°Ó«~¦WºÙ</th>
-	    <th>»ù®æ</th>
-	    <th>°Ó«~¥D¹Ï</th>
-	    <th>°Ó«~°Æ¹Ï</th>
-	    <th>°Ó«~´y­z</th>
-	    <th>¼Æ¶q</th>
+	    <th>å•†å“é¡åˆ¥</th>
+	    <th>å“ç‰Œåç¨±</th>
+	    <th>å•†å“åç¨±</th>
+	    <th>åƒ¹æ ¼</th>
+	    <th>å•†å“ä¸»åœ–</th>
+	    <th>å•†å“å‰¯åœ–</th>
+	    <th>å•†å“æè¿°</th>
+	    <th>æ•¸é‡</th>
 	    <th><img src="images/shopping-cart.png" width="45px" height="35px"></th>
     </tr>
 </table>
    
 <table>
-	<%
-	 for (int index = 0; index < buylist.size(); index++) {
-		 OrderDetailVO order = buylist.get(index);
-	%>
+<%-- <%-- 	<% --%> 
+<!-- // 	 for (int index = 0; index < buylist.size(); index++) { -->
+<!-- // 		 ProductVO productVO = buylist.get(index); -->
+<%-- <%-- 	%> --%> 
+ <c:forEach var="productVO" items="${sessionScope.shoppingcart}" varStatus="i">
 	<tr>
-		<td width="200"><%=ptypeSvc.getOnePtype(productSvc.getOneProduct(order.getProNo()).getPtypeNo()).getPtypeName()%>     </td>
-		<td width="100"><%=brandSvc.getOneBrand(productSvc.getOneProduct(order.getProNo()).getBraNo()).getBraName()%>   </td>
-		<td width="100"><%=productSvc.getOneProduct(order.getProNo()).getProName()%></td>
-		<td width="100"><%=order.getOrdDetPrice()%>    </td>
-		<td><img src="<%=request.getContextPath()%>/PicFinder?pic=1&table=product&column=proMpic&idname=proNo&id=${ProductVO.proNo}" alt='¨S¦³¹Ï¤ù'></td>
-		<td><img src="<%=request.getContextPath()%>/PicFinder?pic=1&table=product&column=proPic&idname=proNo&id=${ProductVO.proNo}" alt='¨S¦³¹Ï¤ù'></td>
-		<td width="120"><%=productSvc.getOneProduct(order.getProNo()).getProDesc()%> </td>
-		<td width="100"><%=order.getOrdDetAmt()%>    </td>
+		<td width="200">${ptypeSvc.getOnePtype(productVO.ptypeNo).ptypeName}</td>
+		<td width="100">${brandSvc.getOneBrand(productVO.braNo).braName}</td>
+		<td width="100">${productVO.proName}</td>
+		<td width="100">${productVO.proPrice}</td>
+		<td><img src="<%=request.getContextPath()%>/PicFinder?pic=1&table=product&column=proMpic&idname=proNo&id=${productVO.proNo}" alt='æ²’æœ‰åœ–ç‰‡' width="50"></td>
+		<td><img src="<%=request.getContextPath()%>/PicFinder?pic=1&table=product&column=proPic&idname=proNo&id=${productVO.proNo}" alt='æ²’æœ‰åœ–ç‰‡' width="50"></td>
+		<td width="120">${productVO.proDesc}</td>
+		<td width="100">${productVO.quantity}</td>
         <td width="120">
-          <form name="deleteForm" action="<%=request.getContextPath()%>/orderdetail/orderdetail.do" method="POST">
+          <form name="deleteForm" action="<%=request.getContextPath()%>/product/product.do" method="POST">
               <input type="hidden" name="action"  value="DELETE">
-              <input type="hidden" name="del" value="<%= index %>">
-              <input type="submit" value="§R °£" class="button">
+              <input type="hidden" name="del" value="${i.index}">
+              <input type="submit" value="åˆª é™¤" class="button">
           </form></td>
 	</tr>
-	<%}%>
+ </c:forEach>
+<%--  	<%} %> --%>
 </table>
 <p>
-          <form name="checkoutForm" action="<%=request.getContextPath()%>/orderdetail/orderdetail.do" method="POST">
+          <form name="checkoutForm" action="<%=request.getContextPath()%>/product/product.do" method="POST">
               <input type="hidden" name="action"  value="CHECKOUT"> 
-              <input type="submit" value="¥I´Úµ²±b" class="button">
+              <input type="submit" value="ä»˜æ¬¾çµå¸³" class="button">
           </form>
-<%}%>
+<%-- <%} %> --%>
+</c:if>
 </body>
 </html>
