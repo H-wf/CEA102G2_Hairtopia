@@ -104,11 +104,13 @@ public class DesignerServlet extends HttpServlet {
 				req.setAttribute("designerVO", desVO); // 資料庫取出的lecVO物件,存入req
 				String url="";
 				if("getOne_For_Display_Back".equals(action)) {
-				 url = "/back-end/designer/listOneDesignerBack.jsp";
-
+//				 url = "/back-end/designer/listOneDesignerBack.jsp";
+				 url = "/front-end/designer/designerPage.jsp";
+				 
 				}else if("getOne_For_Display".equals(action)) {
 
-				 url = "/front-end/designer/select_des_page.jsp" ;
+//				 url = "/front-end/designer/select_des_page.jsp" ;
+				 url = "/front-end/designer/designerPage.jsp";
 				}
 				RequestDispatcher successView = req.getRequestDispatcher(url); // 成功轉交 listOneLec.jsp
 				successView.forward(req, res);

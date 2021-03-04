@@ -123,7 +123,7 @@ public class PostServlet extends HttpServlet {
 
 		}
 
-		if ("getOne_For_Display".equals(action) || "getOne_For_Display_back".equals(action) || "Display_fromListAll".equals(action)) { // 來自select_lec_page.jsp的請求
+		if ("getOne_For_Display".equals(action) || "getOne_For_Display_back".equals(action) || "Display_fromListAll".equals(action) || "Display_fromDesPage".equals(action)) { // 來自select_lec_page.jsp的請求
 
 			List<String> errorMsgs = new LinkedList<String>();
 			// Store this set in the request scope, in case we need to
@@ -179,8 +179,17 @@ public class PostServlet extends HttpServlet {
 					url = "/back-end/Post/listPostWithComments.jsp";
 				}else if ("Display_fromListAll".equals(action)) {
 					url = "/front-end/Post/listAllPost.jsp";
+				}else if("Display_fromDesPage".equals(action)) {
+System.out.println("enter");
+					url = "/front-end/designer/designerPage.jsp";
 				}
-				RequestDispatcher successView = req.getRequestDispatcher(url); // 成功轉交 listOneLec.jsp
+				RequestDispatcher successView = req.getRequestDispatcher(url); 
+if(req.getParameter("designerVO")!= null) {
+	System.out.println("get");
+}else {
+System.out.println("NOOOOOOOOOOOOOOOOOOOO");
+}
+System.out.println(url);// 成功轉交 listOneLec.jsp
 				successView.forward(req, res);
 
 				/*************************** 其他可能的錯誤處理 *************************************/

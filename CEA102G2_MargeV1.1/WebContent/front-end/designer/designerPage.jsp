@@ -1,5 +1,16 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<!DOCTYPE html>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ page import="com.designer.model.*"%>
+<%@ page import="com.post.model.*"%>
+<%@ page import="java.util.*"%>
+<jsp:useBean id="desSvc"  scope="page" class="com.designer.model.DesignerService" />
+<jsp:useBean id="postSvc"  scope="page" class="com.post.model.PostService" />
+
+<%	DesignerVO designerVO = (DesignerVO) request.getAttribute("designerVO"); %>
+<%
+	PostVO postVO = (PostVO) request.getAttribute("postVO");
+%>
 <html lang="en">
 
 <head>
@@ -21,25 +32,27 @@
     <link rel="stylesheet" href="<%=request.getContextPath()%>/dist/slick/slick-theme.css">
 </head>
 <style>
+
+/* navBarCSS */
     .navbar-brand img{
-width: 250px;
-margin: 0;
-background-color: transparent
-}
-.navbar-nav{
-margin-right: 1em;
-}
-.btn-login{
-height: 4em;
-display: flex;
-justify-content: center;
-align-items: center;
-}
-.ftco-navbar-light .navbar-nav > .nav-item > .nav-link {
-font-size: 0.86em;
-padding-top: 1rem;
-padding-bottom: 1rem;
-}
+		width: 250px;
+		margin: 0;
+		background-color: transparent
+	}
+	.navbar-nav{
+		margin-right: 1em;
+	}
+	.btn-login{
+		height: 4em;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
+	.ftco-navbar-light .navbar-nav > .nav-item > .nav-link {
+		font-size: 0.86em;
+		padding-top: 1rem;
+		padding-bottom: 1rem;
+	}
     .carousel-caption {
                 top: 55%;
             }
@@ -65,13 +78,16 @@ padding-bottom: 1rem;
 	.rounded-circle {
 	    border-radius: 50%!important;
 	}
-	 .img-profile img {
+/* 	 .img-profile  */
+	 img {
 	    vertical-align: middle;
 	    border-style: none;
 	}
 	.dropdown.no-arrow .dropdown-toggle::after {
 	    display: none;
 	}
+	
+/* 	navBarCSS END */
 	
 	.profile-head {
 	    transform: translateY(5rem)
@@ -81,8 +97,8 @@ padding-bottom: 1rem;
 	    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 	
 	}
-	.profile{
-	    /* background: #f7f6e7; */
+	.profile img{
+	    width:130px;
 	}
 	@media (max-width: 991.98px){
 	    .profile{
@@ -98,6 +114,10 @@ padding-bottom: 1rem;
 	.card:hover{
      transform: scale(1.05);
 	  box-shadow: 0 10px 20px rgba(0,0,0,.12), 0 4px 8px rgba(0,0,0,.06);
+	}
+	.myrow{
+		padding-left: 15px; 
+		padding-right:15px;
 	}
 </style>
 
@@ -152,21 +172,29 @@ padding-bottom: 1rem;
                         </a>
                     </div>
                 </li>
+                <li>
                 <a href="#" class="btn btn-outline-primary btn-login">Login</a>
+                </li>
             </ul>
         </div>
     </nav>
     <!-- END nav -->
     <div class="row py-5 px-4">
-        <div class="col-md-9 mx-auto profileCard">
+        <div class="col-md-9 col-sm-9 mx-auto profileCard">
             <!-- Profile widget -->
             <div class="bg-white rounded overflow-hidden">
                 <div class="px-4 pt-0 pb-4 cover">
                     <div class="media align-items-end profile-head">
-                        <div class="profile mr-3"><img src="https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=80" alt="..." width="130" class="rounded mb-2 img-thumbnail"><a href="#" class="btn btn-outline-dark btn-sm btn-block">Edit profile</a></div>
-                        <div class="media-body mb-5 text-white">
-                            <h4 class="mt-0 mb-0">Mark Williams</h4>
-                            <p class="small mb-4"> <i class="fas fa-map-marker-alt mr-2"></i>New York</p>
+                        <div class="profile mr-3">
+                        	<img src="<%=request.getContextPath()%>/PicFinder?pic=1&table=Designer&column=desPic&idname=desNo&id=${designerVO.desNo}" alt='沒有圖片' 
+                        	class="rounded mb-2 img-thumbnail" />
+	                        <a href="#" class="btn btn-outline-dark btn-sm btn-block">Edit profile</a>
+                        </div>
+                        <div class="media-body mb-5 text-white myrow">
+                            <h4 class="mt-0 mb-0" >${designerVO.desName}</h4>
+                            <div class="row  justify-content-end"">
+                            <a href="#" class="btn btn-outline-primary profileBtn">Follow</a>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -186,9 +214,7 @@ padding-bottom: 1rem;
                 <div class="px-4 py-3">
                     <h5 class="mb-0">About</h5>
                     <div class="p-4 rounded shadow-sm bg-light">
-                        <p class="font-italic mb-0">Web Developer</p>
-                        <p class="font-italic mb-0">Lives in New York</p>
-                        <p class="font-italic mb-0">Photographer</p>
+                        <p class="font-italic mb-0">${designerVO.desInfor}</p>
                     </div>
                 </div>
                 <ul class="nav nav-tabs" id="myTab" role="tablist">
@@ -199,48 +225,63 @@ padding-bottom: 1rem;
                         <a class="nav-link" id="Service-tab" data-toggle="tab" href="#Service" role="tab" aria-controls="Service" aria-selected="false">Service</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" id="Follower-tab" data-toggle="tab" href="#Follower" role="tab" aria-controls="Follower" aria-selected="false">Follower</a>
+                        <a class="nav-link" id="Info-tab" data-toggle="tab" href="#Info" role="tab" aria-controls="Info" aria-selected="false">Info</a>
                     </li>
                 </ul>
                 <div class="tab-content" id="myTabContent">
+                
                     <div class="tab-pane fade show active" id="Post" role="tabpanel" aria-labelledby="Post-tab">
+                    
                         <div class="container post">
                             <div class="card-columns ">
                                 <!-- Post Card -->
-                                <div class="card " data-toggle="modal" data-target="#cardModal">
-                                    <img src="https://picsum.photos/300/400?random=1" class="card-img-top post-img">
-                                </div>
-                                <div class="card " data-toggle="modal" data-target="#cardModal">
-                                    <img src="https://picsum.photos/300/400?random=1" class="card-img-top post-img">
-                                </div>
-                                <div class="card " data-toggle="modal" data-target="#cardModal">
-                                    <img src="https://picsum.photos/300/400?random=1" class="card-img-top post-img">
-                                </div>
-                                <div class="card " data-toggle="modal" data-target="#cardModal">
-                                    <img src="https://picsum.photos/300/400?random=1" class="card-img-top post-img">
-                                </div>
-                                <div class="card " data-toggle="modal" data-target="#cardModal">
-                                    <img src="https://picsum.photos/300/400?random=1" class="card-img-top post-img">
-                                </div>
-                                <div class="card " data-toggle="modal" data-target="#cardModal">
-                                    <img src="https://picsum.photos/300/400?random=1" class="card-img-top post-img">
-                                </div>
+                                <c:forEach  var="postVO" items="${postSvc.getAll(designerVO.desNo)}">
+									<a href="<%=request.getContextPath()%>/front-end/post/post.do?postNo=${postVO.postNo}&action=Display_fromDesPage" >
+										<div class="card">
+											<img src="<%=request.getContextPath()%>/PicFinder?pic=1&table=post&column=postPic1&idname=postNo&id=${postVO.postNo}"
+											 class="card-img-top post-img" data-toggle="modal" data-target="#postModal" />
+										</div>
+									</a>
+								</c:forEach>
                             </div>
                         </div>
                     </div>
+                    
                     <div class="tab-pane fade" id="Service" role="tabpanel" aria-labelledby="Service-tab">
 						<div class="ServiceCard">
 						<br><br><br><br><br><br><br><br><br><br>
 						Service
 						<br><br><br><br><br><br><br><br><br><br></div>
 					</div>
-                    <div class="tab-pane fade" id="Follower" rrole="tabpanel" aria-labelledby="Follower-tab">
-						<div class="FollowerCard"><br><br><br><br><br><br><br><br>Follower<br><br><br><br><br><br><br><br></div>
+                    <div class="tab-pane fade" id="Info" role="tabpanel" aria-labelledby="Info-tab">
+						<div class="InfoCard"><br><br><br><br><br><br><br><br>Info<br><br><br><br><br><br><br><br></div>
 					</div>
                 </div>
             </div>
         </div>
     </div>
+    
+<!-- Post Modal -->
+    <c:if test="${openModal != null}" >
+            <div class="modal fade" id="postModal" tabindex="-1"  aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable listOne">
+                    <div class="modal-content">
+                            <button type="button" class="postClose text-right" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        <div class="modal-body p-0 m-0">
+                        	<div class="includePage">
+                            	<jsp:include page="/front-end/Comment/listPostWithComments_front.jsp" />
+                        	</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <script>
+ 			$("#postModal").modal({show: true},'handleUpdate');
+            </script>
+	</c:if>
+<!-- Post END -->
         <script src="<%=request.getContextPath()%>/dist/js/jquery.min.js"></script>
         <script src="<%=request.getContextPath()%>/dist/js/jquery-migrate-3.0.1.min.js"></script>
         <script src="<%=request.getContextPath()%>/dist/js/jquery.easing.1.3.js"></script>
@@ -259,15 +300,6 @@ padding-bottom: 1rem;
         <script src="<%=request.getContextPath()%>/dist/slick/slick.min.js"></script>
 </body>
 <script>
-// $('#Post-tab').click(function(){
-// 	$('.tab-pane div.ServiceCard','.tab-pane div.FollowerCard').hide();
-// });
-// $('#Service-tab').click(function(){
-// 	$('.tab-pane div.post','.tab-pane div.FollowerCard').hide();
-// });
-// $('#Follower-tab').click(function(){
-// 	$('.tab-pane div.post','.tab-pane div.ServiceCard').hide();
-// });
 </script>
 
 </html>

@@ -97,7 +97,7 @@ public class PicFinder extends HttpServlet {
 //					pstmt.close();
 //				}
 			}else{
-				InputStream is = getServletContext().getResourceAsStream("/resource/images/unupload.jpg");
+				InputStream is = getServletContext().getResourceAsStream("/resource/images/memIcon.png");
 				byte buff[] = new byte[is.available()];
 				is.read(buff);
 				out.write(buff);
@@ -107,7 +107,7 @@ public class PicFinder extends HttpServlet {
 			
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
-			InputStream is = getServletContext().getResourceAsStream("/resource/images/unupload.jpg");
+			InputStream is = getServletContext().getResourceAsStream("/resource/images/memIcon.png");
 			byte buff[] = new byte[is.available()];
 			is.read(buff);
 			out.write(buff);
