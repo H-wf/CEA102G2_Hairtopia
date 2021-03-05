@@ -17,7 +17,15 @@
 </head>
 <body>
 
-<h3>服務資料 - ListOneResOfMem.jsp</h3>
+<h4>服務資料 - ListOneResOfDes.jsp</h4>
+<c:if test="${not empty errorMsgs}">
+		<font style="color: red">請修正以下錯誤:</font>
+		<ul>
+			<c:forEach var="message" items="${errorMsgs}">
+				<li style="color: red">${message}</li>
+			</c:forEach>
+		</ul>
+	</c:if>
 	<jsp:useBean id="designerSvc" scope="page" class="com.designer.model.DesignerService" />
 	<jsp:useBean id="serviceSvc" scope="page" class="com.service.model.ServiceService" />
 <table class="table table-striped">
@@ -30,50 +38,49 @@
             	</c:if>
 			</c:forEach>
 		</td></tr>
-	<tr><th>設計師</th>
-		<td><c:forEach var="designerVO" items="${designerSvc.all}">
-					<c:if test="${designerVO.desNo==resVO.desNo}">
-	            	${designerVO.desNo}-${designerVO.desName}
-            		</c:if>
-			</c:forEach>
-		</td></tr>
+	
 	<tr><th>預約產生日</th>
 		<td><fmt:formatDate value="${resVO.resProDate}" pattern="yyyy-MM-dd HH:mm:ss"/>
 		</td></tr>	
 	<tr><th>預約時間</th>
-		<td><fmt:formatDate value="${resVO.resDate}" pattern="yyyy-MM-dd"/>
-				<c:set var="serTime" value="${resVO.resTime}"/>
-				<fmt:formatNumber type="number" value="${((resTime*30 -(resTime*30%60)))/60}"  var="hour"/>
-				${hour}:${(serTime*30 %60 == 0)? "00" :"30" }
+		<td>
+			<c:forEach var="serviceVO" items="${serviceSvc.all}">
+				<c:if test="${serviceVO.serNo==resVO.serNo}">
+	            	<c:set var="serPeriod" value="${serviceVO.serTime}"/>
+            	</c:if>
+			</c:forEach>
+			<fmt:formatDate value="${resVO.resDate}" pattern="yyyy-MM-dd"/>
+				<c:set var="startTime" value="${resVO.resTime}"/>
+				<c:set var="endTime" value="${startTime+serPeriod}"/>
+				<fmt:formatNumber type="number" value="${((startTime*30 -(startTime*30%60)))/60}"  var="shour"/>
+				<fmt:formatNumber type="number" value="${((endTime*30 -(endTime*30%60)))/60}"  var="ehour"/>
+				${shour}:${(startTime*30 %60 == 0)? "00" :"30" }~${ehour}:${(endTime*30 %60 == 0)? "00" :"30" }
 		</td></tr>
 	<tr><th>預約評價</th><td>${resVO.resCom}</td></tr>
 	<tr><th>預約驗證碼</th>
 		<td>
 		<c:choose>
 				<c:when test="${resVO.resStatus == 0}">
-				預約待確認
+					預約待確認
 				</c:when>
 				<c:when test="${resVO.resStatus == 1}">
-				請輸入驗證碼
-				<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/reservation/res.do"
-	 			 name="form1">
-				<input type="TEXT" name="resCode" size="5"/>
-				<input type="submit" value="送出">
-			    <input type="hidden" name="resNo"  value="${resVO.resNo}">
-			    <input type="hidden" name="action"	value="typeResCode">
-				</FORM>
+					<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/reservation/res.do" style="margin-bottom: 0px;">
+			    		<input type="text" name="resCode"  placeholder="輸入驗證碼" size="5">
+			    		<input type="submit" value="驗證">
+			    		<input type="hidden" name="resNo"  value="${resVO.resNo}">
+			    		<input type="hidden" name="action" value="resCodeVerify"></FORM>
 				</c:when>
 				<c:when test="${resVO.resStatus == 2}">
 				已到店認證
 				</c:when>
 				<c:when test="${resVO.resStatus == 3}">
-				服務完成
+				服務已完成
 				</c:when>
 				<c:when test="${resVO.resStatus == 4}">
-				無法提供服務
+				您取消預約
 				</c:when>
 				<c:when test="${resVO.resStatus == 5}">
-				會員取消
+				會員已取消
 				</c:when>
 				<c:otherwise>
 				會員未到
@@ -82,18 +89,7 @@
 		</td>
 		</tr>
 	<tr><th>預約金額</th><td>${resVO.resPrice}</td></tr>
-	<tr><th>修改</th><td>
-			  <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/reservation/res.do" style="margin-bottom: 0px;">
-			     <input type="submit" value="修改">
-			     <input type="hidden" name="serNo"  value="${resVO.serNo}">
-			     <input type="hidden" name="action"	value="getOne_For_Update"></FORM>
-			</td></tr>
-	<tr><th>刪除</th><td>
-			  <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/reservation/res.do" style="margin-bottom: 0px;">
-			     <input type="submit" value="刪除">
-			     <input type="hidden" name="resNo"  value="${resVO.serNo}">
-			     <input type="hidden" name="action" value="delete"></FORM>
-			</td></tr>
+	
 			
 </table>
 </body>

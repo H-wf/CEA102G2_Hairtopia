@@ -29,17 +29,16 @@ public class ResService {
 	}
 	
 	
-	public ResVO updateResCom(Integer resStatus, Integer resCom, Integer resNo) {
+	public ResVO updateResCom(Integer resCom, Integer resNo) {
 
 		ResVO resVO = new ResVO();
 
-		resVO.setResStatus(resStatus);
 		resVO.setResCom(resCom);
 		resVO.setResNo(resNo);
 		
-		dao.update(resVO);
+		dao.updateCom(resVO);
 
-		return resVO;
+		return dao.findByPrimaryKeyResNo(resNo);
 	}
 	
 	public ResVO updateResConfirm(Integer resStatus, String resCode, Integer resNo) {
@@ -55,14 +54,14 @@ public class ResService {
 		return dao.findByPrimaryKeyResNo(resNo);
 	}
 	
-	public ResVO updateResCancel(Integer resStatus, Integer resNo) {
+	public ResVO updateResStatus(Integer resStatus, Integer resNo) {
 		
 		ResVO resVO = new ResVO();
 		
 		resVO.setResStatus(resStatus);
 		resVO.setResNo(resNo);
 		
-		dao.updateCancel(resVO);
+		dao.updateStatus(resVO);
 		
 		return dao.findByPrimaryKeyResNo(resNo);
 	}

@@ -62,6 +62,8 @@ public class DesignerDAO implements DesignerDAO_interface{
 		//用於設計師前台申請後，後台人員用來驗證資訊與檢舉後停權處理
 		private static final String UPDATE_DES_STATUS = 
 			"UPDATE designer set desEndDate=?, desStatus=? where desNo=?";
+		private static final String UPDATE_DES_SCORE = 
+				"UPDATE designer set desCount=?, desTolScore=? where desNo=?";
 	
 	public void insert(DesignerVO designerVO) {
 		
@@ -456,6 +458,46 @@ public class DesignerDAO implements DesignerDAO_interface{
 			}
 		}
 		return designerVO;
+	}
+	
+	@Override
+	public void updateScore(DesignerVO designerVO) {
+		// TODO Auto-generated method stub
+		Connection con = null;
+		PreparedStatement pstmt = null;
+
+		try {
+
+			con = ds.getConnection();
+			pstmt = con.prepareStatement(UPDATE_DES_SCORE);
+
+			pstmt.setInt(1, designerVO.getDesCount());
+			pstmt.setInt(2, designerVO.getDesTolScore());
+			pstmt.setInt(3, designerVO.getDesNo());
+			
+			pstmt.executeUpdate();
+
+			// Handle any driver errors
+		} catch (SQLException se) {
+			throw new RuntimeException("A database error occured. "
+					+ se.getMessage());
+			// Clean up JDBC resources
+		} finally {
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
 	}
 
 }

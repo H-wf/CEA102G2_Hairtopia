@@ -43,10 +43,10 @@ public class ResDAO implements ResDAO_interface{
 		
 		private static final String UPDATE_CONFIRM = 
 			"UPDATE reservation set resStatus=?, resCode=? where resNo = ?";
-		private static final String UPDATE_CANCEL = 
-				"UPDATE reservation set resStatus=? where resNo = ?";
+		private static final String UPDATE_STATUS = 
+			"UPDATE reservation set resStatus=? where resNo = ?";
 		private static final String UPDATE_COM = 
-			"UPDATE reservation set resStatus=?, resCom=? where resNo = ?";
+			"UPDATE reservation set resCom=? where resNo = ?";
 
 
 	@Override
@@ -342,7 +342,7 @@ public class ResDAO implements ResDAO_interface{
 	}
 	
 	@Override
-	public void updateCancel(ResVO resVO) {
+	public void updateStatus(ResVO resVO) {
 		// TODO Auto-generated method stub
 		Connection con = null;
 		PreparedStatement pstmt = null;
@@ -350,7 +350,7 @@ public class ResDAO implements ResDAO_interface{
 		try {
 
 			con = ds.getConnection();
-			pstmt = con.prepareStatement(UPDATE_CANCEL);
+			pstmt = con.prepareStatement(UPDATE_STATUS);
 
 			pstmt.setInt(1, resVO.getResStatus());
 			pstmt.setInt(2, resVO.getResNo());
@@ -379,19 +379,45 @@ public class ResDAO implements ResDAO_interface{
 			}
 		}
 	}
-
 	
-	
-	@Override
-	public void updateStatus(ResVO resVO) {
-		// TODO Auto-generated method stub
-		
-	}
 
 	@Override
 	public void updateCom(ResVO resVO) {
 		// TODO Auto-generated method stub
-		
+		Connection con = null;
+		PreparedStatement pstmt = null;
+
+		try {
+
+			con = ds.getConnection();
+			pstmt = con.prepareStatement(UPDATE_COM);
+
+			pstmt.setInt(1, resVO.getResCom());
+			pstmt.setInt(2, resVO.getResNo());
+
+			pstmt.executeUpdate();
+
+			// Handle any driver errors
+		} catch (SQLException se) {
+			throw new RuntimeException("A database error occured. "
+					+ se.getMessage());
+			// Clean up JDBC resources
+		} finally {
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
 	}
 
 	@Override
@@ -525,6 +551,8 @@ public class ResDAO implements ResDAO_interface{
 		}
 		return list;
 	}
+
+	
 
 	
 	
