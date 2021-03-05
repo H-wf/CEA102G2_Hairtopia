@@ -13,10 +13,12 @@ import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
 
 import com.designer.model.DesignerService;
 import com.designer.model.DesignerVO;
+import com.member.model.*;
 
 @MultipartConfig
 
@@ -103,6 +105,10 @@ public class DesignerServlet extends HttpServlet {
 				/*************************** 3.查詢完成,準備轉交(Send the Success view) *************/
 				req.setAttribute("designerVO", desVO); // 資料庫取出的lecVO物件,存入req
 				String url="";
+MemDAO mamdao = new MemDAO();
+MemVO memVO = mamdao.findByPrimaryKey(2);
+HttpSession session = req.getSession(); 
+session.setAttribute("memVO", memVO);
 				if("getOne_For_Display_Back".equals(action)) {
 //				 url = "/back-end/designer/listOneDesignerBack.jsp";
 				 url = "/front-end/designer/designerPage.jsp";

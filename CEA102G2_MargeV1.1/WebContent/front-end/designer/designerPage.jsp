@@ -4,13 +4,12 @@
 <%@ page import="com.designer.model.*"%>
 <%@ page import="com.post.model.*"%>
 <%@ page import="java.util.*"%>
+
 <jsp:useBean id="desSvc"  scope="page" class="com.designer.model.DesignerService" />
 <jsp:useBean id="postSvc"  scope="page" class="com.post.model.PostService" />
+<jsp:useBean id="followSvc"  scope="page" class="com.followlist.model.FollowListService" />
 
 <%	DesignerVO designerVO = (DesignerVO) request.getAttribute("designerVO"); %>
-<%
-	PostVO postVO = (PostVO) request.getAttribute("postVO");
-%>
 <html lang="en">
 
 <head>
@@ -244,7 +243,8 @@
                         <div class="media-body mb-5 text-white myrow">
                             <h4 class="mt-0 mb-0" >${designerVO.desName}</h4>
                             <div class="row  justify-content-end"">
-                            <a href="#" class="btn btn-outline-primary profileBtn" id="followBtn">Follow</a>
+                            <div class="btn btn-outline-primary profileBtn" id="followBtn">Follow ${designerVO.desNo}</div>
+                            <div class="btn btn-outline-primary profileBtn" id="followBtn">${followSvc.isfollowing(memVO.memNo,designerVO.desNo) ==true?"Unfollow":"Follow"}</div>
                             </div>
                         </div>
                     </div>
@@ -373,6 +373,35 @@
 	    $('#myInput').trigger('focus')
 	})
 	$("#postModal").modal({show: true});
+	
+	$(document).ready(function(){
+		$('#followBtn').on('click',function(){
+			var obj = {
+					action:"insertByAJAX",
+					memNo:${not empty memVO.memNo?memVO.memNo:"null"},
+					desNo:${designerVO.desNo},
+			}
+			if(obj.memNo === null){
+				window.alert("請先登入");
+				return false;
+			}else if(obj.memNo === ${designerVO.memNo}){
+				window.alert("自己不能追蹤自己");
+			}else{
+					$.ajax({
+							type:"POST",
+							url:"<%=request.getContextPath()%>/followlist/followlist.do",
+							data:obj,
+							success:function(data){
+								window.alert("追蹤成功")
+							},
+							error:function(){
+								window.alert("ajax ERROR!")
+							}
+					});
+				}
+		});
+		
+	});
 </script>
 
 </html>

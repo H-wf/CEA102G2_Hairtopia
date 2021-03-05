@@ -25,4 +25,8 @@ public class FollowListService {
 	public List<FollowListVO> getAll() {
 		return dao.getAll();
 	}
+	
+	public Boolean isfollowing(Integer memNo,Integer desNo) {
+		return dao.findByPrimaryKey(memNo, desNo);
+	}
 }
