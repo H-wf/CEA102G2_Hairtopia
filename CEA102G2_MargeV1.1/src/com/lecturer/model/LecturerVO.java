@@ -6,6 +6,8 @@ public class LecturerVO implements java.io.Serializable {
 	private byte[] lecPic;
 	private String lecIntro ;
 	private Integer lecStatus ;
+	private String  lecAccount;
+	private String  lecPassword;
 	
 	public LecturerVO () {}
 	public Integer getLecNo() {
