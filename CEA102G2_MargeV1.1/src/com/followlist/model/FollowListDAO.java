@@ -69,17 +69,39 @@ public class FollowListDAO implements FollowListDAO_Interface{
 		try {
 			con = ds.getConnection();
 			pstmt = con.prepareStatement(GET_ONE_FOLLOWLIST);
-			rs = pstmt.executeQuery();
 			
 			pstmt.setInt(1,memNo);
 			pstmt.setInt(2,desNo);
+			rs = pstmt.executeQuery();
 			
-			if(rs.next()) {
+			while(rs.next()) {
 				return true;
 			}
 		} catch (SQLException e) {
 			throw new RuntimeException("A database error occured. IN followListDAO Method 「findByPrimaryKey」 "
 					+ e.getMessage());
+		}finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
 		}
 		return false;
 	}

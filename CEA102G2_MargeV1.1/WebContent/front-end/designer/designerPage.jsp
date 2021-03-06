@@ -3,13 +3,15 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ page import="com.designer.model.*"%>
 <%@ page import="com.post.model.*"%>
+<%@ page import="com.member.model.*"%>
 <%@ page import="java.util.*"%>
 
 <jsp:useBean id="desSvc"  scope="page" class="com.designer.model.DesignerService" />
 <jsp:useBean id="postSvc"  scope="page" class="com.post.model.PostService" />
 <jsp:useBean id="followSvc"  scope="page" class="com.followlist.model.FollowListService" />
 
-<%	DesignerVO designerVO = (DesignerVO) request.getAttribute("designerVO"); %>
+<%	DesignerVO designerVO = (DesignerVO) request.getAttribute("designerVO"); 
+%>
 <html lang="en">
 
 <head>
@@ -165,7 +167,18 @@
 		background-color: transparent;
 		font-size:16px;
 	}
-	
+/* 	MapCSS */
+#map {
+        height: 300px;
+        width: 100%;
+        }
+.mapRow{
+	margin:6vh auto;
+}
+.solInfo{
+	font-size: 14px;
+    list-style: none;
+}
 </style>
 
 <body>
@@ -243,8 +256,9 @@
                         <div class="media-body mb-5 text-white myrow">
                             <h4 class="mt-0 mb-0" >${designerVO.desName}</h4>
                             <div class="row  justify-content-end"">
-                            <div class="btn btn-outline-primary profileBtn" id="followBtn">Follow ${designerVO.desNo}</div>
+<!--                             <div class="btn btn-outline-primary profileBtn" id="followBtn">Follow</div> -->
                             <div class="btn btn-outline-primary profileBtn" id="followBtn">${followSvc.isfollowing(memVO.memNo,designerVO.desNo) ==true?"Unfollow":"Follow"}</div>
+<%--                             <div class="btn btn-outline-primary profileBtn" id="followBtn"><%=followSvc.isfollowing(memVo.getMemNo(), designerVO.getDesNo()) == true?"Unfollow":"Follow" %></div> --%>
                             </div>
                         </div>
                     </div>
@@ -305,13 +319,32 @@
 						<br><br><br><br><br><br><br><br><br><br></div>
 					</div>
                     <div class="tab-pane fade" id="Info" role="tabpanel" aria-labelledby="Info-tab">
-						<div class="InfoCard"><br><br><br><br><br><br><br><br>Info<br><br><br><br><br><br><br><br></div>
+						<div class="InfoCard">
+							<div class="container">
+								<div class="row mapRow">
+									<div class="col-6" style="border:1px black solid;">
+										<h4>myMap</h4>
+										<hr>
+										<ui class="solInfo">
+											<li>地址:</li>
+											<li>營業時間:</li>
+											<li>電話:</li>
+										</ui>
+									</div>
+									<div class="col-6">
+							    		<div id="map" style="border:1px red solid;"></div>
+									</div>
+								</div>
+							</div>
+							<br><br><br><br><br><br><br><br>
+						</div>
 					</div>
                 </div>
             </div>
         </div>
     </div>
     
+							    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAgth_SXMI_V6SbxEmCxOFwzUwCXAizZhY&callback=initMap&libraries=&v=weekly" async></script>
 <!-- Post Modal -->
     <c:if test="${openModal != null}" >
             <div class="modal fade" id="postModal" tabindex="-1"  aria-hidden="true">
@@ -402,6 +435,31 @@
 		});
 		
 	});
+	
+// MAP
+// 	function initMap() {
+//         	//準備好要顯示的緯經度
+//             const myLatLng = { lat: 24.957503, lng: 121.225111 };
+//             //抓取div id生成Map類別
+//             const map = new google.maps.Map(document.getElementById("map"), {
+//                 zoom: 18,
+//                 center: myLatLng,
+//             });
+//             var marker = new google.maps.Marker({
+//                 position: myLatLng,
+//                 map,
+//                 title: "Hello World!",
+
+//             });
+//             //將地點資訊放入小卡片
+//             var infoWindow = new google.maps.InfoWindow({
+//                 content: '<h1>salon</h1>'
+//             })
+//             //加入聆聽器 點擊彈出小卡片
+//             marker.addListener('click', function() {
+//                 infoWindow.open(map, marker);
+//             });
+//         }
 </script>
 
 </html>
