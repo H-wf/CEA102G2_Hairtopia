@@ -67,4 +67,8 @@ public class MemService {
 	public void updatePassword(String memEmail, String memPswd) {
 		dao.updatePassword(memEmail, memPswd);
 	}
+	
+	public String getOneMemName(Integer memNo) {
+		return dao.findByPrimaryKey(memNo).getMemName();
+	}
 }

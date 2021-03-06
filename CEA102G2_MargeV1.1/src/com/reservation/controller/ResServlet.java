@@ -1,6 +1,7 @@
 package com.reservation.controller;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -9,6 +10,9 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import com.designer.model.DesignerService;
 import com.designer.model.DesignerVO;
@@ -669,6 +673,44 @@ public class ResServlet extends HttpServlet{
 						.getRequestDispatcher("/front-end/reservation/listAllResByMem.jsp");
 				failureView.forward(req, res);
 			}
+		}
+		
+		if ("searchByDesNo".equals(action)) {
+			
+			
+			/*************************** 1.接收請求參數 ***************************************/
+			Integer desNo = new Integer(req.getParameter("desNo"));
+				
+			/*************************** 2.開始查詢資料 ***************************************/
+			ResService resSvc = new ResService();
+			List<ResVO> list = resSvc.getConfirmByDesNo(desNo);
+			JSONArray array = new JSONArray(list);
+			System.out.println(array);
+			res.setContentType("text/plain");
+			res.setCharacterEncoding("UTF-8");
+			PrintWriter out = res.getWriter();
+			out.write(array.toString());
+			out.flush();
+			out.close();	
+		}
+
+		if ("searchByResNo".equals(action)) {
+	
+	
+			/*************************** 1.接收請求參數 ***************************************/
+			Integer resNo = new Integer(req.getParameter("resNo"));
+	
+			/*************************** 2.開始查詢資料 ***************************************/
+			ResService resSvc = new ResService();
+			ResVO resVO = resSvc.getOneRes(resNo);
+			JSONObject jsonObj = new JSONObject(resVO);
+	
+			res.setContentType("text/plain");
+			res.setCharacterEncoding("UTF-8");
+			PrintWriter out = res.getWriter();
+			out.write(jsonObj.toString());
+		out.flush();
+		out.close();	
 		}
 		
 		
