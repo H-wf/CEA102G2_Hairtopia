@@ -179,6 +179,11 @@
 	font-size: 14px;
     list-style: none;
 }
+.following{
+	border: 1px solid transparent;
+    background: #d9bf77;
+    color: #fff;
+}
 </style>
 
 <body>
@@ -256,9 +261,7 @@
                         <div class="media-body mb-5 text-white myrow">
                             <h4 class="mt-0 mb-0" >${designerVO.desName}</h4>
                             <div class="row  justify-content-end"">
-<!--                             <div class="btn btn-outline-primary profileBtn" id="followBtn">Follow</div> -->
                             <div class="btn btn-outline-primary profileBtn" id="followBtn">${followSvc.isfollowing(memVO.memNo,designerVO.desNo) ==true?"Unfollow":"Follow"}</div>
-<%--                             <div class="btn btn-outline-primary profileBtn" id="followBtn"><%=followSvc.isfollowing(memVo.getMemNo(), designerVO.getDesNo()) == true?"Unfollow":"Follow" %></div> --%>
                             </div>
                         </div>
                     </div>
@@ -410,27 +413,48 @@
 	$(document).ready(function(){
 		$('#followBtn').on('click',function(){
 			var obj = {
-					action:"insertByAJAX",
 					memNo:${not empty memVO.memNo?memVO.memNo:"null"},
 					desNo:${designerVO.desNo},
 			}
+			
 			if(obj.memNo === null){
 				window.alert("請先登入");
 				return false;
 			}else if(obj.memNo === ${designerVO.memNo}){
 				window.alert("自己不能追蹤自己");
-			}else{
+				return false;
+			}else if($('#followBtn').text() ==="Unfollow"){
+				obj.action = "deleteByAJAX";
+					$.ajax({
+						type:"POST",
+						url:"<%=request.getContextPath()%>/followlist/followlist.do",
+						data:obj,
+						success:function(data){
+							window.alert("已解除追蹤")
+							$('#followBtn').text("Follow");
+						},
+						error:function(){
+							window.alert("ajax ERROR!")
+						}
+					});
+				
+			}else if($('#followBtn').text() ==="Follow"){
+				obj.action = "insertByAJAX";
 					$.ajax({
 							type:"POST",
 							url:"<%=request.getContextPath()%>/followlist/followlist.do",
 							data:obj,
 							success:function(data){
-								window.alert("追蹤成功")
+								window.alert("追蹤成功");
+								$('#followBtn').text("Unfollow");
 							},
 							error:function(){
 								window.alert("ajax ERROR!")
 							}
 					});
+// 				$('#followBtn').css("background-color", "yellow");
+// 				$('#followBtn').text("Unfollow");
+// 				$('#followBtn:contains("Follow")').css("background-color", "yellow");
 				}
 		});
 		

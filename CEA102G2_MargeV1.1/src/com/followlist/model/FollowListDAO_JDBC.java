@@ -19,10 +19,9 @@ public class FollowListDAO_JDBC implements FollowListDAO_Interface{
 
 	private static final String INSERT_STMT = " INSERT INTO FOLLOW_LIST(memNo,desNo) VALUES(?,?)";
 	private static final String GET_ALL_STMT = "SELECT * FROM hairtopia.follow_list order by memNo;";
-	private static final String GET_ONE_STMT = "SELECT desNo , postCon, postPic1 FROM post where postNo = ?";	//back-end
 	private static final String GET_ONE_FOLLOWLIST = "SELECT memNo,desNo FROM hairtopia.follow_list where  memNo=? and desNo=?;";	
 	
-	private static final String DELETE = "";
+	private static final String DELETE = "DELETE FROM hairtopia.follow_list WHERE  memNo=? and desNo=?;";
 	private static final String UPDATE = "";
 	
 	
@@ -45,6 +44,21 @@ public class FollowListDAO_JDBC implements FollowListDAO_Interface{
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}finally {
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
 		}
 		
 	}		
@@ -55,9 +69,44 @@ public class FollowListDAO_JDBC implements FollowListDAO_Interface{
 	}
 	@Override
 	public void delete(Integer memNO, Integer desNo) {
-		// TODO Auto-generated method stub
 		
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		
+		try {
+			Class.forName(driver);
+			con = DriverManager.getConnection(url, userid, pw);
+			pstmt = con.prepareStatement(DELETE);
+			
+			pstmt.setInt(1,memNO);
+			pstmt.setInt(2,desNo);
+			pstmt.executeUpdate();
+			
+		}catch (ClassNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			
+		} catch (SQLException e) {
+			throw new RuntimeException("A database error occured. IN followListDAO Method 「findByPrimaryKey」 "
+					+ e.getMessage());
+		}finally {
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
 	}
+	
 	@Override
 	public Boolean findByPrimaryKey(Integer memNo, Integer desNo) {
 		Connection con = null;
@@ -69,8 +118,8 @@ public class FollowListDAO_JDBC implements FollowListDAO_Interface{
 			con = DriverManager.getConnection(url, userid, pw);
 			pstmt = con.prepareStatement(GET_ONE_FOLLOWLIST);
 			
-			pstmt.setInt(2,desNo);
 			pstmt.setInt(1,memNo);
+			pstmt.setInt(2,desNo);
 			rs = pstmt.executeQuery();
 			
 			if(rs.next()) {
@@ -187,9 +236,8 @@ public class FollowListDAO_JDBC implements FollowListDAO_Interface{
 //			}
 		
 		//查followList
-		boolean b =dao.findByPrimaryKey(1, 2);
-		System.out.println(b);
-			
+		dao.delete(2, 1);
+		System.out.println("刪除成功");
 	}
 	
 }

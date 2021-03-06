@@ -54,6 +54,7 @@ public class FollowListServlet extends HttpServlet {
 //		}
 		
 		if("insertByAJAX".equals(action)) {
+System.out.println("準備新增");
 			Integer memNo = new Integer (req.getParameter("memNo"));
 			Integer desNo = new Integer (req.getParameter("desNo"));
 			
@@ -67,6 +68,25 @@ public class FollowListServlet extends HttpServlet {
 			res.setContentType("text/plain; UTF-8");
 			PrintWriter out = res.getWriter();
 			out.write("追蹤成功");
+			out.flush();
+			out.close();
+		}
+		
+		if("deleteByAJAX".equals(action)) {
+System.out.println("準備刪除");
+			Integer memNo = new Integer (req.getParameter("memNo"));
+			Integer desNo = new Integer (req.getParameter("desNo"));
+			
+			FollowListVO followListVo = new FollowListVO();
+			followListVo.setMemNo(memNo);
+			followListVo.setDesNo(desNo);
+			
+			FollowListService followListSvc = new FollowListService();
+			followListSvc.deleteFollow(memNo, desNo);
+			
+			res.setContentType("text/plain; UTF-8");
+			PrintWriter out = res.getWriter();
+			out.write("已取消追蹤");
 			out.flush();
 			out.close();
 		}

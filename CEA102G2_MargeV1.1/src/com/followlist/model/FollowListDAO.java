@@ -1,6 +1,7 @@
 package com.followlist.model;
 
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -28,7 +29,7 @@ public class FollowListDAO implements FollowListDAO_Interface{
 	private static final String GET_ALL_STMT = "SELECT * FROM hairtopia.follow_list order by memNo;";
 	private static final String GET_ONE_FOLLOWLIST = "SELECT memNo,desNo FROM hairtopia.follow_list where  memNo=? and desNo=?;";	
 	
-	private static final String DELETE = "";
+	private static final String DELETE = "DELETE FROM hairtopia.follow_list WHERE  memNo=? and desNo=?;";
 	private static final String UPDATE = "";
 	
 	
@@ -56,8 +57,36 @@ public class FollowListDAO implements FollowListDAO_Interface{
 	}
 	@Override
 	public void delete(Integer memNO, Integer desNo) {
-		// TODO Auto-generated method stub
+		Connection con = null;
+		PreparedStatement pstmt = null;
 		
+		try {
+			con = ds.getConnection();
+			pstmt = con.prepareStatement(DELETE);
+			
+			pstmt.setInt(1,memNO);
+			pstmt.setInt(2,desNo);
+			pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			throw new RuntimeException("A database error occured. IN followListDAO Method 「delete」 "
+					+ e.getMessage());
+		}finally {
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}		
 	}
 	@Override
 	public Boolean findByPrimaryKey(Integer memNo, Integer desNo) {
