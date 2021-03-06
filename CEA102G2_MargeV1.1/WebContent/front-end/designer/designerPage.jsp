@@ -4,13 +4,16 @@
 <%@ page import="com.designer.model.*"%>
 <%@ page import="com.post.model.*"%>
 <%@ page import="com.member.model.*"%>
+<%@ page import="com.salon.model.*"%>
 <%@ page import="java.util.*"%>
 
 <jsp:useBean id="desSvc"  scope="page" class="com.designer.model.DesignerService" />
 <jsp:useBean id="postSvc"  scope="page" class="com.post.model.PostService" />
 <jsp:useBean id="followSvc"  scope="page" class="com.followlist.model.FollowListService" />
+<jsp:useBean id="salonSvc"  scope="page" class="com.salon.model.SalonService" />
 
-<%	DesignerVO designerVO = (DesignerVO) request.getAttribute("designerVO"); 
+<%	DesignerVO designerVO = (DesignerVO) request.getAttribute("designerVO");
+	SalonVO salVo = (SalonVO) request.getAttribute("salVo");
 %>
 <html lang="en">
 
@@ -168,22 +171,37 @@
 		font-size:16px;
 	}
 /* 	MapCSS */
-#map {
-        height: 300px;
-        width: 100%;
-        }
-.mapRow{
-	margin:6vh auto;
-}
-.solInfo{
-	font-size: 14px;
-    list-style: none;
-}
-.following{
-	border: 1px solid transparent;
-    background: #d9bf77;
-    color: #fff;
-}
+	#map {
+	    height: 100%;
+	    width: 100%;
+	}
+	.ftco-section{
+		margin:6vh auto;
+		padding:0;
+	}
+	.solInfo{
+		font-size: 14px;
+	    list-style: none;
+	}
+	.following{
+		border: 1px solid transparent;
+	    background: #d9bf77;
+	    color: #fff;
+	}
+	.salCon{
+		display:block;
+		color:#bfbfbf;
+		text-align: center;
+	}
+	.salTitle{
+		display:block;
+		text-align: center;
+		color:#000;
+	}
+	.salName{
+		font-size:1.45rem;
+		text-align:center;
+	}
 </style>
 
 <body>
@@ -247,107 +265,134 @@
         </div>
     </nav>
     <!-- END nav -->
-    <div class="row py-5 px-4">
-        <div class="col-md-9 col-sm-9 mx-auto profileCard">
-            <!-- Profile widget -->
-            <div class="bg-white rounded overflow-hidden">
-                <div class="px-4 pt-0 pb-4 cover">
-                    <div class="media align-items-end profile-head">
-                        <div class="profile mr-3">
-                        	<img src="<%=request.getContextPath()%>/PicFinder?pic=1&table=Designer&column=desPic&idname=desNo&id=${designerVO.desNo}" alt='沒有圖片' 
-                        	class="rounded mb-2 img-thumbnail" />
-	                        <a href="#" class="btn btn-outline-dark btn-sm btn-block">Edit profile</a>
-                        </div>
-                        <div class="media-body mb-5 text-white myrow">
-                            <h4 class="mt-0 mb-0" >${designerVO.desName}</h4>
-                            <div class="row  justify-content-end"">
-                            <div class="btn btn-outline-primary profileBtn" id="followBtn">${followSvc.isfollowing(memVO.memNo,designerVO.desNo) ==true?"Unfollow":"Follow"}</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="bg-light p-4 d-flex justify-content-end text-center">
-                    <ul class="list-inline mb-0">
-                        <li class="list-inline-item">
-                            <h5 class="font-weight-bold mb-0 d-block">215</h5><small class="text-muted"> <i class="fas fa-image mr-1"></i>Post</small>
-                        </li>
-                        <li class="list-inline-item">
-                            <h5 class="font-weight-bold mb-0 d-block">745</h5><small class="text-muted"> <i class="fas fa-user mr-1"></i>Followers</small>
-                        </li>
-                        <li class="list-inline-item">
-                            <h5 class="font-weight-bold mb-0 d-block">340</h5><small class="text-muted"> <i class="fas fa-user mr-1"></i>Following</small>
-                        </li>
-                    </ul>
-                </div>
-                <div class="px-4 py-3">
-                    <h5 class="mb-0">About</h5>
-                    <div class="p-4 rounded shadow-sm bg-light">
-                        <p class="font-italic mb-0">${designerVO.desInfor}</p>
-                    </div>
-                </div>
-                <ul class="nav nav-tabs" id="myTab" role="tablist">
-                    <li class="nav-item">
-                        <a class="nav-link active" id="Post-tab" data-toggle="tab" href="#Post" role="tab" aria-controls="Post" aria-selected="true">Post</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" id="Service-tab" data-toggle="tab" href="#Service" role="tab" aria-controls="Service" aria-selected="false">Service</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" id="Info-tab" data-toggle="tab" href="#Info" role="tab" aria-controls="Info" aria-selected="false">Info</a>
-                    </li>
-                </ul>
-                <div class="tab-content" id="myTabContent">
-                
-                    <div class="tab-pane fade show active" id="Post" role="tabpanel" aria-labelledby="Post-tab">
-                    
-                        <div class="container post">
-                            <div class="card-columns ">
-                                <!-- Post Card -->
-                                <c:forEach  var="postVO" items="${postSvc.getAll(designerVO.desNo)}">
-									<a href="<%=request.getContextPath()%>/front-end/post/post.do?postNo=${postVO.postNo}&action=Display_fromDesPage" >
-										<div class="card">
-											<img src="<%=request.getContextPath()%>/PicFinder?pic=1&table=post&column=postPic1&idname=postNo&id=${postVO.postNo}"
-											 class="card-img-top post-img" data-toggle="modal" data-target="#postModal" />
-										</div>
-									</a>
-								</c:forEach>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="tab-pane fade" id="Service" role="tabpanel" aria-labelledby="Service-tab">
-						<div class="ServiceCard">
-						<br><br><br><br><br><br><br><br><br><br>
-						Service
-						<br><br><br><br><br><br><br><br><br><br></div>
-					</div>
-                    <div class="tab-pane fade" id="Info" role="tabpanel" aria-labelledby="Info-tab">
-						<div class="InfoCard">
-							<div class="container">
-								<div class="row mapRow">
-									<div class="col-6" style="border:1px black solid;">
-										<h4>myMap</h4>
-										<hr>
-										<ui class="solInfo">
-											<li>地址:</li>
-											<li>營業時間:</li>
-											<li>電話:</li>
-										</ui>
-									</div>
-									<div class="col-6">
-							    		<div id="map" style="border:1px red solid;"></div>
-									</div>
-								</div>
-							</div>
-							<br><br><br><br><br><br><br><br>
+	<div class="container-fluid">
+	    <div class="row py-5 px-4 justify-content-center">
+	        <div class="col-md-9 col-sm-9 mx-auto profileCard">
+	            <!-- Profile widget -->
+	            <div class="bg-white rounded overflow-hidden">
+	                <div class="px-4 pt-0 pb-4 cover">
+	                    <div class="media align-items-end profile-head">
+	                        <div class="profile mr-3">
+	                        	<img src="<%=request.getContextPath()%>/PicFinder?pic=1&table=Designer&column=desPic&idname=desNo&id=${designerVO.desNo}" alt='沒有圖片' 
+	                        	class="rounded mb-2 img-thumbnail" />
+		                        <a href="#" class="btn btn-outline-dark btn-sm btn-block">Edit profile</a>
+	                        </div>
+	                        <div class="media-body mb-5 text-white myrow">
+	                            <h4 class="mt-0 mb-0" >${designerVO.desName}</h4>
+	                            <div class="row  justify-content-end"">
+	                            <div class="btn btn-outline-primary profileBtn" id="followBtn">${followSvc.isfollowing(memVO.memNo,designerVO.desNo) ==true?"Unfollow":"Follow"}</div>
+	                            </div>
+	                        </div>
+	                    </div>
+	                </div>
+	                <div class="bg-light p-4 d-flex justify-content-end text-center">
+	                    <ul class="list-inline mb-0">
+	                        <li class="list-inline-item">
+	                            <h5 class="font-weight-bold mb-0 d-block">215</h5><small class="text-muted"> <i class="fas fa-image mr-1"></i>Post</small>
+	                        </li>
+	                        <li class="list-inline-item">
+	                            <h5 class="font-weight-bold mb-0 d-block">745</h5><small class="text-muted"> <i class="fas fa-user mr-1"></i>Followers</small>
+	                        </li>
+	                        <li class="list-inline-item">
+	                            <h5 class="font-weight-bold mb-0 d-block">340</h5><small class="text-muted"> <i class="fas fa-user mr-1"></i>Following</small>
+	                        </li>
+	                    </ul>
+	                </div>
+	                <div class="px-4 py-3">
+	                    <h5 class="mb-0">About</h5>
+	                    <div class="p-4 rounded shadow-sm bg-light">
+	                        <p class="font-italic mb-0">${designerVO.desInfor}</p>
+	                    </div>
+	                </div>
+	                <ul class="nav nav-tabs" id="myTab" role="tablist">
+	                    <li class="nav-item">
+	                        <a class="nav-link active" id="Post-tab" data-toggle="tab" href="#Post" role="tab" aria-controls="Post" aria-selected="true">Post</a>
+	                    </li>
+	                    <li class="nav-item">
+	                        <a class="nav-link" id="Service-tab" data-toggle="tab" href="#Service" role="tab" aria-controls="Service" aria-selected="false">Service</a>
+	                    </li>
+	                    <li class="nav-item">
+	                        <a class="nav-link" id="Info-tab" data-toggle="tab" href="#Info" role="tab" aria-controls="Info" aria-selected="false">Info</a>
+	                    </li>
+	                </ul>
+	                <div class="tab-content" id="myTabContent">
+	                
+	                    <div class="tab-pane fade show active" id="Post" role="tabpanel" aria-labelledby="Post-tab">
+	                    
+	                        <div class="container post">
+	                            <div class="card-columns ">
+	                                <!-- Post Card -->
+	                                <c:forEach  var="postVO" items="${postSvc.getAll(designerVO.desNo)}">
+										<a href="<%=request.getContextPath()%>/front-end/post/post.do?postNo=${postVO.postNo}&action=Display_fromDesPage" >
+											<div class="card">
+												<img src="<%=request.getContextPath()%>/PicFinder?pic=1&table=post&column=postPic1&idname=postNo&id=${postVO.postNo}"
+												 class="card-img-top post-img" data-toggle="modal" data-target="#postModal" />
+											</div>
+										</a>
+									</c:forEach>
+	                            </div>
+	                        </div>
+	                    </div>
+	                    
+	                    <div class="tab-pane fade" id="Service" role="tabpanel" aria-labelledby="Service-tab">
+							<div class="ServiceCard">
+							<br><br><br><br><br><br><br><br><br><br>
+							Service
+							<br><br><br><br><br><br><br><br><br><br></div>
 						</div>
-					</div>
-                </div>
-            </div>
-        </div>
-    </div>
+	                    <div class="tab-pane fade" id="Info" role="tabpanel" aria-labelledby="Info-tab">
+							<div class="InfoCard">
+								<section class="ftco-section contact-section">
+							      <div class="container">
+							        <div class="row block-9">
+										<div class="col-md-6 contact-info ftco-animate bg-light mt-3 shadow">
+											<div class="row">
+												<div class="col-md-12">
+										        	<h2 class="h4 salName">${salVo.salName}</h2>
+										        <hr>
+										        </div>
+										        <div class="col-md-12 mb-3">
+										        	<span class="salTitle">Address</span><span class="salCon">${salVo.salAdd}</span>
+										        </div>
+										        <div class="col-md-12 mb-3">
+										        	<span class="salTitle">Phone</span> <a href="tel://1234567920"><span class="salCon">${salVo.salPhone}</span></a>
+										        </div>
+										        <div class="col-md-12 mb-3">
+										        	<span class="salTitle">Time</span> <a href="mailto:info@yoursite.com"><span class="salCon">${salVo.salTime}</span></a>
+										        </div>
+											</div>
+										</div>
+							          <div class="col-md-6 ftco-animate">
+							          	<div id="map"></div> 
+							          </div>
+							        </div>
+							      </div>
+							    </section>
+	<!-- 							<div class="container"> -->
+	<!-- 								<div class="row mapRow"> -->
+	<!-- 									<div class="col-6" style="border:1px black solid;"> -->
+	<!-- 										<h4>myMap</h4> -->
+	<!-- 										<hr> -->
+	<!-- 										<ui class="solInfo"> -->
+	<!-- 											<li>地址:</li> -->
+	<!-- 											<li>營業時間:</li> -->
+	<!-- 											<li>電話:</li> -->
+	<!-- 										</ui> -->
+	<!-- 									</div> -->
+	<!-- 									<div class="col-6"> -->
+	<!-- 							    		<div id="map" style="border:1px red solid;"></div> -->
+	<!-- 									</div> -->
+	<!-- 								</div> -->
+	<!-- 							</div> -->
+								<br><br><br><br><br><br><br><br>
+							</div>
+						</div>
+	                </div>
+	            </div>
+	        </div>
+	    </div>
+	</div>
     
-							    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAgth_SXMI_V6SbxEmCxOFwzUwCXAizZhY&callback=initMap&libraries=&v=weekly" async></script>
 <!-- Post Modal -->
     <c:if test="${openModal != null}" >
             <div class="modal fade" id="postModal" tabindex="-1"  aria-hidden="true">
@@ -403,6 +448,7 @@
         <script src="<%=request.getContextPath()%>/dist/js/scrollax.min.js"></script>
         <script src="<%=request.getContextPath()%>/dist/js/main.js"></script>
         <script src="<%=request.getContextPath()%>/dist/slick/slick.min.js"></script>
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAgth_SXMI_V6SbxEmCxOFwzUwCXAizZhY&callback=initMap&libraries=&v=weekly" async></script>
 </body>
 <script>
 	$('#loginModal').on('shown.bs.modal', function() {
@@ -452,38 +498,35 @@
 								window.alert("ajax ERROR!")
 							}
 					});
-// 				$('#followBtn').css("background-color", "yellow");
-// 				$('#followBtn').text("Unfollow");
-// 				$('#followBtn:contains("Follow")').css("background-color", "yellow");
 				}
 		});
 		
 	});
 	
 // MAP
-// 	function initMap() {
-//         	//準備好要顯示的緯經度
-//             const myLatLng = { lat: 24.957503, lng: 121.225111 };
-//             //抓取div id生成Map類別
-//             const map = new google.maps.Map(document.getElementById("map"), {
-//                 zoom: 18,
-//                 center: myLatLng,
-//             });
-//             var marker = new google.maps.Marker({
-//                 position: myLatLng,
-//                 map,
-//                 title: "Hello World!",
+	function initMap() {
+        	//準備好要顯示的緯經度
+            const myLatLng = { lat: 24.957503, lng: 121.225111 };
+            //抓取div id生成Map類別
+            const map = new google.maps.Map(document.getElementById("map"), {
+                zoom: 18,
+                center: myLatLng,
+            });
+            var marker = new google.maps.Marker({
+                position: myLatLng,
+                map,
+                title: "Hello World!",
 
-//             });
-//             //將地點資訊放入小卡片
-//             var infoWindow = new google.maps.InfoWindow({
-//                 content: '<h1>salon</h1>'
-//             })
-//             //加入聆聽器 點擊彈出小卡片
-//             marker.addListener('click', function() {
-//                 infoWindow.open(map, marker);
-//             });
-//         }
+            });
+            //將地點資訊放入小卡片
+            var infoWindow = new google.maps.InfoWindow({
+                content: '<h1>salon</h1>'
+            })
+            //加入聆聽器 點擊彈出小卡片
+            marker.addListener('click', function() {
+                infoWindow.open(map, marker);
+            });
+        }
 </script>
 
 </html>
