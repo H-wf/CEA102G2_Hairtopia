@@ -162,13 +162,9 @@
 		max-width:90%;
 	}
 	.modal-content .postClose{
-		position:absolute;
-		top:3%;
-		left:93%;
-		z-index: 9999999;
-		border:none;
-		background-color: transparent;
-		font-size:16px;
+		padding: 0.3rem 1.6rem;
+	    border: none;
+	    background-color: transparent;
 	}
 /* 	MapCSS */
 	#map {
@@ -202,6 +198,56 @@
 		font-size:1.45rem;
 		text-align:center;
 	}
+
+/* callOutCSS */
+.callout {
+  background-color: #fff;
+  border: 1px solid #e4e7ea;
+  border-left: 4px solid #c8ced3;
+  border-radius: .25rem;
+  margin: 1rem;
+  padding: .75rem 1.25rem;
+  position: relative;
+}
+
+.callout h4 {
+  font-size: 1.3125rem;
+  margin-top: 0;
+  margin-bottom: .8rem
+}
+.callout p:last-child {
+  margin-bottom: 0;
+}
+
+.callout-default{
+  border-left-color: #D8CF9E;
+}
+.callout-default h4 {
+  color: #777;
+}
+.callout-dismissible .close {
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: .75rem 1.25rem;
+    color: inherit;
+}
+.reservation{
+	float:right;
+}
+.bi-arrow-right{
+	margin-left: .3rem;
+}
+.bi-arrow-right::before{
+	vertical-align: middle;
+}
+.bookingBtn{
+	color: #d9bf77 !important;
+	float:right;
+}
+.bookingBtn:hover{
+	color: #fff !important;
+}
 </style>
 
 <body>
@@ -336,7 +382,12 @@
 	                    
 	                    <div class="tab-pane fade" id="Service" role="tabpanel" aria-labelledby="Service-tab">
 							<div class="ServiceCard">
-							<br><br><br><br><br><br><br><br><br><br>
+								<div class="callout callout-default">
+								  <h4>Default Callout</h4>
+								  This is a default callout.
+								  <a class="btn btn-outline-primary bookingBtn" >立即預約<i class="bi bi-arrow-right"></i></a>
+<!-- 								  <span class="reservation"><a href="#"><span style="color:#D8CF9E;">立即預約</span><i class="bi bi-arrow-right"></i></span></a> -->
+								</div>
 							Service
 							<br><br><br><br><br><br><br><br><br><br></div>
 						</div>
@@ -368,23 +419,6 @@
 							        </div>
 							      </div>
 							    </section>
-	<!-- 							<div class="container"> -->
-	<!-- 								<div class="row mapRow"> -->
-	<!-- 									<div class="col-6" style="border:1px black solid;"> -->
-	<!-- 										<h4>myMap</h4> -->
-	<!-- 										<hr> -->
-	<!-- 										<ui class="solInfo"> -->
-	<!-- 											<li>地址:</li> -->
-	<!-- 											<li>營業時間:</li> -->
-	<!-- 											<li>電話:</li> -->
-	<!-- 										</ui> -->
-	<!-- 									</div> -->
-	<!-- 									<div class="col-6"> -->
-	<!-- 							    		<div id="map" style="border:1px red solid;"></div> -->
-	<!-- 									</div> -->
-	<!-- 								</div> -->
-	<!-- 							</div> -->
-								<br><br><br><br><br><br><br><br>
 							</div>
 						</div>
 	                </div>
