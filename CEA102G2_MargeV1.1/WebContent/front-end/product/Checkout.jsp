@@ -32,7 +32,7 @@
  <%  @SuppressWarnings("unchecked") 
    Vector<ProductVO> buylist = (Vector<ProductVO>) session.getAttribute("shoppingcart");
    MemVO memVO = (MemVO)session.getAttribute("memVO");
-   String ordAmt =  (String) request.getAttribute("ordAmt");%>
+   String ordAmt =  (String)session.getAttribute("ordAmt");%>
 
 <c:forEach var="productVO" items="<%=buylist%>">
 	<tr>

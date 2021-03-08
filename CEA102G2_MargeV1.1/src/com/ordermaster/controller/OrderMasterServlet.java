@@ -26,7 +26,6 @@ import com.ordermaster.model.OrderMasterVO;
 import com.product.model.ProductVO;
 
 
-@WebServlet("/ordermaster/ordermaster.do")
 @MultipartConfig
 public class OrderMasterServlet extends HttpServlet {
 
@@ -93,6 +92,7 @@ System.out.println(map);
 				list.add(orderdetailVO);
 			}
 			session.removeAttribute("shoppingcart");
+			session.removeAttribute("ordAmt");
 			/***************************2.開始新增資料***************************************/
 			OrderMasterService ordermasterSvc = new OrderMasterService();
 			ordermasterVO = ordermasterSvc.addOrderMasterwithOrderDetails(memNo,ordAmt,list);

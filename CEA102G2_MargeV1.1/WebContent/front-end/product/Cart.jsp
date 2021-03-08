@@ -6,14 +6,13 @@
  <title>Cart.jsp</title>
 </head>
 <body><br>
-<%-- <% @SuppressWarnings("unchecked") --%>
-<%-- Vector<ProductVO> buylist = (Vector<ProductVO>) session.getAttribute("shoppingcart");%> --%>
+
 <jsp:useBean id="productSvc" scope="page" class="com.product.model.ProductService" /> 
 <jsp:useBean id="ptypeSvc" scope="page" class="com.ptype.model.PtypeService" /> 
 <jsp:useBean id="brandSvc" scope="page" class="com.brand.model.BrandService" /> 
 
 <c:if test="${not empty sessionScope.shoppingcart}">
-<%-- <%if (buylist != null && (buylist.size() > 0)) {%> --%>
+
 <img src="images/tomcat.gif"> <font size="+3">目前購物車的內容如下：（Cart.jsp）</font>
 
 <table id="table-1">
@@ -31,10 +30,7 @@
 </table>
    
 <table>
-<%-- <%-- 	<% --%> 
-<!-- // 	 for (int index = 0; index < buylist.size(); index++) { -->
-<!-- // 		 ProductVO productVO = buylist.get(index); -->
-<%-- <%-- 	%> --%> 
+
  <c:forEach var="productVO" items="${sessionScope.shoppingcart}" varStatus="i">
 	<tr>
 		<td width="200">${ptypeSvc.getOnePtype(productVO.ptypeNo).ptypeName}</td>
@@ -53,14 +49,14 @@
           </form></td>
 	</tr>
  </c:forEach>
-<%--  	<%} %> --%>
+
 </table>
 <p>
           <form name="checkoutForm" action="<%=request.getContextPath()%>/product/product.do" method="POST">
               <input type="hidden" name="action"  value="CHECKOUT"> 
               <input type="submit" value="付款結帳" class="button">
           </form>
-<%-- <%} %> --%>
+
 </c:if>
 </body>
 </html>

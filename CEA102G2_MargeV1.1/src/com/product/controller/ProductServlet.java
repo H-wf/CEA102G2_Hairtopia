@@ -23,7 +23,7 @@ import com.product.model.ProductDAO;
 import com.product.model.ProductService;
 import com.product.model.ProductVO;
 
-@WebServlet("/product/product.do")
+
 @MultipartConfig
 public class ProductServlet extends HttpServlet {
 
@@ -87,7 +87,7 @@ public class ProductServlet extends HttpServlet {
 			}
 		
 			String ordAmt = String.valueOf(total);
-			req.setAttribute("ordAmt", ordAmt);
+			session.setAttribute("ordAmt", ordAmt);
 			String url = "/front-end/product/Checkout.jsp";
 			RequestDispatcher rd = req.getRequestDispatcher(url);
 			rd.forward(req, res);
