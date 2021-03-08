@@ -35,7 +35,7 @@ public class SalonServlet extends HttpServlet{
 
 		req.setCharacterEncoding("UTF-8");
 		String action = req.getParameter("action");
-		System.out.println("action");
+		
 	
 		
 		if ("getOne_For_Display".equals(action)) { // 來自select_salon_page.jsp的請求
