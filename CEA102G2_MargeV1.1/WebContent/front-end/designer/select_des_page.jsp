@@ -41,12 +41,16 @@ h4 {
 			</c:forEach>
 		</ul>
 	</c:if>
+	
+
 		
 
 	<h3>設計師管理</h3>
 
 	<ul>
 		<li><a href='<%=request.getContextPath()%>/front-end/designer/addDesigner.jsp'>Add</a> a new Designer(for test).</li>
+		<br>
+		<li><a href='<%=request.getContextPath()%>/front-end/designer/addDesigner2.jsp'>Addsalon</a> a new Designersss(fo2232r test).</li>
 	</ul>
 
 </body>

@@ -105,6 +105,56 @@ public class DesignerDAO implements DesignerDAO_interface{
 		}
 		
 	};
+public void insert2(DesignerVO designerVO,Connection con) {
+		
+		
+		PreparedStatement pstmt = null;
+
+		try {
+
+			
+			pstmt = con.prepareStatement(INSERT_STMT);
+
+			pstmt.setInt(1, designerVO.getMemNo());
+			pstmt.setInt(2, designerVO.getSalNo());
+			
+
+
+			pstmt.setString(3, designerVO.getDesName());			
+			pstmt.setString(4, designerVO.getDesInfor());
+			pstmt.setString(5, designerVO.getDesSchedule());
+			pstmt.setBytes(6, designerVO.getDesPic());
+			
+			pstmt.executeUpdate();
+
+			// Handle any SQL errors
+		} catch (SQLException se) {
+
+			if (con != null) {
+				try {
+				
+					System.err.println("rolled back-由-Des");
+					con.rollback();
+				} catch (SQLException excep) {
+					throw new RuntimeException("rollback error occured..... "
+							+ excep.getMessage());
+				}
+			}
+			throw new RuntimeException("A database error occured. "//丟出RuntimeException才不會有繼承限制
+					+ se.getMessage());
+			// Clean up JDBC resources
+		} finally {
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+		
+			}
+		}
+		
+	};
 	
 	public void update(DesignerVO designerVO) {
 		
@@ -457,5 +507,5 @@ public class DesignerDAO implements DesignerDAO_interface{
 		}
 		return designerVO;
 	}
-
+	
 }
