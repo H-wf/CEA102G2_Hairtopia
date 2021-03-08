@@ -12,6 +12,7 @@ public class SalonVO implements Serializable{
 	private Integer salStatus;
 	private String  salLat;
 	private String  salLng;
+	
 	public Integer getSalNo() {
 		return salNo;
 	}
