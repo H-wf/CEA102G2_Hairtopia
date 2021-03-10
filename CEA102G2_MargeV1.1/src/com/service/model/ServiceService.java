@@ -80,14 +80,5 @@ public class ServiceService {
 	public List<ServiceVO> getAll() {
 		return dao.getAll();
 	}
-	
-	public String getSerName(Integer serNo) {
-		return dao.findByPrimaryKeySerNo(serNo).getSerName();
-	}
-	
-	public Integer getSerTime(Integer serNo) {
-		return dao.findByPrimaryKeySerNo(serNo).getSerTime();
-	}
-
 
 }
