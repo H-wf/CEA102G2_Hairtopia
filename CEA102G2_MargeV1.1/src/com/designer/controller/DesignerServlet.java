@@ -13,10 +13,12 @@ import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
 
-import com.designer.model.DesignerService;
-import com.designer.model.DesignerVO;
+import com.designer.model.*;
+import com.salon.model.*;
+import com.member.model.*;
 
 @MultipartConfig
 
@@ -82,6 +84,9 @@ public class DesignerServlet extends HttpServlet {
 				/*************************** 2.開始查詢資料 *****************************************/
 				DesignerService desSvc = new DesignerService();
 				DesignerVO desVO = desSvc.getOneDesByDesNo(desNo);
+/*取得髮廊VO*/
+				SalonVO salVo = new SalonService().getOneSalon(desVO.getSalNo());
+				
 				if (desVO == null) {
 					errorMsgs.add("查無設計師資料");
 				}
@@ -102,13 +107,20 @@ public class DesignerServlet extends HttpServlet {
 
 				/*************************** 3.查詢完成,準備轉交(Send the Success view) *************/
 				req.setAttribute("designerVO", desVO); // 資料庫取出的lecVO物件,存入req
+				req.setAttribute("salVo", salVo);
 				String url="";
+MemDAO mamdao = new MemDAO();
+MemVO memVO = mamdao.findByPrimaryKey(2);
+HttpSession session = req.getSession(); 
+session.setAttribute("memVO", memVO);
 				if("getOne_For_Display_Back".equals(action)) {
-				 url = "/back-end/designer/listOneDesignerBack.jsp";
-
+//				 url = "/back-end/designer/listOneDesignerBack.jsp";
+				 url = "/front-end/designer/designerPage.jsp";
+				 
 				}else if("getOne_For_Display".equals(action)) {
 
-				 url = "/front-end/designer/select_des_page.jsp" ;
+//				 url = "/front-end/designer/select_des_page.jsp" ;
+				 url = "/front-end/designer/designerPage.jsp";
 				}
 				RequestDispatcher successView = req.getRequestDispatcher(url); // 成功轉交 listOneLec.jsp
 				successView.forward(req, res);
