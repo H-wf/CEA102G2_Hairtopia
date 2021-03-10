@@ -309,7 +309,6 @@
 	                <button type="button" class="btn btn-outline-primary btn-login" data-toggle="modal" data-target="#loginModal">
 						 Login
 					</button>
-<!--                 	<a href="#" class="btn btn-outline-primary btn-login" data-toggle="modal" data-target="#loginModal">Login</a> -->
                 </li>
             </ul>
         </div>
