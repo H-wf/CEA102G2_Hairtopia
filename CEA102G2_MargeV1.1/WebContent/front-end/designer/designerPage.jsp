@@ -11,6 +11,7 @@
 <jsp:useBean id="postSvc"  scope="page" class="com.post.model.PostService" />
 <jsp:useBean id="followSvc"  scope="page" class="com.followlist.model.FollowListService" />
 <jsp:useBean id="salonSvc"  scope="page" class="com.salon.model.SalonService" />
+<jsp:useBean id="serviceSvc"  scope="page" class="com.service.model.ServiceService" />
 
 <%	DesignerVO designerVO = (DesignerVO) request.getAttribute("designerVO");
 	SalonVO salVo = (SalonVO) request.getAttribute("salVo");
@@ -248,6 +249,9 @@
 .bookingBtn:hover{
 	color: #fff !important;
 }
+.price{
+	overflow:auto;
+}
 </style>
 
 <body>
@@ -369,12 +373,14 @@
 	                            <div class="card-columns ">
 	                                <!-- Post Card -->
 	                                <c:forEach  var="postVO" items="${postSvc.getAll(designerVO.desNo)}">
-										<a href="<%=request.getContextPath()%>/front-end/post/post.do?postNo=${postVO.postNo}&action=Display_fromDesPage" >
-											<div class="card">
-												<img src="<%=request.getContextPath()%>/PicFinder?pic=1&table=post&column=postPic1&idname=postNo&id=${postVO.postNo}"
-												 class="card-img-top post-img" data-toggle="modal" data-target="#postModal" />
-											</div>
-										</a>
+	                                	<c:if test="${postVO.postStatus eq 0}">
+											<a href="<%=request.getContextPath()%>/front-end/post/post.do?postNo=${postVO.postNo}&action=Display_fromDesPage" >
+												<div class="card">
+													<img src="<%=request.getContextPath()%>/PicFinder?pic=1&table=post&column=postPic1&idname=postNo&id=${postVO.postNo}"
+													 class="card-img-top post-img" data-toggle="modal" data-target="#postModal" />
+												</div>
+											</a>
+										</c:if>
 									</c:forEach>
 	                            </div>
 	                        </div>
@@ -382,11 +388,24 @@
 	                    
 	                    <div class="tab-pane fade" id="Service" role="tabpanel" aria-labelledby="Service-tab">
 							<div class="ServiceCard">
+								<c:forEach  var="serviceVo" items="${serviceSvc.getAllServiceByDesNo(designerVO.desNo)}">
+									<c:if test="${serviceVo.serStatus eq 1}">
+										<div class="callout callout-default">
+										  <h4>${serviceVo.serName}<br><h4 style="font-size:1rem;">服務時間:　${serviceVo.serTime}小時</h4></h4>
+										  	
+										  	<span style="font-size:1rem;">${serviceVo.serDesc}</span>
+										  	<hr>
+										  	<div class="price">
+										  		<h4 style="display:inline;font-size: unset;">優惠價:　${serviceVo.serPrice}元</h4>
+										  		<a class="btn btn-outline-primary bookingBtn" href="" >立即預約<i class="bi bi-arrow-right"></i></a>
+											</div>
+										</div>
+									</c:if>
+								</c:forEach>
 								<div class="callout callout-default">
 								  <h4>Default Callout</h4>
 								  This is a default callout.
 								  <a class="btn btn-outline-primary bookingBtn" >立即預約<i class="bi bi-arrow-right"></i></a>
-<!-- 								  <span class="reservation"><a href="#"><span style="color:#D8CF9E;">立即預約</span><i class="bi bi-arrow-right"></i></span></a> -->
 								</div>
 							Service
 							<br><br><br><br><br><br><br><br><br><br></div>
