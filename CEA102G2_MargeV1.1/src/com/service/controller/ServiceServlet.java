@@ -198,6 +198,36 @@ public class ServiceServlet extends HttpServlet{
 			}
 		}
 		
+		if ("getOne_For_AddRes".equals(action)) { // 來自新增預約的請求
+			
+			List<String> errorMsgs = new LinkedList<String>();
+			// Store this set in the request scope, in case we need to
+			// send the ErrorPage view.
+			req.setAttribute("errorMsgs", errorMsgs);
+			
+			try {
+				/***************************1.接收請求參數****************************************/
+				Integer serNo = new Integer(req.getParameter("serNo"));
+				
+				/***************************2.開始查詢資料****************************************/
+				ServiceService serviceSvc = new ServiceService();
+				ServiceVO serviceVO = serviceSvc.getOneServiceBySerNo(serNo);
+				
+				/***************************3.查詢完成,準備轉交(Send the Success view)************/
+				req.setAttribute("serviceVO", serviceVO);         // 資料庫取出的salonVO物件,存入req
+				String url = "/front-end/reservation/AddResTest.jsp";
+				RequestDispatcher successView = req.getRequestDispatcher(url);// 成功轉交 AddResTest.jsp
+				successView.forward(req, res);
+				
+				/***************************其他可能的錯誤處理**********************************/
+			} catch (Exception e) {
+				errorMsgs.add("無法取得要修改的資料:" + e.getMessage());
+				RequestDispatcher failureView = req
+						.getRequestDispatcher("/front-end/service/listAllSerByDes.jsp");
+				failureView.forward(req, res);
+			}
+		}
+		
 		if ("update".equals(action)) { // 來自update_service_input.jsp的請求
 			
 			List<String> errorMsgs = new LinkedList<String>();

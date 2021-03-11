@@ -1,7 +1,7 @@
 package com.schedule.controller;
 
 import java.io.IOException;
-
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -13,8 +13,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.json.JSONObject;
 
-
+import com.designer.model.DesignerService;
+import com.designer.model.DesignerVO;
 import com.schedule.model.*;
 
 
@@ -332,6 +334,56 @@ public class ScheduleServlet extends HttpServlet {
 				failureView.forward(req, res);
 			}
 		}
+		
+if ("searchSchedule".equals(action)) {
+			
+			
+			/*************************** 1.接收請求參數 ***************************************/
+			try {
+			java.sql.Date schDate = java.sql.Date.valueOf(req.getParameter("schDate").trim());
+			Integer desNo = new Integer(req.getParameter("desNo").trim());
+			Integer week = new Integer(req.getParameter("week").trim());
+			/*************************** 2.開始查詢資料 ***************************************/
+			ScheduleService schSvc = new ScheduleService();
+			ScheduleVO schVO = new ScheduleVO();
+			if(schSvc.getOneSchdule(desNo, schDate) == null) {
+				DesignerService desSvc = new DesignerService();
+				DesignerVO desVO = desSvc.getOneDesByDesNo(desNo);
+				String schedule = desVO.getDesSchedule();
+				Integer start = Integer.parseInt(schedule.substring(week*4, week*4+2));
+				Integer end = Integer.parseInt(schedule.substring(week*4+2, week*4+4));
+				System.out.println(start);
+				System.out.println(end);
+				String schStatus = "";
+				for(int i=0 ; i<48 ; i++) {
+					if(i<start || i>end) {
+						schStatus+=2;
+					}else {
+						schStatus+=1;
+					}
+				}
+				System.out.println(schStatus);
+				schVO.setSchDate(schDate);
+				schVO.setDesNo(desNo);
+				schVO.setSchStatus(schStatus);
+			}else {
+				schVO = schSvc.getOneSchdule(desNo, schDate);
+			}
+			JSONObject jsonObj = new JSONObject(schVO);
+			
+			res.setContentType("text/plain");
+			res.setCharacterEncoding("UTF-8");
+			PrintWriter out = res.getWriter();
+			out.write(jsonObj.toString());
+			out.flush();
+			out.close();	
+			}catch(Exception e) {
+//				System.out.println(e.getMessage());
+			}
+		}
+		
+		
+		
 	}
 
 }

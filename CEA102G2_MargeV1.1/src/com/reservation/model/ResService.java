@@ -81,6 +81,10 @@ public class ResService {
 	public List<ResVO> getAllResByMemNo(Integer memNo) {
 		return dao.findByPrimaryKeyMemNo(memNo);
 	}
+	
+	public List<ResVO> getConfirmByDesNo(Integer desNo) {
+		return dao.findConfirmByDesNo(desNo);
+	}
 
 	public List<ResVO> getAll() {
 		return dao.getAll();

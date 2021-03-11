@@ -35,6 +35,8 @@ public class ResDAO implements ResDAO_interface{
 			"SELECT resNo,memNo,serNo,desNo,resProDate,resDate,resTime,resStatus,resCom,resCode,resPrice FROM reservation where resNo = ?";
 		private static final String GET_ALL_BY_DESNO = 
 			"SELECT resNo,memNo,serNo,desNo,resProDate,resDate,resTime,resStatus,resCom,resCode,resPrice FROM reservation where desNo = ?";
+		private static final String GET_CONFIRM_BY_DESNO = 
+			"SELECT resNo,memNo,serNo,desNo,resProDate,resDate,resTime,resStatus,resCom,resCode,resPrice FROM reservation where resStatus in(1,2,3) and desNo = ? order by resTime";
 		private static final String GET_ALL_BY_MEMNO = 
 			"SELECT resNo,memNo,serNo,desNo,resProDate,resDate,resTime,resStatus,resCom,resCode,resPrice FROM reservation where memNo = ?";
 		
@@ -552,7 +554,71 @@ public class ResDAO implements ResDAO_interface{
 		return list;
 	}
 
-	
+	@Override
+	public List<ResVO> findConfirmByDesNo(Integer desNo) {
+		// TODO Auto-generated method stub
+		List<ResVO> list = new ArrayList<ResVO>();
+		ResVO resVO = null;
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+
+		try {
+
+			con = ds.getConnection();
+			pstmt = con.prepareStatement(GET_CONFIRM_BY_DESNO);
+
+			pstmt.setInt(1, desNo);
+
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				// resVO 也稱為 Domain objects
+				resVO = new ResVO();
+				resVO.setResNo(rs.getInt("resNo"));
+				resVO.setMemNo(rs.getInt("memNo"));
+				resVO.setSerNo(rs.getInt("serNo"));
+				resVO.setDesNo(rs.getInt("desNo"));
+				resVO.setResProDate(rs.getTimestamp("resProDate"));
+				resVO.setResDate(rs.getDate("resDate"));
+				resVO.setResTime(rs.getInt("resTime"));
+				resVO.setResStatus(rs.getInt("resStatus"));
+				resVO.setResCom(rs.getInt("resCom"));
+				resVO.setResCode(rs.getString("resCode"));
+				resVO.setResPrice(rs.getInt("resPrice"));
+				list.add(resVO);
+			}
+
+			// Handle any driver errors
+		} catch (SQLException se) {
+			throw new RuntimeException("A database error occured. "
+					+ se.getMessage());
+			// Clean up JDBC resources
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
+		return list;
+	}
 
 	
 	

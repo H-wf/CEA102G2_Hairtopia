@@ -11,6 +11,7 @@
 <jsp:useBean id="postSvc"  scope="page" class="com.post.model.PostService" />
 <jsp:useBean id="followSvc"  scope="page" class="com.followlist.model.FollowListService" />
 <jsp:useBean id="salonSvc"  scope="page" class="com.salon.model.SalonService" />
+<jsp:useBean id="serviceSvc"  scope="page" class="com.service.model.ServiceService" />
 
 <%	DesignerVO designerVO = (DesignerVO) request.getAttribute("designerVO");
 	SalonVO salVo = (SalonVO) request.getAttribute("salVo");
@@ -36,7 +37,6 @@
     <link rel="stylesheet" href="<%=request.getContextPath()%>/dist/slick/slick-theme.css">
 </head>
 <style>
-
 /* navBarCSS */
     .navbar-brand img{
 		width: 250px;
@@ -61,7 +61,6 @@
                 top: 55%;
             }
     .offer-deal i::before{
-
         vertical-align: baseline;
         line-height: 0;
         padding-top: 0;
@@ -71,8 +70,6 @@
         font-size: 7em;
         color: #d9bf77;
     }
-
-
 	.img-profile {
 	    height: 3.5rem;
 	    width: 3.5rem;
@@ -123,7 +120,6 @@
 		padding-left: 15px; 
 		padding-right:15px;
 	}
-
 /* IncludeModalCSS */
 	@media (min-width: 576px) {
   		.card-columns {
@@ -153,7 +149,6 @@
       transform: scale(1.05); 
  	  box-shadow: 0 10px 20px rgba(0,0,0,.12), 0 4px 8px rgba(0,0,0,.06); 
  	}
-
 	.listOne {
  	  max-width: 70%;
  	  overflow: hidden;
@@ -162,13 +157,9 @@
 		max-width:90%;
 	}
 	.modal-content .postClose{
-		position:absolute;
-		top:3%;
-		left:93%;
-		z-index: 9999999;
-		border:none;
-		background-color: transparent;
-		font-size:16px;
+		padding: 0.3rem 1.6rem;
+	    border: none;
+	    background-color: transparent;
 	}
 /* 	MapCSS */
 	#map {
@@ -202,6 +193,56 @@
 		font-size:1.45rem;
 		text-align:center;
 	}
+/* callOutCSS */
+.callout {
+  background-color: #fff;
+  border: 1px solid #e4e7ea;
+  border-left: 4px solid #c8ced3;
+  border-radius: .25rem;
+  margin: 1rem;
+  padding: .75rem 1.25rem;
+  position: relative;
+}
+.callout h4 {
+  font-size: 1.3125rem;
+  margin-top: 0;
+  margin-bottom: .8rem
+}
+.callout p:last-child {
+  margin-bottom: 0;
+}
+.callout-default{
+  border-left-color: #D8CF9E;
+}
+.callout-default h4 {
+  color: #777;
+}
+.callout-dismissible .close {
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: .75rem 1.25rem;
+    color: inherit;
+}
+.reservation{
+	float:right;
+}
+.bi-arrow-right{
+	margin-left: .3rem;
+}
+.bi-arrow-right::before{
+	vertical-align: middle;
+}
+.bookingBtn{
+	color: #d9bf77 !important;
+	float:right;
+}
+.bookingBtn:hover{
+	color: #fff !important;
+}
+.price{
+	overflow:auto;
+}
 </style>
 
 <body>
@@ -323,12 +364,14 @@
 	                            <div class="card-columns ">
 	                                <!-- Post Card -->
 	                                <c:forEach  var="postVO" items="${postSvc.getAll(designerVO.desNo)}">
-										<a href="<%=request.getContextPath()%>/front-end/post/post.do?postNo=${postVO.postNo}&action=Display_fromDesPage" >
-											<div class="card">
-												<img src="<%=request.getContextPath()%>/PicFinder?pic=1&table=post&column=postPic1&idname=postNo&id=${postVO.postNo}"
-												 class="card-img-top post-img" data-toggle="modal" data-target="#postModal" />
-											</div>
-										</a>
+	                                	<c:if test="${postVO.postStatus eq 0}">
+											<a href="<%=request.getContextPath()%>/front-end/post/post.do?postNo=${postVO.postNo}&action=Display_fromDesPage" >
+												<div class="card">
+													<img src="<%=request.getContextPath()%>/PicFinder?pic=1&table=post&column=postPic1&idname=postNo&id=${postVO.postNo}"
+													 class="card-img-top post-img" data-toggle="modal" data-target="#postModal" />
+												</div>
+											</a>
+										</c:if>
 									</c:forEach>
 	                            </div>
 	                        </div>
@@ -336,7 +379,25 @@
 	                    
 	                    <div class="tab-pane fade" id="Service" role="tabpanel" aria-labelledby="Service-tab">
 							<div class="ServiceCard">
-							<br><br><br><br><br><br><br><br><br><br>
+								<c:forEach  var="serviceVo" items="${serviceSvc.getAllServiceByDesNo(designerVO.desNo)}">
+									<c:if test="${serviceVo.serStatus eq 1}">
+										<div class="callout callout-default">
+										  <h4>${serviceVo.serName}<br><h4 style="font-size:1rem;">服務時間:　${serviceVo.serTime}小時</h4></h4>
+										  	
+										  	<span style="font-size:1rem;">${serviceVo.serDesc}</span>
+										  	<hr>
+										  	<div class="price">
+										  		<h4 style="display:inline;font-size: unset;">優惠價:　${serviceVo.serPrice}元</h4>
+										  		<a class="btn btn-outline-primary bookingBtn" href="<%=request.getContextPath()%>/service/service.do?serNo=${serviceVo.serNo}&action=getOne_For_AddRes" >立即預約<i class="bi bi-arrow-right"></i></a>
+											</div>
+										</div>
+									</c:if>
+								</c:forEach>
+								<div class="callout callout-default">
+								  <h4>Default Callout</h4>
+								  This is a default callout.
+								  <a class="btn btn-outline-primary bookingBtn" >立即預約<i class="bi bi-arrow-right"></i></a>
+								</div>
 							Service
 							<br><br><br><br><br><br><br><br><br><br></div>
 						</div>
@@ -368,23 +429,6 @@
 							        </div>
 							      </div>
 							    </section>
-	<!-- 							<div class="container"> -->
-	<!-- 								<div class="row mapRow"> -->
-	<!-- 									<div class="col-6" style="border:1px black solid;"> -->
-	<!-- 										<h4>myMap</h4> -->
-	<!-- 										<hr> -->
-	<!-- 										<ui class="solInfo"> -->
-	<!-- 											<li>地址:</li> -->
-	<!-- 											<li>營業時間:</li> -->
-	<!-- 											<li>電話:</li> -->
-	<!-- 										</ui> -->
-	<!-- 									</div> -->
-	<!-- 									<div class="col-6"> -->
-	<!-- 							    		<div id="map" style="border:1px red solid;"></div> -->
-	<!-- 									</div> -->
-	<!-- 								</div> -->
-	<!-- 							</div> -->
-								<br><br><br><br><br><br><br><br>
 							</div>
 						</div>
 	                </div>
@@ -516,7 +560,6 @@
                 position: myLatLng,
                 map,
                 title: "Hello World!",
-
             });
             //將地點資訊放入小卡片
             var infoWindow = new google.maps.InfoWindow({
