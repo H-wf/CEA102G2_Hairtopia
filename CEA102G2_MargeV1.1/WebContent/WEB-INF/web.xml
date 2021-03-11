@@ -20,7 +20,6 @@
 	</filter>
 	<filter-mapping>
 		<filter-name>loginFilter</filter-name>
-		<url-pattern>/front-end/member/NewFile.jsp</url-pattern>
 		<url-pattern>/front-end/product/Cart.jsp</url-pattern>
 		<dispatcher>REQUEST</dispatcher>
 		<dispatcher>FORWARD</dispatcher>

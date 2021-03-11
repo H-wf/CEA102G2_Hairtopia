@@ -191,11 +191,11 @@ body, html {
 
 <body>
 
-	<c:if test="${not empty errorMsgs}">
-		<script>
-			alert("asd")
-		</script>
-	</c:if>
+<%-- 	<c:if test="${not empty errorMsgs}"> --%>
+<!-- 		<script> -->
+<!-- // 			alert("asd") -->
+<!-- 		</script> -->
+<%-- 	</c:if> --%>
 
 	<!--
     you can substitue the span of reauth email for a input with the email and

@@ -9,6 +9,7 @@ import javax.servlet.http.*;
 
 import com.member.model.*;
 import com.util.mail.*;
+import com.util.imageHandle.*;
 
 @MultipartConfig(fileSizeThreshold = 1024 * 1024, maxFileSize = 5 * 1024 * 1024, maxRequestSize = 5 * 5 * 1024 * 1024)
 public class MemServlet extends HttpServlet {
@@ -297,8 +298,12 @@ public class MemServlet extends HttpServlet {
 					in.read(memPic);
 					in.close();
 					System.out.println("buffer length: " + memPic.length);
+					/*對圖檔進行縮圖*/
+					memPic = ImageUtil.shrink(memPic, 100);
+					System.out.println("buffer length: " + memPic.length);
 				}
-				// byte[] memPic =
+				
+				
 				/* 將已填入內容包成VO */
 				MemVO memVO = new MemVO();
 				memVO.setMemNo(memNo);
