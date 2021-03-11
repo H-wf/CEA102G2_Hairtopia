@@ -9,7 +9,7 @@
  
 </head>
 <style>
-<%@include file="/front-end/tempFile/navBarCss.css" %>
+
 </style>
 <body>
 <%@include file="/front-end/tempFile/navBar" %>

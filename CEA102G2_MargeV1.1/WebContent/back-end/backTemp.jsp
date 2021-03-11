@@ -14,8 +14,9 @@
 
 <!-- Begin Page Content -->
 	<div class="container-fluid">
+	
 	</div>
-<!-- /.container-fluid -->
+<!-- Page Content END -->
                 
 <%@include file="/back-end/tempFile/footer" %>
 <%@include file="/back-end/tempFile/srcJs" %>

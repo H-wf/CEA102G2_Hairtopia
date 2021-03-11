@@ -5,129 +5,19 @@
 <head>
     <title>Hairtopia</title>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
-    <link rel="stylesheet" href="<%=request.getContextPath()%>/dist/css/open-iconic-bootstrap.min.css">
-    <link rel="stylesheet" href="<%=request.getContextPath()%>/dist/css/animate.css">
-    <link rel="stylesheet" href="<%=request.getContextPath()%>/dist/css/owl.carousel.min.css">
-    <link rel="stylesheet" href="<%=request.getContextPath()%>/dist/css/owl.theme.default.min.css">
-    <link rel="stylesheet" href="<%=request.getContextPath()%>/dist/css/magnific-popup.css">
-    <link rel="stylesheet" href="<%=request.getContextPath()%>/dist/css/aos.css">
-    <link rel="stylesheet" href="<%=request.getContextPath()%>/dist/css/bootstrap-datepicker.css">
-    <link rel="stylesheet" href="<%=request.getContextPath()%>/dist/css/jquery.timepicker.css">
-    <link rel="stylesheet" href="<%=request.getContextPath()%>/dist/css/style.css">
+	<%@include file="/front-end/tempFile/head" %>
 </head>
 <style>
-    .navbar-brand img{
-width: 250px;
-margin: 0;
-background-color: transparent
+.slick-prev:before, .slick-next:before{
+	color: #D8CF9E;
+	font-size: 25px;
 }
-.navbar-nav{
-margin-right: 1em;
-}
-.btn-login{
-height: 4em;
-display: flex;
-justify-content: center;
-align-items: center;
-margin: 0 1rem 0 0;
-}
-.ftco-navbar-light .navbar-nav > .nav-item > .nav-link {
-font-size: 0.86em;
-padding-top: 1rem;
-padding-bottom: 1rem;
-}
-    .carousel-caption {
-                top: 55%;
-            }
-    .offer-deal i::before{
-
-        vertical-align: baseline;
-        line-height: 0;
-        padding-top: 0;
-        padding-bottom: 0;
-    }
-    .offer-deal i{
-        font-size: 7em;
-        color: #d9bf77;
-    }
-
-
-	.img-profile {
-	    height: 3.5rem;
-	    width: 3.5rem;
-	}
-	
-	.rounded-circle {
-	    border-radius: 50%!important;
-	}
-	 .img-profile img {
-	    vertical-align: middle;
-	    border-style: none;
-	}
-	.dropdown-menu{
-		margin:0;
-	}
-	.dropdown.no-arrow .dropdown-toggle::after {
-	    display: none;
-	}
-	.dropdown-toggle::after{
-		display:none;
-	}
-	.profileBtn{
-		padding:0;
-	}
-
 </style>
 
 <body>
-    <!-- navBar -->
-    <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
-        <a class="navbar-brand justify-content-center" href="#">
-            <img src="<%=request.getContextPath()%>/dist/images/logo/HairtopiaLogo3.png" class="ml-4">
-        </a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="oi oi-menu"></span> Menu
-        </button>
-        <div class="collapse navbar-collapse justify-content-end" id="ftco-nav">
-            <ul class="navbar-nav">
-                <li class="nav-item active">
-                    <a class="nav-link" aria-current="page" href="#">首頁</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">搜尋</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">髮品商城</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">風格誌</a>
-                </li>
-                <!--  <div class="navbar-icon">
-                    <i class="bi bi-search"></i>
-                </div> -->
-                <li class="nav-item">
-                	<div class="dropdown">
-						  <button class="btn dropdown-toggle profileBtn" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-						    <img class="img-profile rounded-circle" src="<%=request.getContextPath()%>/dist/images/offer-deal-2.jpg">
-						  </button>
-						  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-						    <a class="dropdown-item" href="#">Action</a>
-						    <a class="dropdown-item" href="#">Another action</a>
-						    <a class="dropdown-item" href="#">Something else here</a>
-						  </div>
-						</div>
-                
-                
-                    </div>
-                </li>
-                <a href="#" class="btn btn-outline-primary btn-login">Login</a>
-            </ul>
-        </div>
-    </nav>
-    <!-- END nav -->
+<%@include file="/front-end/tempFile/navBar" %>
+<!-- Begin Page Content -->
+<div class="container-fluid px-0">
     <!--Carousel Wrapper-->
     <div id="video-carousel-example2" class="carousel slide carousel-fade js-fullheight " data-ride="carousel">
         <ol class="carousel-indicators">
@@ -240,40 +130,51 @@ padding-bottom: 1rem;
         </div>
     </section>
     <!-- end choose 3 -->
-    <div class="container">
-        <div class="row justify-content-around">
-            <div class="col-4 " style="width:18rem;">
+    <div class="container px-5">
+        <div class="row justify-content-between slidemove">
+	        <button type="button" data-role="none" class="slick-prev slick-arrow" aria-label="Previous" role="button" style="display: block;">
+<!-- 	        	<i class="bi bi-chevron-left"></i> -->
+	        </button>
+            <div class="col-2 ">
                 <div class="card">
                     <img src=" https://picsum.photos/400/500?random=1" class="card-img-top img-fluid ">
-                    <div class="item card-body">
-                        <h5 class="card-title">Card title</h5>
-                        <p class="card-text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Eos, iusto.</p>
-                        <a href="#" class="btn btn-outline-secondary">Go somewhere</a>
-                    </div>
                 </div>
             </div>
-            <div class="col-4 " style="width:18rem;">
+            <div class="col-2 ">
                 <div class="card">
                     <img src=" https://picsum.photos/400/500?random=1" class="card-img-top img-fluid ">
-                    <div class="item card-body">
-                        <h5 class="card-title">Card title</h5>
-                        <p class="card-text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Eos, iusto.</p>
-                        <a href="#" class="btn btn-outline-secondary">Go somewhere</a>
-                    </div>
                 </div>
             </div>
-            <div class="col-4 " style="width:18rem;">
+            <div class="col-2 ">
                 <div class="card">
                     <img src=" https://picsum.photos/400/500?random=1" class="card-img-top img-fluid ">
-                    <div class="item card-body">
-                        <h5 class="card-title">Card title</h5>
-                        <p class="card-text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Eos, iusto.</p>
-                        <a href="#" class="btn btn-outline-secondary">Go somewhere</a>
-                    </div>
+                </div>
+            </div>
+            <div class="col-2 ">
+                <div class="card">
+                    <img src=" https://picsum.photos/400/500?random=1" class="card-img-top img-fluid ">
+                </div>
+            </div>
+            <div class="col-2 ">
+                <div class="card">
+                    <img src=" https://picsum.photos/400/500?random=1" class="card-img-top img-fluid ">
+                </div>
+            </div>
+            <div class="col-2 ">
+                <div class="card">
+                    <img src=" https://picsum.photos/400/500?random=1" class="card-img-top img-fluid ">
+                </div>
+            </div>
+            <div class="col-2 ">
+                <div class="card">
+                    <img src=" https://picsum.photos/400/500?random=1" class="card-img-top img-fluid ">
                 </div>
             </div>
         </div>
     </div>
+	    <button type="button" data-role="none" class="slick-next slick-arrow" aria-label="Next" role="button" style="display: block;">
+<!-- 	    	<i class="bi bi-chevron-right "></i> -->
+	    </button>
     <!--  -->
     <!-- Hot post -->
     <section class="ftco-gallery ftco-section">
@@ -502,141 +403,18 @@ padding-bottom: 1rem;
             </div>
         </div>
     </section>
-    <footer class="ftco-footer ftco-section">
-        <div class="container">
-            <div class="row d-flex">
-                <div class="col-md">
-                    <div class="ftco-footer-widget mb-4">
-                        <h2 class="ftco-heading-2">Energen</h2>
-                        <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
-                        <ul class="ftco-footer-social list-unstyled float-lft mt-3">
-                            <li class="ftco-animate"><a href="#"><span class="icon-twitter"></span></a></li>
-                            <li class="ftco-animate"><a href="#"><span class="icon-facebook"></span></a></li>
-                            <li class="ftco-animate"><a href="#"><span class="icon-instagram"></span></a></li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="col-md">
-                    <div class="ftco-footer-widget mb-4 ml-md-4">
-                        <h2 class="ftco-heading-2">Popular Links</h2>
-                        <ul class="list-unstyled">
-                            <li><a href="#">Aromatheraphy</a></li>
-                            <li><a href="#">Skin Care</a></li>
-                            <li><a href="#">Herbal Spa</a></li>
-                            <li><a href="#">Body Massage</a></li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="col-md">
-                    <div class="ftco-footer-widget mb-4">
-                        <h2 class="ftco-heading-2">Quick Links</h2>
-                        <ul class="list-unstyled">
-                            <li><a href="#">About</a></li>
-                            <li><a href="#">Our Spa</a></li>
-                            <li><a href="#">Treatments</a></li>
-                            <li><a href="#">Specialists</a></li>
-                            <li><a href="#">Contact</a></li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="col-md">
-                    <div class="ftco-footer-widget mb-4">
-                        <h2 class="ftco-heading-2">Have a Questions?</h2>
-                        <div class="block-23 mb-3">
-                            <ul>
-                                <li><span class="icon icon-map-marker"></span><span class="text">203 Fake St. Mountain View, San Francisco, California, USA</span></li>
-                                <li><a href="#"><span class="icon icon-phone"></span><span class="text">+2 392 3929 210</span></a></li>
-                                <li><a href="#"><span class="icon icon-envelope"></span><span class="text">info@yourdomain.com</span></a></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-12 text-center">
-                    <p class="mb-0">
-                        <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                        Copyright &copy;<script>
-        document.write(new Date().getFullYear());
-                        </script> All rights reserved | This template is made with <i class="icon-heart" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
-                        <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                    </p>
-                </div>
-            </div>
-        </div>
-    </footer>
-    <!-- loader -->
-    
-     <!-- Login Modal -->
-    <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">登入</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    ...
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save changes</button>
-                </div>
-            </div>
-        </div>
     </div>
-    <!-- Login Modal END -->
-    <div id="ftco-loader" class="show fullscreen"><svg class="circular" width="48px" height="48px">
-            <circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee" />
-            <circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10" stroke="#F96D00" /></svg></div>
-    <script src="<%=request.getContextPath()%>/dist/js/jquery.min.js"></script>
-    <script src="<%=request.getContextPath()%>/dist/js/jquery-migrate-3.0.1.min.js"></script>
-    <script src="<%=request.getContextPath()%>/dist/js/jquery.easing.1.3.js"></script>
-    <script src="<%=request.getContextPath()%>/dist/js/jquery.waypoints.min.js"></script><!-- << -->
-    <script src="<%=request.getContextPath()%>/dist/js/jquery.stellar.min.js"></script>
-    <script src="<%=request.getContextPath()%>/dist/js/jquery.magnific-popup.min.js"></script>
-    <script src="<%=request.getContextPath()%>/dist/js/jquery.animateNumber.min.js"></script>
-    <script src="<%=request.getContextPath()%>/dist/js/jquery.timepicker.min.js"></script>
-    <script src="<%=request.getContextPath()%>/dist/js/bootstrap.min.js"></script>
-    <script src="<%=request.getContextPath()%>/dist/js/bootstrap-datepicker.js"></script>
-    <script src="<%=request.getContextPath()%>/dist/js/popper.min.js"></script>
-    <script src="<%=request.getContextPath()%>/dist/js/aos.js"></script>
-    <script src="<%=request.getContextPath()%>/dist/js/owl.carousel.min.js"></script><!-- << -->
-    <script src="<%=request.getContextPath()%>/dist/js/scrollax.min.js"></script>
-    <script src="<%=request.getContextPath()%>/dist/js/main.js"></script>
+<!-- Page Content END -->
+<%@include file="/front-end/tempFile/footer" %>
+<%@include file="/front-end/tempFile/tempJs" %>
 </body>
 <script>
-	$('#loginModal').on('shown.bs.modal', function() {
-	    $('#myInput').trigger('focus')
-	})
-	
-	$('.centerPost').slick({
-  centerMode: true,
-  centerPadding: '60px',
-  slidesToShow: 3,
-  responsive: [
-    {
-      breakpoint: 768,
-      settings: {
-        arrows: false,
-        centerMode: true,
-        centerPadding: '40px',
-        slidesToShow: 3
-      }
-    },
-    {
-      breakpoint: 480,
-      settings: {
-        arrows: false,
-        centerMode: true,
-        centerPadding: '40px',
-        slidesToShow: 1
-      }
-    }
-  ]
-});
+$('.slidemove').slick({
+	  slidesToShow: 5,
+	  slidesToScroll: 1,
+	  autoplay: true,
+	  autoplaySpeed: 2000,
+	});
 </script>
 
 </html>

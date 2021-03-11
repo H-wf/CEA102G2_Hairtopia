@@ -13,4 +13,4 @@
     <link rel="stylesheet" href="<%=request.getContextPath()%>/dist/css/style.css">
     <link rel="stylesheet" href="<%=request.getContextPath()%>/dist/slick/slick.css">
     <link rel="stylesheet" href="<%=request.getContextPath()%>/dist/slick/slick-theme.css">
-    <link rel="stylesheet" href="<%=request.getContextPath()%>/dist/slick/slick-theme.css">
+    <link rel="stylesheet" href="<%=request.getContextPath()%>/front-end/tempFile/navBarCss.css">
