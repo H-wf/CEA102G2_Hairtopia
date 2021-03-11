@@ -86,6 +86,7 @@
 		}		
 		.products{
 			padding:5px;
+			height:250px; /*???*/
 			padding-bottom: 50px;
   			position: relative;
 		}
@@ -113,6 +114,7 @@
 		.products:hover{
 			cursor: pointer;
 		}
+
 		.products img{
 			width: 100%;
 			height: 100%;
@@ -218,7 +220,7 @@
             <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 	品牌
             </button>
-            <div class="dropdown-menu">
+            <div class="dropdown-menu brand">
             	<c:forEach var="brandVO" items="${brandSvc.all}" >
 	                <a class="dropdown-item" href="##" value="${brandVO.braNo}">${brandVO.braName}</a>
                 </c:forEach> 
@@ -228,7 +230,7 @@
             <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 	類別
             </button>
-            <div class="dropdown-menu">
+            <div class="dropdown-menu ptype">
             	<c:forEach var="ptypeVO" items="${ptypeSvc.all}" >
 	                <a class="dropdown-item" href="##" value="${ptypeVO.ptypeNo}">${ptypeVO.ptypeName}</a>
                 </c:forEach>
@@ -238,7 +240,7 @@
             <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                	 金額
             </button>
-            <div class="dropdown-menu">
+            <div class="dropdown-menu price">
                 <a class="dropdown-item" href="##">100</a>
                 <a class="dropdown-item" href="##">100~500</a>
                 <a class="dropdown-item" href="##">500以上</a>
@@ -249,7 +251,7 @@
     <!-- searchBar -->
     <div class="container searchcontainer">
         <div class="row">
-            <div class="col-12">
+            <div class="col-12 limit">
                 篩選條件:&nbsp;
                 <div class="searchbar">
                     <span class="form-inline">
@@ -272,6 +274,7 @@
                     	${brandSvc.getOneBrand(productVO.braNo).braName}<br>
                     	${productVO.proName}<br>
                     	$${productVO.proPrice}
+                    	<input class="proNo" type="hidden" value="${productVO.proNo}" />
                     	<input class="ptypeName" type="hidden" value="${ptypeSvc.getOnePtype(productVO.ptypeNo).ptypeName}" />
 	            		<input class="braName" type="hidden" value="${brandSvc.getOneBrand(productVO.braNo).braName}" />
 	            		<input class="proName" type="hidden" value="${productVO.proName}" />
@@ -288,41 +291,144 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 	<script>
-        $(document).on("click", ".label-primary a", function() {
+
+		var myKey = [];
+		var myValue = [];
+        $(document).on("click", ".label-primary a",  function(){
+        	var index = $(this).parent(".label-primary").index();
+        	myKey.splice(index,1);
+        	myValue.splice(index,1);
+        	filter();
             $(this).parent(".label-primary").remove();
+            
         });
+        
+       
         $(document).on("click", ".btn-outline-success", function() {
             if ($(".form-control").val() !== "") {
-                var text = "<lable class='label-primary'>" + $(".form-control").val() + "&nbsp;<a><img src='"+$(".PageContext").val()+"/dist/images/x.png'></a></lable>";
-                console.log(text);
+                var text = "<lable class='label-primary search'>" + $(".form-control").val() + "&nbsp;<a><img src='"+$(".PageContext").val()+"/dist/images/x.png'></a></lable>";
                 $(".searchbar").before("\n" + text);
+                myKey.push("search");
+                myValue.push($(".form-control").val());
+                filter();
             }
-            select();
+       		
         });
-        $(document).on("click", ".dropdown-item", function() {
-            var text = "<lable class='label-primary'>" + $(this).text() + "&nbsp;<a><img src='"+$(".PageContext").val()+"/dist/images/x.png'></a></lable>";
+        $(".brand").on("click", ".dropdown-item", function() {
+//             var text = "<lable class='label-primary frombrand'>" + $(this).text() + "&nbsp;<a><img src='"+$(".PageContext").val()+"/dist/images/x.png'></a></lable>";
+//             $(".searchbar").before("\n" + text);
+           	 var str = $(this).text();
+           	 console.log(str);
+//             console.log(myValue);
+//             if(myKey.length==0){
+//             	myKey.push("brand");
+//                 myValue.push(str);
+//             }
+//             myKey.forEach(function(item,i){
+//             	if(item=="brand"){
+//             		myKey.splice(i,1,"brand");
+//             		myValue.splice(i,1,str);
+//             		console.log($(".label-primary").eq(i).text());
+//             		$(".label-primary").eq(i).text().replace(str);
+//             		console.log(myValue);
+//             	}else{
+//             		myKey.push("brand");
+//                     myValue.push(str);
+//             	}          	
+//             });
+			var i = myKey.indexOf("brand")
+			if(i==-1){
+				myKey.push("brand");
+             	myValue.push(str);
+             	var text = "<lable class='label-primary frombrand'>" + $(this).text() + "&nbsp;<a><img src='"+$(".PageContext").val()+"/dist/images/x.png'></a></lable>";
+                $(".searchbar").before("\n" + text);
+			}else{
+				console.log(i);
+				console.log("key="+myKey);
+        		console.log("value"+myValue);
+				myKey.splice(i,1,"brand");
+        		myValue.splice(i,1,str);
+        		console.log("key="+myKey);
+        		console.log("value"+myValue);
+//         		console.log($(".label-primary").eq(i).text());
+       	
+        		$(".label-primary").eq(i).innerText = $(this).text();
+			}
+          	filter();
+				
+        }); 
+        $(".ptype").on("click", ".dropdown-item", function() {
+            var text = "<lable class='label-primary fromptype'>" + $(this).text() + "&nbsp;<a><img src='"+$(".PageContext").val()+"/dist/images/x.png'></a></lable>";
             $(".searchbar").before("\n" + text);
-            select();
-        });
+            var str = $(this).text();
+            myKey.forEach(function(item,i){
+            	if(item=="ptype"){
+            		myKey.splice(i,1,"ptype");
+            		myValue.splice(i,1,str);            		                             
+            	}else{
+            		myKey.push("ptype");
+                    myValue.push(str);
+            	}          	
+            });
 
+           	filter();
+           		
+        });
+        $(".price").on("click", ".dropdown-item", function() {
+            var text = "<lable class='label-primary fromprice'>" + $(this).text() + "&nbsp;<a><img src='"+$(".PageContext").val()+"/dist/images/x.png'></a></lable>";
+            $(".searchbar").before("\n" + text);
+            
+        });
+        
+
+        function filter(){
+        	if(myKey.length==0){
+        		$(".products").each(function(){        			
+       				$(this).css("display","inline-block");       				
+       			});       				
+        	}
+        	for(let i=0;i<myKey.length;i++){
+
+	        	if(myKey[i]=="brand"){
+	        		$(".products").each(function(){
+	        			if($(this).find(".braName").val()!=myValue[i]){
+	       					$(this).css("display","none");
+	       				}else{
+	       					$(this).css("display","inline-block");
+	       				}
+	       			});       				
+	        	}        		
+	        	if(myKey[i]=="ptype"){
+	       			$(".products").each(function(){
+	       				if($(this).find(".ptypeName").val()!=myValue[i]){
+	       					$(this).css("display","none");
+	       				}else{
+	       					$(this).css("display","inline-block");
+	       				}
+	       			});       				
+	       		}
+	        	if(myKey[i]=="search"){
+	        		console.log(myValue[i]);
+	       			$(".products").each(function(){
+	       				var ptypName =$(this).find(".ptypeName").val();
+	       				var braName =$(this).find(".braName").val();
+	       				var proName =$(this).find(".proName").val();
+	       				var proPrice = $(this).find(".proPrice").val();        			
+	       				if(myValue[i]!=ptypName&&braName&&proName&&proPrice){
+	       					$(this).css("display","none");
+	       				}else{
+	       					$(this).css("display","inline-block");
+	       				}
+        			});       				
+	        	}
+        	}
+       	
+       }
     </script>
     <script>
-
-    function select(){
-    	var label = $(".label-primary:last").text()
-    	console.log(label);
-    	$(".mask:first").remove();
-	    for(i=0;i<$(".ptypeName").length;i++){
-	    	var ptypeName = $(".ptypeName").eq(i).val()
-	    	console.log(ptypeName);
-	    	if(true){
-	    		console.log("hi");
-	    		console.log("true");
-	    		$(".mask").remove();
-	 			i++;
-	    	}
-	    }
-    }
+    	
+   		
+   		
 
     </script>
 </body>
