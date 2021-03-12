@@ -7,15 +7,19 @@
 %>
 
 
-<html>
+<html lang="en">
+
 <head>
-
-<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-<title>品牌資料新增 - addBrand.jsp</title>
-
+    <title>品牌資料新增 - addBrand.jsp</title>
+    <meta charset="utf-8">
+<%@include file="/back-end/tempFile/head" %>
 </head>
-<body bgcolor='white'>
 
+
+<body id="page-top">
+<%@include file="/back-end/tempFile/navBar_sideBar" %>
+<!-- Begin Page Content -->
+<div class="container-fluid">
 	<table id="table-1">
 		<tr>
 			<td>
@@ -69,6 +73,10 @@
 		<input type="submit" value="新增">
 		
 	</form>
-
+</div>
+<!-- Page Content END -->
+                
+<%@include file="/back-end/tempFile/footer" %>
+<%@include file="/back-end/tempFile/srcJs" %>
 </body>
 </html>

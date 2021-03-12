@@ -38,7 +38,7 @@ public class StaffServlet extends HttpServlet {
 		req.setCharacterEncoding("UTF-8");
 		String action = req.getParameter("action");
 		
-
+		System.out.println("login");
 		if ("getOne_For_Display".equals(action)) { // 來自select_lec_page.jsp的請求
 
 			List<String> errorMsgs = new LinkedList<String>();
@@ -304,7 +304,7 @@ public class StaffServlet extends HttpServlet {
 		}
 
 		if ("login".equals(action)) {
-
+			
 			List<String> errorMsgs = new LinkedList<String>();
 			req.setAttribute("errorMsgs", errorMsgs);
 			/*************************** 1.接收請求參數 - 輸入格式的錯誤處理 **********************/

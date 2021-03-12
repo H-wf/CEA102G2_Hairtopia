@@ -1,14 +1,23 @@
-<%@ page language="java" contentType="text/html; charset=BIG5" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
-<title>Hairtopia EShop</title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+<!-- 網頁標題要改記得改! -->
+ <title>Hairtopia</title>
+ <meta charset="utf-8">
+<%@include file="/front-end/tempFile/head" %>
+ 
+</head>
 	<style>
-.cart {
+		.ftco-navbar-light{
+			position:static;
+		}
+ 		.clean{
+ 			clear:float;
+ 		}
+		.cart {
+			
             margin-right: 0;
             text-align: right;
         }
@@ -39,7 +48,7 @@
 			box-shadow: 0 0 0 0 !important;
 		}
 		.btn-danger:not(:disabled):not(.disabled).active, .btn-danger:not(:disabled):not(.disabled):active, .show>.btn-danger.dropdown-toggle{
-			color: grey;
+ 			color: grey;
 			background-color: #FFFFFF;
 			border-color: #FFFFFF;
 		}
@@ -51,7 +60,7 @@
         	
         }     
       	.btn-danger{
-      		color: grey;
+     		color: grey;
         	background-color: #FFFFFF;
         	border-color: #FFFFFF;
         	padding-bottom: 0;
@@ -63,7 +72,7 @@
       	}
         .btn-danger:hover{
         	cursor: default !important;
-			color: grey;
+ 			color: grey;
 			background-color: #FFFFFF;
 			border-color: #FFFFFF;
 			text-decoration:underline;
@@ -78,7 +87,8 @@
 			display: block;
 		}
 		.dropdown-item:focus{
-			background-color: grey;
+/*  		background-color: grey; */
+			background-color:#BDB58C;
 		}
 		.procontainer{
 			width: 80%;
@@ -86,7 +96,7 @@
 		}		
 		.products{
 			padding:5px;
-			height:250px; /*???*/
+ 			height:250px; /*???*/ 
 			padding-bottom: 50px;
   			position: relative;
 		}
@@ -130,7 +140,8 @@
 		.label-primary{
 			margin: 0px 0px 4px 0.1px;
 			display: inline-block;
-			background-color: #5B5B5B;
+/*  		background-color: #5B5B5B; */
+			background-color:#BDB58C;
 			color: #fff;
 			border-radius: .25em;
 			padding: 4px 6px 2px 4px;
@@ -154,28 +165,35 @@
 			display: inline-block;
 			float: right;
 		}
+		.form-control{
+			height:36px !important;
+			font-size:16px;
+		}
 		.form-control:focus{
-			border-color: #5B5B5B;
-			box-shadow: 0 0 0 0.2rem rgb(92 92 92 / 25%) !important;
+			border-color: #D8CF9E;
+			box-shadow: 0 0 0 0.1rem rgb(216 207 157 / 25%) !important;
 		}
 		.btn-outline-success{
-			color: #5B5B5B;
-			border-color: #5B5B5B;
+			color: #D8CF9E;
+			border-color: #D8CF9E;
 		}
 		.btn-outline-success:hover{
-			background-color: #5B5B5B;
-			border-color: #5B5B5B;
+			background-color:#D8CF9E;
+			border-color: #D8CF9E;
 		}
 		.btn-outline-success.focus, .btn-outline-success:focus {
 			box-shadow: 0 0 0 0 !important;
 		}
 		.btn-outline-success:not(:disabled):not(.disabled).active, .btn-outline-success:not(:disabled):not(.disabled):active, .show>.btn-outline-success.dropdown-toggle{
-			    border-color: #5B5B5B;
-			    background-color: #5B5B5B;
+			border-color: #D8CF9E;
+			background-color:#D8CF9E;
 		}
     </style>
 </head>
 <body>
+<%@include file="/front-end/tempFile/navBar" %>
+<div class="clean"></div>
+<div class="container-fluid">
 	<jsp:useBean id="productSvc" scope="page" class="com.product.model.ProductService"/>
 	<jsp:useBean id="ptypeSvc" scope="page" class="com.ptype.model.PtypeService"/>
 	<jsp:useBean id="brandSvc" scope="page" class="com.brand.model.BrandService"/>
@@ -269,6 +287,7 @@
         	<c:forEach var="productVO" items="${productSvc.all}"> 
 	            <div class="col-12 col-sm-6 col-md-3 products">
 	                <img src="<%=request.getContextPath()%>/PicFinder?pic=1&table=product&column=proMpic&idname=proNo&id=${productVO.proNo}">
+	                <a href="<%=request.getContextPath()%>/product/product.do?action=getOne_For_Display&from=front-end&proNo=${productVO.proNo}">
 	                <span class="mask">
                     	${ptypeSvc.getOnePtype(productVO.ptypeNo).ptypeName}<br>
                     	${brandSvc.getOneBrand(productVO.braNo).braName}<br>
@@ -280,16 +299,18 @@
 	            		<input class="proName" type="hidden" value="${productVO.proName}" />
 	            		<input class="proPrice" type="hidden" value="${productVO.proPrice}" />
                		</span>
+               		</a>
 	                <p>${productVO.proName}</p>
 	            </div>
             </c:forEach> 
         </div>
     </div>
     <!-- display products End-->
+   
+</div>
     <input class="PageContext" type="hidden" value="<%=request.getContextPath()%>" />
-	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+<%@include file="/front-end/tempFile/footer" %>
+<%@include file="/front-end/tempFile/tempJs" %>
 	<script>
 
 		var myKey = [];
@@ -315,62 +336,34 @@
        		
         });
         $(".brand").on("click", ".dropdown-item", function() {
-//             var text = "<lable class='label-primary frombrand'>" + $(this).text() + "&nbsp;<a><img src='"+$(".PageContext").val()+"/dist/images/x.png'></a></lable>";
-//             $(".searchbar").before("\n" + text);
-           	 var str = $(this).text();
-           	 console.log(str);
-//             console.log(myValue);
-//             if(myKey.length==0){
-//             	myKey.push("brand");
-//                 myValue.push(str);
-//             }
-//             myKey.forEach(function(item,i){
-//             	if(item=="brand"){
-//             		myKey.splice(i,1,"brand");
-//             		myValue.splice(i,1,str);
-//             		console.log($(".label-primary").eq(i).text());
-//             		$(".label-primary").eq(i).text().replace(str);
-//             		console.log(myValue);
-//             	}else{
-//             		myKey.push("brand");
-//                     myValue.push(str);
-//             	}          	
-//             });
+            var text = "<lable class='label-primary'>" + $(this).text() + "&nbsp;<a><img src='"+$(".PageContext").val()+"/dist/images/x.png'></a></lable>";
+            var str = $(this).text();
 			var i = myKey.indexOf("brand")
 			if(i==-1){
 				myKey.push("brand");
              	myValue.push(str);
-             	var text = "<lable class='label-primary frombrand'>" + $(this).text() + "&nbsp;<a><img src='"+$(".PageContext").val()+"/dist/images/x.png'></a></lable>";
                 $(".searchbar").before("\n" + text);
-			}else{
-				console.log(i);
-				console.log("key="+myKey);
-        		console.log("value"+myValue);
+			}else{		
 				myKey.splice(i,1,"brand");
-        		myValue.splice(i,1,str);
-        		console.log("key="+myKey);
-        		console.log("value"+myValue);
-//         		console.log($(".label-primary").eq(i).text());
-       	
-        		$(".label-primary").eq(i).innerText = $(this).text();
+        		myValue.splice(i,1,str);      		
+        		$(".label-primary").eq(i).html($(this).text() + "&nbsp;<a><img src='"+$(".PageContext").val()+"/dist/images/x.png'></a>");        		
 			}
           	filter();
 				
         }); 
         $(".ptype").on("click", ".dropdown-item", function() {
-            var text = "<lable class='label-primary fromptype'>" + $(this).text() + "&nbsp;<a><img src='"+$(".PageContext").val()+"/dist/images/x.png'></a></lable>";
-            $(".searchbar").before("\n" + text);
+        	var text = "<lable class='label-primary'>" + $(this).text() + "&nbsp;<a><img src='"+$(".PageContext").val()+"/dist/images/x.png'></a></lable>";
             var str = $(this).text();
-            myKey.forEach(function(item,i){
-            	if(item=="ptype"){
-            		myKey.splice(i,1,"ptype");
-            		myValue.splice(i,1,str);            		                             
-            	}else{
-            		myKey.push("ptype");
-                    myValue.push(str);
-            	}          	
-            });
-
+			var i = myKey.indexOf("ptype")
+			if(i==-1){
+				myKey.push("ptype");
+             	myValue.push(str);
+                $(".searchbar").before("\n" + text);
+			}else{		
+				myKey.splice(i,1,"ptype");
+        		myValue.splice(i,1,str);      		
+        		$(".label-primary").eq(i).html($(this).text() + "&nbsp;<a><img src='"+$(".PageContext").val()+"/dist/images/x.png'></a>");        		
+			}
            	filter();
            		
         });
@@ -424,6 +417,7 @@
         	}
        	
        }
+        
     </script>
     <script>
     	
