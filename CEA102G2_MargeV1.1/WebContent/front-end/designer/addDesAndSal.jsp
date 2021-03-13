@@ -259,6 +259,7 @@ var contextPath = "<%=request.getContextPath()%>";
 						},
 						dataType : "json",
 						success : function(data) {
+					
 						response($.map(data, function(item) {
 								return {
 									value : item.salName
