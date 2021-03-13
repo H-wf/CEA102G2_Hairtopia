@@ -103,7 +103,7 @@ padding:5px;
 
 
 <form METHOD="post" id="location-form"	ACTION="<%=request.getContextPath()%>/salon/salon.do" name="form1"
-		enctype="multipart/form-data" id="form1" role="form">
+		enctype="multipart/form-data" role="form">
 		<div class="card card-body">
 		<div class="form-group">
 			 髮廊名稱:
@@ -203,7 +203,7 @@ padding:5px;
 			
 		</div>
 		<div class="form-group ScheduleTime">
-		<label for="customFile" class="btn btn-primary btn-block">上傳設計師</label>
+		<label for="customFile" class="btn btn-primary btn-block">上傳照片</label>
 		<input type="file" name="desPic"  id="customFile"  class="form-control" style="display:none">
 		<div id="preview">	</div>
 		</div>
@@ -314,9 +314,9 @@ var contextPath = "<%=request.getContextPath()%>";
 				}else{
 				geocode()	
 				scheduleSum()
+				  
 				
-				
-				
+				 
 				} 
 				
 				 

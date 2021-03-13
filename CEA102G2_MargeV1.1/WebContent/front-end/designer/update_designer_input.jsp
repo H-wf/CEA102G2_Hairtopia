@@ -5,71 +5,99 @@
 
 <%
   DesignerVO designerVO = (DesignerVO) request.getAttribute("designerVO"); 
-  String weekArray[] = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"}; 
+  String weekArray[] = {"Sun.", "Mon.", "Tues.", "Wed.", "Thur.", "Fri.", "Sat."}; 
   pageContext.setAttribute("weekArray",weekArray);
 %>
 
 <html>
 <head>
-<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
-<title>設計師資料修改 - update_salon_input.jsp</title>
-<script src="<%=request.getContextPath()%>/resource/ckeditor/ckeditor.js"></script>
-<script type="text/javascript">
-	window.onload=function () {
+<title>Hairtopia</title>
+<meta charset="utf-8">
+<%@include file="/front-end/tempFile/head" %>
+<style>
+.ftco-navbar-light{
+  position:static;
+ }
+ 
+ #picDes{
+ width:200px;
+ }
+ 
+ .prviewImg{
+width: 200px;
+}
 
-		CKEDITOR.replace('desInfor');
-		
-	}
-	
-</script>
+.ScheduleTime{
+margin-top:10px;
+}
+.Weekday{
+padding:5px;
+}
+
+
+ </style>
 
 </head>
 <body>
+<%@include file="/front-end/tempFile/navBar" %>
+<div class="container-fluid">
 
-<h3>設計師資料修改:</h3>
+
+
+
+<div class="row">
 
 <%-- 錯誤表列 --%>
-<c:if test="${not empty errorMsgs}">
-	<font style="color:red">請修正以下錯誤:</font>
-	<ul>
-		<c:forEach var="message" items="${errorMsgs}">
-			<li style="color:red">${message}</li>
-		</c:forEach>
-	</ul>
-</c:if>
-
-<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/designer/designer.do" name="form1"
-
-enctype="multipart/form-data">
-<table>
-	<tr>
-		<th>設計師編號</th>
-		<td><%= designerVO.getDesNo()%></td>
-	</tr>
-	<tr>
-		<td>沙龍編號</td>
-		<td><input type="TEXT" name="salNo" size="45" 
-			 value="<%= (designerVO==null)? "" : designerVO.getSalNo()%>" /></td>
-	</tr>
-	<tr>
-		<td>設計師名字</td>
-		<td><input type="TEXT" name="desName" size="45" 
-			 value="<%= (designerVO==null)? "" : designerVO.getDesName()%>" /></td>
-	</tr>
+	<div class="col-md-3">
+	<c:if test="${not empty errorMsgs}">
+		<font style="color:red">請修正以下錯誤:</font>
+		<ul>
+			<c:forEach var="message" items="${errorMsgs}">
+				<li style="color:red">${message}</li>
+			</c:forEach>
+		</ul>
+	</c:if>
+	</div>
+	<div class="col-md-6">
+			<h3>設計師資料修改:</h3>
+			<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/designer/designer.do" name="form1"
+				enctype="multipart/form-data">
+		<div class="card card-body">
+	
+		
+		<div class="form-group">
+		<label for="picDes">設計師照片</label>
+		<div id="preview">	
+		<img id="picDes" src="<%=request.getContextPath()%>/PicFinder?pic=1&table=Designer&column=desPic&idname=desNo&id=${designerVO.desNo}" 
+		alt='沒有圖片' />
+		</div>
+		
+		</div>
+	
+		
+		<div class="form-group">
+			<label for="desName">設計師名字</label>
+		<input type="TEXT" name="desName" id="desName"  class="form-control" value="${empty designerVO ? ' ' :designerVO.desName}" />
+		</div>
 	
 	
 	
 	
-		<td>營業時間</td>
-		<td>
-			<table>
-			<c:forEach begin="0" end="6" varStatus="s">
-			<tr>
+		<div class="form-group">
+		<label for="desSchedule">營業時間</label>
+		</div>
+		<div class="container-fluid ScheduleTime">
+		<div class="row">
 			
-			<td>${weekArray[s.index]}</td>
-			<td>
+			<c:forEach begin="0" end="6" varStatus="s">
+			
+			<div class="col-2 ScheduleTime Weekday">
+			
+			${weekArray[s.index]}
+			</div>
+			<div class="col-4 ScheduleTime">
 					<c:set var="x" value="${designerVO.desSchedule}"/>
-				    <select class="time">
+				    <select class="custom-select custom-control-inline time">
 					<c:forEach var="whatTime" begin="0" end="47" >
 					<fmt:formatNumber type="number" value="${((whatTime*30 -(whatTime*30%60)))/60}"  var="hour"/>
 					<c:set var="select" value="${s.index *4}"/>
@@ -80,8 +108,11 @@ enctype="multipart/form-data">
 					</c:forEach>
 				
 				</select>
-					~
-				<select class="time">
+			</div>
+			<div  class="col-1 ScheduleTime">~</div>
+					
+			<div class="col-4 ScheduleTime">
+				<select class="custom-select custom-control-inline time">
 					<c:forEach var="whatTime" begin="0" end="47">
 					<fmt:formatNumber type="number" value="${((whatTime*30 -(whatTime*30%60)))/60}"  var="hour"/>
 					<c:if test="${whatTime%6 ==0 && whatTime/6 != 7}">
@@ -95,33 +126,40 @@ enctype="multipart/form-data">
 					</c:forEach>
 					
 				</select>
-				
-			</td>
-			
-			</tr>
+			</div>
 		</c:forEach>
-			</table>
-		</td>
-	
-	<tr>
-		<td>設計師照片:</td>
-		<td><input type="file" name="desPic"></td>
-	</tr>
-	<tr>
-		<td>設計師簡介:</td>
-		<%-- <td><input type="TEXT" name="desInfor"  size="45" 
-			 value="<%= (designerVO==null)? "" : designerVO.getDesInfor()%>" /></td>
-		 <td>講師簡介</td> --%>
-		 <td><textarea id='desInfor' row="10" cols="48" name="desInfor"
-						size="45" ><%=(designerVO == null) ? "" : designerVO.getDesInfor()%></textarea>
-		</td>
-	</tr>
-</table>
+			
+			
+		</div>
+		<div class="form-group ScheduleTime">
+		<label for="desInfor">設計師簡介</label>
+		<textarea id='desInfor' row="10" cols="48" name="desInfor"  class="form-control"  rows ="10"
+						size="45" >${empty designerVO ? ' ' :designerVO.desInfor}</textarea>
+			
+		</div>
+		<div class="form-group ScheduleTime">
+		<label for="customFile" class="btn btn-primary btn-block">上傳照片</label>
+		<input type="file" name="desPic"  id="customFile"  class="form-control" style="display:none">
+		<div id="preview">	</div>
+		</div>
 <br>
 <input type="hidden" name="action" value="update">
-<input type="hidden" name="desNo" value="<%=designerVO.getDesNo()%>">
+<input type="hidden" name="salNo" size="45" value="${designerVO.salNo}">
+<input type="hidden" name="desNo" value="${designerVO.desNo}">
 <input type="hidden" name="desSchedule" id="desSchedule" value="1">
-<input type="submit" value="送出修改"></FORM>
+<input type="submit" value="送出修改" class="btn btn-primary btn-block"></FORM>
+
+</div>
+</div>
+
+</div>
+
+</div>
+
+
+
+<%@include file="/front-end/tempFile/footer" %>
+<%@include file="/front-end/tempFile/tempJs" %>
 </body>
 
 <script type="text/javascript">
@@ -157,7 +195,7 @@ enctype="multipart/form-data">
 		for(let i = 0;i <time.length; i++){
 			let whichTime = time[i];
 			index = whichTime.selectedIndex;
-// 			let selectedValue = whichTime.options[index].value;
+
 			if(index < 10){
 				index = index.toString();
 				str += ("0"+ index);
@@ -170,6 +208,49 @@ enctype="multipart/form-data">
 		
 		form.submit();
 	}
+	
+	var customFile = document.getElementById("customFile");
+	var preview = document.getElementById('preview');
+	
+	customFile.addEventListener('change', function(e) {
+        // 取得檔案物件的兩種方式
+        // 1. 直接從myFile物件上取得檔案物件 (因為非同步，一樣，多個classname註冊時會有問題)
+        // 2. 從event物件中取得他的soure target，也就是myFile物件，再取得檔案物件 
+        // 檔案的基本資訊，包括：檔案的名稱、大小與文件型態
+        let files = e.target.files;
+        // 判斷files物件是否存在
+        if (files) {
+            // 取出files物件的第一個
+            let file = files[0];
+            // 判斷file.type的型別是否包含'image'
+            if (file.type.indexOf('image') > -1) {
+            	
+
+
+                // new a FileReader
+                let reader = new FileReader();
+                // 在FileReader物件上註冊load事件 - 載入檔案的意思
+                reader.addEventListener('load', function(e) {
+                    // 取得結果 提示：從e.target.result取得讀取到結果
+                    let result = e.target.result;
+                    console.log(result);
+                    // 新增img元素
+                    let img = document.createElement('img');
+                    // 賦予src屬性
+                    img.setAttribute('src', result);
+                    img.classList.add("prviewImg");
+                    // 放到div裡面
+                    preview.innerHTML = "";
+                    preview.append(img);
+                });
+                // 使用FileReader物件上的 readAsDataURL(file) 的方法，傳入要讀取的檔案，並開始進行讀取
+                reader.readAsDataURL(file); // *** trigger read file content
+            } else {
+                // 彈出警告視窗 
+                 alert('請上傳圖片！');
+            }
+        }
+    });
 
 
 </script>
