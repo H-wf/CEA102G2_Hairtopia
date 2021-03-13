@@ -62,6 +62,7 @@ public class DesignerDAO implements DesignerDAO_interface{
 		//用於設計師前台申請後，後台人員用來驗證資訊與檢舉後停權處理
 		private static final String UPDATE_DES_STATUS = 
 			"UPDATE designer set desEndDate=?, desStatus=? where desNo=?";
+		private static final String GET_DES_NAME =	"SELECT desName from designer where desName like ?;";
 	
 	public void insert(DesignerVO designerVO) {
 		
@@ -458,4 +459,59 @@ public class DesignerDAO implements DesignerDAO_interface{
 		return designerVO;
 	}
 
+	@Override
+	public List<String> getNameByAJAX(String keyword) {
+		
+		List<String> ajaxList = new ArrayList<String>();
+		String desName = null;
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+	
+
+		try {
+
+			con = ds.getConnection();
+			pstmt = con.prepareStatement(GET_DES_NAME);
+			pstmt.setString(1,"%" + keyword + "%");
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				// salonVO 也稱為 Domain objects
+			
+				desName = rs.getString("desName");
+				ajaxList.add(desName); // Store the row in the list
+			}
+
+			// Handle any driver errors
+		} catch (SQLException se) {
+			throw new RuntimeException("A database error occured In method named 'getNameByAJAX'. "
+					+ se.getMessage());
+			// Clean up JDBC resources
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
+		
+		return ajaxList;
+	}
 }

@@ -9,6 +9,7 @@ public interface TagDAO_Interface {
     public String findByTagNo(Integer tagNo);
     public Integer findByTagName(String tagName);
     public List<TagVO> getAll();
+    public List<String> getTagAJAX(String keyword);
     //萬用複合查詢(傳入參數型態Map)(回傳 List)
 //  public List<EmpVO> getAll(Map<String, String[]> map);
 }

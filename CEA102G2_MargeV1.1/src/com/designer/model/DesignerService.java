@@ -92,6 +92,10 @@ public class DesignerService {
 		return dao.getAll();
 	}
 	
+	public List<String> getNameAJAX(String keyword){
+		return dao.getNameByAJAX(keyword);
+	}
+	
 	
 
 }

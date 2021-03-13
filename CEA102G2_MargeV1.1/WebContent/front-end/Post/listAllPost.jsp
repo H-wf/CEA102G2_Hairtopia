@@ -21,7 +21,7 @@
     <link rel="stylesheet" href="<%=request.getContextPath()%>/dist/css/bootstrap-datepicker.css">
     <link rel="stylesheet" href="<%=request.getContextPath()%>/dist/css/jquery.timepicker.css">
     <link rel="stylesheet" href="<%=request.getContextPath()%>/dist/css/style.css">
-    <link rel="stylesheet" href="<%=request.getContextPath()%>/dist/tagify/tagify.css">
+    <link rel="stylesheet" href="<%=request.getContextPath()%>/resource/tagify/dist/tagify.css">
     <script src="<%=request.getContextPath()%>/dist/js/jquery-3.2.1.min.js"></script>
 	<script src="<%=request.getContextPath()%>/dist/js/jquery-migrate-3.0.1.min.js"></script>
 	<script src="<%=request.getContextPath()%>/dist/js/jquery.easing.1.3.js"></script>
@@ -139,7 +139,7 @@ padding-bottom: 1rem;
 		position:absolute;
 		top:3%;
 		left:93%;
-		z-index: 9999999;
+		z-index: 999;
 		border:none;
 		background-color: transparent;
 		font-size:16px;
@@ -147,6 +147,7 @@ padding-bottom: 1rem;
 </style>
 
 <body>
+<jsp:include page="/front-end/chat/chatBox.jsp"></jsp:include>
  <!-- navBar -->
     <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
         <a class="navbar-brand justify-content-center" href="#">
@@ -252,7 +253,7 @@ padding-bottom: 1rem;
 		                    </button>
 		                </div>
 		                <div class="modal-body">
-		                    ...
+		                 <jsp:include page="/front-end/member/login.jsp"></jsp:include>
 		                </div>
 		                <div class="modal-footer">
 		                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -268,7 +269,7 @@ padding-bottom: 1rem;
 	<script src="<%=request.getContextPath()%>/dist/js/owl.carousel.min.js"></script><!-- << -->
 	<script src="<%=request.getContextPath()%>/dist/js/scrollax.min.js"></script>
 	<script src="<%=request.getContextPath()%>/dist/js/main.js"></script>
-	<script src="<%=request.getContextPath()%>/dist/tagify/jQuery.tagify.min.js"></script>
+	<script src="<%=request.getContextPath()%>/resource/tagify/dist/jQuery.tagify.min.js"></script>
 </body>
 <script>
 		$('#loginModal').on('shown.bs.modal', function() {

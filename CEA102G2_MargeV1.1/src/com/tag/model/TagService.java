@@ -49,4 +49,8 @@ public class TagService {
 		dao.delete(tagNo);
 	}
 	
+	public List<String> getTagAJAX(String keyword){
+		return dao.getTagAJAX(keyword);
+	}
+	
 }

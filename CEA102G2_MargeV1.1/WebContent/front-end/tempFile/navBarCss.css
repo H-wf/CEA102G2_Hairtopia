@@ -52,6 +52,36 @@
 	    display: none;
 	}
 	
+#navbar-search{
+    font-size: 2em;
+}
+#navbar-search:hover{
+    color: #333333;
+}
+
+#navbar-search:active{
+    color:#a6a6a6;
+}
+.bi-search::before {
+    vertical-align: -.125em;
+}
+.bi-search::before{
+	vertical-align:-0.125em;
+}
+.search_3 label.btn{
+	margin: 0 50px 20px;
+}
+.btn-outline-primary:not(:disabled):not(.disabled).active{
+	background:#d9bf77;
+	border: 1px solid #d9bf77; 
+	color: #fff;
+}
+.form-control{
+	background: transparent !important;
+	color: #fff !important;
+	border: 1px solid #d9bf77 !important;
+}
+	
 /* 	navBarCSS END */
 
 /* footerCSS */

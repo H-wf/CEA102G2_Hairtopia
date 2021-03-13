@@ -3,6 +3,7 @@ package com.designer.controller;
 import java.io.IOException;
 
 import java.io.InputStream;
+import java.io.PrintWriter;
 import java.sql.Date;
 import java.util.LinkedList;
 import java.util.List;
@@ -16,6 +17,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
 
+import com.google.gson.Gson;
+
 import com.designer.model.*;
 import com.salon.model.*;
 import com.member.model.*;
@@ -23,7 +26,8 @@ import com.member.model.*;
 @MultipartConfig
 
 public class DesignerServlet extends HttpServlet {
-
+	
+	Gson gson = new Gson();
 	public void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 		doPost(req, res);
 	}
@@ -481,6 +485,35 @@ session.setAttribute("memVO", memVO);
 				failureView.forward(req, res);
 			}
 		}
+		
+		if ("serchByAjax".equals(action)) { // 來自listAllEmp.jsp
+
+System.out.println("收到AJAX");
+
+			
+			/***************************1.接收請求參數***************************************/
+			String keyWord = (req.getParameter("keyWord"));
+System.out.println("關鍵字為"+ keyWord);
+			/***************************2.開始刪除資料***************************************/
+			DesignerService desSvc = new DesignerService();
+			List<String> ajaxList= desSvc.getNameAJAX(keyWord);
+	
+			String jsonStr = gson.toJson(ajaxList);
+for(String s:ajaxList){
+	
+	System.out.println("回傳值為"+s);
+}
+			res.setContentType("text/plain");
+			res.setCharacterEncoding("UTF-8");
+			PrintWriter out = res.getWriter();
+			out.print(jsonStr);
+			out.flush();
+			out.close();
+			return;
+
+			
+		
+	}
 
 	}
 

@@ -1,6 +1,7 @@
 package com.tag.controller;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -11,10 +12,14 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.google.gson.Gson;
+
+import com.designer.model.DesignerService;
 import com.tag.model.TagService;
 import com.tag.model.TagVO;
 
 public class TagServlet extends HttpServlet {
+	Gson gson = new Gson();
 	public void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 		doPost(req,res);
 	}
@@ -85,6 +90,32 @@ public class TagServlet extends HttpServlet {
 			RequestDispatcher successView = req.getRequestDispatcher(url);
 			successView.forward(req, res);
 		}
+		
+		if ("serchByAjax".equals(action)) { // 來自listAllEmp.jsp
+
+
+						
+						/***************************1.接收請求參數***************************************/
+						String keyWord = (req.getParameter("keyWord"));
+						/***************************2.開始查資料***************************************/
+						TagService tagSvc = new TagService();
+						List<String> ajaxList= tagSvc.getTagAJAX(keyWord);
+				
+						String jsonStr = gson.toJson(ajaxList);
+			for(String s:ajaxList){
+				
+			}
+						res.setContentType("text/plain");
+						res.setCharacterEncoding("UTF-8");
+						PrintWriter out = res.getWriter();
+						out.print(jsonStr);
+						out.flush();
+						out.close();
+						return;
+
+						
+					
+				}
 	}
 
 }

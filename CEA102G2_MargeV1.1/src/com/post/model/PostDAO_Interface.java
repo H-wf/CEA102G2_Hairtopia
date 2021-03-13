@@ -16,4 +16,5 @@ public interface PostDAO_Interface {
 	public void update2(PostVO postVo);	//修改兩張照片
 	public void update3(PostVO postVo);	//修改三張照片
 	public void update4(PostVO postVo);// for 檢舉隱藏貼文
+//	public List<PostVO> getAllByAJAX(String keyword); 
 }
