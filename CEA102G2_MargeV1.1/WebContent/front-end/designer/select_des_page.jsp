@@ -42,7 +42,21 @@ h4 {
 		</ul>
 	</c:if>
 	
+	<jsp:useBean id="desSvc" scope="page"
+			class="com.designer.model.DesignerService" />
 
+
+		<li>
+			<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/designer/designer.do">
+				<b>選擇設計師編號:</b> <select size="1" name="desNo">
+					<c:forEach var="desVO" items="${desSvc.all}">
+						<option value="${desVO.desNo}">${desVO.desNo}
+					</c:forEach>
+				</select> <input type="hidden" name="action" value="getOne_For_Display">
+				<input type="submit" value="送出">
+			</FORM>
+		</li>
+	
 		
 
 	<h3>設計師管理</h3>
@@ -50,7 +64,7 @@ h4 {
 	<ul>
 		<li><a href='<%=request.getContextPath()%>/front-end/designer/addDesigner.jsp'>Add</a> a new Designer(for test).</li>
 		<br>
-		<li><a href='<%=request.getContextPath()%>/front-end/designer/addDesigner2.jsp'>Addsalon</a> a new Designersss(fo2232r test).</li>
+		<li><a href='<%=request.getContextPath()%>/front-end/designer/addDesAndSal.jsp'>Addsalon</a> a new Designersss(fo2232r test).</li>
 	</ul>
 
 </body>

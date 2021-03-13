@@ -108,7 +108,7 @@ public class DesignerServlet extends HttpServlet {
 
 				}else if("getOne_For_Display".equals(action)) {
 
-				 url = "/front-end/designer/select_des_page.jsp" ;
+				 url = "/front-end/designer/listOneDesigner.jsp" ;
 				}
 				RequestDispatcher successView = req.getRequestDispatcher(url); // 成功轉交 listOneLec.jsp
 				successView.forward(req, res);
