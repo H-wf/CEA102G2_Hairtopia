@@ -1,6 +1,7 @@
 package com.salon.controller;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -10,11 +11,14 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.google.gson.Gson;
+
 import com.salon.model.SalonService;
 import com.salon.model.SalonVO;
+import com.tag.model.TagService;
 
 public class SalonServlet extends HttpServlet{
-	
+	Gson gson = new Gson();
 	public void doGet(HttpServletRequest req, HttpServletResponse res)
 			throws ServletException, IOException {
 		doPost(req, res);
@@ -290,6 +294,32 @@ public class SalonServlet extends HttpServlet{
 				failureView.forward(req, res);
 			}
 		}
+		
+		if ("nav_serchByAjax".equals(action)) { // 來自listAllEmp.jsp
+
+
+			
+			/***************************1.接收請求參數***************************************/
+			String keyWord = (req.getParameter("keyWord"));
+			/***************************2.開始查資料***************************************/
+			SalonService salSvc = new SalonService();
+			List<String> ajaxList= salSvc.getSalAJAX(keyWord);
+	
+			String jsonStr = gson.toJson(ajaxList);
+	for(String s:ajaxList){
+	
+	}
+			res.setContentType("text/plain");
+			res.setCharacterEncoding("UTF-8");
+			PrintWriter out = res.getWriter();
+			out.print(jsonStr);
+			out.flush();
+			out.close();
+			return;
+
+			
+		
+	}
 	}
 
 }

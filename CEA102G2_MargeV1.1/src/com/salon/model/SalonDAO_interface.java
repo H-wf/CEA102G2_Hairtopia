@@ -9,5 +9,6 @@ public interface SalonDAO_interface {
 	public void delete(Integer salNo);
 	public SalonVO findByPrimaryKey(Integer salNo);
 	public List<SalonVO> getAll();
+	public List<String> getSalAJAX(String keyword);
  
 }

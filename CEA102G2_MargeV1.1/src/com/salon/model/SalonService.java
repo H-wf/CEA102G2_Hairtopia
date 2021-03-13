@@ -52,5 +52,8 @@ public class SalonService {
 	public List<SalonVO> getAll() {
 		return dao.getAll();
 	}
+	public List<String> getSalAJAX(String keyword){
+		return dao.getSalAJAX(keyword);
+	}
 
 }

@@ -81,7 +81,14 @@
 	color: #fff !important;
 	border: 1px solid #d9bf77 !important;
 }
-	
+.ui-autocomplete{
+        display:block;
+        z-index:1500;
+    }
+.ui-widget-content{
+	background:#F8F7F1;
+	color:#333333;
+}
 /* 	navBarCSS END */
 
 /* footerCSS */

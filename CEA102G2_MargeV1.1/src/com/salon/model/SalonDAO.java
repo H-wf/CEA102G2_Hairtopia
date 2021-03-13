@@ -32,6 +32,7 @@ public class SalonDAO implements SalonDAO_interface{
 			"DELETE FROM salon where salNo = ?";
 		private static final String UPDATE = 
 			"UPDATE salon set salName=?, salAdd=?, salTime=?, salPhone=?, salStatus=? where salNo = ?";
+		private static final String GET_SAL_NAME =	"SELECT salName from hairtopia.salon where salName like ?;";
 	
 	@Override
 	public void insert(SalonVO salonVO) {
@@ -278,6 +279,59 @@ public class SalonDAO implements SalonDAO_interface{
 		}
 		
 		return list;
+	}
+	
+	@Override
+	public List<String> getSalAJAX(String keyword) {
+		List<String> ajaxList = new ArrayList<String>();
+		String salName = null;
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+	
+
+		try {
+
+			con = ds.getConnection();
+			pstmt = con.prepareStatement(GET_SAL_NAME);
+			pstmt.setString(1,"%" + keyword + "%");
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				// salonVO 也稱為 Domain objects
+				salName = rs.getString("salName");
+				ajaxList.add(salName); // Store the row in the list
+			}
+
+			// Handle any driver errors
+		} catch (SQLException se) {
+			throw new RuntimeException("A database error occured In method named 'getTagAJAX'. "
+					+ se.getMessage());
+			// Clean up JDBC resources
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
+		
+		return ajaxList;
 	}
 	
 	

@@ -91,7 +91,7 @@ public class TagServlet extends HttpServlet {
 			successView.forward(req, res);
 		}
 		
-		if ("serchByAjax".equals(action)) { // 來自listAllEmp.jsp
+		if ("nav_serchByAjax".equals(action)) { // 來自listAllEmp.jsp
 
 
 						
