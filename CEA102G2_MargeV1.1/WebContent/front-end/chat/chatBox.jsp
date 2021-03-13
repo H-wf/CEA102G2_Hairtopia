@@ -9,8 +9,8 @@
 	ChatService chatSvc = new ChatService();
 	MemService memSvc = new MemService();
 	List<ChatVO> list = chatSvc.getAll();
-	MemVO friend = memSvc.getOneMem(12);
-	MemVO userSession = memSvc.getOneMem(13);
+	MemVO friend = memSvc.getOneMem(10);
+	MemVO userSession = memSvc.getOneMem(9);
 	pageContext.setAttribute("friend", friend);
 	pageContext.setAttribute("userSession", userSession);
 	pageContext.setAttribute("list", list);
@@ -627,7 +627,7 @@
     			System.out.println(1234);
     		%>
     		webSocket = new WebSocket(endPointURL);
-    		webSocket.binaryType = "arraybuffer";
+//     		webSocket.binaryType = "arraybuffer";
     		
     		webSocket.onopen = function(event) {
     			console.log("Connect Success!");
@@ -705,13 +705,14 @@
     	function getHistory() {
     		var container = document.getElementById("row");
             //要改成抓hidden傳送要交談的對象,可以先傳到session存起來(VO 或 單純朋友名字)
-   			var friend = ${friend.memName};
+   			var friend = "${friend.memName}";
    			var jsonObj = {
    					"type" : "history",
    					"sender" : self,
    					"receiver" : friend,
    					"message" : ""
    				};
+   				console.log("123");
     			webSocket.send(JSON.stringify(jsonObj));
     	}
         
@@ -719,7 +720,7 @@
 //     		var inputMessage = document.getElementById("message");
 
             //要改成抓hidden傳送要交談的對象,可以先傳到session存起來(VO 或 單純朋友名字)
-    		var friend = ${friend.memName};
+    		var friend = "${friend.memName}";
     		var message = $('#message').val().trim();
 
     		if (message !== "") {
