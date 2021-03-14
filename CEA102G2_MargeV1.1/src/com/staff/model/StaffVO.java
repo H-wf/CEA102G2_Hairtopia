@@ -27,20 +27,7 @@ public class StaffVO implements java.io.Serializable{
 	private String  staAcct;
 	private String  staPswd;
 	private String  staName;
-//	private Set<AuthorityVO> authors = new HashSet<AuthorityVO>();
-//	
-//	
-//	
-////	
-//	@OneToMany(cascade=CascadeType.ALL, fetch=FetchType.EAGER, mappedBy="staffVO")
-//	@OrderBy("staNo asc")
-//	public Set<AuthorityVO> getAuthors() {
-//		return authors;
-//	}
-//
-//	public void setAuthors(Set<AuthorityVO> authors) {
-//		this.authors = authors;
-//	}
+
 
 	public StaffVO () {}
 	

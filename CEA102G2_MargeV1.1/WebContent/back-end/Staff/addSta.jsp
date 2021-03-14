@@ -51,22 +51,12 @@
 			</tr>
 			<tr>
 				<td>員工帳號:</td>
-				<td><input type="TEXT" name="staAcct" size="45"
+				<td><input type="email" name="staAcct" size="45"
 					value="<%= (staVO == null) ? "" : staVO.getStaAcct()%>" /></td>
 					
 			</tr>
 
-			<tr>
-				<td>員工密碼:</td>
-				<td><input type="password" name="staPswd" size="45"
-					value="<%= (staVO == null) ? "" : staVO.getStaPswd()%>" /></td>
-			</tr>
 			
-			<tr>
-				<td>再次輸入密碼:</td>
-				<td><input type="password" name="staPswd1" size="45" required="true"
-					value="<%= (staVO == null) ? "" : staVO.getStaPswd()%>" /></td>
-			</tr>
 
 	
 	
@@ -80,18 +70,7 @@
 		
 	</form>
 	
-	<script>
-		var form = document.forms[0], 
-		    submit = document.querySelector(".login_btn"), 
-		    inputBtn = document.getElementsByTagName("input");
-		
-		form.onsubmit = function() {
-			if (inputBtn[2].value != inputBtn[3].value) {
-				alert("兩次密碼輸入不匹配，請更正");
-				return false;
-			}
-		}
-	</script>
+	
 	
 
 

@@ -48,6 +48,10 @@ public class StaffService {
 		return dao.getAll();
 	}
 	
+	public StaffVO getOneStaff(String staAcct,String staPswd) {
+		return dao.findByAcctAndPwsd(staAcct, staPswd);
+	}
+	
 	
 	
 

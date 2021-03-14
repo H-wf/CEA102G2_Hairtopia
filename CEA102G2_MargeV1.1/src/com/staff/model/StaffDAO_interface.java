@@ -15,6 +15,8 @@ public interface StaffDAO_interface {
 	public void delete(Integer staNo);
 
 	public StaffVO findByPrimaryKey(Integer staNo);
+	
+	public StaffVO findByAcctAndPwsd(String staAcct,String staPswd);
 
 	public List<StaffVO> getAll();
 	

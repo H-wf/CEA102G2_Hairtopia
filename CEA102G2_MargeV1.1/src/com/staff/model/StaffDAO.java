@@ -1,23 +1,39 @@
 package com.staff.model;
 
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.List;
 
-
-
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Query;
+import javax.sql.DataSource;
 
-
-
+import com.schedule.model.ScheduleVO;
 
 import jpa.util.JPAUtil;
 
 public class StaffDAO implements StaffDAO_interface {
+	
+	private static DataSource ds = null;
+	static {
+		try {
+			Context ctx = new InitialContext();
+			ds = (DataSource) ctx.lookup("java:comp/env/jdbc/Hairtopia");
+		} catch (NamingException e) {
+			e.printStackTrace();
+		}
+	}
 
 
 	private static final String GET_ALL_STMT = " FROM StaffVO order by staNo";
+	private static final String GET_ONE_STMT = "SELECT staNo,staName,staAcct,staPswd FROM staff where staAcct=? and staPswd=?";
 
 
 	@Override
@@ -123,6 +139,66 @@ public List<StaffVO> getAll() {
 			}
 			System.out.println();
 		}
+
+
+
+	@Override 
+	public StaffVO findByAcctAndPwsd(String staAcct, String staPswd) {
+		StaffVO staVO = null;
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+
+		try {
+
+			con = ds.getConnection();
+			pstmt = con.prepareStatement(GET_ONE_STMT);
+
+			pstmt.setString(1, staAcct);
+			pstmt.setString(2, staPswd);
+
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				// empVo 也稱為 Domain objects
+				staVO = new StaffVO();
+				staVO.setStaNo(rs.getInt("staNo"));
+				staVO.setStaName(rs.getString("staName"));
+				staVO.setStaAcct(rs.getString("staAcct"));
+				staVO.setStaPswd(rs.getString("staPswd"));
+				
+
+			}
+
+			// Handle any driver errors
+		} catch (SQLException se) {
+			throw new RuntimeException("A database error occured. " + se.getMessage());
+			// Clean up JDBC resources
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
+		return staVO;
+	}
 		
 	
 
