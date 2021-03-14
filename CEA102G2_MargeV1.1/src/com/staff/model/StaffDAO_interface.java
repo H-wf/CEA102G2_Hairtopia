@@ -1,6 +1,9 @@
 package com.staff.model;
 
 import java.util.List;
+import java.util.Set;
+
+import com.authority.model.AuthorityVO;
 
 
 
@@ -15,6 +18,7 @@ public interface StaffDAO_interface {
 
 	public List<StaffVO> getAll();
 	
+//	 public Set<AuthorityVO> getAuthorByStaNo(Integer staNo);
 	
 
 }
