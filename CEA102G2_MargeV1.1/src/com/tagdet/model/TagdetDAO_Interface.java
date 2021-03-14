@@ -9,6 +9,8 @@ public interface TagdetDAO_Interface {
     public void delete(Integer tagdetNo);
     public Set<Integer> findByPostNo(Integer tagdetNo);
     public List<TagdetVO> getAll();
+    public Set<Integer> searchPostNo(Integer tagNo);
+
     //萬用複合查詢(傳入參數型態Map)(回傳 List)
 //  public List<EmpVO> getAll(Map<String, String[]> map);
 }

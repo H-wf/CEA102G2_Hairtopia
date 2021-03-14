@@ -2,8 +2,7 @@ package com.tag.controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -15,8 +14,10 @@ import javax.servlet.http.HttpServletResponse;
 import com.google.gson.Gson;
 
 import com.designer.model.DesignerService;
-import com.tag.model.TagService;
-import com.tag.model.TagVO;
+import com.tag.model.*;
+import com.tagdet.model.*;
+import com.post.model.*;
+
 
 public class TagServlet extends HttpServlet {
 	Gson gson = new Gson();
@@ -102,9 +103,7 @@ public class TagServlet extends HttpServlet {
 						List<String> ajaxList= tagSvc.getTagAJAX(keyWord);
 				
 						String jsonStr = gson.toJson(ajaxList);
-			for(String s:ajaxList){
-				
-			}
+
 						res.setContentType("text/plain");
 						res.setCharacterEncoding("UTF-8");
 						PrintWriter out = res.getWriter();
@@ -116,6 +115,33 @@ public class TagServlet extends HttpServlet {
 						
 					
 				}
+		
+		if("navSearch".equals(action)) {
+			
+			/***************************1.接收請求參數***************************************/
+			String keyword = (req.getParameter("keyword"));
+			/***************************取得tagNo***************************************/
+			TagService tagSvc = new TagService();
+			Set<Integer> tagNoSet = tagSvc.getTagNoSet(keyword);
+			/***************************用tagNo從tagdet查出postNo***************************************/
+			TagdetService tagdetSvc = new TagdetService();
+			Set<Integer> postNoSet = new HashSet<Integer>();
+			for(Integer tagNo:tagNoSet){
+				postNoSet.addAll(tagdetSvc.getPostNo(tagNo));
+			}
+			/***************************用postNoSet查出postVo***************************************/
+			PostService postSvc = new PostService();
+			List<PostVO> postList = new ArrayList<PostVO>();
+			for(Integer postNo:postNoSet) {
+				postList.add(postSvc.getOnePost(postNo));
+			}
+			/***************************準備轉交***************************************/
+			req.setAttribute("postList", postList);
+			
+			String url = "/front-end/Post/listAll_postSearch.jsp";
+			RequestDispatcher successView = req.getRequestDispatcher(url);
+			successView.forward(req, res);
+		}
 	}
 
 }

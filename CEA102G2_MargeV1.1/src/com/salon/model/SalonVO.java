@@ -10,6 +10,8 @@ public class SalonVO implements Serializable{
 	private String salTime;
 	private String salPhone;
 	private Integer salStatus;
+	private String  salLat;
+	private String  salLng;
 	
 	public SalonVO() {
 	}
@@ -60,7 +62,23 @@ public class SalonVO implements Serializable{
 
 	public void setSalStatus(Integer salStatus) {
 		this.salStatus = salStatus;
-	};
+	}
+	
+	public String getSalLat() {
+		return salLat;
+	}
+	
+	public void setSalLat(String salLat) {
+		this.salLat = salLat;
+	}
+	
+	public String getSalLng() {
+		return salLng;
+	}
+	
+	public void setSalLng(String salLng) {
+		this.salLng = salLng;
+	}
 	
 	
 	

@@ -2,7 +2,7 @@ $(document).ready(function() {
 	$('#navbar-search').on('click', function() {
         swal.fire({
             html: ` 
-            	<form action="">
+            	<form method="post" id="searchForm" action="">
             		<div style="margin:8%;">
                 		<div class="row justify-content-center">
 					        <div class="btn-group btn-group-toggle search_3" data-toggle="buttons">
@@ -18,14 +18,15 @@ $(document).ready(function() {
 					        </div>
 					    </div>
 					    <div class="input-group" style="background: width:80%;margin: 0 auto;">
-					        <input type="text" class="form-control" id="nav-searchBox" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2">
+					        <input type="text" name="keyword" class="form-control" id="nav-searchBox" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2">
 					        <div class="input-group-append">
-					            <button class="btn btn-primary" type="button">
+					            <button class="btn btn-primary" type="submit">
 					                <i class="bi bi-search" style="font-size: 1.5em;"></i>
 					            </button>
 					        </div>
 				    	</div>
 				    </div>
+				    <input type="hidden" name="action" value="navSearch"> 
 				</form>`,
             width: '90%',
             padding: '0 20px 20px 20px',
@@ -43,6 +44,7 @@ $(document).ready(function() {
             didOpen: function() {
             	$('#nav-searchBox').focus();
                 var contor = "/designer/designer.do";
+                $('#searchForm').attr('action',contextPath+contor);
                 $('input[name=searchWhat]').on('change', function() {
                     if (this.value === "sal") {
                         contor = "/salon/salon.do";
@@ -51,6 +53,7 @@ $(document).ready(function() {
                     } else {
                         contor = "/designer/designer.do";
                     }
+                    $('#searchForm').attr('action',contextPath+contor);
                 });
         	    $('#nav-searchBox').autocomplete({
         	    	source :function(request, response) {

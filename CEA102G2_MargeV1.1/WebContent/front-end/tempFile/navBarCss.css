@@ -54,6 +54,7 @@
 	
 #navbar-search{
     font-size: 2em;
+    cursor: pointer;
 }
 #navbar-search:hover{
     color: #333333;

@@ -1,6 +1,6 @@
 package com.tag.model;
 
-import java.util.List;
+import java.util.*;
 
 public interface TagDAO_Interface {
 	public TagVO insert(TagVO tagVo);
@@ -10,6 +10,7 @@ public interface TagDAO_Interface {
     public Integer findByTagName(String tagName);
     public List<TagVO> getAll();
     public List<String> getTagAJAX(String keyword);
+    public Set<Integer> searchTagNo(String keyword);
     //萬用複合查詢(傳入參數型態Map)(回傳 List)
 //  public List<EmpVO> getAll(Map<String, String[]> map);
 }

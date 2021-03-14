@@ -1,5 +1,6 @@
 package com.designer.model;
 
+import java.sql.Connection;
 import java.sql.Date;
 import java.util.List;
 
@@ -27,6 +28,9 @@ public class DesignerService {
 		dao.insert(designerVO);
 
 		return designerVO;
+	}
+	public void addDesigner(DesignerVO designerVO,Connection con) {
+		dao.insert2(designerVO,con);
 	}
 	
 	public DesignerVO getOneDesByMemNo(Integer memNo) {
@@ -96,6 +100,9 @@ public class DesignerService {
 		return dao.getNameByAJAX(keyword);
 	}
 	
+	public List<DesignerVO> searchDes(String keyword){
+		return dao.searchDes(keyword);
+	}
 	
 
 }

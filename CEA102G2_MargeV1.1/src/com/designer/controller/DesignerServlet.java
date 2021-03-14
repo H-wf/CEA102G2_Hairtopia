@@ -505,9 +505,19 @@ session.setAttribute("memVO", memVO);
 			out.flush();
 			out.close();
 			return;
-
-			
+	}
+	if("navSearch".equals(action)) {
+		/***************************1.接收請求參數***************************************/
+		String keyword = (req.getParameter("keyword"));
+		/***************************2.開始查資料***************************************/
+		DesignerService desSvc = new DesignerService();
+		List<DesignerVO> desList = desSvc.searchDes(keyword);
 		
+		req.setAttribute("desList", desList);
+		
+		String url = "/front-end/designer/SearchDes.jsp";
+		RequestDispatcher successView = req.getRequestDispatcher(url); // 新增成功後轉交listAllDesigner.jsp
+		successView.forward(req, res);
 	}
 
 	}

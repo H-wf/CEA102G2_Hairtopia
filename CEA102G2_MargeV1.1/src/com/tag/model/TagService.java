@@ -1,6 +1,6 @@
 package com.tag.model;
 
-import java.util.List;
+import java.util.*;
 
 import com.tag.model.TagVO;
 
@@ -53,4 +53,7 @@ public class TagService {
 		return dao.getTagAJAX(keyword);
 	}
 	
+	public Set<Integer> getTagNoSet(String keyword){
+		return dao.searchTagNo(keyword);
+	}
 }

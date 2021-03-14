@@ -2,6 +2,8 @@ package com.salon.model;
 
 import java.util.List;
 
+import com.designer.model.*;
+
 public class SalonService {
 	
 	private SalonDAO_interface dao;
@@ -23,6 +25,10 @@ public class SalonService {
 		dao.insert(salonVO);
 
 		return salonVO;
+	}
+	public void addSalonWithDes(SalonVO salonVO,List<DesignerVO> list) {
+		dao.insertWithDes(salonVO, list);
+		
 	}
 	
 	public SalonVO updateSalon(Integer salNo, String salName, String salAdd, 
@@ -52,8 +58,17 @@ public class SalonService {
 	public List<SalonVO> getAll() {
 		return dao.getAll();
 	}
+	public List<SalonVO> getAllbyAjax(String keyword) {
+		return dao.getAllByAjax(keyword);
+	}
+	public SalonVO getOneSalon(String salName) {
+		return dao.findBySalName(salName);
+	}
 	public List<String> getSalAJAX(String keyword){
 		return dao.getSalAJAX(keyword);
+	}
+	public List<SalonVO> getSalSearch(String keyword){
+		return dao.getAllSearch(keyword);
 	}
 
 }
