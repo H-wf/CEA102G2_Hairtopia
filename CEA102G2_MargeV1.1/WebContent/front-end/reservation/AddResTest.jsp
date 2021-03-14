@@ -19,8 +19,7 @@
     <style type="text/css">
         #calendarTable {
         	display:inline-block;
-            width: 50%;
-            /*height: 500px;*/
+        	margin:auto;
         }
         #month {
             background: #D8CF9E;
@@ -65,6 +64,7 @@
             height: 60px;
             width: 60px;
             background-color:#D8CF9E;
+            border-box:box-sizing;
         }
         .calendar-box {
             height: 60px;
@@ -81,34 +81,57 @@
         #stepOne{
         	text-align:center;
         }
+        #stepTitle{
+        	font-size:20px;
+        	color:#D8CF9E;
+        	left:20%;
+        }
+        .stepIcon{
+        	font-size:50px;
+        	color:#D8CF9E;
+        	margin-right:10px;
+        	
+        }
+        #stepTwo{
+        	text-align:center;
+        	margin:auto;
+        	display:none;
+        }
         hr{
+        	width:40%;
         	border:0px;
         	border-top:1px dashed #D8CF9E;
         	
         }
         #timezone{
+        	width:40%;
+        	display:inline-block;
         	margin:auto;
-        	width:500px;
-        	display:none;
         }
         .pickTime{
         	width:35px;
         	height:20px;
-        	background-color:#BDB58C;
+        	background-color:#D8CF9E;
         	color:white;
         	padding:5px;
         	margin:5px;
         	display:none;
         	border-radius:5px;
+        	text-align:center;
+        	cursor: pointer;
         }
         #resDetail{
         	display:none;
+        	text-align:center;
         }
         .bookingBtn{
+        	font-size:16px;
+        	padding:5px;
         	background-color: #fff;
 			color: #d9bf77;
-			float:right;
+			margin:auto;
 			border:1px solid #d9bf77;
+			border-radius:5px;
 			cursor: pointer;
 			letter-spacing: 2px;
 			font-weight: 600;
@@ -125,18 +148,20 @@
   			border-left: 4px solid #c8ced3;
   			border-radius: .25rem;
   			padding: .75rem 1.25rem;
-  			position: relative;
+  			position: fixed;
+  			left:5%;
   			display:inline-block;
   			margin:0px 10px;
+  			
 		}
 		.callout h4 {
-  			font-size: 1.3125rem;
-  			margin-top: 0;
-  			margin-bottom: .8rem
+  			margin:.5rem ;
+  			
+  			font-size:1rem;
 		}
-		.callout p:last-child {
-  			margin-bottom: 0;
-		}
+		.callout-default h4 {
+  			color: #777;
+		}	
 		.callout-default{
   			border-left-color: #D8CF9E;
 		}
@@ -163,14 +188,19 @@
 	會員編號:<input type="TEXT" name="memNo" size="3"
 			 value="<%= (resVO==null)? "" : resVO.getMemNo()%>" />
 	</div>
-<div id="stepOne">
+<div id="stepOne">	
+	<div id="stepTitle"><span class="stepIcon"><i class="far fa-calendar-alt"></i></span>STEP1 : 選擇日期</div>
+	<br><hr>
 	<div class="callout callout-default">
-		<h4>${serviceVO.serName}<br><h4 style="font-size:1rem;">服務時間:　${serviceVO.serTime}小時</h4></h4>
-										  	
-		<span style="font-size:1rem;">${serviceVO.serDesc}</span>
-		<div class="price">
-		<h4 style="display:inline;font-size: unset;">金額:　${serviceVO.serPrice}元</h4>
-		</div>
+		<h4>${serviceVO.serName}</h4>
+		<span style="font-size:1rem;color:#b9b9b9">${serviceVO.serDesc}</span>
+		<h4>
+		服務時長:　
+		<c:set var="serTime" value="${serviceVO.serTime}"/>
+		<fmt:formatNumber type="number" value="${((serTime*30 -(serTime*30%60)))/60}"  var="hour"/>
+		<c:if test="${hour>0}">${hour}小時</c:if>${(serTime*30 %60 == 0)? "" :"30分" }
+		</h4>
+		<h4>金額:　${serviceVO.serPrice}元</h4>
 	</div>
 	<div id="calendarTable">
     <table>
@@ -252,21 +282,30 @@
     </table>
     </div>
 </div>
+<br>
+<br>
+<br>
+<div id="stepTwo">
+	<div id="stepTitle"><span class="stepIcon"><i class="far fa-clock"></i></span>STEP2 : 選擇時間</div>
+	<br><hr>
     <div id="timezone">
-    <hr>
     <c:forEach var="whatTime" begin="0" end="47">
     <fmt:formatNumber type="number" value="${((whatTime*30 -(whatTime*30%60)))/60}"  var="hour"/>
     <span class="pickTime" id="${whatTime}">${hour}:${(whatTime*30 %60 == 0)? "00" :"30" }</span>
     </c:forEach>
     </div>
+</div>
+<br>
+<br>
+<br>
     <div id="resDetail">
-    <hr>
 	<input type="hidden" name="action" value="insert">
-	<input type="submit" value="送出新增" class="bookingBtn">
+	<input type="submit" value="確定預約" class="bookingBtn">
 	<input type="hidden" name="serNo" value="${serviceVO.serNo}">
 	<input type="hidden" name="resDate" id="resDate">
     <input type="hidden" name="resTime" id="resTime">
     </div>
+   
     </FORM>
     <script>
         $(document).ready(function() {
@@ -324,11 +363,12 @@
                     (i + 1).toString().padStart(2, "0");
                 div.setAttribute("id", id);
                 div.setAttribute("data-date", i + 1);
+                div.setAttribute("href", "#bottom");
+                
                 document.getElementById("a" + (day + i)).classList.add("outer-box");
                 document.getElementById("a" + (day + i)).append(div);
                 document.getElementById("a" + (day + i)).firstChild.innerText = i + 1;
                 document.getElementById("a" + (day + i)).style['background-color'] = 'white';
-                
             }
             let backward = document.getElementById("backward");
             let forward = document.getElementById("forward");
@@ -342,9 +382,17 @@
                 month += 1;
                 createCalendar(year, month);
             })
+            
             $(".calendar-box").click(function() {
             	$(".pickTime").hide();
+            	$(".dateText").remove();
             	console.log($(this).attr("id"));
+            	//在callout中填入選取資料
+            	let dateText = document.createElement("h4")
+            	dateText.classList.add("dateText");
+            	dateText.innerText = "預約日期:"+$(this).attr("id");
+            	$(".callout").append(dateText);
+            	//用ajax送入controller查上班時間
             	let resDate = document.getElementById("resDate");
             	resDate.value=$(this).attr("id");
             	let selectDate = $(this).attr("data-date")
@@ -370,16 +418,27 @@
         						document.getElementById(i).style.display='inline-block';
         					}
         				}
-        				document.getElementById("timezone").style.display='block'
+        				document.getElementById("stepTwo").style.display='block'
+                		window.scrollTo({top:document.documentElement.clientHeight, behavior:"smooth"});
         			}
                 })
         })
         
         $(".pickTime").click(function(){
+        	$(".timeText").remove();
         	console.log($(this).attr("id"));
+        	let hourText = parseInt($(this).attr("id")/2);
+        	let minuteText = ($(this).attr("id")%2==0)? "00" : "30";
+        	//在callout中填入選取資料
+        	let timeText = document.createElement("h4")
+        	timeText.classList.add("timeText");
+        	timeText.innerText = "預約時間:"+hourText+":"+minuteText;
+        	$(".callout").append(timeText);
+        	//form表單存入時間資料
         	let resTime = document.getElementById("resTime");
         	resTime.value=$(this).attr("id");
         	document.getElementById("resDetail").style.display='block';
+        	window.scrollTo({top:document.documentElement.clientHeight, behavior:"smooth"});
         })
         }
 

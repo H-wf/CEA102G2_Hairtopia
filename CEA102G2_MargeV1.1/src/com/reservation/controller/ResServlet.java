@@ -376,7 +376,7 @@ public class ResServlet extends HttpServlet{
 				resVO = resSvc.updateResConfirm(resStatus, resCode, resNo);
 				
 				/***************************3.修改完成,準備轉交(Send the Success view)*************/
-//				req.setAttribute("resVO", resVO); // 資料庫update成功後,正確的的resVO物件,存入req
+				req.setAttribute("resVO", resVO); // 資料庫update成功後,正確的的resVO物件,存入req
 				Integer desNo = resVO.getDesNo();
 				List<ResVO> list = resSvc.getAllResByDesNo(resVO.getDesNo());
 				req.setAttribute("list", list);

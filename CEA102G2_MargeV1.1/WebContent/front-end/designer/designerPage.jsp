@@ -382,7 +382,10 @@
 								<c:forEach  var="serviceVo" items="${serviceSvc.getAllServiceByDesNo(designerVO.desNo)}">
 									<c:if test="${serviceVo.serStatus eq 1}">
 										<div class="callout callout-default">
-										  <h4>${serviceVo.serName}<br><h4 style="font-size:1rem;">服務時間:　${serviceVo.serTime}小時</h4></h4>
+										  <h4>${serviceVo.serName}<br><h4 style="font-size:1rem;">服務時間:　
+										  <c:set var="serTime" value="${serviceVo.serTime}"/>
+										  <fmt:formatNumber type="number" value="${((serTime*30 -(serTime*30%60)))/60}"  var="hour"/>
+										  <c:if test="${hour>0}">${hour}小時</c:if>${(serTime*30 %60 == 0)? "" :"30分" }</h4></h4>
 										  	
 										  	<span style="font-size:1rem;">${serviceVo.serDesc}</span>
 										  	<hr>
