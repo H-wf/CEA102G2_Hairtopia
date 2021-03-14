@@ -11,7 +11,7 @@
 		<tr bgcolor='orange' align='center' valign='middle' height='20'>
 			 <td>   
 			       <h3> 登入成功的頁面 - login_success.jsp           </h3> 
-				     <h3> 歡迎:<font color=red> ${memVO.memName} </font>您好</h3>
+				     <h3> 歡迎:<font color=red> ${staffVO.staName} </font>您好</h3>
 			 </td>
 		</tr>
 	</table>

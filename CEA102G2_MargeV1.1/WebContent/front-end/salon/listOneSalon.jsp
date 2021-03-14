@@ -44,7 +44,7 @@
             });
             //增加圖釘效果
             var marker = new google.maps.Marker({
-                position: myLatLng,
+               	 position: myLatLng, 
                 map,
 
             });
@@ -93,19 +93,23 @@
    			 <h2>成員</h2>
    			 <jsp:useBean id="desSvc" scope="page" class="com.designer.model.DesignerService" />
    			 
-   			 <div class="card-group">
+   			 <div class="row">
    			 	<c:forEach var="desInSalVO" items="${desSvc.all}">
    				 <c:if test="${desInSalVO.salNo == salonVO.salNo}">
    	 
-   			
-   			  <div class="card desCard" style=" width: 200px;">
-  					<img src="<%=request.getContextPath()%>/PicFinder?pic=1&table=Designer&column=desPic&idname=desNo&id=${desInSalVO.desNo}" 
-  					class="card-img-top desImg" style="max-width: 100%; " alt="...">
-  				<div class="card-body">
-   				<h5 class="card-title">${desInSalVO.desName} </h5>
-    			<a href="<%=request.getContextPath()%>/designer/designer.do?action=getOne_For_Display&desNo=${desInSalVO.desNo}" class="btn btn-primary" style="margin-left: 50px;">查看設計師</a>
- 				</div>
-		 	</div>
+   				<div class="col-xs-6">
+	   			  <div class="card desCard " style=" width: 200px;">
+	   			  		<div style="height:200px; overflow:hidden;">
+		  					<img src="<%=request.getContextPath()%>/PicFinder?pic=1&table=Designer&column=desPic&idname=desNo&id=${desInSalVO.desNo}" 
+		  					class="card-img-top desImg" alt="...">
+	   			  		</div>
+	  				<div class="card-body">
+	   				<h5 class="card-title">${desInSalVO.desName} </h5>
+	    			<a href="<%=request.getContextPath()%>/designer/designer.do?action=getOne_For_Display&desNo=${desInSalVO.desNo}" class="btn btn-primary" >查看設計師</a>
+	 				</div>
+			 	  </div>
+   				
+   				</div>
    			 
    			 </c:if>
 
