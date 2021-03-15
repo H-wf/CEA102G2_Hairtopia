@@ -2,6 +2,7 @@ package com.post.controller;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.PrintWriter;
 import java.util.*;
 
 import javax.servlet.RequestDispatcher;
@@ -16,11 +17,14 @@ import javax.servlet.http.Part;
 import com.post.model.*;
 import com.tag.model.*;
 import com.tagdet.model.*;
+import com.comment.model.*;
 import com.designer.model.*;
+
+import com.google.gson.Gson;
 
 @MultipartConfig
 public class PostServlet extends HttpServlet {
-
+	Gson gson = new Gson();
 	public void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 		doPost(req, res);
 	}
@@ -709,6 +713,49 @@ System.out.println("postVO設置完成");
 				RequestDispatcher failureView = req.getRequestDispatcher("/front-end/Post/listAll_postByDesNo.jsp");
 				failureView.forward(req, res);
 			}
+		}
+		
+		if("getWholePost".equals(action)) {
+			/*************************** 1.接收請求參數 ***************************************/
+			Integer postNo = new Integer(req.getParameter("postNo"));
+			
+			PostService postSvc = new PostService();
+			TagdetService tagdetSvc = new TagdetService();
+			TagService tagSvc = new TagService();
+			CommentService comSvc = new CommentService();
+			
+//取得postVo
+			PostVO postVo = postSvc.getOnePost(postNo);
+			
+//用postNo取得tagDet的tagNo再取得所有tagName
+			Set<Integer> tagNoSet = tagdetSvc.getTagNo(postNo);
+			List<String> tagNameList = tagSvc.getTagName(tagNoSet);
+			
+//用postNo取得所有comment
+			List<CommentVO> commentList = comSvc.getComsByPostNo(postNo);
+			
+			postVo.setPostPic1(new byte[0]);
+			if(postVo.getPostPic2() != null) {
+				postVo.setPostPic2(new byte[0]);
+			}else if(postVo.getPostPic3() != null) {
+				postVo.setPostPic3(new byte[0]);
+			}
+			
+			Map ajaxMap = new HashMap();
+			ajaxMap.put("postVo", postVo);
+			ajaxMap.put("tagNameList", tagNameList);
+			ajaxMap.put("commentList", commentList);
+
+			String jsonStr = gson.toJson(ajaxMap);
+System.out.println(jsonStr);
+
+			res.setContentType("text/plain");
+			res.setCharacterEncoding("UTF-8");
+			PrintWriter out = res.getWriter();
+			out.print(jsonStr);
+			out.flush();
+			out.close();
+			return;
 		}
 
 	}

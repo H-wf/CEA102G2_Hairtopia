@@ -33,6 +33,16 @@ public class TagService {
 		return dao.findByTagNo(tagNo);
 	} 
 	
+	public List<String> getTagName(Set<Integer> tagNoSet) {
+		List<String> tagNameList = new ArrayList<String>();
+		
+		for(Integer tagNo:tagNoSet) {
+			String tagName = dao.findByTagNo(tagNo);
+			tagNameList.add(tagName);
+		}
+		return tagNameList;
+	} 
+	
 	public TagVO updateTag(Integer tagNo,String tagName) {
 		
 		TagVO tagVo = new TagVO();

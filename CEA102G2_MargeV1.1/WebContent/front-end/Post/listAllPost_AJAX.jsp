@@ -213,8 +213,8 @@ padding-bottom: 1rem;
 	<div class="container post">
 		<div class="card-columns ">
 		<c:forEach  var="postVO" items="${postSvc.all}">
-			<a href="<%=request.getContextPath()%>/front-end/post/post.do?postNo=${postVO.postNo}&action=Display_fromListAll" >
-				<div class="card">
+<%-- 			<a href="<%=request.getContextPath()%>/front-end/post/post.do?postNo=${postVO.postNo}&action=Display_fromListAll" > --%>
+				<div class="card onePost" id="${postVO.postNo}">
 					<img src="<%=request.getContextPath()%>/PicFinder?pic=1&table=post&column=postPic1&idname=postNo&id=${postVO.postNo}"
 					 class="card-img-top post-img" data-toggle="modal" data-target="#postModal" />
 				</div>
@@ -272,9 +272,37 @@ padding-bottom: 1rem;
 	<script src="<%=request.getContextPath()%>/resource/tagify/dist/jQuery.tagify.min.js"></script>
 </body>
 <script>
+var contextPath = "<%=request.getContextPath()%>";
 		$('#loginModal').on('shown.bs.modal', function() {
 		    $('#myInput').trigger('focus')
 		})
-		$("#postModal").modal({show: true},'handleUpdate');
+// 		$("#postModal").modal({show: true});
+		
+		$(document).ready(function(){
+			$('.onePost').on('click',function(){
+				$.ajax({
+					type:"GET",
+					url:contextPath+"/post/post.do",
+					data:{
+							action:"getWholePost",							
+							postNo:$(this).attr('id'),
+						},
+					success:function(data){
+						//console.log(data);
+						var jData = JSON.parse(data);
+						var commentList = jData.commentList;
+						var postVo = jData.postVo;
+						var tagNameList = jData.tagNameList;
+						
+						console.log(commentList);
+						console.log(postVo);
+						console.log(tagNameList);
+					},
+					error:function(){
+						console.log("AJAX ERROR!");
+					}
+				});
+			});
+		});
 	</script>
 </html>
