@@ -311,6 +311,7 @@ public class StaffServlet extends HttpServlet {
 				ms.sendMail(staAcct, subject, messageText);
 
 				staVO = staSvc.addStaff(staAcct, staPswd,staName);
+System.out.println(staVO.getStaNo());				
 
 				/*************************** 3.新增完成,準備轉交(Send the Success view) ***********/
 				String url = "/back-end/Staff/listAll_sta.jsp";

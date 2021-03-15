@@ -8,7 +8,7 @@ import com.authority.model.AuthorityVO;
 
 
 public interface StaffDAO_interface {
-	public void insert(StaffVO staVO);
+	public Object insert(StaffVO staVO);
 
 	public void update(StaffVO staVO);
 

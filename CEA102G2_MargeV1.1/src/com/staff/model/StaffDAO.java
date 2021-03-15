@@ -37,19 +37,23 @@ public class StaffDAO implements StaffDAO_interface {
 
 
 	@Override
-	public void insert(StaffVO staVO) {
+	public Object insert(StaffVO staVO) {
+		Object identifier;
 		EntityManager em = JPAUtil.getEntityManagerFactory().createEntityManager();
 		EntityTransaction tx = em.getTransaction(); // 以下兩行不建議使用，會造成多方員工跳十號（因為是同一條連線）
 		try {
-			tx.begin(); // 以下兩行不建議使用，會造成多方員工跳十號（因為是同一條連線）
+			tx.begin(); 
 
 			em.persist(staVO); // 新增
+			identifier = JPAUtil.getEntityManagerFactory().getPersistenceUnitUtil().getIdentifier(staVO);
+			System.out.println("Identifier = " + identifier);
 			tx.commit();
 			em.close();
 		} catch (Exception ex) {
 			tx.rollback();
 			throw ex;
 		}
+		return identifier;
 	}
 
 

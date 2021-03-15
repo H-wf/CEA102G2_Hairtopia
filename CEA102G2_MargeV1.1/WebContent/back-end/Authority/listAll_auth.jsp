@@ -2,13 +2,14 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page import="java.util.*"%>
 <%@ page import="com.authority.model.*"%>
+<%@ page import="com.staff.model.*"%>
 
 
 <%-- 此頁練習採用 EL 的寫法取值 --%>
 
-
-
-
+<%
+	StaffVO staVO = (StaffVO) request.getAttribute("staVO");
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -46,7 +47,7 @@ img {
 	</c:if>
 	<h2>員工姓名</h2>
 	<jsp:useBean id="staSvc" scope="page" class="com.staff.model.StaffService" />
-	<p> ${staSvc.getOneStaff(param.staNo).staName}
+	<p> ${staSvc.getOneStaff(staVO.staNo).staName}
 	<table>
 		<tr>
 			<th>功能編號</th>
