@@ -21,10 +21,11 @@ import com.comment.model.*;
 import com.designer.model.*;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 @MultipartConfig
 public class PostServlet extends HttpServlet {
-	Gson gson = new Gson();
+	Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd hh:mm:ss").create();
 	public void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 		doPost(req, res);
 	}

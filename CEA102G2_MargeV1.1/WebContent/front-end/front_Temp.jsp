@@ -15,7 +15,7 @@
 <%@include file="/front-end/tempFile/navBar" %>
 
 <!-- Begin Page Content -->
-<div class="container-fluid">
+<div class="container-fluid px-0">
 </div>
 <!-- Page Content END -->
 <%@include file="/front-end/tempFile/footer" %>
