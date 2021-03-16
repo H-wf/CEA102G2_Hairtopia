@@ -29,7 +29,7 @@ public class TagdetDAO implements TagdetDAO_Interface {
 	private static final String GET_ONE_STMT = "SELECT tagNo FROM hairtopia.tagdet where postNo = ?"; // back-end
 	private static final String GET_DES_POST = "SELECT desNo , postCon, postPic1 FROM post where desNo = ?"; // front-end
 																												// 複合查詢設計師名
-
+	private static final String GET_POSTNO ="SELECT postNo from hairtopia.tagdet where tagNo=?;";
 	private static final String DELETE = "";
 	private static final String UPDATE = "";
 
@@ -164,5 +164,57 @@ public class TagdetDAO implements TagdetDAO_Interface {
 		}
 		return list;
 	}
+	
+	public Set<Integer> searchPostNo(Integer tagNo){
+    	Set<Integer> postNoSet = new HashSet<Integer>();
+		Integer postNo = null;
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+	
+
+		try {
+
+			con = ds.getConnection();
+			pstmt = con.prepareStatement(GET_POSTNO);
+			pstmt.setInt(1,tagNo);
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				// salonVO 也稱為 Domain objects
+				postNo = rs.getInt("postNo");
+				postNoSet.add(postNo); // Store the row in the list
+			}
+
+			// Handle any driver errors
+		} catch (SQLException se) {
+			throw new RuntimeException("A database error occured In method named 'searchPostNo'. "
+					+ se.getMessage());
+			// Clean up JDBC resources
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
+		
+		return postNoSet;
+    }
 
 }

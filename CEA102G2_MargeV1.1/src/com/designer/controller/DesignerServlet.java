@@ -486,23 +486,18 @@ session.setAttribute("memVO", memVO);
 			}
 		}
 		
-		if ("serchByAjax".equals(action)) { // 來自listAllEmp.jsp
+		if ("nav_serchByAjax".equals(action)) { // 來自listAllEmp.jsp
 
-System.out.println("收到AJAX");
 
 			
 			/***************************1.接收請求參數***************************************/
 			String keyWord = (req.getParameter("keyWord"));
-System.out.println("關鍵字為"+ keyWord);
 			/***************************2.開始刪除資料***************************************/
 			DesignerService desSvc = new DesignerService();
 			List<String> ajaxList= desSvc.getNameAJAX(keyWord);
 	
 			String jsonStr = gson.toJson(ajaxList);
-for(String s:ajaxList){
-	
-	System.out.println("回傳值為"+s);
-}
+
 			res.setContentType("text/plain");
 			res.setCharacterEncoding("UTF-8");
 			PrintWriter out = res.getWriter();
@@ -510,9 +505,19 @@ for(String s:ajaxList){
 			out.flush();
 			out.close();
 			return;
-
-			
+	}
+	if("navSearch".equals(action)) {
+		/***************************1.接收請求參數***************************************/
+		String keyword = (req.getParameter("keyword"));
+		/***************************2.開始查資料***************************************/
+		DesignerService desSvc = new DesignerService();
+		List<DesignerVO> desList = desSvc.searchDes(keyword);
 		
+		req.setAttribute("desList", desList);
+		
+		String url = "/front-end/designer/SearchDes.jsp";
+		RequestDispatcher successView = req.getRequestDispatcher(url); // 新增成功後轉交listAllDesigner.jsp
+		successView.forward(req, res);
 	}
 
 	}

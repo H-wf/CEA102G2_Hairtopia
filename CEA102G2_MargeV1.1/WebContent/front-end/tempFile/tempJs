@@ -17,9 +17,11 @@
         <script src="<%=request.getContextPath()%>/dist/js/main.js"></script>
         <script src="<%=request.getContextPath()%>/dist/slick/slick.min.js"></script>
         <script src="<%=request.getContextPath()%>/resource/sweetAlert2/dist/sweetalert2.min.js"></script>
+        <script src="<%=request.getContextPath()%>/resource/js/SearchBar.js"></script>
         <script>
 	        $('#loginModal').on('shown.bs.modal', function() {
 		    $('#myInput').trigger('focus')
-		})
+			});
+			
         </script>
         

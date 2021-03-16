@@ -54,6 +54,7 @@
 	
 #navbar-search{
     font-size: 2em;
+    cursor: pointer;
 }
 #navbar-search:hover{
     color: #333333;
@@ -61,9 +62,6 @@
 
 #navbar-search:active{
     color:#a6a6a6;
-}
-.bi-search::before {
-    vertical-align: -.125em;
 }
 .bi-search::before{
 	vertical-align:-0.125em;
@@ -81,7 +79,14 @@
 	color: #fff !important;
 	border: 1px solid #d9bf77 !important;
 }
-	
+.ui-autocomplete{
+        display:block;
+        z-index:1500;
+    }
+.ui-widget-content{
+	background:#F8F7F1;
+	color:#333333;
+}
 /* 	navBarCSS END */
 
 /* footerCSS */

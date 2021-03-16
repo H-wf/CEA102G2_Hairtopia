@@ -5,8 +5,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
@@ -31,6 +30,7 @@ public class TagDAO implements TagDAO_Interface{
 	private static final String DELETE = "DELETE FROM hairtopia.tag WHERE tagNo = ?;";
 	private static final String UPDATE = "UPDATE hairtopia.tag SET tagName=? WHERE tagNo=?;";
 	private static final String GET_TAG_NAME =	"SELECT tagName from hairtopia.tag where tagName like ?;";
+	private static final String GET_TAGNO =	"SELECT tagNo from hairtopia.tag where tagName like ?;";
 	
 	
 	@Override
@@ -294,6 +294,56 @@ public class TagDAO implements TagDAO_Interface{
 		return ajaxList;
 	}
 	
+    public Set<Integer> searchTagNo(String keyword){
+    	Set<Integer> tagNoSet = new HashSet<Integer>();
+		Integer tagNo = null;
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 	
+
+		try {
+
+			con = ds.getConnection();
+			pstmt = con.prepareStatement(GET_TAGNO);
+			pstmt.setString(1,"%" + keyword + "%");
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				// salonVO 也稱為 Domain objects
+				tagNo = rs.getInt("tagNo");
+				tagNoSet.add(tagNo); // Store the row in the list
+			}
+
+			// Handle any driver errors
+		} catch (SQLException se) {
+			throw new RuntimeException("A database error occured In method named 'searchTagNo'. "
+					+ se.getMessage());
+			// Clean up JDBC resources
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
+		
+		return tagNoSet;
+    }
 
 }

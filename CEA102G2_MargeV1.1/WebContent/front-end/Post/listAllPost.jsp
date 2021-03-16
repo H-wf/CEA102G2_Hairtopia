@@ -147,7 +147,7 @@ padding-bottom: 1rem;
 </style>
 
 <body>
-<jsp:include page="/front-end/chat/chatBox.jsp"></jsp:include>
+<%-- <jsp:include page="/front-end/chat/chatBox.jsp"></jsp:include> --%>
  <!-- navBar -->
     <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
         <a class="navbar-brand justify-content-center" href="#">
