@@ -34,10 +34,7 @@ public class SalonService {
 		
 	}
 	
-	public void addSalonWithDes(SalonVO salonVO,List<DesignerVO> list) {
-		dao.insertWithDes(salonVO, list);
-		
-	}
+	
 	
 	public SalonVO updateSalon(Integer salNo, String salName, String salAdd, 
 			String salTime, String salPhone, Integer salStatus) {
