@@ -98,6 +98,18 @@ public class DesignerService {
 		return dao.getAll();
 	}
 	
+	public DesignerVO updateOneScore(Integer desCount, Integer desTolScore, Integer desNo) {
+		
+		DesignerVO designerVO = new DesignerVO();
+		
+		designerVO.setDesCount(desCount);
+		designerVO.setDesTolScore(desTolScore);
+		designerVO.setDesNo(desNo);
+		
+		dao.updateScore(designerVO);
+		
+		return dao.findByDesNo(desNo);
+    
 	public List<String> getNameAJAX(String keyword){
 		return dao.getNameByAJAX(keyword);
 	}

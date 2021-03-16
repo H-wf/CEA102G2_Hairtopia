@@ -11,6 +11,7 @@ public interface DesignerDAO_interface {
 	public void update(DesignerVO designerVO);
 	public void updateWithoutPic(DesignerVO designerVO);
 	public void updateOneStatus(DesignerVO designerVO);
+	public void updateScore(DesignerVO designerVO);
 	
 	public void delete(Integer desNo);
 	
