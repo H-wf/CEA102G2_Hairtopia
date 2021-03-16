@@ -159,7 +159,7 @@ public void insert2(DesignerVO designerVO,Connection con) {
 			}
 		}
 		
-	};
+	
 	}
 	
 	public void update(DesignerVO designerVO) {
