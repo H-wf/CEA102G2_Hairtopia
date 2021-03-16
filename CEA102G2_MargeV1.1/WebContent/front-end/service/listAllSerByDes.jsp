@@ -86,7 +86,18 @@ body{
 <!-- Begin Page Content -->
 <div class="container-fluid">
 <div class="row">
-	<div class="col-3"></div>
+	<div class="col-3">
+		<div class="list-group">
+  			<a href="#" class="list-group-item list-group-item-action active">
+    			服務項目設定
+  			</a>
+  			<a href="<%=request.getContextPath()%>/reservation/res.do?action=queryByDesNo&desNo=${designerVO.desNo}" class="list-group-item list-group-item-action">預約狀態管理</a>
+  			<a href="#" class="list-group-item list-group-item-action">A third link item</a>
+  			<a href="#" class="list-group-item list-group-item-action">A fourth link item</a>
+  			<a href="#" class="list-group-item list-group-item-action disabled" tabindex="-1" aria-disabled="true">A disabled link item</a>
+		</div>
+		
+	</div>
 	<div class="col-6">
 		<div class="addService">
 			<a class="btn btn-primary btn-block" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">

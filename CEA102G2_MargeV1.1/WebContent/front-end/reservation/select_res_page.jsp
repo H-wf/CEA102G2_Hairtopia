@@ -54,6 +54,19 @@
        <input type="hidden" name="action" value="queryByDesNo">
     </FORM>
   </li>
+  
+  <li>
+     <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/reservation/res.do" >
+       <b>選擇設計師編號(列出其行事曆):</b>
+       <select size="1" name="desNo">
+         <c:forEach var="designerVO" items="${designerSvc.all}" > 
+          <option value="${designerVO.desNo}">${designerVO.desNo}-${designerVO.desName}
+         </c:forEach>   
+       </select>
+       <input type="submit" value="送出">
+       <input type="hidden" name="action" value="searchByDesNo">
+    </FORM>
+  </li>
 
   <li>
   <b>新增預約</b>
