@@ -37,7 +37,7 @@ img {
 			<th>員工編號</th>
 			<th>員工姓名</th>
 			<th>員工帳號</th>
-			<th>員工密碼</th>
+	
 			
 				
 		</tr>
@@ -45,7 +45,7 @@ img {
 			<td>${staVO.staNo}</td>
 			<td>${staVO.staName}</td>
 			<td>${staVO.staAcct}</td>
-			<td>${staVO.staPswd}</td>
+			
 		</tr>
 
 
