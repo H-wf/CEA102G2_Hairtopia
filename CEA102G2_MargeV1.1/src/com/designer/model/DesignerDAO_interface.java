@@ -18,6 +18,8 @@ public interface DesignerDAO_interface {
 	public DesignerVO findByMemNo(Integer memNo);
 	public DesignerVO findByDesNo(Integer desNo);
 	public List<DesignerVO> getAll();
+	public List<String> getNameByAJAX(String keyword);
+	public List<DesignerVO> searchDes(String keyword);
 	
 
 }

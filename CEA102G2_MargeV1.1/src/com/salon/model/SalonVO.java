@@ -49,12 +49,16 @@ public class SalonVO implements Serializable{
 	public void setSalStatus(Integer salStatus) {
 		this.salStatus = salStatus;
 	}
+
+	
 	public String getSalLat() {
 		return salLat;
 	}
+	
 	public void setSalLat(String salLat) {
 		this.salLat = salLat;
 	}
+	
 	public String getSalLng() {
 		return salLng;
 	}

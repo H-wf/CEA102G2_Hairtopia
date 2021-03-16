@@ -1,8 +1,10 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ page import="com.designer.model.*"%>
 <%@ page import="com.salon.model.*"%>
+
 
 <%
 	DesignerVO designerVO = (DesignerVO)request.getAttribute("designerVO");
@@ -27,6 +29,7 @@
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 
 
+
 <style>
 #addSalonimg{
 width:18px;
@@ -41,12 +44,14 @@ vertical-align:bottom;
 }
 
 
+
 textarea {
   resize : none;
   
 }
 
 .divDisplayNoneZZZ {
+
 display: none;
 
 }
@@ -163,6 +168,7 @@ padding:5px;
 			<div class="col-4 ScheduleTime">
 					<c:set var="x" value="${designerVO.desSchedule}"/>
 				    <select class="custom-select custom-control-inline time">
+
 					<c:forEach var="whatTime" begin="0" end="47" >
 					<fmt:formatNumber type="number" value="${((whatTime*30 -(whatTime*30%60)))/60}"  var="hour"/>
 					<c:set var="select" value="${s.index *4}"/>
@@ -178,6 +184,7 @@ padding:5px;
 					
 			<div class="col-4 ScheduleTime">
 				<select class="custom-select custom-control-inline time">
+
 					<c:forEach var="whatTime" begin="0" end="47">
 					<fmt:formatNumber type="number" value="${((whatTime*30 -(whatTime*30%60)))/60}"  var="hour"/>
 					<c:if test="${whatTime%6 ==0 && whatTime/6 != 7}">
@@ -213,6 +220,7 @@ padding:5px;
 		<input type="hidden" name="desStatus" value="0">
 		<input type="hidden" name="desSchedule" id="desSchedule" value="1">
 		
+
 		<input type="hidden" name="action" value="addDesAndSal"> 
 		<input type="hidden" id="salLat" name="salLat" value="7"> 
 		<input type="hidden" id="salLng" name="salLng" value="8"> 
@@ -231,18 +239,22 @@ padding:5px;
 <%@include file="/front-end/tempFile/footer" %>
 <%@include file="/front-end/tempFile/tempJs" %>
 <script src="http://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+
 <script>
 var contextPath = "<%=request.getContextPath()%>";
 	$(document).ready(function() {
 		//控制+號顯示出髮廊資料填寫
 		$('#addButton').click(function(){
 			if($('#addSalondiv').hasClass("divDisplayNone")){
-				$('#addSalondiv').fadeIn(500,function(){
+
+        $('#addSalondiv').fadeIn(500,function(){
+
 					$('#addSalondiv').removeClass("divDisplayNone");	
 				});
 				
 			}else{
 				$('#addSalondiv').fadeOut(500,function(){
+
 					$('#addSalondiv').addClass("divDisplayNone");
 				})		
 			}
@@ -260,6 +272,7 @@ var contextPath = "<%=request.getContextPath()%>";
 						dataType : "json",
 						success : function(data) {
 					
+
 						response($.map(data, function(item) {
 								return {
 									value : item.salName
@@ -276,6 +289,7 @@ var contextPath = "<%=request.getContextPath()%>";
 			
 			function serchBySalname(salName){
 		 	$.ajax({
+
 				url : contextPath + "/salon/salon.do",
 				type : "GET",
 				data : {
@@ -318,6 +332,7 @@ var contextPath = "<%=request.getContextPath()%>";
 				
 				 
 				} 
+
 				
 				 
 			}
@@ -441,6 +456,9 @@ var contextPath = "<%=request.getContextPath()%>";
             });
 
 // JS結束
+					console.log(error);
+
+
 	})
 	
 	
@@ -450,5 +468,6 @@ var contextPath = "<%=request.getContextPath()%>";
 
 
 </script>
+
 </body>
 </html>

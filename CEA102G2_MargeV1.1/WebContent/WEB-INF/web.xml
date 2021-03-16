@@ -20,7 +20,6 @@
 	</filter>
 	<filter-mapping>
 		<filter-name>loginFilter</filter-name>
-		<url-pattern>/front-end/member/NewFile.jsp</url-pattern>
 		<url-pattern>/front-end/product/Cart.jsp</url-pattern>
 		<dispatcher>REQUEST</dispatcher>
 		<dispatcher>FORWARD</dispatcher>
@@ -30,26 +29,26 @@
 	</filter-mapping>
 <!-- login 濾器註冊END -->
 	<!-- sitemesh濾器註冊 -->
-	<filter>
-		<filter-name>sitemesh</filter-name>
-		<filter-class>org.sitemesh.config.ConfigurableSiteMeshFilter</filter-class>
-	</filter>
-	<filter-mapping>
-		<filter-name>sitemesh</filter-name>
-		<url-pattern>/front-end/*</url-pattern>
-		<servlet-name>*</servlet-name>
+<!-- 	<filter> -->
+<!-- 		<filter-name>sitemesh</filter-name> -->
+<!-- 		<filter-class>org.sitemesh.config.ConfigurableSiteMeshFilter</filter-class> -->
+<!-- 	</filter> -->
+<!-- 	<filter-mapping> -->
+<!-- 		<filter-name>sitemesh</filter-name> -->
+<!-- 		<url-pattern>/front-end/*</url-pattern> -->
+<!-- 		<servlet-name>*</servlet-name> -->
 		<!-- <dispatcher>REQUEST</dispatcher> -->
 		<!-- <dispatcher>FORWARD</dispatcher> -->
 		<!-- <dispatcher>INCLUDE</dispatcher> -->
 		<!-- <dispatcher>ERROR</dispatcher> -->
 		<!-- <dispatcher>ASYNC</dispatcher> -->
-	</filter-mapping>
-	<filter-mapping>
-		<filter-name>sitemesh</filter-name>
-		<url-pattern>/front-end/*</url-pattern>
-		<servlet-name>*</servlet-name>
-		<dispatcher>FORWARD</dispatcher>
-	</filter-mapping>
+<!-- 	</filter-mapping> -->
+<!-- 	<filter-mapping> -->
+<!-- 		<filter-name>sitemesh</filter-name> -->
+<!-- 		<url-pattern>/front-end/*</url-pattern> -->
+<!-- 		<servlet-name>*</servlet-name> -->
+<!-- 		<dispatcher>FORWARD</dispatcher> -->
+<!-- 	</filter-mapping> -->
 	<!-- sitemesh濾器註冊END -->
 	<resource-ref>
 		<description>DB Connection</description>

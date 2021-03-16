@@ -3,6 +3,7 @@ package com.designer.controller;
 import java.io.IOException;
 
 import java.io.InputStream;
+import java.io.PrintWriter;
 import java.sql.Date;
 import java.util.LinkedList;
 import java.util.List;
@@ -13,15 +14,20 @@ import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
 
-import com.designer.model.DesignerService;
-import com.designer.model.DesignerVO;
+import com.google.gson.Gson;
+
+import com.designer.model.*;
+import com.salon.model.*;
+import com.member.model.*;
 
 @MultipartConfig
 
 public class DesignerServlet extends HttpServlet {
-
+	
+	Gson gson = new Gson();
 	public void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 		doPost(req, res);
 	}
@@ -82,6 +88,9 @@ public class DesignerServlet extends HttpServlet {
 				/*************************** 2.開始查詢資料 *****************************************/
 				DesignerService desSvc = new DesignerService();
 				DesignerVO desVO = desSvc.getOneDesByDesNo(desNo);
+/*取得髮廊VO*/
+				SalonVO salVo = new SalonService().getOneSalon(desVO.getSalNo());
+				
 				if (desVO == null) {
 					errorMsgs.add("查無設計師資料");
 				}
@@ -102,13 +111,21 @@ public class DesignerServlet extends HttpServlet {
 
 				/*************************** 3.查詢完成,準備轉交(Send the Success view) *************/
 				req.setAttribute("designerVO", desVO); // 資料庫取出的lecVO物件,存入req
+				req.setAttribute("salVo", salVo);
 				String url="";
+MemDAO mamdao = new MemDAO();
+MemVO memVO = mamdao.findByPrimaryKey(2);
+HttpSession session = req.getSession(); 
+session.setAttribute("memVO", memVO);
 				if("getOne_For_Display_Back".equals(action)) {
-				 url = "/back-end/designer/listOneDesignerBack.jsp";
-
+//				 url = "/back-end/designer/listOneDesignerBack.jsp";
+				 url = "/front-end/designer/designerPage.jsp";
+				 
 				}else if("getOne_For_Display".equals(action)) {
 
-				 url = "/front-end/designer/listOneDesigner.jsp" ;
+
+//				 url = "/front-end/designer/select_des_page.jsp" ;
+				 url = "/front-end/designer/designerPage.jsp";
 				}
 				RequestDispatcher successView = req.getRequestDispatcher(url); // 成功轉交 listOneLec.jsp
 				successView.forward(req, res);
@@ -469,6 +486,40 @@ public class DesignerServlet extends HttpServlet {
 				failureView.forward(req, res);
 			}
 		}
+		
+		if ("nav_serchByAjax".equals(action)) { // 來自listAllEmp.jsp
+
+
+			
+			/***************************1.接收請求參數***************************************/
+			String keyWord = (req.getParameter("keyWord"));
+			/***************************2.開始刪除資料***************************************/
+			DesignerService desSvc = new DesignerService();
+			List<String> ajaxList= desSvc.getNameAJAX(keyWord);
+	
+			String jsonStr = gson.toJson(ajaxList);
+
+			res.setContentType("text/plain");
+			res.setCharacterEncoding("UTF-8");
+			PrintWriter out = res.getWriter();
+			out.print(jsonStr);
+			out.flush();
+			out.close();
+			return;
+	}
+	if("navSearch".equals(action)) {
+		/***************************1.接收請求參數***************************************/
+		String keyword = (req.getParameter("keyword"));
+		/***************************2.開始查資料***************************************/
+		DesignerService desSvc = new DesignerService();
+		List<DesignerVO> desList = desSvc.searchDes(keyword);
+		
+		req.setAttribute("desList", desList);
+		
+		String url = "/front-end/designer/SearchDes.jsp";
+		RequestDispatcher successView = req.getRequestDispatcher(url); // 新增成功後轉交listAllDesigner.jsp
+		successView.forward(req, res);
+	}
 
 	}
 

@@ -33,4 +33,7 @@ public class TagdetService {
 	public Set<Integer> getTagNo(Integer postNo){
 		return dao.findByPostNo(postNo);
 	}
+	public Set<Integer> getPostNo(Integer tagNo){
+		return dao.searchPostNo(tagNo);
+	}
 }

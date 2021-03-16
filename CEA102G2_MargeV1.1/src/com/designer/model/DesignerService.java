@@ -29,6 +29,9 @@ public class DesignerService {
 
 		return designerVO;
 	}
+	public void addDesigner(DesignerVO designerVO,Connection con) {
+		dao.insert2(designerVO,con);
+	}
 	
 	public void addDesigner(DesignerVO designerVO,Connection con) {
 		dao.insert2(designerVO,con);
@@ -97,6 +100,13 @@ public class DesignerService {
 		return dao.getAll();
 	}
 	
+	public List<String> getNameAJAX(String keyword){
+		return dao.getNameByAJAX(keyword);
+	}
+	
+	public List<DesignerVO> searchDes(String keyword){
+		return dao.searchDes(keyword);
+	}
 	
 
 }
