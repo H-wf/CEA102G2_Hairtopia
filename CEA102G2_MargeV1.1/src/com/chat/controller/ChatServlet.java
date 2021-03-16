@@ -293,6 +293,10 @@ public class ChatServlet extends HttpServlet {
 				failureView.forward(req, res);
 			}
 		}
+		
+		if("delete".equals(action)) {
+			
+		}
 	}
 
 }

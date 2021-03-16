@@ -1,12 +1,10 @@
 package com.trenddescription.model;
 
 import java.util.List;
-
-
+import java.util.Set;
 
 public class TrenddescService {
-private TrenddescDAO_interface dao;
-	
+	TrenddescDAO_interface dao;
 	
 	public TrenddescService() {
 		dao = new TrenddescDAO();
@@ -14,39 +12,27 @@ private TrenddescDAO_interface dao;
 	
 	
 	public TrenddescVO addTrenddesc(Integer treNo,Integer postNo) {
-		TrenddescVO tredVO = new TrenddescVO();
-
-		tredVO.setTreNo(treNo);
-		tredVO.setPostNo(postNo);
+		TrenddescVO trenddescVo = new TrenddescVO();
 		
-
-		dao.insert(tredVO);
-
-		return tredVO;
-
+		trenddescVo.setTreNo(treNo);
+		trenddescVo.setPostNo(postNo);
+		
+		dao.insert(trenddescVo);
+		
+		return trenddescVo;
 	}
 	
-	public void deleteTrenddesc(Integer treNo) {
-		dao.delete(treNo);
+	public TrenddescVO addTrenddesc(TrenddescVO trenddescVo) {
+		dao.insert(trenddescVo);
+		return trenddescVo;
 	}
 	
-	public void deleteTrenddesc(Integer treNo,Integer postNo) {
-		dao.delete(treNo,postNo);
-	}
-	
-	public List<TrenddescVO> getAllByTreNo(Integer treNo) {
-
-		return dao.findByPrimaryKey(treNo);
-	}
-	
-	public List<TrenddescVO> getAllByPostNo(Integer postNo) {
-
-		return dao.findByPrimaryKey2(postNo);
-	}
 	public List<TrenddescVO> getAll() {
-
 		return dao.getAll();
 	}
 	
+	public Set<Integer> getTreNo(Integer postNo){
+		return dao.findByPostNo(postNo);
+	}
 
 }

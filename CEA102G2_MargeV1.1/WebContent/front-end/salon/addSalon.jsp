@@ -11,6 +11,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+
 </head>
 <body>
 <h3>資料新增:</h3>
@@ -53,5 +54,6 @@
 <br>
 <input type="hidden" name="action" value="insert">
 <input type="submit" value="送出新增"></FORM>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 </body>
 </html>

@@ -1,6 +1,9 @@
 package com.salon.model;
 
 import java.util.List;
+import com.designer.model.DesignerVO;
+
+import com.designer.model.DesignerVO;
 
 public interface SalonDAO_interface {
 	
@@ -9,5 +12,12 @@ public interface SalonDAO_interface {
 	public void delete(Integer salNo);
 	public SalonVO findByPrimaryKey(Integer salNo);
 	public List<SalonVO> getAll();
+	public void insertWithDes(SalonVO salonVO, List<DesignerVO> list);
+	public List<SalonVO> getAllByAjax(String keyword);
+	public SalonVO findBySalName(String salName);
+
+	public List<String> getSalAJAX(String keyword);
+	public List<SalonVO> getAllSearch(String keyword);
+
  
 }
