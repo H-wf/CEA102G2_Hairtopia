@@ -109,8 +109,9 @@ public class DesignerService {
 		dao.updateScore(designerVO);
 		
 		return dao.findByDesNo(desNo);
-		}
-    
+
+	}
+
 	public List<String> getNameAJAX(String keyword){
 		return dao.getNameByAJAX(keyword);
 	}

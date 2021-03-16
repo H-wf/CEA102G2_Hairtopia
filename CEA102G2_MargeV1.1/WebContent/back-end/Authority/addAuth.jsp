@@ -9,7 +9,7 @@
 <html>
 <head>
 
-<title>add Authority</title>
+<title>add Authority </title>
 </head>
 <body>
 <%-- 	        ${authSvc.getFuncNo(staVO.staNo)}  = list --%>
