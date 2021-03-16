@@ -6,6 +6,8 @@
 
 	<jsp:useBean id="serviceSvc" scope="page" class="com.service.model.ServiceService" />
 	<jsp:useBean id="designerSvc" scope="page" class="com.designer.model.DesignerService" />
+	<jsp:useBean id="resSvc" scope="page" class="com.reservation.model.ResService" />
+	<jsp:useBean id="memSvc" scope="page" class="com.member.model.MemService" />
 
 <!DOCTYPE html>
 <html>
@@ -17,19 +19,25 @@
  
 </head>
 <style>
+	td,th{
+		font-size:1rem;
+	}
 	.ftco-navbar-light{
 		position:static;
 	}
 	a{
 		text-decoration:none
 	}
-	body{
-		font-size:.9rem;
-		font-weight:400;
-	}
 	.btn-primary{
 		border:0px;
 		padding:.3rem .5rem;
+	}
+	.list-group-item{
+		font-weight:400;
+	}
+	.list-group-item.active{
+		background-color:#D8CF9E;
+		border:0px;
 	}
 </style>
 <body>
@@ -38,7 +46,26 @@
 <!-- Begin Page Content -->
 <div class="container-fluid">
 <div class="row">
-	<div class="col-2"></div>
+	<div class="col-1"></div>
+	<div class="col-2">
+		<div class="list-group">
+  			<a href="<%=request.getContextPath()%>/service/service.do?action=queryByDesNo&desNo=${designerVO.desNo}" class="list-group-item list-group-item-action">
+    			服務項目管理
+  			</a>
+  			<a href="#" class="list-group-item list-group-item-action active">
+  				預約狀態管理
+  			</a>
+  			<a href="<%=request.getContextPath()%>/front-end/reservation/listScheduleOfDes.jsp" class="list-group-item list-group-item-action">
+  				查看預約行程
+  			</a>
+  			<a href="#" class="list-group-item list-group-item-action">
+  				貼文狀態管理
+  			</a>
+  			<a href="#" class="list-group-item list-group-item-action disabled" tabindex="-1" aria-disabled="true">
+				個人資訊修改
+			</a>
+		</div>
+	</div>
 	<div class="col-8">
 	<c:if test="${not empty errorMsgs}">
 		<font style="color: red">請修正以下錯誤:</font>
@@ -53,7 +80,7 @@
 	<table class="table table-striped">
 	<tr>
 		<th>預約編號</th>
-		<th>會員編號</th>
+		<th>預約會員</th>
 		<th>服務項目</th>
 		<th>預約時間</th>
 		<th>預約狀態</th>
@@ -62,15 +89,15 @@
 		<th>預約操作</th>
 	</tr>
  
-	<c:forEach var="resVO" items="${list}" >
+	<c:forEach var="resVO" items="${resSvc.getAllResByDesNo(desNo)}" >
 		
 		<tr>
 			<td><a href="res.do?resNo=${resVO.resNo}&action=getOne_For_Display_Of_Des">
 				${resVO.resNo}</a></td>
-			<td>${resVO.memNo}改名字</td>
+			<td>${memSvc.getOneMemName(resVO.memNo)}</td>
 			<td><c:forEach var="serviceVO" items="${serviceSvc.all}">
 					<c:if test="${serviceVO.serNo==resVO.serNo}">
-	            	${serviceVO.serNo}-${serviceVO.serName}
+	            	${serviceVO.serName}
             		</c:if>
 				</c:forEach></td>
 			
@@ -80,7 +107,7 @@
 	            	<c:set var="serPeriod" value="${serviceVO.serTime}"/>
             		</c:if>
 				</c:forEach>
-				<fmt:formatDate value="${resVO.resDate}" pattern="yyyy-MM-dd"/>
+				<fmt:formatDate value="${resVO.resDate}" pattern="yyyy-MM-dd"/><br>
 				<c:set var="startTime" value="${resVO.resTime}"/>
 				<c:set var="endTime" value="${startTime+serPeriod}"/>
 				<fmt:formatNumber type="number" value="${((startTime*30 -(startTime*30%60)))/60}"  var="shour"/>
@@ -161,7 +188,7 @@
 </div>
 </c:if>
 </div>
-<div class="col-2"></div>
+<div class="col-1"></div>
 </div>
 </div>
 

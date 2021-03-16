@@ -24,6 +24,17 @@
 	.ftco-navbar-light{
 		position:static;
 	}
+	.list-group-item{
+		font-weight:400;
+	}
+	.list-group-item.active{
+		background-color:#D8CF9E;
+		border:0px;
+	}
+	.fc-title {
+		color:white;
+		font-size:.9rem;
+	}
 	.fc-scroller {
   		height: auto !important;
 	}
@@ -43,12 +54,31 @@
 <!-- Begin Page Content -->
 <div class="container-fluid">
 	<div class="row">
-		<div class="col-2"></div>
+		<div class="col-1"></div>
+		<div class="col-2">
+			<div class="list-group">
+  			<a href="<%=request.getContextPath()%>/service/service.do?action=queryByDesNo&desNo=${designerVO.desNo}" class="list-group-item list-group-item-action">
+    			服務項目管理
+  			</a>
+  			<a href="<%=request.getContextPath()%>/reservation/res.do?action=queryByDesNo&desNo=${designerVO.desNo}" class="list-group-item list-group-item-action">
+  				預約狀態管理
+  			</a>
+  			<a href="#" class="list-group-item list-group-item-action active">
+  				查看預約行程
+  			</a>
+  			<a href="#" class="list-group-item list-group-item-action">
+  				貼文狀態管理
+  			</a>
+  			<a href="#" class="list-group-item list-group-item-action disabled" tabindex="-1" aria-disabled="true">
+				個人資訊修改
+			</a>
+		</div>
+		</div>		
 		<div class="col-8">
 			<div id = listView style="display: inline-block;"></div>
     		<div id="test"></div>
 		</div>
-		<div class="col-2"></div>
+		<div class="col-1"></div>
 	</div>
 	<div class="modal fade" id="basicModal" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true" >
 		<div class="modal-dialog modal-sm">
@@ -163,8 +193,8 @@
   					start : moment(data[i].resDate).format('YYYY-MM-DD'),
   					title : data[i].memName + "(" + starthour + ":" + startminute + "~" 
   							+ endhour + ":" + endminute + ")",
-  					color : "#3a87ad",
-  					content:"<div style=font-size:14px;>"
+  					color : "#D8CF9E",
+  					content:"<div style=font-size:.9rem;>"
   							+data[i].memName
   							+"<br>"+data[i].serName
   							+"<br>" + starthour + ":" + startminute + "~" + endhour + ":" + endminute
@@ -222,7 +252,7 @@
 						$(this).children().children("span").html(calEvent.content);
 					},
 					eventMouseout : function(calEvent, jsEvent, view) {
-						$(this).css('background-color', '#3a87ad');
+						$(this).css('background-color', '#D8CF9E');
 						$(this).css('z-index', '');
 						$(this).children().children("span").html('');
 						$(this).children().children("span").text(calEvent.title);
