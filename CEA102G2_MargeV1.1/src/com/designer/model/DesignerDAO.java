@@ -65,7 +65,7 @@ public class DesignerDAO implements DesignerDAO_interface{
 		private static final String UPDATE_DES_SCORE = 
 				"UPDATE designer set desCount=?, desTolScore=? where desNo=?";
 		private static final String GET_DES_NAME =	"SELECT desName from designer where desName like ?;";
-		private static final String GET_DES_SEARCH = "SELECT salNo, desName, desInfor, desCount, desTolScore,desSchedule,"
+		private static final String GET_DES_SEARCH = "SELECT salNo,desNo, desName, desInfor, desCount, desTolScore,desSchedule,"
 		              +"desPic FROM designer where desName like ?;";
 	
 	public void insert(DesignerVO designerVO) {
@@ -632,6 +632,7 @@ public void insert2(DesignerVO designerVO,Connection con) {
 				// empVo 也稱為 Domain objects
 				designerVO = new DesignerVO();
 				designerVO.setSalNo(rs.getInt("salNo"));
+				designerVO.setDesNo(rs.getInt("desNo"));
 				designerVO.setDesName(rs.getString("desName"));
 				designerVO.setDesInfor(rs.getString("desInfor"));
 				designerVO.setDesCount(rs.getInt("desCount"));

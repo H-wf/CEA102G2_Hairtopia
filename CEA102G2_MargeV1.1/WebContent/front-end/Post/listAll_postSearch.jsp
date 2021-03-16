@@ -15,9 +15,7 @@
 <%@include file="/front-end/tempFile/head"%>
 
 <style>
-/* .postImg{ */
-/* margin-right: 0px; */
-/* } */
+
 
 .ftco-navbar-light {
 	position: static;
@@ -105,7 +103,7 @@ img {
 
 						<div class="card w-auto onePost"  id="${postVO.postNo}" style="width: 18rem;">
 							<div class="row no-gutters">
-								<div class="col-md-3 postImg">
+								<div class="col-md-3 ">
 									<img  class="img-fluid" src="<%=request.getContextPath()%>/PicFinder?pic=1&table=post&column=postPic1&idname=postNo&id=${postVO.postNo}"
 										alt='沒有圖片' />
 								</div>
