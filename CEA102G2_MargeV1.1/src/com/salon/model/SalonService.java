@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.designer.model.*;
 
+
 public class SalonService {
 	
 	private SalonDAO_interface dao;
@@ -13,7 +14,7 @@ public class SalonService {
 	}
 	
 	public SalonVO addSalon(String salName, String salAdd, String salTime,
-			String salPhone, Integer salStatus) {
+			String salPhone, Integer salStatus,String salLat,String salLng) {
 
 		SalonVO salonVO = new SalonVO();
 
@@ -22,10 +23,17 @@ public class SalonService {
 		salonVO.setSalTime(salTime);
 		salonVO.setSalPhone(salPhone);
 		salonVO.setSalStatus(salStatus);
+		salonVO.setSalLat(salLat);
+		salonVO.setSalLng(salLng);
 		dao.insert(salonVO);
 
 		return salonVO;
 	}
+	public void addSalonWithDes(SalonVO salonVO,List<DesignerVO> list) {
+		dao.insertWithDes(salonVO, list);
+		
+	}
+	
 	public void addSalonWithDes(SalonVO salonVO,List<DesignerVO> list) {
 		dao.insertWithDes(salonVO, list);
 		
@@ -58,6 +66,7 @@ public class SalonService {
 	public List<SalonVO> getAll() {
 		return dao.getAll();
 	}
+
 	public List<SalonVO> getAllbyAjax(String keyword) {
 		return dao.getAllByAjax(keyword);
 	}

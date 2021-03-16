@@ -318,6 +318,15 @@
 		<servlet-name>ShowImage</servlet-name>
 		<url-pattern>/showImges.do</url-pattern>
 	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>TrenddescServlet</servlet-name>
+		<servlet-class>com.trenddescription.controller.TrenddescServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>TrenddescServlet</servlet-name>
+		<url-pattern>/trenddesc/trenddesc.do</url-pattern>
+	</servlet-mapping>
 
 	
 	<!-- servlet註冊END -->

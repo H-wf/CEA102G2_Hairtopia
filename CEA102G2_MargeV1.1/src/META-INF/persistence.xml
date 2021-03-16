@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.2"
+	xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_2.xsd">
+	
+	<!-- 一個persistence.xml 中可以設定多個 Persistence Unit ， 每個 Persistence Unit 可當作是一個資料庫連結設定 -->
+    <!-- <persistence-unit name="emp"> 的 name 名稱即作為 Persistence Unit 的識別名稱 -->
+    <!-- 見 JPAUtil.java的第10行 呼叫此 Persistence Unit 的識別名稱 emp -->
+	<persistence-unit name="Hairtopia" transaction-type="RESOURCE_LOCAL">
+
+        <class>com.staff.model.StaffVO</class>
+		<class>com.authority.model.AuthorityVO</class>
+		<class>com.func.model.FunctionVO</class>
+
+		<properties>
+			
+			<property name="javax.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver" />
+			<property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/hairtopia?serverTimezone=Asia/Taipei" />
+			<property name="javax.persistence.jdbc.user" value="root" />
+			<property name="javax.persistence.jdbc.password" value="123456" />
+			
+            <!-- 以下的屬性名稱結果同上 -->
+            <!-- <property name="hibernate.connection.driver_class" value="com.mysql.cj.jdbc.Driver" /> -->
+            <!-- <property name="hibernate.connection.url" value="jdbc:mysql://localhost:3306/db01?serverTimezone=Asia/Taipei" /> -->
+            <!-- <property name="hibernate.connection.username" value="root" /> -->
+            <!-- <property name="hibernate.connection.password" value="123456" /> -->
+			
+			
+			<property name="hibernate.dialect" value="org.hibernate.dialect.MySQL8Dialect" />
+			<property name="hibernate.show_sql" value="true" />
+			
+			
+            <!-- 以下第38行可自動create table    (第一次執行時使用) -->
+            
+            <!-- (使用sequence的資料庫，以下才會同時自動create sequence) -->
+            <!-- 以下可自動create sequence (第一次執行時使用) - 如未指定【自訂的】sequence名稱，則自動執行: create sequence hibernate_sequence start with 1 increment by 1 --> 
+            <!-- 以下可自動create sequence (第一次執行時使用) - 如有指定【自訂的】sequence名稱，則自動執行: create sequence       【自訂的名稱】       start with 1 increment by 1 -->
+            
+<!--             <property name="hibernate.hbm2ddl.auto" value="create" />  -->
+		
+		</properties>
+		
+	</persistence-unit>
+
+
+</persistence>

@@ -33,6 +33,10 @@ public class DesignerService {
 		dao.insert2(designerVO,con);
 	}
 	
+	public void addDesigner(DesignerVO designerVO,Connection con) {
+		dao.insert2(designerVO,con);
+	}
+	
 	public DesignerVO getOneDesByMemNo(Integer memNo) {
 		return dao.findByMemNo(memNo);
 	}

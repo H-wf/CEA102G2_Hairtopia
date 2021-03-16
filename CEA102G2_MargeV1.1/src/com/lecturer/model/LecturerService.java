@@ -12,14 +12,16 @@ public class LecturerService {
 	
 	
 	
-	public LecturerVO addLecturer(String lecName,byte[] lecPic, String lecIntro, Integer lecStatus) {
+	public LecturerVO addLecturer(String lecName,byte[] lecPic, String lecIntro, Integer lecStatus,Integer staNo) {
 		LecturerVO lecVO = new LecturerVO();
 		
 		lecVO.setLecName(lecName);
 		lecVO.setLecPic(lecPic);
 		lecVO.setLecIntro(lecIntro);
 		lecVO.setLecStatus(lecStatus);
+		lecVO.setStaNo(staNo);
 		dao.insert(lecVO);
+		
 		
 		return lecVO;
 		

@@ -53,22 +53,26 @@
 			</tr>
 			<tr>
 				<td>員工姓名:</td>
-				<td><input type="TEXT" name="staName" size="45" 
-					value="${staVO.staName}" /></td>
+				<td>${staVO.staName}</td>
 			</tr>
 			<tr>
 				<td>員工帳號:</td>
-				<td><input type="TEXT" name="staAcct" size="45" 
-					value="${staVO.staAcct}" /></td>
+				<td>${staVO.staAcct}</td>
 			</tr>
 			<tr>
-				<td>請輸入密碼</td>
+				<td>請輸入舊密碼</td>
 				<td><input type="password" name="staPswd" required="true"
-					size="45" value="${staVO.staPswd}"  /></td>
+					size="45"   /></td>
 			</tr>
 			<tr>
-				<td>請再次輸入密碼</td>
-				<td><input type="password" name="staPswd2" required="true"
+				<td>請輸入新密碼</td>
+				<td><input type="password" class="newPswd" name="staPswd2" required="true"
+					size="45" value=""  /></td>
+			</tr>
+			
+			<tr>
+				<td>請再次輸入新密碼</td>
+				<td><input type="password" class="newPswd" required="true"
 					size="45" value=""  /></td>
 			</tr>
 
@@ -76,19 +80,22 @@
 		</table>
 
 
-		<br> <input type="hidden" name="action" value="update"> <input
-			type="hidden" name="staNo" value="${staVO.staNo}"> <input
-			type="submit" id="submit" cless="login_btn" value="送出修改">
+		<br> 
+			<input type="hidden" name="action" value="update"> 
+			<input type="hidden" name="staNo" value="${staVO.staNo}"> 
+			<input type="hidden" name="staName" value="${staVO.staName}"> 
+			<input type="hidden" name="staAcct" value="${staVO.staAcct}"> 
+			<input	type="submit" id="submit" class="login_btn" value="送出修改">
 
 	</form>
 
 	<script>
 		var form = document.forms[0], 
 		    submit = document.querySelector(".login_btn"), 
-		    inputBtn = document.getElementsByTagName("input");
+		    newPswd = document.getElementsByClassName("newPswd");
 		
 		form.onsubmit = function() {
-			if (inputBtn[2].value != inputBtn[3].value) {
+			if (newPswd[0].value != newPswd[1].value) {
 				alert("兩次密碼輸入不匹配，請更正！");
 				return false;
 			}

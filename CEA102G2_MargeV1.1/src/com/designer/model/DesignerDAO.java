@@ -107,6 +107,7 @@ public class DesignerDAO implements DesignerDAO_interface{
 			}
 		}
 		
+
 	}
 	
 public void insert2(DesignerVO designerVO,Connection con) {
@@ -158,6 +159,7 @@ public void insert2(DesignerVO designerVO,Connection con) {
 			}
 		}
 		
+	};
 	}
 	
 	public void update(DesignerVO designerVO) {
@@ -511,6 +513,7 @@ public void insert2(DesignerVO designerVO,Connection con) {
 		}
 		return designerVO;
 	}
+	
 
 	@Override
 	public List<String> getNameByAJAX(String keyword) {

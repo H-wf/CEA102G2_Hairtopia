@@ -123,6 +123,7 @@ session.setAttribute("memVO", memVO);
 				 
 				}else if("getOne_For_Display".equals(action)) {
 
+
 //				 url = "/front-end/designer/select_des_page.jsp" ;
 				 url = "/front-end/designer/designerPage.jsp";
 				}
