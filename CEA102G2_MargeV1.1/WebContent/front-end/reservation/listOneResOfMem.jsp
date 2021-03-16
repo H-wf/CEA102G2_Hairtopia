@@ -60,14 +60,15 @@
             content: '\2606';
             font-family: FontAwesome
         }
+        body{
+			font-size:.9rem;
+			font-weight:400;
+		}
     </style>
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
 <body>
 
-<h3>服務資料 - ListOneResOfMem.jsp</h3>
+<h5>服務資料 - ListOneResOfMem.jsp</h5>
 <jsp:useBean id="designerSvc" scope="page" class="com.designer.model.DesignerService" />
 <jsp:useBean id="serviceSvc" scope="page" class="com.service.model.ServiceService" />
 <jsp:useBean id="salonSvc" scope="page" class="com.salon.model.SalonService" />

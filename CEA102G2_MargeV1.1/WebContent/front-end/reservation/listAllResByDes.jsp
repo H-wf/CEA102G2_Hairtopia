@@ -4,28 +4,52 @@
 <%@ page import="java.util.*"%>
 <%@ page import="com.reservation.model.*"%>
 
+	<jsp:useBean id="serviceSvc" scope="page" class="com.service.model.ServiceService" />
+	<jsp:useBean id="designerSvc" scope="page" class="com.designer.model.DesignerService" />
+
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<title>設計師預約資料 - listAllResByDesNo.jsp</title>
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<!-- 網頁標題要改記得改! -->
+ <title>Hairtopia</title>
+ <meta charset="utf-8">
+<%@include file="/front-end/tempFile/head" %>
+ 
 </head>
+<style>
+	.ftco-navbar-light{
+		position:static;
+	}
+	a{
+		text-decoration:none
+	}
+	body{
+		font-size:.9rem;
+		font-weight:400;
+	}
+	.btn-primary{
+		border:0px;
+		padding:.3rem .5rem;
+	}
+</style>
 <body>
-<%-- 	<c:if test="${not empty errorMsgs}"> --%>
-<!-- 		<font style="color: red">請修正以下錯誤:</font> -->
-<!-- 		<ul> -->
-<%-- 			<c:forEach var="message" items="${errorMsgs}"> --%>
-<%-- 				<li style="color: red">${message}</li> --%>
-<%-- 			</c:forEach> --%>
-<!-- 		</ul> -->
-<%-- 	</c:if> --%>
+<%@include file="/front-end/tempFile/navBar" %>
+
+<!-- Begin Page Content -->
+<div class="container-fluid">
+<div class="row">
+	<div class="col-2"></div>
+	<div class="col-8">
+	<c:if test="${not empty errorMsgs}">
+		<font style="color: red">請修正以下錯誤:</font>
+		<ul>
+			<c:forEach var="message" items="${errorMsgs}">
+				<li style="color: red">${message}</li>
+			</c:forEach>
+		</ul>
+	</c:if>
 	
-	
-	<jsp:useBean id="designerSvc" scope="page" class="com.designer.model.DesignerService" />
-	 <h4>設計師名稱:${designerSvc.getOneDesByDesNo(desNo).desName}</h4>
+	<h4>設計師名稱:${designerSvc.getOneDesByDesNo(desNo).desName}</h4>
 	<table class="table table-striped">
 	<tr>
 		<th>預約編號</th>
@@ -37,9 +61,7 @@
 		<th>預約金額</th>
 		<th>預約操作</th>
 	</tr>
-	<jsp:useBean id="serviceSvc" scope="page" class="com.service.model.ServiceService" />
  
-	
 	<c:forEach var="resVO" items="${list}" >
 		
 		<tr>
@@ -94,21 +116,18 @@
 			<td>${resVO.resCom}</td> 
 		
 			<td>${resVO.resPrice}</td>
-			<td>
+			<td style="width:8rem">
 				<c:if test="${resVO.resStatus == 0}">
-				<table>
-				<tr>
-				<td style="border:0px"><FORM METHOD="post" ACTION="<%=request.getContextPath()%>/reservation/res.do" style="font-size:12px">
-			    	<input type="submit" value="確認">
+				<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/reservation/res.do" style="font-size:12px;display:inline">
+			    	<input type="submit" value="確認" class="btn btn-primary" >
 			    	<input type="hidden" name="resNo"  value="${resVO.resNo}">
-			    	<input type="hidden" name="action"	value="getOne_For_Update_Confirm"></FORM></td>
-			    <td style="border:0px"><FORM METHOD="post" ACTION="<%=request.getContextPath()%>/reservation/res.do" style="font-size:12px">
-			    	<input type="submit" value="取消">
+			    	<input type="hidden" name="action"	value="getOne_For_Update_Confirm"></FORM>
+			    <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/reservation/res.do" style="font-size:12px;display:inline">
+			    	<input type="submit" value="取消" class="btn btn-primary" style="display:inline">
 			    	<input type="hidden" name="resNo"  value="${resVO.resNo}">
-			   		<input type="hidden" name="action" value="cancelByDes"></FORM></td>
-			   	</tr>
-			   		</table>
+			   		<input type="hidden" name="action" value="cancelByDes"></FORM>
 			   	</c:if>
+			   	
 			   
 			    
 			
@@ -120,12 +139,11 @@
 </table>
 <c:if test="${openModal!=null}">
 <div class="modal fade" id="basicModal" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
-	<div class="modal-dialog modal-sm">
+	<div class="modal-dialog">
 		<div class="modal-content">
-				
 			<div class="modal-header">
+                <h4 class="modal-title" id="myModalLabel">Reservation Detail</h4>
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h3 class="modal-title" id="myModalLabel">Reservation Detail</h3>
             </div>
 			
 			<div class="modal-body">
@@ -135,18 +153,23 @@
 			</div>
 			
 			<div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
             </div>
 		
 		</div>
 	</div>
 </div>
-
-        <script>
-    		 $("#basicModal").modal({show: true});
-        </script>
-     
 </c:if>
+</div>
+<div class="col-2"></div>
+</div>
+</div>
+
+<!-- Page Content END -->
+<%@include file="/front-end/tempFile/footer" %>
+<%@include file="/front-end/tempFile/tempJs" %>
 </body>
+<script>
+    $("#basicModal").modal({show: true});
+</script>
 </html>

@@ -4,21 +4,38 @@
 <%@ page import="java.util.*"%>
 <%@ page import="com.reservation.model.*"%>
 
+	<jsp:useBean id="serviceSvc" scope="page" class="com.service.model.ServiceService" />
+	<jsp:useBean id="designerSvc" scope="page" class="com.designer.model.DesignerService" />
+
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<title>會員預約資料 - listAllResByMemNo.jsp</title>
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<!-- 網頁標題要改記得改! -->
+ <title>Hairtopia</title>
+ <meta charset="utf-8">
+<%@include file="/front-end/tempFile/head" %>
+ 
+</head>
 <style>
+	.ftco-navbar-light{
+		position:static;
+	}
 	a{
-	text-decoration:none
+		text-decoration:none
+	}
+	body{
+		font-size:.9rem;
+		font-weight:400;
 	}
 </style>
-</head>
 <body>
+<%@include file="/front-end/tempFile/navBar" %>
+
+<!-- Begin Page Content -->
+<div class="container-fluid">
+<div class="row">
+	<div class="col-2"></div>
+	<div class="col-8">
 	<c:if test="${not empty errorMsgs}">
 		<font style="color: red">請修正以下錯誤:</font>
 		<ul>
@@ -29,21 +46,17 @@
 	</c:if>
 	
 	<h4>會員名稱:之後用session.getAttribute()取得會員編號</h4>
-	<table class="table table-striped" style="width:85%">
+	<table class="table table-striped">
 	<tr>
 		<th>預約編號</th>
 		<th>服務項目</th>
 		<th>設計師</th>
 		<th>預約時間</th>
 		<th>預約狀態</th>
-		<th>預約評價</th>
-		<th>預約驗證碼</th>
 		<th>預約金額</th>
 		<th>預約操作</th>
 		
 	</tr>
-	<jsp:useBean id="serviceSvc" scope="page" class="com.service.model.ServiceService" />
-	<jsp:useBean id="designerSvc" scope="page" class="com.designer.model.DesignerService" />
 	
 	<c:forEach var="resVO" items="${list}" >
 		
@@ -52,7 +65,7 @@
 			<td>
 				<c:forEach var="serviceVO" items="${serviceSvc.all}">
 					<c:if test="${serviceVO.serNo==resVO.serNo}">
-	            	${serviceVO.serNo}-${serviceVO.serName}
+	            	${serviceVO.serName}
             		</c:if>
 				</c:forEach>
 			</td>
@@ -102,26 +115,13 @@
 				</c:otherwise>
 			</c:choose>
 			</td>
-			<td>${resVO.resCom}</td> 
-			<td>
-			<c:choose>
-			<c:when test="${resVO.resStatus == 0}">
-			驗證碼未產生
-			</c:when>
-			<c:when test="${resVO.resStatus == 4 || resVO.resStatus == 5}">
-			訂單已取消
-			</c:when>
-			<c:otherwise>
-			${resVO.resCode}
-			</c:otherwise>
-			</c:choose>
-			</td>
+			
 			<td>${resVO.resPrice}</td>
-			<td>
+			<td style="padding:.5rem">
 			
 				<c:if test="${resVO.resStatus == 0}">
 					<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/reservation/res.do" style="margin-bottom: 0px;">
-			     	<input type="submit" value="取消預約" style="font-size:12px">
+			     	<input type="submit" value="取消預約"  class="btn btn-primary" style="border:0px;padding:.3rem .75rem">
 			    	<input type="hidden" name="resNo"  value="${resVO.resNo}">
 			     	<input type="hidden" name="action"	value="cancelByMem"></FORM>
 				</c:if>
@@ -132,12 +132,11 @@
 </table>
 <c:if test="${openModal!=null}">
 <div class="modal fade" id="basicModal" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
-	<div class="modal-dialog modal-sm">
+	<div class="modal-dialog">
 		<div class="modal-content">
-				
 			<div class="modal-header">
+                <h4 class="modal-title" id="myModalLabel">Reservation Detail</h4>
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h3 class="modal-title" id="myModalLabel">The Bootstrap modal-header</h3>
             </div>
 			
 			<div class="modal-body">
@@ -147,17 +146,23 @@
 			</div>
 			
 			<div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
             </div>
 		
 		</div>
 	</div>
 </div>
-
-        <script>
-    		 $("#basicModal").modal({show: true});
-        </script>
 </c:if>
+</div>
+<div class="col-2"></div>
+</div>
+</div>
+
+<!-- Page Content END -->
+<%@include file="/front-end/tempFile/footer" %>
+<%@include file="/front-end/tempFile/tempJs" %>
 </body>
+<script>
+    $("#basicModal").modal({show: true});
+</script>
 </html>
