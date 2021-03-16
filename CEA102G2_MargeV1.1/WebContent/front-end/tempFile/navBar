@@ -22,6 +22,11 @@
                     <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">風格誌</a>
                 </li>
                 <li>
+                    <div id="navbar-bell">
+                        <i class="bi bi-bell"></i>
+                    </div>
+                </li>
+                <li>
                     <div id="navbar-search">
                         <i class="bi bi-search"></i>
                     </div>
