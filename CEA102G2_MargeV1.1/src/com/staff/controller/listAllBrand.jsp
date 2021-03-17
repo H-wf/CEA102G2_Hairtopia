@@ -1,19 +1,23 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page import="java.util.*"%>
-<%@ page import="com.rule.model.*"%>
+<%@ page import="com.brand.model.*"%>
+
+
 <%-- 此頁練習採用 EL 的寫法取值 --%>
 
 <%
-	RuleService ruleSvc = new RuleService();
-	List<RuleVO> list = ruleSvc.getAll();
+	BrandService braSvc = new BrandService();
+	List<BrandVO> list = braSvc.getAll();
 	pageContext.setAttribute("list", list);
 %>
 
+<!DOCTYPE html>
 <html lang="en">
+
 <head>
-<title>所有條款資料 - listAllRule.jsp<a href="<%=request.getContextPath()%>/back-end/rule/select_rule_page.jsp"><img src="<%=request.getContextPath()%>/resource/images/back1.gif" width="100" height="32" border="0">回首頁</a></title>
-meta charset="utf-8">
+    <title>所有品牌資料 - listAllBrand.jsp</title>
+    <meta charset="utf-8">
 <%@include file="/back-end/tempFile/head" %>
 <link href="<%=request.getContextPath()%>/dist/backTemp/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
 </head>
@@ -44,45 +48,44 @@ meta charset="utf-8">
 					<table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
 						<thead>
 							<tr>
-								<th>條款編號</th>
-								<th>條款名稱</th>
-								<th>條款內容</th>
-								<th>修改</th>
-								<th>刪除</th>
-							</tr>
-						</thead>
+                           		<th>品牌編號</th>
+                                <th>品牌名稱</th>
+                                <th>品牌logo</th>
+                                <th>品牌介紹</th>
+                                <th>修改</th>
+                                <th>刪除</th>
+                            </tr>
+                        </thead>
                         <tfoot>
                             <tr>
-                                <th>條款編號</th>
-								<th>條款名稱</th>
-								<th>條款內容</th>
-								<th>修改</th>
-								<th>刪除</th>
+                               <th>品牌編號</th>
+                               <th>品牌名稱</th>
+                               <th>品牌logo</th>
+                               <th>品牌介紹</th>
+                               <th>修改</th>
+                               <th>刪除</th>
                         	</tr>
                         </tfoot>
                         <tbody>
-						<c:forEach var="ruleVO" items="${list}">
-							<tr ${(ruleVO.ruleNo == param.ruleNo) ? 'bgcolor=#CCCCFF':''}><!--將修改的那一筆加入對比色而已-->
-								<td>${ruleVO.ruleNo}</td>
-								<td>${ruleVO.ruleName}</td>
-								<td>${ruleVO.ruleCon}</td>
-								<td>
-								  <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/rule/rule.do" style="margin-bottom: 0px;">
-								     <input type="submit" value="修改"> 
-								     <input type="hidden" name="ruleNo"      value="${ruleVO.ruleNo}">
-								     <input type="hidden" name="requestURL"	value="<%=request.getServletPath()%>"><!--送出本網頁的路徑給Controller-->								                
-								     <input type="hidden" name="action"	    value="getOne_For_Update"></FORM>
+                        <c:forEach var="brandVO" items="${list}">
+                            <tr ${(brandVO.braNo == param.braNo) ? 'bgcolor=#CCCCFF':''}>
+                                <td>${brandVO.braNo}</td>
+                                <td>${brandVO.braName}</td>
+                                <td><img src="<%=request.getContextPath()%>/PicFinder?pic=1&table=brand&column=braLogo&idname=braNo&id=${brandVO.braNo}" alt='沒有圖片' width="50px"/></td>
+                                <td>${brandVO.braIntro}</td>
+                                <td>
+                                	<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/brand/brand.do" style="margin-bottom: 0px;">
+										<input type="submit" value="修改"> <input type="hidden" name="braNo" value="${brandVO.braNo}"> <input type="hidden" name="action" value="getOne_For_Update">
+									</FORM>
 								</td>
-								<td>
-								  <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/rule/rule.do" style="margin-bottom: 0px;">
-								     <input type="submit" value="刪除">
-								     <input type="hidden" name="ruleNo"      value="${ruleVO.ruleNo}">
-								     <input type="hidden" name="requestURL"	value="<%=request.getServletPath()%>"><!--送出本網頁的路徑給Controller-->
-								     <input type="hidden" name="action"     value="delete"></FORM>
-								</td>
-							</tr>
-						</c:forEach>
-						 </tbody>
+                               	<td>
+                               		<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/brand/brand.do" style="margin-bottom: 0px;">
+										<input type="submit" value="刪除"> <input type="hidden" name="braNo" value="${brandVO.braNo}"> <input type="hidden" name="action" value="delete">
+									</FORM>
+                               	</td>
+                            </tr>
+						</c:forEach>                        
+                         </tbody>
 					</table>
 				</div>
 			</div>
