@@ -377,6 +377,8 @@
 	<servlet-mapping>
 		<servlet-name>PtypeServlet</servlet-name>
 		<url-pattern>/ptype/ptype.do</url-pattern>
+	</servlet-mapping>
+	<servlet>	
 		<servlet-name>TrenddescServlet</servlet-name>
 		<servlet-class>com.trenddescription.controller.TrenddescServlet</servlet-class>
 	</servlet>
