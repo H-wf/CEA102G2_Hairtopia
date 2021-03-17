@@ -125,6 +125,23 @@ public class PostService {
 	public List<PostVO> getAll() {
 		return dao.getAll();
 	}
+	
+	public Set<PostVO> pickup5Post() {
+		List<PostVO> allPost = dao.getAll();
+		Set<PostVO> rePost = new HashSet<PostVO>();
+		Set<Integer> index = new HashSet<Integer>();
+		
+		while(index.size()<5){
+			int x = (int) (Math.random()*allPost.size())+1;
+			index.add(x);
+		}
+		while(rePost.size()<5) {
+			for(Integer y:index) {
+				rePost.add(allPost.get(y));
+			}
+		}
+		return rePost;
+	}
 	public List<PostVO> getAll(Integer desNo) {
 		return dao.getAll(desNo);
 	}
