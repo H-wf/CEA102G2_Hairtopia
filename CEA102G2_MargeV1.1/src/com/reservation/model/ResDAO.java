@@ -52,7 +52,7 @@ public class ResDAO implements ResDAO_interface{
 
 
 	@Override
-	public void insert(ResVO resVO) {
+	public ResVO insert(ResVO resVO) {
 		// TODO Auto-generated method stub
 		Connection con = null;
 		PreparedStatement pstmt = null;
@@ -60,7 +60,8 @@ public class ResDAO implements ResDAO_interface{
 		try {
 
 			con = ds.getConnection();
-			pstmt = con.prepareStatement(INSERT_STMT_RES);
+			String cols[] = {"resNo"};
+			pstmt = con.prepareStatement(INSERT_STMT_RES,cols);
 
 			pstmt.setInt(1, resVO.getMemNo());
 			pstmt.setInt(2, resVO.getSerNo());
@@ -70,7 +71,21 @@ public class ResDAO implements ResDAO_interface{
 			pstmt.setInt(6, resVO.getResPrice());
 
 			pstmt.executeUpdate();
-
+			
+			//掘取對應的自增主鍵值
+			String next_resNo = null;
+			ResultSet rs = pstmt.getGeneratedKeys();
+			if (rs.next()) {
+				next_resNo = rs.getString(1);
+				System.out.println("自增主鍵值= " + next_resNo +"(剛新增成功的訂單編號)");
+			} else {
+				System.out.println("未取得自增主鍵值");
+			}
+			
+			rs.close();
+			ResService resSvc = new ResService();
+			resVO = resSvc.getOneRes(new Integer(next_resNo));
+			
 			// Handle any SQL errors
 		} catch (SQLException se) {
 			throw new RuntimeException("A database error occured. "//丟出RuntimeException才不會有繼承限制
@@ -92,7 +107,7 @@ public class ResDAO implements ResDAO_interface{
 				}
 			}
 		}
-
+		return resVO;
 		
 	}
 

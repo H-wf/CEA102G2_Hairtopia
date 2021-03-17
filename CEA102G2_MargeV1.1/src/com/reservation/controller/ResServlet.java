@@ -83,6 +83,7 @@ public class ResServlet extends HttpServlet{
 				ResService resSvc = new ResService();
 				resVO = resSvc.addRes(memNo, serNo, desNo, resDate, resTime, resPrice);
 				List<ResVO> list = resSvc.getAllResByMemNo(resVO.getMemNo());
+				req.setAttribute("resVO", resVO);
 				req.setAttribute("list",list);
 				req.setAttribute("memNo", memNo);
 				/***************************3.新增完成,準備轉交(Send the Success view)***********/
