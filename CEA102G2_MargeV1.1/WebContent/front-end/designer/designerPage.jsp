@@ -552,7 +552,7 @@
 // MAP
 	function initMap() {
         	//準備好要顯示的緯經度
-            const myLatLng = { lat: 24.957503, lng: 121.225111 };
+            const myLatLng = { lat: ${salVo.salLat}, lng: ${salVo.salLng} };
             //抓取div id生成Map類別
             const map = new google.maps.Map(document.getElementById("map"), {
                 zoom: 18,

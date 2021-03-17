@@ -62,3 +62,4 @@
             </div>
         </div>
     </footer>
+    <jsp:include page="/front-end/chat/chatBox_Include.jsp"></jsp:include>

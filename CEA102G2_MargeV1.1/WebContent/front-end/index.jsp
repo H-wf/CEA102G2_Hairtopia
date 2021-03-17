@@ -23,13 +23,13 @@
 	color: #D8CF9E;
 	font-size: 25px;
 }
-#aaa{
-	font-size: 40px;
-    color: #000;
-    font-weight: normal;
-    font-family: "Prata", serif;
-    text-transform: uppercase;
-    letter-spacing: 15px;
+.carousel-caption{
+	top:40%;
+	font-family: 'Playball', cursive;
+	color:#F8F7F1;
+}
+.carouselFont{
+	font-size:5rem;
 }
 </style>
 
@@ -39,7 +39,7 @@
 <!-- Begin Page Content -->
 <div class="container-fluid px-0">
     <!--Carousel Wrapper-->
-    <div id="video-carousel-example2" class="carousel slide carousel-fade js-fullheight " data-ride="carousel">
+    <div id="video-carousel-example2" class="carousel slide carousel-fade js-fullheight " data-ride="carousel" >
         <ol class="carousel-indicators">
             <li data-target="#video-carousel-example2" data-slide-to="0" class="active"></li>
             <li data-target="#video-carousel-example2" data-slide-to="1"></li>
@@ -53,12 +53,9 @@
                     </video>
                 </div>
                 <div class="carousel-caption">
-<!--                     <div class="animated fadeInDown"> -->
-<!--                         <h3 class="h3-responsive">Light mask</h3> -->
-<!--                     </div> -->
-					<div class="col-md-10 ftco-animate text-center">
-						<h1 id="aaa">Spa &amp; Beauty Center</h1>
-					</div>
+                    <div class="animated fadeInDown">
+                        <div class="carouselFont">ApplePen</div>
+                    </div>
                 </div>
             </div>
             <div class="carousel-item">
@@ -70,7 +67,7 @@
                 </div>
                 <div class="carousel-caption">
                     <div class="animated fadeInDown">
-                        <h3 class="h3-responsive">Super light mask</h3>
+                        <div class="carouselFont">PineapplePen</div>
                     </div>
                 </div>
             </div>
@@ -82,7 +79,7 @@
                 </div>
                 <div class="carousel-caption">
                     <div class="animated fadeInDown">
-                        <h3 class="h3-responsive">Strong mask</h3>
+                        <div class="carouselFont">PenPineappleApplePen</div>
                     </div>
                 </div>
             </div>
