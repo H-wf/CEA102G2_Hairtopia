@@ -78,13 +78,13 @@ System.out.println(map);
 			
 			HttpSession session = req.getSession();
 			@SuppressWarnings("unchecked")
-			Vector<ProductVO> buylist = (Vector<ProductVO>)session.getAttribute("buylist");
+			Vector<ProductVO> shoppingcart = (Vector<ProductVO>)session.getAttribute("shoppingcart");
 			OrderMasterVO ordermasterVO = new OrderMasterVO();
 			ordermasterVO.setMemNo(memNo);
 			ordermasterVO.setOrdAmt(ordAmt);
 			List<OrderDetailVO> list = new ArrayList<OrderDetailVO>();
-			OrderDetailVO orderdetailVO = null;
-			for(ProductVO productVO : buylist) {
+			OrderDetailVO orderdetailVO = null;System.out.println(shoppingcart.size());
+			for(ProductVO productVO : shoppingcart) {
 				orderdetailVO = new OrderDetailVO();
 				orderdetailVO.setProNo(productVO.getProNo());
 				orderdetailVO.setOrdDetAmt(productVO.getQuantity());
@@ -93,6 +93,7 @@ System.out.println(map);
 			}
 			session.removeAttribute("shoppingcart");
 			session.removeAttribute("ordAmt");
+			session.removeAttribute("sum");
 			/***************************2.開始新增資料***************************************/
 			OrderMasterService ordermasterSvc = new OrderMasterService();
 			ordermasterVO = ordermasterSvc.addOrderMasterwithOrderDetails(memNo,ordAmt,list);

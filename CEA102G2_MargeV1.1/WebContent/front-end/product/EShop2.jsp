@@ -13,17 +13,16 @@
 		.ftco-navbar-light{
 			position:static;
 		}
- 		.clean{
- 			clear:float;
- 		}
-		.cart {
-			
-            margin-right: 0;
-            text-align: right;
+        .cart{
+        	right:15px;
+        	bottom:78.5%;
+        	position:fixed;
+        	z-index: 2;
         }
 
         .cart-btn {
-            background-color: #FFFFFF;
+            background: rgba(255, 255, 255, 0.3); 
+            border-radius: 4em;			
             border: 0px;
             cursor: pointer;
         }
@@ -35,7 +34,20 @@
         .cart img {
             height: 2em;
         }
-
+	
+		.cart span{
+		  background:#D9BF77;
+		  color:black;
+ 		  position:absolute; 
+		  width: 25px;
+		  height: 25px;
+		  border-radius:50%;
+		  display: flex;
+		  justify-content: center;
+		  align-items: center;
+		  right:-9px;
+		  top:10px;
+		}
         .carousel-inner { 
             height: 80vh;
         }
@@ -87,7 +99,6 @@
 			display: block;
 		}
 		.dropdown-item:focus{
-/*  		background-color: grey; */
 			background-color:#BDB58C;
 		}
 		.procontainer{
@@ -96,7 +107,7 @@
 		}		
 		.products{
 			padding:5px;
- 			height:250px; /*???*/ 
+ 			height:270px; /*???*/ 
 			padding-bottom: 50px;
   			position: relative;
 		}
@@ -107,7 +118,7 @@
 		    width:calc(100% - 10px);
 		    height:calc(100% - 55px);
   			border-radius: .35rem; 
-		    background: rgba(101, 101, 101, 0.6);
+ 		    background: rgba(101, 101, 101, 0.3);
 		    color: #FFFFFF;
 		    opacity: 0;		   
 		    display: flex;
@@ -140,7 +151,6 @@
 		.label-primary{
 			margin: 0px 0px 4px 0.1px;
 			display: inline-block;
-/*  		background-color: #5B5B5B; */
 			background-color:#BDB58C;
 			color: #fff;
 			border-radius: .25em;
@@ -174,25 +184,66 @@
 			box-shadow: 0 0 0 0.1rem rgb(216 207 157 / 25%) !important;
 		}
 		.btn-outline-success{
-			color: #D8CF9E;
-			border-color: #D8CF9E;
+			color: #D9BF77;
+			border-color: #D9BF77;
 		}
 		.btn-outline-success:hover{
-			background-color:#D8CF9E;
-			border-color: #D8CF9E;
+			background-color:#D9BF77;
+			border-color: #D9BF77;
 		}
 		.btn-outline-success.focus, .btn-outline-success:focus {
 			box-shadow: 0 0 0 0 !important;
 		}
 		.btn-outline-success:not(:disabled):not(.disabled).active, .btn-outline-success:not(:disabled):not(.disabled):active, .show>.btn-outline-success.dropdown-toggle{
-			border-color: #D8CF9E;
-			background-color:#D8CF9E;
+			border-color: #D9BF77;
+			background-color:#D9BF77;
 		}
+		.bag_div{
+			width:20%;
+			display:none;
+		}
+		.cart:hover .bag_div{
+			background:rgba(189, 181, 140, 0.8);
+			color:white;
+		  	right:15px;
+         	position:fixed;
+        	z-index: 2;
+        	display:block;
+		}
+		.bag_div:hover{
+			background:rgba(189, 181, 140, 0.8);
+			color:white;
+		  	right:15px;
+         	position:fixed;
+        	z-index: 2;
+        	display:block;
+		}
+		.picture{
+			display:inline-block;
+ 			padding-top:3px;
+ 			padding-left:2px; 
+			margin:0;
+			vertical-align:text-top;
+		}
+		.name{
+			display:inline-block;
+			font-size:5px;
+ 			padding:0;
+			vertical-align:text-top;
+		}
+		.checkout{			
+			vertical-align:text-top;
+			text-align:center;
+		}
+		.checkout a{
+			color:white;
+		}
+
     </style>
 </head>
 <body>
 <%@include file="/front-end/tempFile/navBar" %>
-<div class="clean"></div>
+
 <div class="container-fluid">
 	<jsp:useBean id="productSvc" scope="page" class="com.product.model.ProductService"/>
 	<jsp:useBean id="ptypeSvc" scope="page" class="com.ptype.model.PtypeService"/>
@@ -200,9 +251,21 @@
 	<!-- cart -->
     <div class="cart">
         <button class="cart-btn">
-            <img src="<%=request.getContextPath()%>/dist/images/cart.png">
+            <img src="<%=request.getContextPath()%>/dist/images/cart.jpg">
+            <c:if test="${not empty sessionScope.shoppingcart}">
+            	<span class="sum">${sessionScope.sum}</span>
+            </c:if>            
         </button>
+        <div class="bag_div">
+            <c:forEach var="productVO" items="${sessionScope.shoppingcart}">
+            	<div class="col-3 picture"><img src="<%=request.getContextPath()%>/PicFinder?pic=1&table=product&column=proMpic&idname=proNo&id=${productVO.proNo}" alt='沒有圖片' width="40" height="50"></div>
+            	<div class="col-8 name">${productVO.proName}<br>Qty:<i>${productVO.quantity}</i></div>
+            </c:forEach>
+            <hr color="white" style="margin-bottom:0;">
+            <div class="checkout"><a href="<%=request.getContextPath()%>/product/product.do?action=CHECKOUT">CHECKOUT</a></div>
+    	</div>        
     </div>
+    
     <!-- cart End-->
     <!-- carousel -->
     <div id="carouselPics" class="carousel slide" data-ride="carousel">
@@ -377,7 +440,7 @@
         function filter(){
         	if(myKey.length==0){
         		$(".products").each(function(){        			
-       				$(this).css("display","inline-block");       				
+       				$(this).show();       				
        			});       				
         	}
         	for(let i=0;i<myKey.length;i++){
@@ -385,18 +448,18 @@
 	        	if(myKey[i]=="brand"){
 	        		$(".products").each(function(){
 	        			if($(this).find(".braName").val()!=myValue[i]){
-	       					$(this).css("display","none");
+	       					$(this).hide();
 	       				}else{
-	       					$(this).css("display","inline-block");
+	       					$(this).show();
 	       				}
 	       			});       				
 	        	}        		
 	        	if(myKey[i]=="ptype"){
 	       			$(".products").each(function(){
 	       				if($(this).find(".ptypeName").val()!=myValue[i]){
-	       					$(this).css("display","none");
+	       					$(this).hide();
 	       				}else{
-	       					$(this).css("display","inline-block");
+	       					$(this).show();
 	       				}
 	       			});       				
 	       		}
@@ -408,9 +471,9 @@
 	       				var proName =$(this).find(".proName").val();
 	       				var proPrice = $(this).find(".proPrice").val();        			
 	       				if(myValue[i]!=ptypName&&braName&&proName&&proPrice){
-	       					$(this).css("display","none");
+	       					$(this).hide();
 	       				}else{
-	       					$(this).css("display","inline-block");
+	       					$(this).show();
 	       				}
         			});       				
 	        	}
@@ -419,11 +482,6 @@
        }
         
     </script>
-    <script>
-    	
-   		
-   		
 
-    </script>
 </body>
 </html>

@@ -2,6 +2,7 @@ package com.product.controller;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.PrintWriter;
 import java.util.Enumeration;
 import java.util.LinkedList;
 import java.util.List;
@@ -22,11 +23,11 @@ import javax.servlet.http.Part;
 import com.product.model.ProductDAO;
 import com.product.model.ProductService;
 import com.product.model.ProductVO;
-
+import org.json.JSONArray;
 
 @MultipartConfig
 public class ProductServlet extends HttpServlet {
-
+	
 	protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 		doPost(req, res);
 	}
@@ -38,9 +39,9 @@ public class ProductServlet extends HttpServlet {
 		HttpSession session = req.getSession();
 		@SuppressWarnings("unchecked")
 		List<ProductVO> buylist = (Vector<ProductVO>) session.getAttribute("shoppingcart");
-
+	
 		if (action.equals("DELETE")||action.equals("ADD")) {
-
+			
 			// 刪除購物車中的商品
 			if (action.equals("DELETE")) {
 				String del = req.getParameter("del");
@@ -51,12 +52,12 @@ public class ProductServlet extends HttpServlet {
 			else if (action.equals("ADD")) {
 				
 				// 取得後來新增的商品
-				Integer proNo = new Integer(req.getParameter("proNo"));
+				Integer proNo = new Integer(req.getParameter("proNo")); System.out.println("proNo="+proNo);
 				ProductService productSvc = new ProductService();
 				ProductVO productVO = productSvc.getOneProduct(proNo);				
 				Integer quantity = new Integer(req.getParameter("quantity"));
 				productVO.setQuantity(quantity);
-	
+				
 				if (buylist == null) {
 					buylist = new Vector<ProductVO>();
 					buylist.add(productVO);
@@ -69,11 +70,27 @@ public class ProductServlet extends HttpServlet {
 					}
 				}									
 			}
-	
+			Integer sum=0;
+			for(ProductVO productVO:buylist ) {
+				sum+=productVO.getQuantity();
+			}
+			session.getAttribute("sum");
+			session.setAttribute("sum", sum);
 			session.setAttribute("shoppingcart", buylist);
-			String url = "/front-end/product/EShop.jsp";
-			RequestDispatcher rd = req.getRequestDispatcher(url);
-			rd.forward(req, res);
+			String jsonStr = new JSONArray(buylist).toString();
+			
+			System.out.println(jsonStr);
+			
+			res.setContentType("text/plain");
+			res.setCharacterEncoding("UTF-8");
+			PrintWriter out = res.getWriter();
+			out.print(jsonStr);
+			out.flush();
+			out.close();
+			return;
+//			String url = "/front-end/product/EShop.jsp";
+//			RequestDispatcher rd = req.getRequestDispatcher(url);
+//			rd.forward(req, res);
 			
 		}
 
