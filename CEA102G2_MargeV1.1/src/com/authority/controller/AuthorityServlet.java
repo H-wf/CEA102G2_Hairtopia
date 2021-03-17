@@ -12,6 +12,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.authority.model.*;
+import com.staff.model.StaffService;
+import com.staff.model.StaffVO;
+
+import util.MailServiceStaff;
 
 public class AuthorityServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -64,6 +68,8 @@ public class AuthorityServlet extends HttpServlet {
 					failureView.forward(req, res);
 					return;
 				}
+				
+				
 
 				/*************************** 2.開始新增資料 ***************************************/
 				AuthorityService authSvc = new AuthorityService();
@@ -93,11 +99,56 @@ public class AuthorityServlet extends HttpServlet {
 
 			try {
 				/*********************** 1.接收請求參數 - 輸入格式的錯誤處理 *************************/
-				String str = req.getParameter("staNo");
+				String staName = req.getParameter("staName");
+				String enameReg = "^[(\u4e00-\u9fa5)(a-zA-Z0-9_)]{2,10}$";
+				if (staName == null || staName.trim().length() == 0) {
+					errorMsgs.add("員工姓名: 請勿空白");
+				} else if(!staName.trim().matches(enameReg)) { //以下練習正則(規)表示式(regular-expression)
+					errorMsgs.add("員工姓名: 只能是中、英文字母、數字和_ , 且長度必需在2到10之間");
+	            }
+				
+				String staAcct = req.getParameter("staAcct");
+
+				
+
+				StaffVO staVO = new StaffVO();
+				staVO.setStaName(staName);
+				staVO.setStaAcct(staAcct);
+				
 				String[] str2 = req.getParameterValues("funcNo");
+				if(str2 == null) {
+					errorMsgs.add("請選擇功能權限");
+				}
+				
+				if (!errorMsgs.isEmpty()) {
+
+					req.setAttribute("staVO", staVO); // 含有輸入格式錯誤的LecVO物件,也存入req
+					
+					RequestDispatcher failureView = req.getRequestDispatcher("/back-end/Authority/addAuthMuti.jsp");
+					failureView.forward(req, res);
+					return;
+				}
+					
+				StaffService staSvc = new StaffService();
+				MailServiceStaff ms = new MailServiceStaff();
+	
+				String subject = "密碼通知";
+				String staPswd = genAuthCode();
+				String messageText = "Thanks for signing up!\r\n"
+							+ "Your pasword has been reset, you can login with the following credentials.\r\n" + "  \r\n"
+							+ "------------------------\r\n" + "Username: " + staName + "\r\n" + "Password: " + staPswd
+							+ "\r\n" + "------------------------\r\n" + "  \r\n";
+				ms.sendMail(staAcct, subject, messageText);
+
+				staVO = staSvc.addStaff(staAcct, staPswd,staName);
+				
+				
+				
+				
+				
 				Integer staNo = null;
 				try {
-					staNo = new Integer(str);
+					staNo = staVO.getStaNo();
 				} catch (Exception e) {
 					errorMsgs.add("員工編號格式不正確");
 				}
@@ -105,12 +156,13 @@ public class AuthorityServlet extends HttpServlet {
 				AuthorityService authSvc = new AuthorityService();
 				
 				authSvc.deleteAuthority(staNo);
-				
+System.out.println(staNo.getClass());
 				Integer funcNo = null;
 				if (str2 != null) {
 					for (int i = 0; i < str2.length; i++) {
 						try {
 							funcNo = new Integer(str2[i]);
+System.out.println(funcNo);
 						} catch (Exception e) {
 							errorMsgs.add("功能代碼不正確");
 						}
@@ -123,14 +175,14 @@ public class AuthorityServlet extends HttpServlet {
 							failureView.forward(req, res);
 							return;
 						}
-//						AuthorityService authSvc2 = new AuthorityService();
-//						authSvc2.deleteAuthority(staNo);
+
 						authVO = authSvc.addAuthority(staNo, funcNo);
 					
 					}
-//					AuthorityService authSvc = new AuthorityService();
+
 					List<AuthorityVO> list=authSvc.getAllByStaNo(staNo);
 					req.setAttribute("list", list);
+					req.setAttribute("staVO", staVO);
 				}
 				/*************************** 3.新增完成,準備轉交(Send the Success view) ***********/
 				String url = "/back-end/Authority/listAll_auth.jsp";
@@ -230,6 +282,28 @@ public class AuthorityServlet extends HttpServlet {
 				failureView.forward(req, res);
 			}
 		}
+	}
+	
+	public String genAuthCode() {
+		char[] authCode = new char[8];
+		byte[] randNum = new byte[8];
+
+		for (int i = 0; i < randNum.length; i++) {
+			randNum[i] = (byte) (Math.random() * 62);
+
+		}
+
+		for (int i = 0; i < 8; i++) {
+			if (randNum[i] >= 0 && randNum[i] <= 9) {
+				authCode[i] = (char) (randNum[i] + 48);
+			} else if (randNum[i] >= 10 && randNum[i] <= 35) {
+				authCode[i] = (char) (randNum[i] + 55);
+			} else if (randNum[i] >= 36 && randNum[i] <= 61) {
+				authCode[i] = (char) (randNum[i] + 61);
+			}
+		}
+
+		return new String(authCode);
 	}
 
 }

@@ -67,7 +67,7 @@
 									</c:if>
                                     <form  method="post" action="<%=request.getContextPath()%>/staff/staff.do">
                                         <div class="form-group">
-                                            <input type="text" class="form-control form-control-user" name="staAcct" placeholder="Enter Email Address...">
+                                            <input type="email" class="form-control form-control-user" name="staAcct" placeholder="Enter Email Address...">
                                  		</div>
                                         <div class="form-group">
                                             <input type="password" class="form-control form-control-user" name="staPswd" placeholder="Password">                                               

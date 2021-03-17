@@ -50,4 +50,7 @@ public class StaffService {
 	public StaffVO validate(String staAcct, String staPswd) {
 		return dao.validate(staAcct, staPswd);
 	}
+	public StaffVO getOneStaff(String staAcct,String staPswd) {
+		return dao.findByAcctAndPwsd(staAcct, staPswd);
+	}
 }

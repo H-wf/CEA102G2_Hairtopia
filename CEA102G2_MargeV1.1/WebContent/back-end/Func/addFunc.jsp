@@ -11,7 +11,7 @@
 
 <title>功能資料新增 - addFunc.jsp</title>
 </head>
-<body>
+
 <body bgcolor='white'>
 
 	<table id="table-1">

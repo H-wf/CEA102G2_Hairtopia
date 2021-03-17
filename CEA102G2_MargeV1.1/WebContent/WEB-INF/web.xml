@@ -51,8 +51,9 @@
 <!-- 		<filter-name>sitemesh</filter-name> -->
 <!-- 		<url-pattern>/front-end/*</url-pattern> -->
 <!-- 		<servlet-name>*</servlet-name> -->
-<!-- 		<dispatcher>REQUEST</dispatcher> -->
-		<!-- <dispatcher>FORWARD</dispatcher> -->
+<!-- <dispatcher>REQUEST</dispatcher> -->
+
+    <!-- <dispatcher>FORWARD</dispatcher> -->
 		<!-- <dispatcher>INCLUDE</dispatcher> -->
 		<!-- <dispatcher>ERROR</dispatcher> -->
 		<!-- <dispatcher>ASYNC</dispatcher> -->
@@ -376,6 +377,12 @@
 	<servlet-mapping>
 		<servlet-name>PtypeServlet</servlet-name>
 		<url-pattern>/ptype/ptype.do</url-pattern>
+		<servlet-name>TrenddescServlet</servlet-name>
+		<servlet-class>com.trenddescription.controller.TrenddescServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>TrenddescServlet</servlet-name>
+		<url-pattern>/trenddesc/trenddesc.do</url-pattern>
 	</servlet-mapping>
 
 	

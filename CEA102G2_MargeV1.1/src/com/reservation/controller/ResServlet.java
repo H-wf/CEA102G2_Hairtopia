@@ -1,6 +1,7 @@
 package com.reservation.controller;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -10,6 +11,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import com.designer.model.DesignerService;
+import com.designer.model.DesignerVO;
 import com.reservation.model.ResService;
 import com.reservation.model.ResVO;
 import com.service.model.ServiceService;
@@ -77,6 +83,7 @@ public class ResServlet extends HttpServlet{
 				ResService resSvc = new ResService();
 				resVO = resSvc.addRes(memNo, serNo, desNo, resDate, resTime, resPrice);
 				List<ResVO> list = resSvc.getAllResByMemNo(resVO.getMemNo());
+				req.setAttribute("resVO", resVO);
 				req.setAttribute("list",list);
 				req.setAttribute("memNo", memNo);
 				/***************************3.新增完成,準備轉交(Send the Success view)***********/
@@ -93,7 +100,7 @@ public class ResServlet extends HttpServlet{
 			}
 		}
 		
-		if ("delete".equals(action)) { // 來自listAllResByDes.jsp
+		if ("delete".equals(action)) { // 來自listAllRes.jsp
 
 			List<String> errorMsgs = new LinkedList<String>();
 			// Store this set in the request scope, in case we need to
@@ -224,11 +231,14 @@ public class ResServlet extends HttpServlet{
 				ResService resSvc = new ResService();
 				ResVO resVO = resSvc.getOneRes(resNo);
 				Integer desNo = resVO.getDesNo();
-				List<ResVO> list=resSvc.getAllResByDesNo(desNo);
+//				List<ResVO> list=resSvc.getAllResByDesNo(desNo);
 				
 				req.setAttribute("desNo", desNo); 
+				DesignerService designerSvc = new DesignerService();
+				DesignerVO designerVO = designerSvc.getOneDesByDesNo(desNo);
+				req.setAttribute("designerVO", designerVO); 
 				req.setAttribute("resVO", resVO); // 資料庫取出的resVO物件,存入req
-				req.setAttribute("list", list);
+//				req.setAttribute("list", list);
 				//Bootstrap_modal
 				boolean openModal=true;
 				req.setAttribute("openModal",openModal );
@@ -257,6 +267,9 @@ public class ResServlet extends HttpServlet{
 				List<ResVO> list=resSvc.getAllResByDesNo(desNo);
 				req.setAttribute("list", list);
 				req.setAttribute("desNo", desNo);
+				DesignerService desingerSvc = new DesignerService();
+				DesignerVO desingerVO = desingerSvc.getOneDesByDesNo(desNo);
+				req.setAttribute("designerVO", desingerVO);
 				
 				/***************************3.查詢完成,準備轉交(Send the Success view)*************/
 				String url = "/front-end/reservation/listAllResByDes.jsp";
@@ -370,7 +383,7 @@ public class ResServlet extends HttpServlet{
 				resVO = resSvc.updateResConfirm(resStatus, resCode, resNo);
 				
 				/***************************3.修改完成,準備轉交(Send the Success view)*************/
-//				req.setAttribute("resVO", resVO); // 資料庫update成功後,正確的的resVO物件,存入req
+				req.setAttribute("resVO", resVO); // 資料庫update成功後,正確的的resVO物件,存入req
 				Integer desNo = resVO.getDesNo();
 				List<ResVO> list = resSvc.getAllResByDesNo(resVO.getDesNo());
 				req.setAttribute("list", list);
@@ -414,7 +427,7 @@ public class ResServlet extends HttpServlet{
 				
 				/***************************2.開始修改資料*****************************************/
 				
-				resVO = resSvc.updateResCancel(resStatus, resNo);
+				resVO = resSvc.updateResStatus(resStatus, resNo);
 				
 				/***************************3.修改完成,準備轉交(Send the Success view)*************/
 				
@@ -435,6 +448,7 @@ public class ResServlet extends HttpServlet{
 				failureView.forward(req, res);
 			}
 		}
+		
 		if ("cancelByMem".equals(action)) { // 來自listAllResBy.jsp的請求
 			
 			List<String> errorMsgs = new LinkedList<String>();
@@ -460,7 +474,7 @@ public class ResServlet extends HttpServlet{
 				
 				/***************************2.開始修改資料*****************************************/
 				
-				resVO = resSvc.updateResCancel(resStatus, resNo);
+				resVO = resSvc.updateResStatus(resStatus, resNo);
 				
 				/***************************3.修改完成,準備轉交(Send the Success view)*************/
 				Integer memNo = resVO.getMemNo();
@@ -481,6 +495,231 @@ public class ResServlet extends HttpServlet{
 				failureView.forward(req, res);
 			}
 		}
+		
+if ("searchByDesNo".equals(action)) {
+			
+			
+			/*************************** 1.接收請求參數 ***************************************/
+			Integer desNo = new Integer(req.getParameter("desNo"));
+				
+			/*************************** 2.開始查詢資料 ***************************************/
+			ResService resSvc = new ResService();
+			List<ResVO> list = resSvc.getConfirmByDesNo(desNo);
+			JSONArray array = new JSONArray(list);
+			System.out.println(array);
+			res.setContentType("text/plain");
+			res.setCharacterEncoding("UTF-8");
+			PrintWriter out = res.getWriter();
+			out.write(array.toString());
+			out.flush();
+			out.close();	
+		}
+
+if ("searchByResNo".equals(action)) {
+	
+	
+	/*************************** 1.接收請求參數 ***************************************/
+	Integer resNo = new Integer(req.getParameter("resNo"));
+	
+	/*************************** 2.開始查詢資料 ***************************************/
+	ResService resSvc = new ResService();
+	ResVO resVO = resSvc.getOneRes(resNo);
+	JSONObject jsonObj = new JSONObject(resVO);
+	
+	res.setContentType("text/plain");
+	res.setCharacterEncoding("UTF-8");
+	PrintWriter out = res.getWriter();
+	out.write(jsonObj.toString());
+	out.flush();
+	out.close();	
+}
+		
+		if ("resCodeVerify".equals(action)) { // 來自listAllResBy.jsp的請求
+			
+			List<String> errorMsgs = new LinkedList<String>();
+			req.setAttribute("errorMsgs", errorMsgs);
+			
+			try {
+				/***************************1.接收請求參數 - 輸入格式的錯誤處理**********************/
+				Integer resNo = new Integer(req.getParameter("resNo").trim());
+				/******************************取得正確驗證碼做比對******************************/
+				ResService resSvc = new ResService();
+				ResVO resVO = resSvc.getOneRes(resNo);
+				String resCode = resVO.getResCode();
+				
+				String inputCode = req.getParameter("resCode");
+				String resCodeReg = "^[(a-zA-Z0-9_)]{5}$";
+				if (inputCode == null || inputCode.trim().length() == 0) {
+					errorMsgs.add("請填入驗證碼");
+				} else if(!inputCode.trim().matches(resCodeReg)) { //以下練習正則(規)表示式(regular-expression)
+					errorMsgs.add("驗證碼為5位亂碼");
+	            } else if(!(inputCode.equals(resCode))) {
+	            	errorMsgs.add("驗證碼錯誤");
+	            }
+				
+				// Send the use back to the form, if there were errors
+				if (!errorMsgs.isEmpty()) {
+					//轉交回原本頁面
+					Integer desNo = resVO.getDesNo();
+					List<ResVO> list=resSvc.getAllResByDesNo(desNo);
+					req.setAttribute("list", list);
+					req.setAttribute("desNo", desNo);
+					req.setAttribute("resVO", resVO);
+					
+					//Bootstrap_modal
+					boolean openModal=true;
+					req.setAttribute("openModal",openModal );
+					
+					RequestDispatcher failureView = req
+							.getRequestDispatcher("/front-end/reservation/listAllResByDes.jsp");
+					failureView.forward(req, res);
+					return;//程式中斷
+				}
+				
+				Integer resStatus = new Integer(2);
+				resVO.setResStatus(resStatus);
+				
+				/***************************2.開始修改資料*****************************************/
+				
+				resVO = resSvc.updateResStatus(resStatus, resNo);
+				
+				/***************************3.修改完成,準備轉交(Send the Success view)*************/
+				
+				Integer desNo = resVO.getDesNo();
+				List<ResVO> list = resSvc.getAllResByDesNo(resVO.getDesNo());
+				req.setAttribute("list", list);
+				req.setAttribute("desNo", desNo);
+				req.setAttribute("resVO", resVO);
+				
+				//Bootstrap_modal
+				boolean openModal=true;
+				req.setAttribute("openModal",openModal );
+				
+				String url = "/front-end/reservation/listAllResByDes.jsp";
+				RequestDispatcher successView = req.getRequestDispatcher(url); // 修改成功後,轉交listAllEmpBy.jsp
+				successView.forward(req, res);
+				
+				/***************************其他可能的錯誤處理*************************************/
+			} catch (Exception e) {
+				errorMsgs.add("修改資料失敗:"+e.getMessage());
+				RequestDispatcher failureView = req
+						.getRequestDispatcher("/front-end/reservation/listAllResByMem.jsp");
+				failureView.forward(req, res);
+			}
+		}
+		
+		if ("completeRes".equals(action)) { // 來自listAllResBy.jsp的請求
+			
+			List<String> errorMsgs = new LinkedList<String>();
+			// Store this set in the request scope, in case we need to
+			// send the ErrorPage view.
+			req.setAttribute("errorMsgs", errorMsgs);
+			
+			try {
+				/***************************1.接收請求參數 - 輸入格式的錯誤處理**********************/
+				Integer resNo = new Integer(req.getParameter("resNo").trim());
+				ResService resSvc = new ResService();
+				ResVO resVO = resSvc.getOneRes(resNo);
+				Integer resStatus = new Integer(3);
+				resVO.setResStatus(resStatus);
+				
+				// Send the use back to the form, if there were errors
+				if (!errorMsgs.isEmpty()) {
+					RequestDispatcher failureView = req
+							.getRequestDispatcher("/front-end/reservation/listAllResByMem.jsp");
+					failureView.forward(req, res);
+					return; //程式中斷
+				}
+				
+				/***************************2.開始修改資料*****************************************/
+				
+				resVO = resSvc.updateResStatus(resStatus, resNo);
+				
+				/***************************3.修改完成,準備轉交(Send the Success view)*************/
+				Integer memNo = resVO.getMemNo();
+				List<ResVO> list = resSvc.getAllResByMemNo(resVO.getMemNo());
+				req.setAttribute("resVO", resVO);
+				req.setAttribute("list", list);
+				req.setAttribute("memNo", memNo);
+				
+				//Bootstrap_modal
+				boolean openModal=true;
+				req.setAttribute("openModal",openModal );
+				
+				String url = "/front-end/reservation/listAllResByMem.jsp";
+				
+				RequestDispatcher successView = req.getRequestDispatcher(url); // 修改成功後,轉交listAllEmpBy.jsp
+				successView.forward(req, res);
+				
+				/***************************其他可能的錯誤處理*************************************/
+			} catch (Exception e) {
+				errorMsgs.add("修改資料失敗:"+e.getMessage());
+				RequestDispatcher failureView = req
+						.getRequestDispatcher("/front-end/reservation/listAllResByMem.jsp");
+				failureView.forward(req, res);
+			}
+		}
+		
+		if ("reviewRes".equals(action)) { // 來自listAllResBy.jsp的請求
+			
+			List<String> errorMsgs = new LinkedList<String>();
+			// Store this set in the request scope, in case we need to
+			// send the ErrorPage view.
+			req.setAttribute("errorMsgs", errorMsgs);
+			
+			try {
+				/***************************1.接收請求參數 - 輸入格式的錯誤處理**********************/
+				//取得當筆預約的評分
+				Integer resNo = new Integer(req.getParameter("resNo").trim());
+				Integer resCom = new Integer(req.getParameter("resCom").trim());
+				
+				// Send the use back to the form, if there were errors
+				if (!errorMsgs.isEmpty()) {
+					RequestDispatcher failureView = req
+							.getRequestDispatcher("/front-end/reservation/listAllResByMem.jsp");
+					failureView.forward(req, res);
+					return; //程式中斷
+				}
+				
+				/***************************2.開始修改資料*****************************************/
+				//修改當筆預約的評分
+				ResService resSvc = new ResService();
+				ResVO resVO = resSvc.updateResCom(resCom, resNo);
+				
+				//取得設計師原有評分及評價人數並進行修改
+				Integer desNo = new Integer(resVO.getDesNo());
+				DesignerService desSvc = new DesignerService();
+				DesignerVO desVO = desSvc.getOneDesByDesNo(desNo);
+				Integer currentCount = desVO.getDesCount();
+				Integer currentScore = desVO.getDesTolScore();
+				Integer desCount = currentCount + 1;
+				Integer desTolScore = new Integer(resVO.getResCom())+currentScore;
+				desSvc.updateOneScore(desCount, desTolScore, desNo);
+				
+				/***************************3.修改完成,準備轉交(Send the Success view)*************/
+				Integer memNo = resVO.getMemNo();
+				List<ResVO> list = resSvc.getAllResByMemNo(resVO.getMemNo());
+				req.setAttribute("resVO", resVO);
+				req.setAttribute("list", list);
+				req.setAttribute("memNo", memNo);
+				
+				//Bootstrap_modal
+				boolean openModal=true;
+				req.setAttribute("openModal",openModal );
+				
+				String url = "/front-end/reservation/listAllResByMem.jsp";
+				RequestDispatcher successView = req.getRequestDispatcher(url); // 修改成功後,轉交listAllEmpBy.jsp
+				successView.forward(req, res);
+				
+				/***************************其他可能的錯誤處理*************************************/
+			} catch (Exception e) {
+				errorMsgs.add("修改資料失敗:"+e.getMessage());
+				RequestDispatcher failureView = req
+						.getRequestDispatcher("/front-end/reservation/listAllResByMem.jsp");
+				failureView.forward(req, res);
+			}
+		}
+		
 		
 	}
 }

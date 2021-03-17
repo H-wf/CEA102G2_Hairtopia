@@ -10,59 +10,64 @@ public class SalonVO implements Serializable{
 	private String salTime;
 	private String salPhone;
 	private Integer salStatus;
+	private String  salLat;
+	private String  salLng;
 	
-	public SalonVO() {
-	}
-
 	public Integer getSalNo() {
 		return salNo;
 	}
-
 	public void setSalNo(Integer salNo) {
 		this.salNo = salNo;
 	}
-
 	public String getSalName() {
 		return salName;
 	}
-
 	public void setSalName(String salName) {
 		this.salName = salName;
 	}
-
 	public String getSalAdd() {
 		return salAdd;
 	}
-
 	public void setSalAdd(String salAdd) {
 		this.salAdd = salAdd;
 	}
-
 	public String getSalTime() {
 		return salTime;
 	}
-
 	public void setSalTime(String salTime) {
 		this.salTime = salTime;
 	}
-
 	public String getSalPhone() {
 		return salPhone;
 	}
-
 	public void setSalPhone(String salPhone) {
 		this.salPhone = salPhone;
 	}
-
 	public Integer getSalStatus() {
 		return salStatus;
 	}
-
 	public void setSalStatus(Integer salStatus) {
 		this.salStatus = salStatus;
-	};
-	
-	
-	
+	}
 
+	
+	public String getSalLat() {
+		return salLat;
+	}
+	
+	public void setSalLat(String salLat) {
+		this.salLat = salLat;
+	}
+	
+	public String getSalLng() {
+		return salLng;
+	}
+	public void setSalLng(String salLng) {
+		this.salLng = salLng;
+	}
+	
+	
+	
 }
+
+	
