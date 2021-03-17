@@ -6,7 +6,7 @@ import com.reservation.model.ResVO;
 
 public interface ResDAO_interface {
 	
-	public void insert(ResVO resVO);
+	public ResVO insert(ResVO resVO);
 	
 	public void update(ResVO resVO);
 	public void updateConfirm(ResVO resVO);

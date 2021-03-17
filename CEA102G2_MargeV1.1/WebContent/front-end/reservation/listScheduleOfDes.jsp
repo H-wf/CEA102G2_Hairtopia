@@ -35,22 +35,21 @@
 		color:white;
 		font-size:.9rem;
 	}
-	.fc-scroller {
-  		height: auto !important;
+	.fc-day-number{
+		line-height:1.2rem;
 	}
-
-	.fc-head .fc-widget-header {
-  		margin-right: 0 !important;
+	.fc-time{
+		color:white;
 	}
-
-	.fc-scroller {
-  		overflow: visible !important;
+	hr{
+		margin:3rem 0;
 	}
+	
 </style>
 <body>
 
 <%@include file="/front-end/tempFile/navBar" %>
-
+<hr class="space">
 <!-- Begin Page Content -->
 <div class="container-fluid">
 	<div class="row">
@@ -75,7 +74,7 @@
 		</div>
 		</div>		
 		<div class="col-8">
-			<div id = listView style="display: inline-block;"></div>
+			<div id = listView></div>
     		<div id="test"></div>
 		</div>
 		<div class="col-1"></div>
@@ -190,9 +189,10 @@
             	  let endminute = (endtime%2==0)?"00":"30";
             	  events.push({
   					id : data[i].resNo,
-  					start : moment(data[i].resDate).format('YYYY-MM-DD'),
-  					title : data[i].memName + "(" + starthour + ":" + startminute + "~" 
-  							+ endhour + ":" + endminute + ")",
+  					start : moment(data[i].resDate+" "+starthour+":"+startminute).format('YYYY/MM/DD HH:mm'),
+  					end : moment(data[i].resDate+" "+endhour+":"+endminute).format('YYYY/MM/DD HH:mm'),
+  					
+  					title : data[i].memName,
   					color : "#D8CF9E",
   					content:"<div style=font-size:.9rem;>"
   							+data[i].memName
@@ -216,12 +216,14 @@
 					editable : false,
 					selectable : true,
 					header : { 
-						left : "prev,next today",
+						left : "prev,next",
 						center : "title",
-						right : "month"
+						right : "month,listWeek"
 					},
-					dayNamesShort : [ "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday",
-							"Saturday" ],
+					
+					contentHeight:'auto',
+					aspectRatio:5,
+					dayNamesShort : [ "Sun", "Mon", "Tue", "Wed", "Thu", "Fri","Sat" ],
 					dayNamesMin : [ "日", "一", "二", "三", "四", "五", "六" ],
 					monthNames : [ "January", "February", "March", "April", "May", "June", "July", "August",
 							"Septemper", "October", "November", "December" ],
@@ -235,12 +237,9 @@
 						prevYear : 'preYear',
 						nextYear : 'nextYear',
 					},
+					eventLimitText : "more", 
 					events : events,
-					eventOrder: function(event1,event2){
-						if(event1.resTime<event2.resTime){
-							return -1;
-						}
-					},
+					timeFormat:'H:mm',
 					eventBackgroundColor: '#272727',
 					dayClick : function(date, jsEvent, view, resourceObj) {
 						let nowDate = date.format();
@@ -249,13 +248,14 @@
 					eventMouseover : function(calEvent, jsEvent, view) {
 						$(this).css('background-color', '#272727');
 						$(this).css('z-index', '9999');
-						$(this).children().children("span").html(calEvent.content);
+						$(this).children().children(".fc-time").html(calEvent.start);
+						$(this).children().children(".fc-title").html(calEvent.content);
 					},
 					eventMouseout : function(calEvent, jsEvent, view) {
 						$(this).css('background-color', '#D8CF9E');
 						$(this).css('z-index', '');
-						$(this).children().children("span").html('');
-						$(this).children().children("span").text(calEvent.title);
+						$(this).children().children(".fc-time").html(calEvent.start);
+						$(this).children().children(".fc-title").text(calEvent.title);
 					},
 					eventClick : function(event) {
 						lookUp(event.id);
