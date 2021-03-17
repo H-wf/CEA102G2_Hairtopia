@@ -26,26 +26,26 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" />
 </head>
 <style>
+
 .ftco-navbar-light{
 	position:static;
 }
-.btn{
+.btn-primary{
 	font-size: 1rem;
 }
-.collapse{
+#serviceCollapse{
 	margin:10px auto;
 }
 .form-control{
 	height:2.2rem !important;
 	font-size:1rem;
 }
-input{
-	font-size:1rem;
-}
-body{
-	font-size:1rem;
-	color:#777;
+.list-group-item{
 	font-weight:400;
+}
+.list-group-item.active{
+	background-color:#D8CF9E;
+	border:0px;
 }
 		
 /* callOutCSS */
@@ -86,13 +86,35 @@ body{
 <!-- Begin Page Content -->
 <div class="container-fluid">
 <div class="row">
-	<div class="col-3"></div>
+
+	<div class="col-1"></div>
+	<div class="col-2">
+		<div class="list-group">
+  			<a href="#" class="list-group-item list-group-item-action active">
+    			服務項目管理
+  			</a>
+  			<a href="<%=request.getContextPath()%>/reservation/res.do?action=queryByDesNo&desNo=${designerVO.desNo}" class="list-group-item list-group-item-action">
+  				預約狀態管理
+  			</a>
+  			<a href="<%=request.getContextPath()%>/front-end/reservation/listScheduleOfDes.jsp" class="list-group-item list-group-item-action">
+  				查看預約行程
+  			</a>
+  			<a href="#" class="list-group-item list-group-item-action">
+  				貼文狀態管理
+  			</a>
+  			<a href="#" class="list-group-item list-group-item-action disabled" tabindex="-1" aria-disabled="true">
+				個人資訊修改
+			</a>
+		</div>
+		
+	</div>
+	<div class="col-1"></div>
 	<div class="col-6">
 		<div class="addService">
 			<a class="btn btn-primary btn-block" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
 			<i class="fas fa-plus"></i>新增服務
 			</a>
-			<div class="collapse" id="collapseExample">
+			<div class="collapse" id="serviceCollapse">
   			<div class="card card-body">
   			<%-- 錯誤表列 --%>
 				<c:if test="${not empty errorMsgs}">
@@ -194,7 +216,7 @@ body{
 </c:if>
 		<br><br><br><br><br><br><br><br><br><br></div>
 		</div>
-	<div class="col-3"></div>
+	<div class="col-2"></div>
 		
 
 </div>

@@ -20,7 +20,6 @@ public interface StaffDAO_interface {
 
 	public List<StaffVO> getAll();
 	
-//	 public Set<AuthorityVO> getAuthorByStaNo(Integer staNo);
+	public StaffVO validate(String staAcct, String staPswd);
 	
-
 }

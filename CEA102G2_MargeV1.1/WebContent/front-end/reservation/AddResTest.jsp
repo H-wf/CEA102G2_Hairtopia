@@ -175,6 +175,27 @@
     			padding: .75rem 1.25rem;
     			color: inherit;
 		}
+/*	about credit card	*/
+		.demo-container {
+            width: 100%;
+            max-width: 350px;
+            margin: 50px auto;
+        }
+
+        form {
+            margin: 30px;
+        }
+        input {
+            width: 200px;
+            margin: 10px auto;
+            display: block;
+        }
+        input::-webkit-outer-spin-button,input::-webkit-inner-spin-button {
+  			-webkit-appearance: none;
+		}
+		input[type="number"]{
+  			-moz-appearance: textfield;
+		}
     </style>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" />
 </head>
@@ -299,6 +320,21 @@
 <br>
 <br>
     <div id="resDetail">
+    <div id="stepTitle"><span class="stepIcon"><i class="far fa-credit-card"></i></span>STEP3 : 輸入付款資訊</div>
+	<br><hr>
+    <!--	about credit card	-->
+	<div class="demo-container">
+        <div class="card-wrapper"></div>
+        <div class="form-container active">
+            <form action="">
+                <input placeholder="Card number" type="tel" name="number">
+                <input placeholder="Full name" type="text" name="name">
+                <input placeholder="MM/YY" type="tel" name="expiry">
+                <input placeholder="CVC" type="number" name="cvc">
+            </form>
+        </div>
+    </div>
+	<!--	about credit card	-->
 	<input type="hidden" name="action" value="insert">
 	<input type="submit" value="確定預約" class="bookingBtn">
 	<input type="hidden" name="serNo" value="${serviceVO.serNo}">
@@ -418,7 +454,7 @@
         						document.getElementById(i).style.display='inline-block';
         					}
         				}
-        				document.getElementById("stepTwo").style.display='block'
+        				document.getElementById("stepTwo").style.display='block';
                 		window.scrollTo({top:document.documentElement.clientHeight, behavior:"smooth"});
         			}
                 })
@@ -437,11 +473,19 @@
         	//form表單存入時間資料
         	let resTime = document.getElementById("resTime");
         	resTime.value=$(this).attr("id");
+        	let period = ${serviceVO.serTime};
         	document.getElementById("resDetail").style.display='block';
-        	window.scrollTo({top:document.documentElement.clientHeight, behavior:"smooth"});
+        	window.scrollTo({top:1500, behavior:"smooth"});
         })
         }
 
+    </script>
+    <script src="<%= request.getContextPath()%>/resource/card-master/dist/card.js"></script>
+    <script>
+        new Card({
+            form: document.querySelector('form'),
+            container: '.card-wrapper'
+        });
     </script>
 </body>
 

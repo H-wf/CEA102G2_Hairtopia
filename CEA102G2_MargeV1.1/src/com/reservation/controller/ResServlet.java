@@ -83,6 +83,7 @@ public class ResServlet extends HttpServlet{
 				ResService resSvc = new ResService();
 				resVO = resSvc.addRes(memNo, serNo, desNo, resDate, resTime, resPrice);
 				List<ResVO> list = resSvc.getAllResByMemNo(resVO.getMemNo());
+				req.setAttribute("resVO", resVO);
 				req.setAttribute("list",list);
 				req.setAttribute("memNo", memNo);
 				/***************************3.新增完成,準備轉交(Send the Success view)***********/
@@ -230,11 +231,14 @@ public class ResServlet extends HttpServlet{
 				ResService resSvc = new ResService();
 				ResVO resVO = resSvc.getOneRes(resNo);
 				Integer desNo = resVO.getDesNo();
-				List<ResVO> list=resSvc.getAllResByDesNo(desNo);
+//				List<ResVO> list=resSvc.getAllResByDesNo(desNo);
 				
 				req.setAttribute("desNo", desNo); 
+				DesignerService designerSvc = new DesignerService();
+				DesignerVO designerVO = designerSvc.getOneDesByDesNo(desNo);
+				req.setAttribute("designerVO", designerVO); 
 				req.setAttribute("resVO", resVO); // 資料庫取出的resVO物件,存入req
-				req.setAttribute("list", list);
+//				req.setAttribute("list", list);
 				//Bootstrap_modal
 				boolean openModal=true;
 				req.setAttribute("openModal",openModal );
@@ -263,6 +267,9 @@ public class ResServlet extends HttpServlet{
 				List<ResVO> list=resSvc.getAllResByDesNo(desNo);
 				req.setAttribute("list", list);
 				req.setAttribute("desNo", desNo);
+				DesignerService desingerSvc = new DesignerService();
+				DesignerVO desingerVO = desingerSvc.getOneDesByDesNo(desNo);
+				req.setAttribute("designerVO", desingerVO);
 				
 				/***************************3.查詢完成,準備轉交(Send the Success view)*************/
 				String url = "/front-end/reservation/listAllResByDes.jsp";

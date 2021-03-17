@@ -23,9 +23,8 @@
 	a{
 		text-decoration:none
 	}
-	body{
-		font-size:.9rem;
-		font-weight:400;
+	td,th{
+		font-size:1rem;
 	}
 </style>
 <body>

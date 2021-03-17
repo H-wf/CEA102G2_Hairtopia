@@ -357,7 +357,45 @@ System.out.println(staVO.getStaNo());
 			}
 		}
 
+		if ("login".equals(action)) {
+			
+			List<String> errorMsgs = new LinkedList<String>();
+			req.setAttribute("errorMsgs", errorMsgs);
+			/*************************** 1.接收請求參數 - 輸入格式的錯誤處理 **********************/
+			String staAcct = req.getParameter("staAcct");
+			if (staAcct == null || staAcct.trim().length() == 0) {
+				errorMsgs.add("帳號請勿空白");
+			}
+			String staPswd = req.getParameter("staPswd");
+			if (staPswd == null || staPswd.trim().length() == 0) {
+				errorMsgs.add("帳號請勿空白");
+			}
+			/*************************** 2.開始查詢資料 *****************************************/
+			StaffService staffSvc = new StaffService();
+			StaffVO staffVO = staffSvc.validate(staAcct, staPswd);
 
+			/*************************** 3.查詢完成,準備轉交(Send the Success view) *************/
+			if (staffVO == null) { 
+				errorMsgs.add("error account or password");
+				RequestDispatcher failureView = req.getRequestDispatcher("/back-end/Staff/login.jsp");
+				failureView.forward(req, res);
+			} else {
+				HttpSession session = req.getSession();
+				session.setAttribute("staAcct", staAcct);
+				session.setAttribute("staPswd", staffVO);
+				try {
+					String location = (String) session.getAttribute("location");
+					if (location != null) {
+						session.removeAttribute("location"); // *工作2: 看看有無來源網頁 (-->如有來源網頁:則重導至來源網頁)
+						res.sendRedirect(location);
+						return;
+					}
+				} catch (Exception ignored) {
+				}
+
+				res.sendRedirect(req.getContextPath() + "/back-end/Staff/login_success.jsp");
+			}
+		}
 	}
 	
 	

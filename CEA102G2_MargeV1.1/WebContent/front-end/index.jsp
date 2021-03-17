@@ -335,6 +335,7 @@
 
 </body>
 <script>
+var contextPath = "<%=request.getContextPath()%>";
 $('.slidemove').slick({
 	  slidesToShow: 4,
 	  slidesToScroll: 1,
