@@ -2,7 +2,11 @@ package com.designer.model;
 
 import java.sql.Connection;
 import java.sql.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+
+import com.post.model.PostVO;
 
 
 
@@ -116,6 +120,23 @@ public class DesignerService {
 	
 	public List<DesignerVO> searchDes(String keyword){
 		return dao.searchDes(keyword);
+	}
+	
+	public Set<DesignerVO> pickup5Des() {
+		List<DesignerVO> allDes = dao.getAll();
+		Set<DesignerVO> reDes = new HashSet<DesignerVO>();
+		Set<Integer> index = new HashSet<Integer>();
+		
+		while(index.size()<5){
+			int x = (int) (Math.random()*allDes.size())+1;
+			index.add(x);
+		}
+		while(reDes.size()<5) {
+			for(Integer y:index) {
+				reDes.add(allDes.get(y));
+			}
+		}
+		return reDes;
 	}
 	
 
