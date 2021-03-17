@@ -31,8 +31,6 @@ public class StaffDAO implements StaffDAO_interface {
 		}
 	}
 	private static final String INSERT_STMT = "INSERT INTO Staff (staAcct,staPswd,staName) VALUES (?, ?,?)";
-	private static final String GET_ALL_STMT = "SELECT staNo,staName,staAcct,staPswd FROM staff order by staNo";
-	private static final String GET_ONE_STMT = "SELECT staNo,staName,staAcct,staPswd FROM staff where staNo= ?";
 	private static final String DELETE = "DELETE FROM staff where staNo = ?";
 	private static final String UPDATE = "UPDATE staff set staAcct=?, staPswd=?,staName=? where staNo = ?";
 	private static final String VALIDATE_STMT = "SELECT * FROM staff WHERE staAcct=? AND staPswd=?";
