@@ -1,4 +1,15 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ page import="java.util.*"%>
+<%@ page import="com.post.model.*"%>
+<%@ page import="com.designer.model.*"%>
+
+<jsp:useBean id="postSvc"  scope="page" class="com.post.model.PostService" />
+<jsp:useBean id="desSvc"  scope="page" class="com.designer.model.DesignerService" />
+<jsp:useBean id="salSvc"  scope="page" class="com.salon.model.SalonService" />
+<jsp:useBean id="trendSvc"  scope="page" class="com.trend.model.TrendService" />
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -11,6 +22,14 @@
 .slick-prev:before, .slick-next:before{
 	color: #D8CF9E;
 	font-size: 25px;
+}
+#aaa{
+	font-size: 40px;
+    color: #000;
+    font-weight: normal;
+    font-family: "Prata", serif;
+    text-transform: uppercase;
+    letter-spacing: 15px;
 }
 </style>
 
@@ -34,9 +53,12 @@
                     </video>
                 </div>
                 <div class="carousel-caption">
-                    <div class="animated fadeInDown">
-                        <h3 class="h3-responsive">Light mask</h3>
-                    </div>
+<!--                     <div class="animated fadeInDown"> -->
+<!--                         <h3 class="h3-responsive">Light mask</h3> -->
+<!--                     </div> -->
+					<div class="col-md-10 ftco-animate text-center">
+						<h1 id="aaa">Spa &amp; Beauty Center</h1>
+					</div>
                 </div>
             </div>
             <div class="carousel-item">
@@ -131,91 +153,24 @@
         </div>
     </section>
     <!-- end choose 3 -->
-<!--     <div class="container px-5"> -->
-<!--         <div class="row justify-content-between slidemove"> -->
-<!--             <div class="col-2 "> -->
-<!--                 <div class="card"> -->
-<!--                     <img src=" https://picsum.photos/400/500?random=1" class="card-img-top img-fluid "> -->
-<!--                 </div> -->
-<!--             </div> -->
-<!--             <div class="col-2 "> -->
-<!--                 <div class="card"> -->
-<!--                     <img src=" https://picsum.photos/400/500?random=1" class="card-img-top img-fluid "> -->
-<!--                 </div> -->
-<!--             </div> -->
-<!--             <div class="col-2 "> -->
-<!--                 <div class="card"> -->
-<!--                     <img src=" https://picsum.photos/400/500?random=1" class="card-img-top img-fluid "> -->
-<!--                 </div> -->
-<!--             </div> -->
-<!--             <div class="col-2 "> -->
-<!--                 <div class="card"> -->
-<!--                     <img src=" https://picsum.photos/400/500?random=1" class="card-img-top img-fluid "> -->
-<!--                 </div> -->
-<!--             </div> -->
-<!--             <div class="col-2 "> -->
-<!--                 <div class="card"> -->
-<!--                     <img src=" https://picsum.photos/400/500?random=1" class="card-img-top img-fluid "> -->
-<!--                 </div> -->
-<!--             </div> -->
-<!--             <div class="col-2 "> -->
-<!--                 <div class="card"> -->
-<!--                     <img src=" https://picsum.photos/400/500?random=1" class="card-img-top img-fluid "> -->
-<!--                 </div> -->
-<!--             </div> -->
-<!--             <div class="col-2 "> -->
-<!--                 <div class="card"> -->
-<!--                     <img src=" https://picsum.photos/400/500?random=1" class="card-img-top img-fluid "> -->
-<!--                 </div> -->
-<!--             </div> -->
-<!--         </div> -->
-<!--     </div> -->
-    <!--  -->
     <!-- Hot post -->
     <section class="ftco-gallery ftco-section">
         <div class="container px-5">
             <div class="row justify-content-center mb-5 pb-3">
                 <div class="col-md-7 heading-section ftco-animate text-center">
-                    <h3 class="subheading">Hot</h3>
+                    <h3 class="subheading">Post</h3>
                     <h2 class="mb-1">熱門貼文</h2>
                 </div>
             </div>
 	            <div class="row justify-content-between slidemove">
-	            <div class="col-2 ">
-	                <div class="card">
-	                    <img src=" https://picsum.photos/400/500?random=1" class="card-img-top img-fluid ">
-	                </div>
-	            </div>
-	            <div class="col-2 ">
-	                <div class="card">
-	                    <img src=" https://picsum.photos/400/500?random=1" class="card-img-top img-fluid ">
-	                </div>
-	            </div>
-	            <div class="col-2 ">
-	                <div class="card">
-	                    <img src=" https://picsum.photos/400/500?random=1" class="card-img-top img-fluid ">
-	                </div>
-	            </div>
-	            <div class="col-2 ">
-	                <div class="card">
-	                    <img src=" https://picsum.photos/400/500?random=1" class="card-img-top img-fluid ">
-	                </div>
-	            </div>
-	            <div class="col-2 ">
-	                <div class="card">
-	                    <img src=" https://picsum.photos/400/500?random=1" class="card-img-top img-fluid ">
-	                </div>
-	            </div>
-	            <div class="col-2 ">
-	                <div class="card">
-	                    <img src=" https://picsum.photos/400/500?random=1" class="card-img-top img-fluid ">
-	                </div>
-	            </div>
-	            <div class="col-2 ">
-	                <div class="card">
-	                    <img src=" https://picsum.photos/400/500?random=1" class="card-img-top img-fluid ">
-	                </div>
-	            </div>
+	            <c:forEach  var="postVO" items="${postSvc.pickup5Post()}">
+					<div class="col-2 ">
+						<div class="card onePost" id="${postVO.postNo}">
+							<img src="<%=request.getContextPath()%>/PicFinder?pic=1&table=post&column=postPic1&idname=postNo&id=${postVO.postNo}"
+							 class="card-img-top post-img img-fluid" />
+						</div>
+					</div>
+				</c:forEach>
 	        </div>
         </div>
     </section>
@@ -226,11 +181,13 @@
         <div class="container px-5">
             <div class="row justify-content-center mb-5 pb-3">
                 <div class="col-md-7 heading-section ftco-animate text-center">
-                    <h3 class="subheading">Hot</h3>
+                    <h3 class="subheading">Designer</h3>
                     <h2 class="mb-1">熱門設計師</h2>
                 </div>
             </div>
 	            <div class="row justify-content-between slidemove">
+<%-- 	            <c:forEach  var="designerVO" items="${desSvc.pickup5Des()}"> --%>
+<%-- 	            </c:forEach> --%>
 	            <div class="col-2 ">
 	                <div class="card">
 	                    <img src=" https://picsum.photos/400/500?random=1" class="card-img-top img-fluid ">
@@ -276,11 +233,13 @@
         <div class="container px-5">
             <div class="row justify-content-center mb-5 pb-3">
                 <div class="col-md-7 heading-section ftco-animate text-center">
-                    <h3 class="subheading">Hot</h3>
+                    <h3 class="subheading">Salon</h3>
                     <h2 class="mb-1">熱門髮廊</h2>
                 </div>
             </div>
 	            <div class="row justify-content-between slidemove">
+<%-- 	 	            <c:forEach  var="salonVO" items="${salSvc.pickup5Sal()}">  --%>
+<%-- 		            </c:forEach>  --%>
 	            <div class="col-2 ">
 	                <div class="card">
 	                    <img src=" https://picsum.photos/400/500?random=1" class="card-img-top img-fluid ">
@@ -326,11 +285,13 @@
         <div class="container px-5">
             <div class="row justify-content-center mb-5 pb-3">
                 <div class="col-md-7 heading-section ftco-animate text-center">
-                    <h3 class="subheading">Hot</h3>
-                    <h2 class="mb-1">熱門風格誌</h2>
+                    <h3 class="subheading">Styling</h3>
+                    <h2 class="mb-1">最新潮流</h2>
                 </div>
             </div>
 	            <div class="row justify-content-between slidemove">
+<%-- 	            	<c:forEach  var="trendVO" items="${trendSvc.pickup5Trend()}">   --%>
+<%--  		            </c:forEach> --%>
 	            <div class="col-2 ">
 	                <div class="card">
 	                    <img src=" https://picsum.photos/400/500?random=1" class="card-img-top img-fluid ">
