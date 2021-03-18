@@ -26,8 +26,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-   	<script src="https://kit.fontawesome.com/5f1a2208d7.js" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+	<link rel="stylesheet" href="<%=request.getContextPath()%>/resource/web-fonts-with-css/css/fontawesome-all.min.css">
+	<script src="<%=request.getContextPath()%>/dist/js/jquery.min.js"></script>
+    
 
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC&display=swap');
@@ -41,7 +42,7 @@
         body {
 /*         	height:1000px; */
             font-family: 'Lato', sans-serif;
-            font-size: 16px;
+/*             font-size: 16px; */
             color: #999999;
 /*             word-wrap: break-word; */
         }
@@ -350,8 +351,8 @@
 <!--                     </a> -->
                 </div>
                 <div class="chatbox-icons">
-                    <a href="javascript:void(0);"><i class="fa fa-minus"></i></a>
-                    <a href="javascript:void(0);"><i class="fa fa-close"></i></a>
+                    <a href="javascript:void(0);"><i class="fa fas fa-minus"></i></a>
+                    <a href="javascript:void(0);"><i class="fa fas fa-times"></i></a>
                 </div>
             </div>
 
@@ -392,7 +393,7 @@
             <div class="chat-input-holder">
                 <div class="chat-input-icons">
                 	<input type="file" id="uploadImage" accept="image/*">
-                    <a href="javascript:void(0);" id="upload_link"><i class="fa fa-image"></i></a>
+                    <a href="javascript:void(0);" id="upload_link"><i class="fas fa-image"></i></a>
                 </div>
                 <input type="text" class="chat-input" id="message" onkeydown="if (event.keyCode == 13) sendMessage();" autocomplete="off">
 				<div class="chat-input-icons">
@@ -424,7 +425,7 @@
             $('.fa-minus').click(function () {
                 $(this).closest('.chatbox').toggleClass('chatbox-min');
             });
-            $('.fa-close').click(function () {
+            $('.fa-times').click(function () {
                 $(this).closest('.chatbox').hide();
                 disconnect();
                 
@@ -539,7 +540,7 @@
     	function getHistory() {
     		var container = document.getElementById("row");
             //要改成抓hidden傳送要交談的對象,可以先傳到session存起來(VO 或 單純朋友名字)
-   			var friend = ${friend.memName};
+   			var friend = "${friend.memName}";
    			var jsonObj = {
    					"type" : "history",
    					"sender" : self,
@@ -553,7 +554,7 @@
 //     		var inputMessage = document.getElementById("message");
 
             //要改成抓hidden傳送要交談的對象,可以先傳到session存起來(VO 或 單純朋友名字)
-    		var friend = ${friend.memName};
+    		var friend = "${friend.memName}";
     		var message = $('#message').val().trim();
 
     		if (message !== "") {
@@ -588,7 +589,7 @@
                             imageURL = e.target.result;
                             console.log('Start');
                              //要改成抓hidden傳送要交談的對象,可以先傳到session存起來(VO 或 單純朋友名字)
-                            var friend = ${friend.memName};
+                            var friend = "${friend.memName}";
     		                var message = imageURL;
                             console.log("start send image");
                             var jsonObj = {
