@@ -26,6 +26,18 @@ public class MemService {
 		return memVO;
 	}
 	
+	public MemVO signUp(String memName, String memEmail, String memPswd) {
+		MemVO memVO = new MemVO();
+		
+		memVO.setMemName(memName);
+		memVO.setMemEmail(memEmail);
+		memVO.setMemPswd(memPswd);
+		
+		dao.insert(memVO);
+		
+		return memVO;
+	}
+	
 	public MemVO updateMember(Integer memNo, String memName, Integer memGender, String memInform, String memEmail, String memPswd, String memPhone, String memAddr, byte[] memPic) {
 		
 		MemVO memVO = new MemVO();
