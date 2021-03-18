@@ -13,6 +13,7 @@ public class ProductVO {
 	private byte[] proPic;
 	private String proDesc;
 	private Timestamp proDate;
+	private Integer quantity;
 	
 	public Integer getProNo() {
 		return proNo;
@@ -73,6 +74,37 @@ public class ProductVO {
 	}
 	public void setProDate(Timestamp proDate) {
 		this.proDate = proDate;
+	}
+	public Integer getQuantity() {
+		return quantity;
+	}
+	public void setQuantity(Integer quantity) {
+		this.quantity = quantity;
+	}
+	
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((proNo == null) ? 0 : proNo.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		ProductVO other = (ProductVO) obj;
+		if (proNo == null) {
+			if (other.proNo != null)
+				return false;
+		} else if (!proNo.equals(other.proNo))
+			return false;
+		return true;
 	}
 
 }

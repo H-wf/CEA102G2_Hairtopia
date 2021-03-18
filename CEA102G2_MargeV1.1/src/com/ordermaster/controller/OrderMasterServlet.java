@@ -2,6 +2,7 @@ package com.ordermaster.controller;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -22,9 +23,9 @@ import com.orderdetail.model.OrderDetailVO;
 import com.ordermaster.model.OrderMasterDAO;
 import com.ordermaster.model.OrderMasterService;
 import com.ordermaster.model.OrderMasterVO;
+import com.product.model.ProductVO;
 
 
-@WebServlet("/ordermaster/ordermaster.do")
 @MultipartConfig
 public class OrderMasterServlet extends HttpServlet {
 
@@ -76,13 +77,26 @@ System.out.println(map);
 			Integer ordAmt = new Integer(req.getParameter("ordAmt"));
 			
 			HttpSession session = req.getSession();
-			Vector<OrderDetailVO> vector = (Vector<OrderDetailVO>)session.getAttribute("buylist");
+			@SuppressWarnings("unchecked")
+			Vector<ProductVO> shoppingcart = (Vector<ProductVO>)session.getAttribute("shoppingcart");
 			OrderMasterVO ordermasterVO = new OrderMasterVO();
 			ordermasterVO.setMemNo(memNo);
 			ordermasterVO.setOrdAmt(ordAmt);
+			List<OrderDetailVO> list = new ArrayList<OrderDetailVO>();
+			OrderDetailVO orderdetailVO = null;System.out.println(shoppingcart.size());
+			for(ProductVO productVO : shoppingcart) {
+				orderdetailVO = new OrderDetailVO();
+				orderdetailVO.setProNo(productVO.getProNo());
+				orderdetailVO.setOrdDetAmt(productVO.getQuantity());
+				orderdetailVO.setOrdDetPrice(productVO.getProPrice()*productVO.getQuantity());
+				list.add(orderdetailVO);
+			}
+			session.removeAttribute("shoppingcart");
+			session.removeAttribute("ordAmt");
+			session.removeAttribute("sum");
 			/***************************2.開始新增資料***************************************/
 			OrderMasterService ordermasterSvc = new OrderMasterService();
-			ordermasterVO = ordermasterSvc.addOrderMasterwithOrderDetails(memNo,ordAmt,vector);
+			ordermasterVO = ordermasterSvc.addOrderMasterwithOrderDetails(memNo,ordAmt,list);
 				
 			/*************************** 3.新增完成,準備轉交(Send the Success view) ***********/
 			req.setAttribute("ordermasterVO", ordermasterVO);

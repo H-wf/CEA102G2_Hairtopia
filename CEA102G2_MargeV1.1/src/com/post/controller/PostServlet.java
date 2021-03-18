@@ -2,6 +2,7 @@ package com.post.controller;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.PrintWriter;
 import java.util.*;
 
 import javax.servlet.RequestDispatcher;
@@ -16,10 +17,15 @@ import javax.servlet.http.Part;
 import com.post.model.*;
 import com.tag.model.*;
 import com.tagdet.model.*;
+import com.comment.model.*;
+import com.designer.model.*;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 @MultipartConfig
 public class PostServlet extends HttpServlet {
-
+	Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd hh:mm:ss").create();
 	public void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 		doPost(req, res);
 	}
@@ -123,7 +129,7 @@ public class PostServlet extends HttpServlet {
 
 		}
 
-		if ("getOne_For_Display".equals(action) || "getOne_For_Display_back".equals(action) || "Display_fromListAll".equals(action)) { // 來自select_lec_page.jsp的請求
+		if ("getOne_For_Display".equals(action) || "getOne_For_Display_back".equals(action) || "Display_fromListAll".equals(action) || "Display_fromDesPage".equals(action)) { 
 
 			List<String> errorMsgs = new LinkedList<String>();
 			// Store this set in the request scope, in case we need to
@@ -145,13 +151,13 @@ public class PostServlet extends HttpServlet {
 				}
 
 				/*************************** 2.開始查詢資料 *****************************************/
+			/*查貼文*/
 				PostService postSvc = new PostService();
 				PostVO postVO = postSvc.getOnePost(postNo);
 
 				if (postVO == null) {
 					errorMsgs.add("查無貼文資料");
 				}
-
 				// Send the use back to the form, if there were errors
 				if (!errorMsgs.isEmpty()) {
 					String url = "";
@@ -165,12 +171,18 @@ public class PostServlet extends HttpServlet {
 					return;// 程式中斷
 				}
 
+			/*如從設計師頁面的請求，查設計師Vo*/
+				if("Display_fromDesPage".equals(action)) {
+					DesignerService desSvc = new DesignerService();
+					DesignerVO designerVO = desSvc.getOneDesByDesNo(postVO.getDesNo());
+					req.setAttribute("designerVO", designerVO);
+				}
 				/*************************** 3.查詢完成,準備轉交(Send the Success view) *************/
 
 				req.setAttribute("postVO", postVO); // 資料庫取出的lecVO物件,存入req
 				boolean openModal=true;
-				req.setAttribute("openModal",openModal );
-				System.out.println("postVO設置完成");
+				req.setAttribute("openModal",openModal);
+System.out.println("postVO設置完成");
 				
 				String url = "";
 				if ("getOne_For_Display".equals(action)) {
@@ -179,8 +191,10 @@ public class PostServlet extends HttpServlet {
 					url = "/back-end/Post/listPostWithComments.jsp";
 				}else if ("Display_fromListAll".equals(action)) {
 					url = "/front-end/Post/listAllPost.jsp";
+				}else if("Display_fromDesPage".equals(action)) {
+					url = "/front-end/designer/designerPage.jsp";
 				}
-				RequestDispatcher successView = req.getRequestDispatcher(url); // 成功轉交 listOneLec.jsp
+				RequestDispatcher successView = req.getRequestDispatcher(url); 
 				successView.forward(req, res);
 
 				/*************************** 其他可能的錯誤處理 *************************************/
@@ -700,6 +714,49 @@ public class PostServlet extends HttpServlet {
 				RequestDispatcher failureView = req.getRequestDispatcher("/front-end/Post/listAll_postByDesNo.jsp");
 				failureView.forward(req, res);
 			}
+		}
+		
+		if("getWholePost".equals(action)) {
+			/*************************** 1.接收請求參數 ***************************************/
+			Integer postNo = new Integer(req.getParameter("postNo"));
+			
+			PostService postSvc = new PostService();
+			TagdetService tagdetSvc = new TagdetService();
+			TagService tagSvc = new TagService();
+			CommentService comSvc = new CommentService();
+			
+//取得postVo
+			PostVO postVo = postSvc.getOnePost(postNo);
+			
+//用postNo取得tagDet的tagNo再取得所有tagName
+			Set<Integer> tagNoSet = tagdetSvc.getTagNo(postNo);
+			List<String> tagNameList = tagSvc.getTagName(tagNoSet);
+			
+//用postNo取得所有comment
+			List<CommentVO> commentList = comSvc.getComsByPostNo(postNo);
+			
+			postVo.setPostPic1(new byte[0]);
+			if(postVo.getPostPic2() != null) {
+				postVo.setPostPic2(new byte[0]);
+			}else if(postVo.getPostPic3() != null) {
+				postVo.setPostPic3(new byte[0]);
+			}
+			
+			Map ajaxMap = new HashMap();
+			ajaxMap.put("postVo", postVo);
+			ajaxMap.put("tagNameList", tagNameList);
+			ajaxMap.put("commentList", commentList);
+
+			String jsonStr = gson.toJson(ajaxMap);
+System.out.println(jsonStr);
+
+			res.setContentType("text/plain");
+			res.setCharacterEncoding("UTF-8");
+			PrintWriter out = res.getWriter();
+			out.print(jsonStr);
+			out.flush();
+			out.close();
+			return;
 		}
 
 	}

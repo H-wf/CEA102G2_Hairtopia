@@ -62,12 +62,12 @@ private OrderMasterDAO_interface dao;
 		return dao.getAll(map);
 	}
 	
-	public OrderMasterVO addOrderMasterwithOrderDetails(Integer memNo, Integer ordAmt, Vector<OrderDetailVO> vector) {
+	public OrderMasterVO addOrderMasterwithOrderDetails(Integer memNo, Integer ordAmt, List<OrderDetailVO> list) {
 		OrderMasterVO ordermasterVO = new OrderMasterVO();
 		
 		ordermasterVO.setMemNo(memNo);
 		ordermasterVO.setOrdAmt(ordAmt);
-		ordermasterVO=dao.insertWithOrderDetails(ordermasterVO,vector);
+		ordermasterVO=dao.insertWithOrderDetails(ordermasterVO,list);
 		
 		return ordermasterVO;
 	}

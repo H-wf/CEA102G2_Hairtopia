@@ -11,6 +11,7 @@ import javax.servlet.http.*;
 
 import com.cos.model.*;
 import com.coutype.model.CostypeService;
+import com.lecturer.model.LecturerService;
 
 import javax.servlet.http.Part;
 
@@ -18,11 +19,14 @@ import javax.servlet.http.Part;
 
 public class CosServlet extends HttpServlet {
 
+	private static final long serialVersionUID = 1L;
+
 		public void doGet(HttpServletRequest req, HttpServletResponse res)
 				throws ServletException, IOException {
 			doPost(req, res);
 		}
 
+		@SuppressWarnings("unchecked")
 		public void doPost(HttpServletRequest req, HttpServletResponse res)
 				throws ServletException, IOException {
 
@@ -85,60 +89,6 @@ public class CosServlet extends HttpServlet {
 				}
 			}
 			
-//			if ("getOne_For_Display_By_CosFrom".equals(action) || "getOne_For_Display_By_CosApplyFrom".equals(action)) {
-//
-//				List<String> errorMsgs = new LinkedList<String>();
-//				req.setAttribute("errorMsgs", errorMsgs);
-//
-//				try {
-//					String str = req.getParameter("cosNo");
-//					if (str == null || (str.trim()).length() == 0) {
-//						errorMsgs.add("getOne_For_Display_By_CosFrom：cosNo無法轉成str");
-//					}
-//					if (!errorMsgs.isEmpty()) {
-//						RequestDispatcher failureView = req
-//								.getRequestDispatcher("/back-end/Cos/select_cos_page.jsp");
-//						failureView.forward(req, res);
-//						return;
-//					}
-//					
-//					Integer cosNo = null;
-//					try {
-//						cosNo = new Integer(str);
-//					} catch (Exception e) {
-//						errorMsgs.add("getOne_For_Display_By_CosFrom：str無法變成包裝型別cosNo");
-//					}
-//					if (!errorMsgs.isEmpty()) {
-//						RequestDispatcher failureView = req
-//								.getRequestDispatcher("/back-end/Cos/select_cos_page.jsp");
-//						failureView.forward(req, res);
-//						return;
-//					}
-//					
-//					CosService cosSvc = new CosService();
-//					CosVO cosVO = cosSvc.getAllCosFrom();
-//					if (cosVO == null) {
-//						errorMsgs.add("getOne_For_Display_By_CosFrom：cosVO為null");
-//					}
-//					if (!errorMsgs.isEmpty()) {
-//						RequestDispatcher failureView = req
-//								.getRequestDispatcher("/back-end/Cos/select_cos_page.jsp");
-//						failureView.forward(req, res);
-//						return;
-//					}
-//
-//					req.setAttribute("cosVO", cosVO);
-//					String url = "/back-end/Cos/listOneCos.jsp";
-//					RequestDispatcher successView = req.getRequestDispatcher(url);
-//					successView.forward(req, res);
-//
-//				} catch (Exception e) {
-//					errorMsgs.add("getOne_For_Display_By_CosFrom：有errorMsgs發生" + e.getMessage());
-//					RequestDispatcher failureView = req
-//							.getRequestDispatcher("/back-end/Cos/select_cos_page.jsp");
-//					failureView.forward(req, res);
-//				}
-//			}
 			
 			if ("getOne_For_Update".equals(action)){
 
@@ -194,14 +144,12 @@ public class CosServlet extends HttpServlet {
 					} catch (NumberFormatException e) {
 						cosRate = 0;
 						errorMsgs.add("update：cosRate出現NumberFormatException");
-					}					
-					Integer cosStatus = null;
-					try {
-						cosStatus = new Integer(req.getParameter("cosStatus").trim());
-					} catch (NumberFormatException e) {
-						cosStatus = 0;
-						errorMsgs.add("update：cosStatus出現NumberFormatException");
-					}					
+					}
+					
+					Boolean cosStatus = null;
+					
+					cosStatus = Boolean.parseBoolean(req.getParameter("cosStatus").trim());
+								
 					Integer cosMinCount = null;
 					try {
 						cosMinCount = new Integer(req.getParameter("cosMinCount").trim());
@@ -337,9 +285,9 @@ public class CosServlet extends HttpServlet {
 					CosService cosSvc = new CosService();
 					if (cosPic != null) {
 					cosVO = cosSvc.updateCos(cosNo, lecNo, cosTypeNo, cosFrom, cosTo, cosIntro, cosPic, cosAdd, cosCount, cosRate, cosStatus, cosMinCount, cosMaxCount, cosPrice, cosApplyFrom, cosApplyTo, cosName);
-					} else {
+							} else {
 						cosVO = cosSvc.updateCosNoPic(cosNo, lecNo, cosTypeNo, cosFrom, cosTo, cosIntro, cosAdd, cosCount, cosRate, cosStatus, cosMinCount, cosMaxCount, cosPrice, cosApplyFrom, cosApplyTo, cosName);
-					}
+								}
 					
 					CostypeService costypeSvc = new CostypeService();
 					if(requestURL.equals("/back-end/Costype/listCos_ByCosTypeNo.jsp") || requestURL.equals("/back-end/Costype/listAllCostype.jsp"))
@@ -351,7 +299,7 @@ public class CosServlet extends HttpServlet {
 						List<CosVO> list  = cosSvc.getAll(map);
 						req.setAttribute("listCos_ByCompositeQuery",list); //  複合查詢, 資料庫取出的list物件,存入request
 					}
-					
+					req.setAttribute("cosVO", cosVO);
 					String url = requestURL;
 					RequestDispatcher successView = req.getRequestDispatcher(url);   // 修改成功後,轉交回送出修改的來源網頁
 					successView.forward(req, res);
@@ -359,30 +307,6 @@ public class CosServlet extends HttpServlet {
 					/***************************其他可能的錯誤處理*************************************/
 				} catch (Exception e) {
 					errorMsgs.add("修改資料失敗:"+e.getMessage());
-					RequestDispatcher failureView = req
-							.getRequestDispatcher("/back-end/Cos/update_cos_input.jsp");
-					failureView.forward(req, res);
-				}
-			}
-			
-			
-			if ("update_courseStatus".equals(action)) {
-				List<String> errorMsgs = new LinkedList<String>();
-				req.setAttribute("errorMsgs", errorMsgs);
-				
-				try {
-					Integer cosNo = new Integer(req.getParameter("cosNo"));
-					
-					CosService cosSvc = new CosService();
-					CosVO cosVO = cosSvc.findByPrimaryKeyCos(cosNo);
-					cosSvc.updateCosStatus(cosNo, cosVO.getCosStatus());
-				
-					String url = "/back-end/Cos/listOneCos.jsp";
-					RequestDispatcher successView = req.getRequestDispatcher(url);
-					successView.forward(req, res);
-
-				} catch (Exception e) {
-					errorMsgs.add("update_courseStatus：有errorMsgs發生"+e.getMessage());
 					RequestDispatcher failureView = req
 							.getRequestDispatcher("/back-end/Cos/update_cos_input.jsp");
 					failureView.forward(req, res);
@@ -425,13 +349,7 @@ public class CosServlet extends HttpServlet {
 						cosRate = 0;
 						errorMsgs.add("insert：cosRate出現NumberFormatException");
 					}					
-					Integer cosStatus = null;
-					try {
-						cosStatus = new Integer(req.getParameter("cosStatus").trim());
-					} catch (NumberFormatException e) {
-						cosStatus = 0;
-						errorMsgs.add("insert：cosStatus出現NumberFormatException");
-					}					
+					Boolean cosStatus = Boolean.parseBoolean(req.getParameter("cosStatus").trim());					
 					Integer cosMinCount = null;
 					try {
 						cosMinCount = new Integer(req.getParameter("cosMinCount").trim());
@@ -563,7 +481,7 @@ public class CosServlet extends HttpServlet {
 		
 				try {
 					Integer cosNo = new Integer(req.getParameter("cosNo"));
-					
+					System.out.println(cosNo);
 					CosService cosSvc = new CosService();
 					CosVO cosVO = cosSvc.findByPrimaryKeyCos(cosNo);
 					cosSvc.deleteCos(cosNo);
@@ -591,6 +509,7 @@ public class CosServlet extends HttpServlet {
 					failureView.forward(req, res);
 				}
 			}
+			
 			if ("listCos_ByCompositeQuery".equals(action)) { // 來自select_page.jsp的複合查詢請求
 				List<String> errorMsgs = new LinkedList<String>();
 				// Store this set in the request scope, in case we need to
@@ -613,7 +532,7 @@ public class CosServlet extends HttpServlet {
 					
 					/***************************2.開始複合查詢***************************************/
 					CosService cosSvc = new CosService();
-					List<CosVO> list  = cosSvc.getAll(map);
+					List<CosVO> list  = cosSvc.getAll(map);					
 					
 					/***************************3.查詢完成,準備轉交(Send the Success view)************/
 					req.setAttribute("listCos_ByCompositeQuery", list); // 資料庫取出的list物件,存入request
@@ -628,6 +547,32 @@ public class CosServlet extends HttpServlet {
 					failureView.forward(req, res);
 				}
 			}
+			
+			if ("getOne_For_Apply".equals(action)){
+
+				List<String> errorMsgs = new LinkedList<String>();
+				req.setAttribute("errorMsgs", errorMsgs);
+				Integer applyno;
+				
+				try {
+					Integer cosNo = new Integer(req.getParameter("cosNo"));
+
+					CosService cosSvc = new CosService();
+					CosVO cosVO = cosSvc.findByPrimaryKeyCos(cosNo);
+
+					req.setAttribute("cosVO", cosVO);
+					String url = "/back-end/Cos/update_cos_input.jsp";
+					RequestDispatcher successView = req.getRequestDispatcher(url);
+					successView.forward(req, res);
+				} catch (Exception e) {
+					errorMsgs.add("getOne_For_Update：有errorMsgs發生" + e.getMessage());
+					RequestDispatcher failureView = req
+							.getRequestDispatcher("/back-end/Cos/listAllCos.jsp");
+					failureView.forward(req, res);
+				}
+			}
+			
+			
 		}
 	}
 

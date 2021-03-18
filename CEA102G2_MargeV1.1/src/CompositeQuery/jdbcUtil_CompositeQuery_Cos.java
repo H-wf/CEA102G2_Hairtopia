@@ -23,6 +23,10 @@ public class jdbcUtil_CompositeQuery_Cos {
 			aCondition = columnName + " like '%" + value + "%'";
 		else if ("cosFrom".equals(columnName) || "cosTo".equals(columnName) || "cosApplyFrom".equals(columnName) || "cosApplyTo".equals(columnName))                          // 用於Oracle的date
 			aCondition = columnName + "=" + "'" + value + "'";
+		else if ("lecStatus".equals(columnName))
+			aCondition = columnName + "=" + value;
+		else if ("lecName".equals(columnName) || "lecIntro".equals(columnName))
+			aCondition = columnName + "=" + "'" + value + "'";
 		return aCondition + " ";
 	}
 
@@ -61,7 +65,7 @@ public class jdbcUtil_CompositeQuery_Cos {
 				map.put("cosAdd", new String[] { "台北市100號" });
 				map.put("cosCount", new String[] { "0" });// 注意Map裡面會含有action的key
 				map.put("cosRate", new String[] { "0" });
-				map.put("cosStatus", new String[] { "1" });
+				map.put("cosStatus", new String[] { "false" });
 				map.put("cosMinCount", new String[] { "60" });
 				map.put("cosMaxCount", new String[] { "100" });
 				map.put("cosPrice", new String[] { "1000" });

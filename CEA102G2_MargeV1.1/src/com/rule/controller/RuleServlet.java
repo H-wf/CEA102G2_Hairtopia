@@ -97,14 +97,14 @@ public class RuleServlet extends HttpServlet {
 		}
 		
 		
-		if ("getOne_For_Update".equals(action)) { // 來自listAllEmp.jsp 或  /dept/listEmps_ByDeptno.jsp 的請求
+		if ("getOne_For_Update".equals(action)) { // 來自listAllRule.jsp  的請求
 
 			List<String> errorMsgs = new LinkedList<String>();
 			// Store this set in the request scope, in case we need to
 			// send the ErrorPage view.
 			req.setAttribute("errorMsgs", errorMsgs);
 			
-			String requestURL = req.getParameter("requestURL"); // 送出修改的來源網頁路徑: 可能為【/emp/listAllEmp.jsp】 或  【/dept/listEmps_ByDeptno.jsp】 或 【 /dept/listAllDept.jsp】		
+			String requestURL = req.getParameter("requestURL"); // 送出修改的來源網頁路徑: 可能為【/rule/listAllRule.jsp】 或  【/dept/listEmps_ByDeptno.jsp】 或 【 /dept/listAllDept.jsp】		
 			try {
 				/***************************1.接收請求參數****************************************/
 				Integer ruleNo = new Integer(req.getParameter("ruleNo"));
@@ -113,10 +113,10 @@ public class RuleServlet extends HttpServlet {
 				RuleService ruleSvc = new RuleService();
 				RuleVO ruleVO = ruleSvc.getOneRule(ruleNo);
 				/***************************3.查詢完成,準備轉交(Send the Success view)************/
-				req.setAttribute("ruleVO", ruleVO); // 資料庫取出的empVO物件,存入req
+				req.setAttribute("ruleVO", ruleVO); // 資料庫取出的ruleVO物件,存入req
 				
 				String url = "/back-end/rule/update_rule_input.jsp";
-				RequestDispatcher successView = req.getRequestDispatcher(url); // 成功轉交update_emp_input.jsp
+				RequestDispatcher successView = req.getRequestDispatcher(url); // 成功轉交update_rule_input.jsp
 				successView.forward(req, res);
 				
 				/***************************其他可能的錯誤處理************************************/

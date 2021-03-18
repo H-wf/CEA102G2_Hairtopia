@@ -15,7 +15,7 @@
 
 <title>設計師班表上傳 - check_DailySchedule.jsp</title>
 </head>
-<body>
+
 <body bgcolor='white'>
 
 	<table id="table-1">

@@ -1,6 +1,6 @@
 package com.tag.model;
 
-import java.util.List;
+import java.util.*;
 
 import com.tag.model.TagVO;
 
@@ -33,6 +33,16 @@ public class TagService {
 		return dao.findByTagNo(tagNo);
 	} 
 	
+	public List<String> getTagName(Set<Integer> tagNoSet) {
+		List<String> tagNameList = new ArrayList<String>();
+		
+		for(Integer tagNo:tagNoSet) {
+			String tagName = dao.findByTagNo(tagNo);
+			tagNameList.add(tagName);
+		}
+		return tagNameList;
+	} 
+	
 	public TagVO updateTag(Integer tagNo,String tagName) {
 		
 		TagVO tagVo = new TagVO();
@@ -49,4 +59,11 @@ public class TagService {
 		dao.delete(tagNo);
 	}
 	
+	public List<String> getTagAJAX(String keyword){
+		return dao.getTagAJAX(keyword);
+	}
+	
+	public Set<Integer> getTagNoSet(String keyword){
+		return dao.searchTagNo(keyword);
+	}
 }

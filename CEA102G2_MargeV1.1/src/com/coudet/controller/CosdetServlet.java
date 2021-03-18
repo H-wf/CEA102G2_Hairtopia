@@ -10,8 +10,11 @@ import javax.servlet.http.*;
 
 import javax.servlet.http.Part;
 
+import com.cos.model.CosVO;
 import com.coudet.model.CosdetService;
 import com.coudet.model.CosdetVO;
+import com.member.model.MemService;
+import com.member.model.MemVO;
 
 @MultipartConfig
 
@@ -27,6 +30,10 @@ public class CosdetServlet extends HttpServlet {
 
 			req.setCharacterEncoding("UTF-8");
 			String action = req.getParameter("action");
+			MemService memSvc = new MemService();
+			MemVO memVO = memSvc.getOneMem(3);
+			HttpSession session = req.getSession();
+			session.setAttribute("memVO", memVO);
 			
 			
 			if ("getOne_For_Display".equals(action)) {
@@ -124,8 +131,11 @@ public class CosdetServlet extends HttpServlet {
 						errorMsgs.add("update：memNo出現NumberFormatException");
 					}
 					
-					String cosComment = req.getParameter("cosComment");
-					if (cosComment == null || cosComment.trim().length() == 0) {
+					Integer cosComment = null;
+					try {
+							cosComment = new Integer(req.getParameter("cosComment").trim());
+					} catch (NumberFormatException e) {
+						memNo = 0;
 						errorMsgs.add("update：cosComment出現null");
 					}			
 					
@@ -192,8 +202,11 @@ public class CosdetServlet extends HttpServlet {
 						errorMsgs.add("insert：memNo出現NumberFormatException");
 					}
 					
-					String cosComment = req.getParameter("cosComment");
-					if (cosComment == null || cosComment.trim().length() == 0) {
+					Integer cosComment = null;
+					try {
+							cosComment = new Integer(req.getParameter("cosComment").trim());
+					} catch (NumberFormatException e) {
+						memNo = 0;
 						errorMsgs.add("insert：cosComment出現null");
 					}			
 					
@@ -256,7 +269,173 @@ public class CosdetServlet extends HttpServlet {
 					failureView.forward(req, res);
 				}
 			}
+		
+
+		
+		if ("findByMenNoToCos".equals(action)) {
+
+			List<String> errorMsgs = new LinkedList<String>();
+			req.setAttribute("errorMsgs", errorMsgs);
+
+			try {
+				String str = req.getParameter("memNo");
+				if (str == null || (str.trim()).length() == 0) {
+					errorMsgs.add("findByMenNoToCos：cosNo無法轉成str");
+				}
+				if (!errorMsgs.isEmpty()) {
+					RequestDispatcher failureView = req
+							.getRequestDispatcher("/front-end/Cos/LoginToRateCos.jsp");
+					failureView.forward(req, res);
+					return;
+				}
+				System.out.println(str);
+				
+				Integer memNo = null;
+				try {
+					memNo = new Integer(str);
+				} catch (Exception e) {
+					errorMsgs.add("getOne_For_Display：str無法變成包裝型別memNo");
+				}
+				if (!errorMsgs.isEmpty()) {
+					RequestDispatcher failureView = req
+							.getRequestDispatcher("/front-end/Cos/LoginToRateCos.jsp");
+					failureView.forward(req, res);
+					return;
+				}
+				
+				System.out.println(memNo);
+				
+				CosdetService cosdetSvc = new CosdetService();
+//				CosdetVO cosdetVO = cosdetSvc.findByMenNoToCos(memNo);
+				List<CosdetVO> cosdetVO = cosdetSvc.getAllCosByMemNo(memNo);
+//				HashSet<CosdetVO> cosdetVO = cosdetSvc.getAllCosByMemNo();
+//				System.out.println("test1" + cosdetVO);
+				if (cosdetVO == null) {
+					errorMsgs.add("getOne_For_Display：cosdetVO為null");
+				}
+				if (!errorMsgs.isEmpty()) {
+					RequestDispatcher failureView = req
+							.getRequestDispatcher("/front-end/Cos/LoginToRateCos.jsp");
+					failureView.forward(req, res);
+					return;
+				}
+
+				req.setAttribute("cosdetVO", cosdetVO);
+				String url = "/front-end/Cos/RateCos.jsp";//已經走到這一步
+//				System.out.println("test2" + cosdetVO);
+				RequestDispatcher successView = req.getRequestDispatcher(url);
+				successView.forward(req, res);
+
+			} catch (Exception e) {
+				e.printStackTrace();
+				errorMsgs.add("getOne_For_Display：有errorMsgs發生" + e.getMessage());
+				RequestDispatcher failureView = req
+						.getRequestDispatcher("/front-end/Cos/LoginToRateCos.jsp");
+				failureView.forward(req, res);
+			}
+		}
+		
+		if ("getOneCos_For_UpdateRate".equals(action)){
+
+		List<String> errorMsgs = new LinkedList<String>();
+		req.setAttribute("errorMsgs", errorMsgs);
+		
+		try {
+			Integer cosNo = new Integer(req.getParameter("cosNo"));
+
+			CosdetService cosdetSvc = new CosdetService();
+			CosdetVO cosdetVO = cosdetSvc.getOneCosDet(cosNo);
+			
+//			CosdetService cosdetSvc1 = new CosdetService();
+//			CosdetVO cosdetVO = cosdetSvc1.getAvgCosRateByCosNo(cosNo);
+
+			req.setAttribute("cosdetVO", cosdetVO);
+			String url = "/front-end/Cos/update_cosdetail_input_front.jsp";
+			RequestDispatcher successView = req.getRequestDispatcher(url);
+			successView.forward(req, res);
+		} catch (Exception e) {
+			errorMsgs.add("getOneCos_For_UpdateRate：有errorMsgs發生" + e.getMessage());
+			RequestDispatcher failureView = req
+					.getRequestDispatcher("/front-end/Cos/RateCos.jsp");
+			failureView.forward(req, res);
 		}
 	}
+		
+		if ("updateCosRate".equals(action)){
+			
+			List<String> errorMsgs = new LinkedList<String>();
+			req.setAttribute("errorMsgs", errorMsgs);
+		    System.out.println("req.getParameter(\"cosNo\").trim() = "+req.getParameter("cosNo").trim());
+			try {
+				Integer cosNo = new Integer(req.getParameter("cosNo").trim());
+				System.out.println("getOneCos_For_UpdateRate取cosNo" + cosNo);
+				
+				Integer memNo = null;
+				try {
+					memNo = new Integer(req.getParameter("memNo").trim());
+				} catch (NumberFormatException e) {
+					memNo = 0;
+					errorMsgs.add("updateCosRate：memNo出現NumberFormatException");
+				}
+				System.out.println("getOneCos_For_UpdateRate取memNo" + memNo);
+				
+				Integer cosComment = null;
+				try {
+						cosComment = new Integer(req.getParameter("cosComment").trim());
+				} catch (NumberFormatException e) {
+					memNo = 0;
+					errorMsgs.add("updateCosRate：cosComment出現null");
+				}
+				System.out.println("getOneCos_For_UpdateRate取cosComment" + cosComment);
+				
+				CosdetVO cosdetVO = new CosdetVO();
+				cosdetVO.setCosNo(cosNo);
+				cosdetVO.setMemNo(memNo);
+				cosdetVO.setCosComment(cosComment);
+				
+				CosdetVO cosdetVO1 = new CosdetVO();
+				CosVO cosVO1 = new CosVO();
 
+				if (!errorMsgs.isEmpty()) {
+					req.setAttribute("cosdetVO", cosdetVO);
+					RequestDispatcher failureView = req
+							.getRequestDispatcher("/front-end/Cos/RateCos.jsp");
+					failureView.forward(req, res);
+					return;
+				}
+				
+				CosdetService cosdetSvc = new CosdetService();
+				
+				cosdetVO = cosdetSvc.updateCosDetWithComment(cosComment, memNo, cosNo);
+				
+				cosdetVO1 = cosdetSvc.getAvgCosCommentByCosNo(cosNo);
+				Integer cosRate = (Integer)(cosdetVO1.getCosComment());
+//				System.out.println("cosdetVO1.getCosComment()求出平均分數："+cosdetVO1.getCosComment());
+//				System.out.println("cosRate"+cosRate);
+				cosVO1.setCosRate(cosdetVO1.getCosComment());
+				
+				cosVO1.setCosNo(cosNo);
+				
+				CosdetService cosdetSvc1 = new CosdetService();
+				cosVO1 = cosdetSvc1.updateCosRateForCosTable(cosRate, cosNo);
+//				System.out.println(cosNo);
+//				System.out.println(cosRate);
+//				System.out.println("updateCosRateForCosTable：已做到419");
+				
+				req.setAttribute("cosVO", cosVO1);
+				
+				req.setAttribute("cosdetVO", cosdetVO);
+				String url = "/front-end/Cos/passRateCos.jsp";
+				RequestDispatcher successView = req.getRequestDispatcher(url);
+				successView.forward(req, res);
 
+			} catch (Exception e) {
+				errorMsgs.add("updateCosRate：有errorMsgs發生"+e.getMessage());
+				e.printStackTrace();
+				RequestDispatcher failureView = req
+						.getRequestDispatcher("/front-end/Cos/RateCos.jsp");
+				failureView.forward(req, res);
+			}
+		}
+	}
+}

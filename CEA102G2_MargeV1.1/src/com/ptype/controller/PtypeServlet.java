@@ -20,7 +20,7 @@ import com.ptype.model.PtypeService;
 import com.ptype.model.PtypeVO;
 import com.product.model.ProductVO;
 
-@WebServlet("/ptype/ptype.do")
+
 @MultipartConfig
 public class PtypeServlet extends HttpServlet {
 

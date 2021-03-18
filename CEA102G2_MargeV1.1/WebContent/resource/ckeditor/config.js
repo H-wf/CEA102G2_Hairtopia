@@ -32,6 +32,7 @@ CKEDITOR.editorConfig = function( config ) {
 	
 };
 CKEDITOR.config.extraPlugins = "base64image,uicolor";
+config.uiColor = "#d9bf77";
 
 
 
