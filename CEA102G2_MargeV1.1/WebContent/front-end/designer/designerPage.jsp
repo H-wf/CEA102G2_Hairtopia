@@ -395,13 +395,7 @@
 										</div>
 									</c:if>
 								</c:forEach>
-								<div class="callout callout-default">
-								  <h4>Default Callout</h4>
-								  This is a default callout.
-								  <a class="btn btn-outline-primary bookingBtn" >立即預約<i class="bi bi-arrow-right"></i></a>
-								</div>
-							Service
-							<br><br><br><br><br><br><br><br><br><br></div>
+							</div>
 						</div>
 	                    <div class="tab-pane fade" id="Info" role="tabpanel" aria-labelledby="Info-tab">
 							<div class="InfoCard">
@@ -505,7 +499,7 @@
 	$(document).ready(function(){
 		$('#followBtn').on('click',function(){
 			var obj = {
-					memNo:${not empty memVO.memNo?memVO.memNo:"null"},
+					memNo:${not empty memVO.memNo?memVO.memNo:"null"},	//userSession
 					desNo:${designerVO.desNo},
 			}
 			
@@ -552,7 +546,7 @@
 // MAP
 	function initMap() {
         	//準備好要顯示的緯經度
-            const myLatLng = { lat: 24.957503, lng: 121.225111 };
+            const myLatLng = { lat: ${salVo.salLat}, lng: ${salVo.salLng} };
             //抓取div id生成Map類別
             const map = new google.maps.Map(document.getElementById("map"), {
                 zoom: 18,
