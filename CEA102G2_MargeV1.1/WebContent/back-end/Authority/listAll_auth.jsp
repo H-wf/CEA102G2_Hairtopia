@@ -2,13 +2,14 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page import="java.util.*"%>
 <%@ page import="com.authority.model.*"%>
+<%@ page import="com.staff.model.*"%>
 
 
 <%-- 此頁練習採用 EL 的寫法取值 --%>
 
-
-
-
+<%
+	StaffVO staVO = (StaffVO) request.getAttribute("staVO");
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -46,7 +47,7 @@ img {
 	</c:if>
 	<h2>員工姓名</h2>
 	<jsp:useBean id="staSvc" scope="page" class="com.staff.model.StaffService" />
-	<p> ${staSvc.getOneStaff(param.staNo).staName}
+	<p> ${staSvc.getOneStaff(staVO.staNo).staName}
 	<table>
 		<tr>
 			<th>功能編號</th>
@@ -64,25 +65,48 @@ img {
 				<td>
 				<c:choose>
 				 <c:when test="${funcVO.funcNo == list[i + s.index].funcNo}">
+				 <td>
 					<FORM METHOD="post"
 						ACTION="<%=request.getContextPath()%>/authority/authority.do"
 						style="margin-bottom: 0px;">
-						<input type="submit" value="刪除"> 
+						<input type="submit" value="刪除權限"> 
 						<input type="hidden" name="funcNo" value="${funcVO.funcNo}"> 
 						<input type="hidden" name="staNo" value="${param.staNo}">
 						<input type="hidden" name="action" value="listAll_auth">
 					</FORM>
-				</c:when>	
-				<c:otherwise>
-						
+				</td>
+				<td>
 						<FORM METHOD="post"
 						ACTION="<%=request.getContextPath()%>/authority/authority.do"
 						style="margin-bottom: 0px;">
-						<input type="submit" value="增加"> 
+						<input type="submit" value="增加權限" disabled> 
 						<input type="hidden" name="funcNo" value="${funcVO.funcNo}"> 
 						<input type="hidden" name="staNo" value="${param.staNo}">
 						<input type="hidden" name="action" value="insert">
 						</FORM>
+				</td>		
+				</c:when>	
+				<c:otherwise>
+						 <td>
+						<FORM METHOD="post"
+						ACTION="<%=request.getContextPath()%>/authority/authority.do"
+						style="margin-bottom: 0px;">
+						<input type="submit" value="刪除權限"  disabled> 
+						<input type="hidden" name="funcNo" value="${funcVO.funcNo}"> 
+						<input type="hidden" name="staNo" value="${param.staNo}">
+						<input type="hidden" name="action" value="listAll_auth">
+						</FORM>
+						</td>
+						<td>
+						<FORM METHOD="post"
+						ACTION="<%=request.getContextPath()%>/authority/authority.do"
+						style="margin-bottom: 0px;">
+						<input type="submit" value="增加權限" > 
+						<input type="hidden" name="funcNo" value="${funcVO.funcNo}"> 
+						<input type="hidden" name="staNo" value="${param.staNo}">
+						<input type="hidden" name="action" value="insert">
+						</FORM>
+						</td>
 						<c:set var="i" value="${i-1}"/>
 				</c:otherwise>
 				</c:choose>	

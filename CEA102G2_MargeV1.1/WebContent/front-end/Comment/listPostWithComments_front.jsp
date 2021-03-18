@@ -83,6 +83,10 @@ img {
 		width: 1140px;
 	}
 }
+	div.comDisplay{
+		overflow-y:auto;
+		height:300px;
+	}
 </style>
 <div>
 	<!-- 參考原版檔案在oldFile裡 -->
@@ -154,21 +158,24 @@ img {
 						value="${postVO.postTime}" pattern="yyyy-MM-dd HH:mm:ss" /></small>
 			</div>
 			<p class="card-text">
-			<ul class="list-unstyled">
-				<c:forEach var="commentVo"
-					items="${commentSvc.getComsByPostNo(postVO.getPostNo())}">
-					<c:if test='${commentVo.comStatus != false}'>
-						<li class="media">
-							<!--            會員頭貼                  <img src="..." class="mr-3" alt="..."> -->
-							<div class="media-body">
-								<h5 class="mt-0 mb-1">${commentVo.memNo}</h5>
-								<p class="comCon">${commentVo.comCon}</p>
-								<small class="text-muted comTime">${commentVo.comTime}</small>
-							</div>
-						</li>
-					</c:if>
-				</c:forEach>
-			</ul>
+			<div class="comDisplay" >
+				<ul class="list-unstyled">
+					<c:forEach var="commentVo"
+						items="${commentSvc.getComsByPostNo(postVO.getPostNo())}">
+						<c:if test='${commentVo.comStatus != false}'>
+							<li class="media">
+								<!--            會員頭貼                  <img src="..." class="mr-3" alt="..."> -->
+								<div class="media-body">
+									<h5 class="mt-0 mb-1">${commentVo.memNo}</h5>
+									<p class="comCon">${commentVo.comCon}</p>
+									<small class="text-muted comTime">${commentVo.comTime}</small>
+								</div>
+							</li>
+						</c:if>
+					</c:forEach>
+				</ul>
+			</div>
+			
 			<!--  有會員之後要判斷出刪除、修改按鈕 -->
 			<form method="post"
 				action="<%=request.getContextPath()%>/comment/comment.do">

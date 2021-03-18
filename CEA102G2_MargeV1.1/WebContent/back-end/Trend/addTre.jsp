@@ -21,7 +21,7 @@
 
 <title>風格誌新增 - addTre.jsp</title>
 </head>
-<body>
+
 <body bgcolor='white'>
 
 	<table id="table-1">
