@@ -26,10 +26,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-<!--    	<script src="https://kit.fontawesome.com/5f1a2208d7.js" crossorigin="anonymous"></script> -->
 	<link rel="stylesheet" href="<%=request.getContextPath()%>/resource/web-fonts-with-css/css/fontawesome-all.min.css">
-<!--     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script> -->
-<script src="<%=request.getContextPath()%>/dist/js/jquery.min.js"></script>
+	<script src="<%=request.getContextPath()%>/dist/js/jquery.min.js"></script>
     
 
     <style>
@@ -353,7 +351,7 @@
 <!--                     </a> -->
                 </div>
                 <div class="chatbox-icons">
-                    <a href="javascript:void(0);"><i class="fa fa-minus"></i></a>
+                    <a href="javascript:void(0);"><i class="fa fas fa-minus"></i></a>
                     <a href="javascript:void(0);"><i class="fa fas fa-times"></i></a>
                 </div>
             </div>
@@ -395,7 +393,7 @@
             <div class="chat-input-holder">
                 <div class="chat-input-icons">
                 	<input type="file" id="uploadImage" accept="image/*">
-                    <a href="javascript:void(0);" id="upload_link"><i class="fa fa-image"></i></a>
+                    <a href="javascript:void(0);" id="upload_link"><i class="fas fa-image"></i></a>
                 </div>
                 <input type="text" class="chat-input" id="message" onkeydown="if (event.keyCode == 13) sendMessage();" autocomplete="off">
 				<div class="chat-input-icons">
@@ -427,7 +425,7 @@
             $('.fa-minus').click(function () {
                 $(this).closest('.chatbox').toggleClass('chatbox-min');
             });
-            $('.fa-close').click(function () {
+            $('.fa-times').click(function () {
                 $(this).closest('.chatbox').hide();
                 disconnect();
                 
