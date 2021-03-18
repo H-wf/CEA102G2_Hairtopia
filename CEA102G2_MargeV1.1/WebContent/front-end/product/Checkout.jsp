@@ -114,6 +114,14 @@ input {
 	.demo-container{
 		margin-bottom:15px;
 	}
+	table th, table td{
+		border-color:#D8CF9E !important;
+	}
+/* 	tr:first-child{ */
+/* 		background-color:#333333;  */
+/* 		color:#D8CF9E; */
+/* 	} */
+
 </style>
 
 <body>
@@ -128,7 +136,7 @@ input {
 
 	<div class="container-fluid" style="margin-top: 30px;">
 		<div class="row">
-			<div class="col-md-3 col-lg-3 " style="padding-top: 50px;">
+			<div class="col-md-3 col-lg-3 " style="padding-top: 0;">
 				<div style="transform: translateX(16%);" class="stepword">Step</div>
 				<ul class="horizontalProgress">
 					<li class="step1 step"></li>
@@ -183,6 +191,18 @@ input {
 							<td colspan="6">TOTAL</td>
 							<td class="total">NT$${sessionScope.ordAmt}</td>
 						</tr>
+						<tr>
+							<td scope="col" colspan="8">
+								<form action="<%=request.getContextPath()%>/ordermaster/ordermaster.do" method="POST" >
+								<input type="hidden" name="memNo"
+									value="${sessionScope.memVO.memNo}"> <input type="hidden"
+									name="ordAmt" class="ordAmt" value="${sessionScope.ordAmt}">
+								<input type="hidden" name="action" value="PAY"> <input
+									type="submit" class="btn btn-primary" value="NEXT→"
+									style="float: right;">
+								</form>
+							</td>
+						</tr>
 					</tbody>
 				</table>
 			</div>
@@ -196,7 +216,6 @@ input {
 				</ul>
 			</div>
 			<div class="col-12 col-md-8 col-lg-8" style="padding: 0;">
-				<hr>
 				<table class="table">
 					<thead>
 						<tr>
@@ -220,7 +239,9 @@ input {
 							<td width="120">地址</td>
 							<td>${sessionScope.memVO.memAddr}</td>
 						</tr>
+						
 					</tbody>
+						
 				</table>
 				<hr>
 				<table class="table">
@@ -249,7 +270,20 @@ input {
 							<td><div id="twzipcode"></div>
 								<input type="text" style="width: 412px;" class="address"></td>
 						</tr>
+						<tr>
+							<td scope="col" colspan="2" style="padding-right:0;">
+								<form action="<%=request.getContextPath()%>/ordermaster/ordermaster.do" method="POST" >
+								<input type="hidden" name="memNo"
+									value="${sessionScope.memVO.memNo}"> <input type="hidden"
+									name="ordAmt" class="ordAmt" value="${sessionScope.ordAmt}">
+								<input type="hidden" name="action" value="PAY"> <input
+									type="submit" class="btn btn-primary" value="NEXT→"
+									style="float: right;">
+								</form>
+							</td>
+						</tr>
 					</tbody>
+					
 				</table>
 				
 			</div>
@@ -263,7 +297,7 @@ input {
 				</ul>
 			</div>			
 			<div class="col-12 col-md-8 col-lg-8 demo-container" style="padding: 0;">
-			<hr>
+			
 				<table class="table">
 				<thead>
 					<tr>
