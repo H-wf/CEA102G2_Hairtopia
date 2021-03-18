@@ -41,7 +41,7 @@
         body {
 /*         	height:1000px; */
             font-family: 'Lato', sans-serif;
-            font-size: 16px;
+/*             font-size: 16px; */
             color: #999999;
 /*             word-wrap: break-word; */
         }
@@ -539,7 +539,7 @@
     	function getHistory() {
     		var container = document.getElementById("row");
             //要改成抓hidden傳送要交談的對象,可以先傳到session存起來(VO 或 單純朋友名字)
-   			var friend = ${friend.memName};
+   			var friend = "${friend.memName}";
    			var jsonObj = {
    					"type" : "history",
    					"sender" : self,
@@ -553,7 +553,7 @@
 //     		var inputMessage = document.getElementById("message");
 
             //要改成抓hidden傳送要交談的對象,可以先傳到session存起來(VO 或 單純朋友名字)
-    		var friend = ${friend.memName};
+    		var friend = "${friend.memName}";
     		var message = $('#message').val().trim();
 
     		if (message !== "") {
@@ -588,7 +588,7 @@
                             imageURL = e.target.result;
                             console.log('Start');
                              //要改成抓hidden傳送要交談的對象,可以先傳到session存起來(VO 或 單純朋友名字)
-                            var friend = ${friend.memName};
+                            var friend = "${friend.memName}";
     		                var message = imageURL;
                             console.log("start send image");
                             var jsonObj = {
