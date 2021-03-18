@@ -66,7 +66,7 @@ img {
 		<jsp:useBean id="lecSvc" scope="page"
 			class="com.lecturer.model.LecturerService" />
 
-		<%@ include file="/resource/pages/page1.file"%>
+		<%@ include file="/back-end/pages/page1.file"%>
 		<c:forEach var="lecVO" items="${lecSvc.all}" begin="<%=pageIndex%>"
 			end="<%=pageIndex+rowsPerPage-1%>">>
 			<tr>
@@ -109,7 +109,7 @@ img {
 
 
 	</table>
-	<%@ include file="/resource/pages/page2.file"%>
+	<%@ include file="/back-end/pages/page2.file"%>
 
 </body>
 </html>

@@ -6,13 +6,14 @@
 
 <%
     CosService cosSvc = new CosService();
-    List<CosVO> list = cosSvc.getAll();
+    List<CosVO> list = cosSvc.getAllCosApplyFrom();
     pageContext.setAttribute("list",list);
 %>
 
+
 <html>
 <head>
-<title>所有課程資料 - listAllCos.jsp</title>
+<title>所有開課中課程資料 - listAllCosFrom.jsp</title>
 
 <style>
   table#table-1 {
@@ -52,7 +53,7 @@
 
 <table id="table-1">
 	<tr><td>
-		 <h3>所有課程資料 - listAllCos.jsp</h3>
+		 <h3>所有開課中課程資料 - listAllCosFrom.jsp</h3>
 		 <h4><a href="<%=request.getContextPath()%>/back-end/Cos/select_cos_page.jsp"><img src="<%=request.getContextPath()%>/resource/images/back1.gif" width="100" height="32" border="0">回後台主頁</a></h4>
 	</td></tr>
 </table>
@@ -94,7 +95,9 @@
 				Base64.Encoder encoder = Base64.getEncoder();
 				String src = "data:image/jpeg;base64,";
 				if (cosPic != null){
-					src += encoder.encodeToString(cosPic);	
+					src += encoder.encodeToString(cosPic);
+					
+					
 				}else{
 					src="/back-end/resource/images/back1.gif";
 				}
@@ -103,8 +106,6 @@
 	
 	<%@ include file="/back-end/pages/page1.file"%> 
 	<c:forEach var="cosVO" items="${list}" begin="<%=pageIndex%>" end="<%=pageIndex+rowsPerPage-1%>">
-	
-	
 		
 		<tr>
 			<td>${cosVO.cosNo}</td>
@@ -133,7 +134,6 @@
 			<td>
 			  <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/cos/cos.do" style="margin-bottom: 0px;">
 			     <input type="submit" value="刪除">
-			     <input type="hidden" name="requestURL" value="<%=request.getServletPath()%>" >
 			     <input type="hidden" name="cosNo"  value="${cosVO.cosNo}">
 			     <input type="hidden" name="action" value="delete"></FORM>
 			</td>

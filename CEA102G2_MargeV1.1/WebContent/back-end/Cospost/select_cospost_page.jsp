@@ -7,7 +7,7 @@
 
 <style>
   table#table-1 {
-	width: 450px;
+	width: 4500px;
 	background-color: #CCCCFF;
 	margin-top: 5px;
 	margin-bottom: 10px;

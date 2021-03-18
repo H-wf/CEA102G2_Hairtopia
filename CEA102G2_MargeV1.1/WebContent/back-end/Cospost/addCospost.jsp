@@ -5,7 +5,6 @@
 <%
   CospostVO cospostVO = (CospostVO) request.getAttribute("cospostVO");
 %>
-<%= cospostVO==null %>--${cospostVO==null}<br>${cospostVO.cosPubNo}<br> for第102行 <br>
  
 <html>
 <head>
@@ -71,12 +70,12 @@
 	<tr>
 		<td>課程編號:</td>
 		<td><input type="TEXT" name="cosNo" size="45" 
-			 value="<%= (cospostVO==null)? "4" : cospostVO.getCosNo()%>"></td>
+			 value="<%= (cospostVO==null)? "請輸入課程編號" : cospostVO.getCosNo()%>"></td>
 	</tr>
 	<tr>
 		<td>公告內容:</td>
 		<td><input type="TEXT" name="cosPubCon" size="45"
-			 value="<%= (cospostVO==null)? "剪髮" : cospostVO.getCosPubCon()%>"></td>
+			 value="<%= (cospostVO==null)? "請輸入公告內容" : cospostVO.getCosPubCon()%>"></td>
 	</tr>
 	<tr>
 		<td>公告時間:</td>
