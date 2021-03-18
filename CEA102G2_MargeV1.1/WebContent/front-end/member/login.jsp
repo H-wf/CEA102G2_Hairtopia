@@ -7,23 +7,23 @@
 <head>
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, maximum-scale=1">
-<link
-	href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css"
-	rel="stylesheet"
-	integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1"
-	crossorigin="anonymous">
-<script
-	src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"
-	integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW"
-	crossorigin="anonymous"></script>
-<script src="https://code.jquery.com/jquery-3.5.1.min.js"
-	integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0="
-	crossorigin="anonymous"></script>
+<!-- <link -->
+<!-- 	href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" -->
+<!-- 	rel="stylesheet" -->
+<!-- 	integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" -->
+<!-- 	crossorigin="anonymous"> -->
+<!-- <script -->
+<!-- 	src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" -->
+<!-- 	integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" -->
+<!-- 	crossorigin="anonymous"></script> -->
+<!-- <script src="https://code.jquery.com/jquery-3.5.1.min.js" -->
+<!-- 	integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" -->
+<!-- 	crossorigin="anonymous"></script> -->
 
-<script
-	src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/10.15.5/sweetalert2.min.js"></script>
-<link rel="stylesheet"
-	href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/10.15.5/sweetalert2.min.css">
+<!-- <script -->
+<!-- 	src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/10.15.5/sweetalert2.min.js"></script> -->
+<!-- <link rel="stylesheet" -->
+<!-- 	href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/10.15.5/sweetalert2.min.css"> -->
 <title>Login</title>
 <style type="text/css">
 body, html {
@@ -164,7 +164,7 @@ body, html {
 .login-or {
 	position: relative;
 	color: #aaa;
-/*  	margin-top: 10px;  */
+/* 	margin-top: 10px;   */
 	margin-bottom: 10px;
 	padding-top: 10px;
 	padding-bottom: 10px;
@@ -212,8 +212,10 @@ body, html {
 				<span id="reauth-email" class="reauth-email"></span> 
 				<input type="email" id="inputEmail" class="form-control" placeholder="電子郵件地址" required autofocus autocomplete="off"
 					name="account"> 
+				<span id="memEmailMessage" style="color:red">&nbsp;${errorMsgs.memEmail}${errorMsgs.emailExist}</span> 
 				<input type="password" id="inputPassword" class="form-control" placeholder="密碼" required autocomplete="off"
 					name="password"> 
+				<span id="memPswdMessage" style="color:red"> &nbsp;${errorMsgs.memPswd}</span> 	
 					
 				<c:if test="${not empty errorMsgs}">
 						<c:forEach var="message" items="${errorMsgs}">
@@ -244,7 +246,7 @@ body, html {
 				</div>
 			</div>
 
-			<button onclick="location.href='signUp.jsp'"
+			<button onclick="location.href='<%=request.getContextPath()%>/front-end/member/signUp.jsp'"
 				class="btn btn-lg btn-primary btn-block btn-signin">註冊</button>
 			<a
 				href="<%=request.getContextPath()%>/front-end/member/forgetPassword.jsp"

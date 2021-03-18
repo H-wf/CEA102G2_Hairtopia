@@ -1,6 +1,11 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page import="com.authority.model.*"%>
+<%@ page import="com.staff.model.*"%>
+
+<%
+	StaffVO staVO = (StaffVO) request.getAttribute("staVO");
+%>
 
 
 <!DOCTYPE html>
@@ -37,17 +42,24 @@
 		</ul>
 	</c:if>
 	
-	<form METHOD="POST" ACTION="<%=request.getContextPath()%>/authority/authority.do" name="form1" enctype="application/x-www-form-urlencoded">
-		<table>	
-			<jsp:useBean id="staSvc" scope="page" class="com.staff.model.StaffService" />
+	<form METHOD="POST" ACTION="<%=request.getContextPath()%>/authority/authority.do" id="form1" 
+	name="form1" enctype="application/x-www-form-urlencoded">
+			
+
+
+			<table>
+				<tr>
+				<td>員工姓名:</td>
+				<td><input type="TEXT" name="staName" size="45" required
+					value="<%= (staVO == null) ? "" : staVO.getStaName()%>" /></td>
+					
+			</tr>
 			<tr>
-				<td>員工名稱:<font color=red><b>*</b></font></td>
-				<td><select size="1" name="staNo">
-			<c:forEach var="staVO" items="${staSvc.all}">
-				<option value="${staVO.staNo}">${staVO.staName}
-			</c:forEach>
-		</select></td>
-	</tr>
+				<td>員工帳號:</td>
+				<td><input type="email" name="staAcct" size="45" required
+					value="<%= (staVO == null) ? "" : staVO.getStaAcct()%>" /></td>
+					
+			</tr>
 			
 			<jsp:useBean id="funcSvc" scope="page" class="com.func.model.FuncService" />
 			<tr>
@@ -55,7 +67,7 @@
 				<td>功能名稱:<font color=red><b>*</b></font></td>
 			<td>	
 			<c:forEach var="funcVO" items="${funcSvc.all}" >
-				 <input type="checkbox"  name="funcNo" value="${funcVO.funcNo}">
+				 <input type="checkbox"  id="ckBox" name="funcNo" value="${funcVO.funcNo}">
   					${funcVO.funcName}<br>
 
 			</c:forEach>
@@ -64,8 +76,8 @@
 		</table>
 		<br> 
 		<input name="action" value="insertMuti" type="hidden" >
-		<input type="submit" value="新增" >
-		
+		<input type="submit" value="新增"  >
+		 
 	</form>
 			
 

@@ -4,6 +4,9 @@ import java.io.Serializable;
 import java.sql.Date;
 import java.sql.Timestamp;
 
+import com.member.model.MemService;
+import com.service.model.ServiceService;
+
 public class ResVO implements Serializable{
 	
 	private Integer resNo;
@@ -109,7 +112,17 @@ public class ResVO implements Serializable{
 		this.resPrice = resPrice;
 	}
 
+	public String getMemName() {
+		return new MemService().getOneMemName(memNo);
+	}
+
+	public String getSerName() {
+		return new ServiceService().getSerName(serNo);
+	}
 	
+	public Integer getSerTime() {
+		return new ServiceService().getSerTime(serNo);
+	}
 	
 
 }

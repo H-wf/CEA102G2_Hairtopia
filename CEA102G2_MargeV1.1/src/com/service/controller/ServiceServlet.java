@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.designer.model.DesignerService;
+import com.designer.model.DesignerVO;
 import com.service.model.ServiceService;
 import com.service.model.ServiceVO;
 
@@ -48,7 +50,6 @@ public class ServiceServlet extends HttpServlet{
 	            }
 				
 				Integer serPrice = null;
-						new Integer(req.getParameter("serPrice"));
 				try {
 					serPrice = new Integer(req.getParameter("serPrice").trim());
 				} catch (NumberFormatException e) {
@@ -63,7 +64,7 @@ public class ServiceServlet extends HttpServlet{
 					errorMsgs.add("服務敘述請勿空白");
 				}
 				
-				Integer serStatus = new Integer(req.getParameter("serStatus"));
+				Integer serStatus = new Integer(1);
 
 				ServiceVO serviceVO = new ServiceVO();
 				
@@ -78,8 +79,11 @@ public class ServiceServlet extends HttpServlet{
 				// Send the use back to the form, if there were errors
 				if (!errorMsgs.isEmpty()) {
 					req.setAttribute("serviceVO", serviceVO); // 含有輸入格式錯誤的serviceVO物件,也存入req(資料輸入錯誤不用全新重寫)
+					DesignerService designerSvc = new DesignerService();
+					DesignerVO designerVO = designerSvc.getOneDesByDesNo(desNo);
+					req.setAttribute("designerVO", designerVO);
 					RequestDispatcher failureView = req
-							.getRequestDispatcher("/front-end/service/addService.jsp");
+							.getRequestDispatcher("/front-end/service/listAllSerByDes.jsp");
 					failureView.forward(req, res);
 					return;
 				}
@@ -87,8 +91,12 @@ public class ServiceServlet extends HttpServlet{
 				/***************************2.開始新增資料***************************************/
 				ServiceService serviceSvc = new ServiceService();
 				serviceVO = serviceSvc.addService(desNo, stypeNo, serName, serPrice, serTime, serDesc, serStatus);
-				List<ServiceVO> list = serviceSvc.getAllServiceByDesNo(serviceVO.getDesNo());
-				req.setAttribute("list", list);
+				
+				DesignerService designerSvc = new DesignerService();
+				DesignerVO designerVO = designerSvc.getOneDesByDesNo(desNo);
+				req.setAttribute("designerVO", designerVO);
+//				List<ServiceVO> list = serviceSvc.getAllServiceByDesNo(serviceVO.getDesNo());
+//				req.setAttribute("list", list);
 				/***************************3.新增完成,準備轉交(Send the Success view)***********/
 				String url = "/front-end/service/listAllSerByDes.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url); // 新增成功後轉交listAllEmp.jsp
@@ -184,11 +192,46 @@ public class ServiceServlet extends HttpServlet{
 				ServiceVO serviceVO = serviceSvc.getOneServiceBySerNo(serNo);
 								
 				/***************************3.查詢完成,準備轉交(Send the Success view)************/
-				req.setAttribute("serviceVO", serviceVO);         // 資料庫取出的salonVO物件,存入req
-				String url = "/front-end/service/update_service_input.jsp";
+				req.setAttribute("serviceVO", serviceVO);         // 資料庫取出的serviceVO物件,存入req
+				DesignerService designerSvc = new DesignerService();
+				DesignerVO designerVO = designerSvc.getOneDesByDesNo(serviceVO.getDesNo());
+				req.setAttribute("designerVO", designerVO);
+				boolean openModal=true;
+				req.setAttribute("openModal",openModal );
+				String url = "/front-end/service/listAllSerByDes.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url);// 成功轉交 update_salon_input.jsp
 				successView.forward(req, res);
 
+				/***************************其他可能的錯誤處理**********************************/
+			} catch (Exception e) {
+				errorMsgs.add("無法取得要修改的資料:" + e.getMessage());
+				RequestDispatcher failureView = req
+						.getRequestDispatcher("/front-end/service/listAllSerByDes.jsp");
+				failureView.forward(req, res);
+			}
+		}
+		
+		if ("getOne_For_AddRes".equals(action)) { // 來自新增預約的請求
+			
+			List<String> errorMsgs = new LinkedList<String>();
+			// Store this set in the request scope, in case we need to
+			// send the ErrorPage view.
+			req.setAttribute("errorMsgs", errorMsgs);
+			
+			try {
+				/***************************1.接收請求參數****************************************/
+				Integer serNo = new Integer(req.getParameter("serNo"));
+				
+				/***************************2.開始查詢資料****************************************/
+				ServiceService serviceSvc = new ServiceService();
+				ServiceVO serviceVO = serviceSvc.getOneServiceBySerNo(serNo);
+				
+				/***************************3.查詢完成,準備轉交(Send the Success view)************/
+				req.setAttribute("serviceVO", serviceVO);         // 資料庫取出的salonVO物件,存入req
+				String url = "/front-end/reservation/AddResTest.jsp";
+				RequestDispatcher successView = req.getRequestDispatcher(url);// 成功轉交 AddResTest.jsp
+				successView.forward(req, res);
+				
 				/***************************其他可能的錯誤處理**********************************/
 			} catch (Exception e) {
 				errorMsgs.add("無法取得要修改的資料:" + e.getMessage());
@@ -260,11 +303,13 @@ public class ServiceServlet extends HttpServlet{
 				ServiceService serviceSvc = new ServiceService();
 				serviceVO = serviceSvc.updateService(serNo, desNo, stypeNo, serName, serPrice, 
 						serTime, serDesc, serStatus);
-				List<ServiceVO> list = serviceSvc.getAllServiceByDesNo(serviceVO.getDesNo());
-				req.setAttribute("list", list);
+//				List<ServiceVO> list = serviceSvc.getAllServiceByDesNo(serviceVO.getDesNo());
+//				req.setAttribute("list", list);
 				
 				/***************************3.修改完成,準備轉交(Send the Success view)*************/
-				req.setAttribute("serviceVO", serviceVO); // 資料庫update成功後,正確的的serviceVO物件,存入req
+				DesignerService designerSvc = new DesignerService();
+				DesignerVO designerVO = designerSvc.getOneDesByDesNo(serviceVO.getDesNo());
+				req.setAttribute("designerVO", designerVO);
 				String url = "/front-end/service/listAllSerByDes.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url); // 修改成功後,轉交listOneSalon.jsp
 				successView.forward(req, res);
@@ -372,7 +417,10 @@ public class ServiceServlet extends HttpServlet{
 				
 				/*************************** 2.開始查詢資料 ***************************************/
 				ServiceService serviceSvc = new ServiceService();
+				DesignerService designerSvc = new DesignerService();
+				DesignerVO designerVO = designerSvc.getOneDesByDesNo(desNo);
 				List<ServiceVO> list=serviceSvc.getAllServiceByDesNo(desNo);
+				req.setAttribute("designerVO", designerVO);
 				req.setAttribute("list", list);
 
 				/*************************** 3.刪除完成,準備轉交(Send the Success view) ***********/

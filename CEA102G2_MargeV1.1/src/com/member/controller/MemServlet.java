@@ -25,6 +25,11 @@ public class MemServlet extends HttpServlet {
 		PrintWriter out = res.getWriter();
 		String action = req.getParameter("action");
 
+		if("test".equals(action)) {
+			String str = req.getParameter("city");
+			out.println("<h1>Work "+ str + "</h1>");
+		}
+		
 		/* Login */
 		if ("login".equals(action)) {
 
@@ -115,7 +120,67 @@ public class MemServlet extends HttpServlet {
 		}
 		/* sign up */
 		if ("signUp".equals(action)) {
-			out.println("OK");
+			
+			
+			Map<String,String> errorMsgs = new LinkedHashMap<String,String>();
+			req.setAttribute("errorMsgs", errorMsgs);
+
+			try {
+				/*********************** 1.接收請求參數 - 輸入格式的錯誤處理 *************************/
+				String memName = req.getParameter("memName");
+				
+				if (memName == null || memName.trim().length() == 0) {
+					errorMsgs.put("memName", "會員名稱: 請勿空白");
+				}
+
+				String memEmail = req.getParameter("memEmail").trim();
+				if (memEmail == null || memEmail.trim().length() == 0) {
+					errorMsgs.put("memEmail", "信箱請勿空白");
+				}else {
+					MemService memSvc = new MemService();
+					String emailExist =  memSvc.validateEmail(memEmail);
+					if(emailExist != null) {
+						errorMsgs.put("emailExist", "信箱已註冊");
+					}
+				}
+
+				String memPswd = req.getParameter("memPswd").trim();
+				if (memPswd == null || memPswd.trim().length() == 0) {
+					errorMsgs.put("memPswd", "密碼請勿空白");
+				}
+				
+				
+				
+				/* 將已填入內容包成VO */
+				MemVO memVO = new MemVO();
+				memVO.setMemName(memName);
+				memVO.setMemEmail(memEmail);
+				memVO.setMemPswd(memPswd);
+				
+
+				// Send the use back to the form, if there were errors
+				if (!errorMsgs.isEmpty()) {
+					req.setAttribute("memVO", memVO); // 含有輸入格式錯誤的empVO物件,也存入req
+					RequestDispatcher failureView = req.getRequestDispatcher("/front-end/member/signUp.jsp");
+					failureView.forward(req, res);
+					return;
+				}	
+				// memName, memGender, memInform ,memEmail, memPswd, memPhone, memAddr, memPic
+				/*************************** 2.開始新增資料 ***************************************/
+				MemService newsSvc = new MemService();
+				memVO = newsSvc.signUp(memName, memEmail, memPswd);
+
+				/*************************** 3.新增完成,準備轉交(Send the Success view) ***********/
+				String url = "/front-end/member/listAllMember.jsp";
+				RequestDispatcher successView = req.getRequestDispatcher(url); // 新增成功後轉交listAllEmp.jsp
+				successView.forward(req, res);
+
+				/*************************** 其他可能的錯誤處理 **********************************/
+			} catch (Exception e) {
+				errorMsgs.put("Exception",e.getMessage());
+				RequestDispatcher failureView = req.getRequestDispatcher("/front-end/member/signUp.jsp");
+				failureView.forward(req, res);
+			}
 		}
 
 //		if ("showImg".equals(action)) {
@@ -267,7 +332,7 @@ public class MemServlet extends HttpServlet {
 //            }
 				String gender = req.getParameter("gender");
 				Integer sex = 0;
-				if (gender == null) {
+				if (gender == "null") {
 					errorMsgs.add("性別 : 請勿空白");
 				} else {
 					sex = (gender == "male") ? 1 : (gender == "female") ? 2 : 0;

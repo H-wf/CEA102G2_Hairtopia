@@ -64,6 +64,12 @@
 					value="<%=(lecVO == null) ? "" : lecVO.getLecName()%>" /></td>
 
 			</tr>
+			<tr>
+				<td>員工編號:</td>
+				<td><input type="TEXT" name="staNo" size="48"
+					value="<%=(lecVO == null) ? "" : lecVO.getStaNo()%>" /></td>
+
+			</tr>
 
 			<tr>
 				<td>講師照片</td>

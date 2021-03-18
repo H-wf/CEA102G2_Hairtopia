@@ -23,7 +23,7 @@ import com.orderdetail.model.OrderDetailVO;
 import com.product.model.ProductService;
 import com.product.model.ProductVO;
 
-@WebServlet("/orderdetail/orderdetail.do")
+
 @MultipartConfig
 public class OrderDetailServlet extends HttpServlet {
 

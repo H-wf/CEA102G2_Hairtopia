@@ -6,11 +6,10 @@ import com.reservation.model.ResVO;
 
 public interface ResDAO_interface {
 	
-	public void insert(ResVO resVO);//
+	public ResVO insert(ResVO resVO);
 	
 	public void update(ResVO resVO);
 	public void updateConfirm(ResVO resVO);
-	public void updateCancel(ResVO resVO);
 	public void updateStatus(ResVO resVO);
 	public void updateCom(ResVO resVO);
 	
@@ -19,6 +18,7 @@ public interface ResDAO_interface {
 	public ResVO findByPrimaryKeyResNo(Integer resNo);
 	public List<ResVO> findByPrimaryKeyDesNo(Integer desNo);
 	public List<ResVO> findByPrimaryKeyMemNo(Integer memNo);
+	public List<ResVO> findConfirmByDesNo(Integer desNo);
 	public List<ResVO> getAll();
 
 }
