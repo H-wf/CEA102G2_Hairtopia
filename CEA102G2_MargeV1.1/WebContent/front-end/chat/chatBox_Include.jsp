@@ -26,8 +26,11 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-   	<script src="https://kit.fontawesome.com/5f1a2208d7.js" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<!--    	<script src="https://kit.fontawesome.com/5f1a2208d7.js" crossorigin="anonymous"></script> -->
+	<link rel="stylesheet" href="<%=request.getContextPath()%>/resource/web-fonts-with-css/css/fontawesome-all.min.css">
+<!--     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script> -->
+<script src="<%=request.getContextPath()%>/dist/js/jquery.min.js"></script>
+    
 
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC&display=swap');
@@ -351,7 +354,7 @@
                 </div>
                 <div class="chatbox-icons">
                     <a href="javascript:void(0);"><i class="fa fa-minus"></i></a>
-                    <a href="javascript:void(0);"><i class="fa fa-close"></i></a>
+                    <a href="javascript:void(0);"><i class="fa fas fa-times"></i></a>
                 </div>
             </div>
 
