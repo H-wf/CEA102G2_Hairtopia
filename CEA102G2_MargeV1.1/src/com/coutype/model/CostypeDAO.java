@@ -306,7 +306,7 @@ public class CostypeDAO implements CostypeDAO_interface {
 					cosVO.setCosAdd(rs.getString("cosAdd"));
 					cosVO.setCosCount(rs.getInt("cosCount"));
 					cosVO.setCosRate(rs.getInt("cosRate"));
-					cosVO.setCosStatus(rs.getInt("cosStatus"));
+					cosVO.setCosStatus(rs.getBoolean("cosStatus"));
 					cosVO.setCosMinCount(rs.getInt("cosMinCount"));
 					cosVO.setCosMaxCount(rs.getInt("cosMaxCount"));
 					cosVO.setCosPrice(rs.getInt("cosPrice"));

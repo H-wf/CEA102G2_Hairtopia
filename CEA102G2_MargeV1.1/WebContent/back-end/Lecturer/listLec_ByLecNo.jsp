@@ -3,7 +3,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ page import="com.cos.model.*"%>
 
-<jsp:useBean id="listCos_ByCosTypeNo" scope="request" type="java.util.Set<CosVO>" />
+<jsp:useBean id="listCos_ByCosTypeNo" scope="request" type="java.util.Set<CosVO>" /> <!-- 於EL此行可省略 -->
 <jsp:useBean id="costypeSvc" scope="page" class="com.coutype.model.CostypeService" />
 
 
@@ -46,10 +46,12 @@
 </head>
 <body bgcolor='white'>
 
+<h4>此頁練習採用 EL 的寫法取值:</h4>
 <table id="table-2">
 	<tr><td>
 		 <h3>列出含有某課程編號的課程清單 - listCos_ByCosTypeNo.jsp</h3>
-		 <h4><a href="<%=request.getContextPath()%>/back-end/Cos/select_cos_page.jsp"><img src="<%=request.getContextPath()%>/resource/images/back1.gif" width="100" height="32" border="0">回後台主頁</a></h4>	</td></tr>
+		 <h4><a href="<%=request.getContextPath()%>/back-end/Cos/select_cos_page.jsp"><img src="<%=request.getContextPath()%>/resource/images/back1.gif" width="100" height="32" border="0">回首頁</a></h4>
+	</td></tr>
 </table>
 
 <%-- 錯誤表列 --%>
@@ -62,7 +64,7 @@
 	</ul>
 </c:if>
 
-<table style="width: 100%">
+<table>
 	<tr>
 		<th>課程編號</th>
 		<th>講師編號</th>
@@ -70,6 +72,7 @@
 		<th>上課起</th>
 		<th>上課迄</th>
 		<th>課程介紹</th>
+		<%-- <th>課程圖片</th> --%>
 		<th>課程地址</th>
 		<th>報名總人數</th>
 		<th>評價總分數</th>
@@ -94,8 +97,8 @@
                     </c:if>
                 </c:forEach>
 			</td>
-			<td><fmt:formatDate value="${cosVO.cosFrom}" type="both"/></td>
-			<td><fmt:formatDate value="${cosVO.cosTo}" type="both"/></td>
+			<td><fmt:formatDate value="${cosVO.cosFrom}" pattern="yyyy-MM-dd HH:mm:ss.SSSZ"/></td>
+			<td><fmt:formatDate value="${cosVO.cosTo}" pattern="yyyy-MM-dd HH:mm:ss.SSSZ"/></td>
 			<td>${cosVO.cosIntro}</td>
 			<td>${cosVO.cosAdd}</td>
 			<td>${cosVO.cosCount}</td>
@@ -104,8 +107,8 @@
 			<td>${cosVO.cosMinCount}</td>
 			<td>${cosVO.cosMaxCount}</td>
 			<td>${cosVO.cosPrice}</td>
-			<td><fmt:formatDate value="${cosVO.cosApplyFrom}" type="both"/></td>
-			<td><fmt:formatDate value="${cosVO.cosApplyTo}" type="both"/></td>
+			<td><fmt:formatDate value="${cosVO.cosApplyFrom}" pattern="yyyy-MM-dd HH:mm:ss.SSSZ"/></td>
+			<td><fmt:formatDate value="${cosVO.cosApplyTo}" pattern="yyyy-MM-dd HH:mm:ss.SSSZ"/></td>
 			<td>${cosVO.cosName}</td>			
 			
 			<td>
