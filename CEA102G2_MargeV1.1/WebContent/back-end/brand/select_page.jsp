@@ -2,14 +2,23 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
-<html>
+<!DOCTYPE html>
+<html lang="en">
+
 <head>
-<title>Hairtopia Brand: Home</title>
+    <title>Hairtopia Brand: Home</title>
+    <meta charset="utf-8">
+<%@include file="/back-end/tempFile/head" %>
 </head>
-<body>
-<table>
-	<tr><td><h3>Hairtopia Brand: Home</h3></td></tr>
-</table>
+
+<body id="page-top">
+<%@include file="/back-end/tempFile/navBar_sideBar" %>
+
+<!-- Begin Page Content -->
+	<div class="container-fluid">
+		<table>
+			<tr><td><h3>Hairtopia Brand: Home</h3></td></tr>
+		</table>
 	
 <%-- 錯誤列表 --%>
 <c:if test="${not empty errorMsgs}">
@@ -71,6 +80,11 @@
 	</ul>
 
 
-	
+</div>
+<!-- Page Content END -->
+                
+<%@include file="/back-end/tempFile/footer" %>
+<%@include file="/back-end/tempFile/srcJs" %>
 </body>
+
 </html>

@@ -1,4 +1,15 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ page import="java.util.*"%>
+<%@ page import="com.post.model.*"%>
+<%@ page import="com.designer.model.*"%>
+
+<jsp:useBean id="postSvc"  scope="page" class="com.post.model.PostService" />
+<jsp:useBean id="desSvc"  scope="page" class="com.designer.model.DesignerService" />
+<jsp:useBean id="salSvc"  scope="page" class="com.salon.model.SalonService" />
+<jsp:useBean id="trendSvc"  scope="page" class="com.trend.model.TrendService" />
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -12,6 +23,17 @@
 	color: #D8CF9E;
 	font-size: 25px;
 }
+.carousel-caption{
+	top:40%;
+	font-family: 'Playball', cursive;
+	color:#F8F7F1;
+}
+.carouselFont{
+	font-size:5rem;
+}
+.myVideo {
+	width: 100%;
+}
 </style>
 
 <body>
@@ -20,7 +42,7 @@
 <!-- Begin Page Content -->
 <div class="container-fluid px-0">
     <!--Carousel Wrapper-->
-    <div id="video-carousel-example2" class="carousel slide carousel-fade js-fullheight " data-ride="carousel">
+    <div id="video-carousel-example2" class="carousel slide carousel-fade js-fullheight " data-ride="carousel" >
         <ol class="carousel-indicators">
             <li data-target="#video-carousel-example2" data-slide-to="0" class="active"></li>
             <li data-target="#video-carousel-example2" data-slide-to="1"></li>
@@ -29,38 +51,38 @@
         <div class="carousel-inner js-fullheight" role="listbox">
             <div class="carousel-item active ">
                 <div class="view">
-                    <video autoplay loop muted>
+                    <video class="myVideo" autoplay loop muted>
                         <source src="<%=request.getContextPath()%>/dist/vedio/V1.mp4" type="video/mp4" />
                     </video>
                 </div>
                 <div class="carousel-caption">
                     <div class="animated fadeInDown">
-                        <h3 class="h3-responsive">Light mask</h3>
+                        <div class="carouselFont">ApplePen</div>
                     </div>
                 </div>
             </div>
             <div class="carousel-item">
                 <div class="view">
-                    <video autoplay loop muted>
+                    <video class="myVideo" autoplay loop muted>
                         <source src="<%=request.getContextPath()%>/dist/vedio/V2.mp4" type="video/mp4" />
                     </video>
                     <div class="mask rgba-indigo-light"></div>
                 </div>
                 <div class="carousel-caption">
                     <div class="animated fadeInDown">
-                        <h3 class="h3-responsive">Super light mask</h3>
+                        <div class="carouselFont">PineapplePen</div>
                     </div>
                 </div>
             </div>
             <div class="carousel-item">
                 <div class="view">
-                    <video autoplay loop muted>
+                    <video class="myVideo" autoplay loop muted>
                         <source src="<%=request.getContextPath()%>/dist/vedio/V3.mp4" type="video/mp4" />
                     </video>
                 </div>
                 <div class="carousel-caption">
                     <div class="animated fadeInDown">
-                        <h3 class="h3-responsive">Strong mask</h3>
+                        <div class="carouselFont">PenPineappleApplePen</div>
                     </div>
                 </div>
             </div>
@@ -131,280 +153,185 @@
         </div>
     </section>
     <!-- end choose 3 -->
-    <div class="container px-5">
-        <div class="row justify-content-between slidemove">
-	        <button type="button" data-role="none" class="slick-prev slick-arrow" aria-label="Previous" role="button" style="display: block;">
-<!-- 	        	<i class="bi bi-chevron-left"></i> -->
-	        </button>
-            <div class="col-2 ">
-                <div class="card">
-                    <img src=" https://picsum.photos/400/500?random=1" class="card-img-top img-fluid ">
-                </div>
-            </div>
-            <div class="col-2 ">
-                <div class="card">
-                    <img src=" https://picsum.photos/400/500?random=1" class="card-img-top img-fluid ">
-                </div>
-            </div>
-            <div class="col-2 ">
-                <div class="card">
-                    <img src=" https://picsum.photos/400/500?random=1" class="card-img-top img-fluid ">
-                </div>
-            </div>
-            <div class="col-2 ">
-                <div class="card">
-                    <img src=" https://picsum.photos/400/500?random=1" class="card-img-top img-fluid ">
-                </div>
-            </div>
-            <div class="col-2 ">
-                <div class="card">
-                    <img src=" https://picsum.photos/400/500?random=1" class="card-img-top img-fluid ">
-                </div>
-            </div>
-            <div class="col-2 ">
-                <div class="card">
-                    <img src=" https://picsum.photos/400/500?random=1" class="card-img-top img-fluid ">
-                </div>
-            </div>
-            <div class="col-2 ">
-                <div class="card">
-                    <img src=" https://picsum.photos/400/500?random=1" class="card-img-top img-fluid ">
-                </div>
-            </div>
-        </div>
-    </div>
-	    <button type="button" data-role="none" class="slick-next slick-arrow" aria-label="Next" role="button" style="display: block;">
-<!-- 	    	<i class="bi bi-chevron-right "></i> -->
-	    </button>
-    <!--  -->
     <!-- Hot post -->
     <section class="ftco-gallery ftco-section">
-        <div class="container">
+        <div class="container px-5">
             <div class="row justify-content-center mb-5 pb-3">
                 <div class="col-md-7 heading-section ftco-animate text-center">
-                    <h3 class="subheading">Hot</h3>
+                    <h3 class="subheading">Post</h3>
                     <h2 class="mb-1">熱門貼文</h2>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-md-3 ftco-animate">
-                    <a href="images/gallery-1.jpg" class="gallery image-popup img d-flex align-items-center" style="background-image: url(images/gallery-1.jpg);">
-                        <div class="icon mb-4 d-flex align-items-center justify-content-center">
-                            <span class="icon-instagram"></span>
-                        </div>
-                    </a>
-                </div>
-                <div class="col-md-3 ftco-animate">
-                    <a href="images/gallery-2.jpg" class="gallery image-popup img d-flex align-items-center" style="background-image: url(images/gallery-2.jpg);">
-                        <div class="icon mb-4 d-flex align-items-center justify-content-center">
-                            <span class="icon-instagram"></span>
-                        </div>
-                    </a>
-                </div>
-                <div class="col-md-3 ftco-animate">
-                    <a href="images/gallery-3.jpg" class="gallery image-popup img d-flex align-items-center" style="background-image: url(images/gallery-3.jpg);">
-                        <div class="icon mb-4 d-flex align-items-center justify-content-center">
-                            <span class="icon-instagram"></span>
-                        </div>
-                    </a>
-                </div>
-                <div class="col-md-3 ftco-animate">
-                    <a href="images/gallery-4.jpg" class="gallery image-popup img d-flex align-items-center" style="background-image: url(images/gallery-4.jpg);">
-                        <div class="icon mb-4 d-flex align-items-center justify-content-center">
-                            <span class="icon-instagram"></span>
-                        </div>
-                    </a>
-                </div>
-            </div>
+	            <div class="row justify-content-between slidemove">
+	            <c:forEach var="postVO" items="${postSvc.pickup5Post()}">
+					<div class="col-2 ">
+						<div class="card onePost" id="${postVO.postNo}">
+							<img src="<%=request.getContextPath()%>/PicFinder?pic=1&table=post&column=postPic1&idname=postNo&id=${postVO.postNo}"
+							 class="card-img-top post-img img-fluid" />
+						</div>
+					</div>
+				</c:forEach>
+	        </div>
         </div>
     </section>
     <!-- end Hot post -->
-    <section class="ftco-section testimony-section">
-        <div class="container">
-            <div class="row justify-content-center mb-5 pb-3">
-                <div class="col-md-10 heading-section ftco-animate text-center">
-                    <h3 class="subheading">Testimony</h3>
-                    <h2 class="mb-1">Successful Stories</h2>
-                </div>
-            </div>
-            <div class="row ftco-animate">
-                <div class="col-md-12">
-                    <div class="carousel-testimony owl-carousel">
-                        <div class="item">
-                            <div class="testimony-wrap p-4 pb-5">
-                                <div class="text">
-                                    <div class="line pl-5">
-                                        <p class="mb-4 pb-1">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
-                                        <span class="quote d-flex align-items-center justify-content-center">
-                                            <i class="icon-quote-left"></i>
-                                        </span>
-                                    </div>
-                                    <div class="d-flex align-items-center">
-                                        <div class="user-img" style="background-image: url(images/person_1.jpg)">
-                                        </div>
-                                        <div class="ml-4">
-                                            <p class="name">Gabby Smith</p>
-                                            <span class="position">Customer</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="item">
-                            <div class="testimony-wrap p-4 pb-5">
-                                <div class="text">
-                                    <div class="line pl-5">
-                                        <p class="mb-4 pb-1">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
-                                        <span class="quote d-flex align-items-center justify-content-center">
-                                            <i class="icon-quote-left"></i>
-                                        </span>
-                                    </div>
-                                    <div class="d-flex align-items-center">
-                                        <div class="user-img" style="background-image: url(images/person_2.jpg)">
-                                        </div>
-                                        <div class="ml-4">
-                                            <p class="name">Floyd Weather</p>
-                                            <span class="position">Customer</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="item">
-                            <div class="testimony-wrap p-4 pb-5">
-                                <div class="text">
-                                    <div class="line pl-5">
-                                        <p class="mb-4 pb-1">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
-                                        <span class="quote d-flex align-items-center justify-content-center">
-                                            <i class="icon-quote-left"></i>
-                                        </span>
-                                    </div>
-                                    <div class="d-flex align-items-center">
-                                        <div class="user-img" style="background-image: url(images/person_3.jpg)">
-                                        </div>
-                                        <div class="ml-4">
-                                            <p class="name">James Dee</p>
-                                            <span class="position">Customer</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="item">
-                            <div class="testimony-wrap p-4 pb-5">
-                                <div class="text">
-                                    <div class="line pl-5">
-                                        <p class="mb-4 pb-1">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
-                                        <span class="quote d-flex align-items-center justify-content-center">
-                                            <i class="icon-quote-left"></i>
-                                        </span>
-                                    </div>
-                                    <div class="d-flex align-items-center">
-                                        <div class="user-img" style="background-image: url(images/person_4.jpg)">
-                                        </div>
-                                        <div class="ml-4">
-                                            <p class="name">Lance Roger</p>
-                                            <span class="position">Customer</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="item">
-                            <div class="testimony-wrap p-4 pb-5">
-                                <div class="text">
-                                    <div class="line pl-5">
-                                        <p class="mb-4 pb-1">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
-                                        <span class="quote d-flex align-items-center justify-content-center">
-                                            <i class="icon-quote-left"></i>
-                                        </span>
-                                    </div>
-                                    <div class="d-flex align-items-center">
-                                        <div class="user-img" style="background-image: url(images/person_2.jpg)">
-                                        </div>
-                                        <div class="ml-4">
-                                            <p class="name">Kenny Bufer</p>
-                                            <span class="position">Customer</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    <section class="ftco-section bg-light">
-        <div class="container">
+    
+<!-- Hot Designer -->
+	<section class="ftco-gallery ftco-section">
+        <div class="container px-5">
             <div class="row justify-content-center mb-5 pb-3">
                 <div class="col-md-7 heading-section ftco-animate text-center">
-                    <h3 class="subheading">Blog</h3>
-                    <h2 class="mb-1">Recent Posts</h2>
+                    <h3 class="subheading">Designer</h3>
+                    <h2 class="mb-1">熱門設計師</h2>
                 </div>
             </div>
-            <div class="row d-flex">
-                <div class="col-md-4 d-flex ftco-animate">
-                    <div class="blog-entry justify-content-end">
-                        <a href="blog-single.html" class="block-20" style="background-image: url('images/image_1.jpg');">
-                        </a>
-                        <div class="text p-4 float-right d-block">
-                            <div class="d-flex align-items-center pt-2 mb-4">
-                                <div class="one">
-                                    <span class="day">25</span>
-                                </div>
-                                <div class="two">
-                                    <span class="yr">2019</span>
-                                    <span class="mos">September</span>
-                                </div>
-                            </div>
-                            <h3 class="heading mt-2"><a href="#">Is wellness the new luxury</a></h3>
-                            <p>A small river named Duden flows by their place and supplies it with the necessary regelialia.</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4 d-flex ftco-animate">
-                    <div class="blog-entry justify-content-end">
-                        <a href="blog-single.html" class="block-20" style="background-image: url('images/image_2.jpg');">
-                        </a>
-                        <div class="text p-4 float-right d-block">
-                            <div class="d-flex align-items-center pt-2 mb-4">
-                                <div class="one">
-                                    <span class="day">25</span>
-                                </div>
-                                <div class="two">
-                                    <span class="yr">2019</span>
-                                    <span class="mos">September</span>
-                                </div>
-                            </div>
-                            <h3 class="heading mt-2"><a href="#">Is wellness the new luxury</a></h3>
-                            <p>A small river named Duden flows by their place and supplies it with the necessary regelialia.</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4 d-flex ftco-animate">
-                    <div class="blog-entry">
-                        <a href="blog-single.html" class="block-20" style="background-image: url('images/image_3.jpg');">
-                        </a>
-                        <div class="text p-4 float-right d-block">
-                            <div class="d-flex align-items-center pt-2 mb-4">
-                                <div class="one">
-                                    <span class="day">25</span>
-                                </div>
-                                <div class="two">
-                                    <span class="yr">2019</span>
-                                    <span class="mos">September</span>
-                                </div>
-                            </div>
-                            <h3 class="heading mt-2"><a href="#">Is wellness the new luxury</a></h3>
-                            <p>A small river named Duden flows by their place and supplies it with the necessary regelialia.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
+	            <div class="row justify-content-between slidemove">
+<%-- 	            <c:forEach  var="designerVO" items="${desSvc.pickup5Des()}"> --%>
+<%-- 	            </c:forEach> --%>
+	            <div class="col-2 ">
+	                <div class="card">
+	                    <img src=" https://picsum.photos/400/500?random=1" class="card-img-top img-fluid ">
+	                </div>
+	            </div>
+	            <div class="col-2 ">
+	                <div class="card">
+	                    <img src=" https://picsum.photos/400/500?random=1" class="card-img-top img-fluid ">
+	                </div>
+	            </div>
+	            <div class="col-2 ">
+	                <div class="card">
+	                    <img src=" https://picsum.photos/400/500?random=1" class="card-img-top img-fluid ">
+	                </div>
+	            </div>
+	            <div class="col-2 ">
+	                <div class="card">
+	                    <img src=" https://picsum.photos/400/500?random=1" class="card-img-top img-fluid ">
+	                </div>
+	            </div>
+	            <div class="col-2 ">
+	                <div class="card">
+	                    <img src=" https://picsum.photos/400/500?random=1" class="card-img-top img-fluid ">
+	                </div>
+	            </div>
+	            <div class="col-2 ">
+	                <div class="card">
+	                    <img src=" https://picsum.photos/400/500?random=1" class="card-img-top img-fluid ">
+	                </div>
+	            </div>
+	            <div class="col-2 ">
+	                <div class="card">
+	                    <img src=" https://picsum.photos/400/500?random=1" class="card-img-top img-fluid ">
+	                </div>
+	            </div>
+	        </div>
         </div>
     </section>
-    </div>
+<!-- end Hot Designer -->
+
+<!-- Hot Salon -->
+	<section class="ftco-gallery ftco-section">
+        <div class="container px-5">
+            <div class="row justify-content-center mb-5 pb-3">
+                <div class="col-md-7 heading-section ftco-animate text-center">
+                    <h3 class="subheading">Salon</h3>
+                    <h2 class="mb-1">熱門髮廊</h2>
+                </div>
+            </div>
+	            <div class="row justify-content-between slidemove">
+<%-- 	 	            <c:forEach  var="salonVO" items="${salSvc.pickup5Sal()}">  --%>
+<%-- 		            </c:forEach>  --%>
+	            <div class="col-2 ">
+	                <div class="card">
+	                    <img src=" https://picsum.photos/400/500?random=1" class="card-img-top img-fluid ">
+	                </div>
+	            </div>
+	            <div class="col-2 ">
+	                <div class="card">
+	                    <img src=" https://picsum.photos/400/500?random=1" class="card-img-top img-fluid ">
+	                </div>
+	            </div>
+	            <div class="col-2 ">
+	                <div class="card">
+	                    <img src=" https://picsum.photos/400/500?random=1" class="card-img-top img-fluid ">
+	                </div>
+	            </div>
+	            <div class="col-2 ">
+	                <div class="card">
+	                    <img src=" https://picsum.photos/400/500?random=1" class="card-img-top img-fluid ">
+	                </div>
+	            </div>
+	            <div class="col-2 ">
+	                <div class="card">
+	                    <img src=" https://picsum.photos/400/500?random=1" class="card-img-top img-fluid ">
+	                </div>
+	            </div>
+	            <div class="col-2 ">
+	                <div class="card">
+	                    <img src=" https://picsum.photos/400/500?random=1" class="card-img-top img-fluid ">
+	                </div>
+	            </div>
+	            <div class="col-2 ">
+	                <div class="card">
+	                    <img src=" https://picsum.photos/400/500?random=1" class="card-img-top img-fluid ">
+	                </div>
+	            </div>
+	        </div>
+        </div>
+    </section>
+<!-- end Hot Salon -->
+
+<!-- Hot Trand -->
+	<section class="ftco-gallery ftco-section">
+        <div class="container px-5">
+            <div class="row justify-content-center mb-5 pb-3">
+                <div class="col-md-7 heading-section ftco-animate text-center">
+                    <h3 class="subheading">Styling</h3>
+                    <h2 class="mb-1">最新潮流</h2>
+                </div>
+            </div>
+	            <div class="row justify-content-between slidemove">
+<%-- 	            	<c:forEach  var="trendVO" items="${trendSvc.pickup5Trend()}">   --%>
+<%--  		            </c:forEach> --%>
+	            <div class="col-2 ">
+	                <div class="card">
+	                    <img src=" https://picsum.photos/400/500?random=1" class="card-img-top img-fluid ">
+	                </div>
+	            </div>
+	            <div class="col-2 ">
+	                <div class="card">
+	                    <img src=" https://picsum.photos/400/500?random=1" class="card-img-top img-fluid ">
+	                </div>
+	            </div>
+	            <div class="col-2 ">
+	                <div class="card">
+	                    <img src=" https://picsum.photos/400/500?random=1" class="card-img-top img-fluid ">
+	                </div>
+	            </div>
+	            <div class="col-2 ">
+	                <div class="card">
+	                    <img src=" https://picsum.photos/400/500?random=1" class="card-img-top img-fluid ">
+	                </div>
+	            </div>
+	            <div class="col-2 ">
+	                <div class="card">
+	                    <img src=" https://picsum.photos/400/500?random=1" class="card-img-top img-fluid ">
+	                </div>
+	            </div>
+	            <div class="col-2 ">
+	                <div class="card">
+	                    <img src=" https://picsum.photos/400/500?random=1" class="card-img-top img-fluid ">
+	                </div>
+	            </div>
+	            <div class="col-2 ">
+	                <div class="card">
+	                    <img src=" https://picsum.photos/400/500?random=1" class="card-img-top img-fluid ">
+	                </div>
+	            </div>
+	        </div>
+        </div>
+    </section>
+<!-- end Hot Trand -->
+</div>
 <!-- Page Content END -->
 <%@include file="/front-end/tempFile/footer" %>
 <%@include file="/front-end/tempFile/tempJs" %>
@@ -413,7 +340,7 @@
 <script>
 var contextPath = "<%=request.getContextPath()%>";
 $('.slidemove').slick({
-	  slidesToShow: 5,
+	  slidesToShow: 4,
 	  slidesToScroll: 1,
 	  autoplay: true,
 	  autoplaySpeed: 2000,

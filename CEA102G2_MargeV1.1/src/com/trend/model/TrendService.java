@@ -1,7 +1,11 @@
 package com.trend.model;
 
 import java.sql.Timestamp;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+
+import com.post.model.PostVO;
 
 
 
@@ -48,6 +52,22 @@ public class TrendService {
 	public List<TrendVO> getAll() {
 
 		return dao.getAll();
+	}
+	public Set<TrendVO> pickup5Trend() {
+		List<TrendVO> allTrend = dao.getAll();
+		Set<TrendVO> reTrend = new HashSet<TrendVO>();
+		Set<Integer> index = new HashSet<Integer>();
+		
+		while(index.size()<5){
+			int x = (int) (Math.random()*allTrend.size())+1;
+			index.add(x);
+		}
+		while(reTrend.size()<5) {
+			for(Integer y:index) {
+				reTrend.add(allTrend.get(y));
+			}
+		}
+		return reTrend;
 	}
 
 }

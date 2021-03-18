@@ -22,7 +22,7 @@
 <%@include file="/front-end/tempFile/tempJs" %>
 </body>
 <script>
-var contextPath = "<%=request.getContextPath()%>";
+
 
 </script>
 </html>

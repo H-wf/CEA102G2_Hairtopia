@@ -30,6 +30,12 @@ public class StaffDAO implements StaffDAO_interface {
 			e.printStackTrace();
 		}
 	}
+	private static final String INSERT_STMT = "INSERT INTO Staff (staAcct,staPswd,staName) VALUES (?, ?,?)";
+	private static final String GET_ALL_STMT = "SELECT staNo,staName,staAcct,staPswd FROM staff order by staNo";
+	private static final String GET_ONE_STMT = "SELECT staNo,staName,staAcct,staPswd FROM staff where staNo= ?";
+	private static final String DELETE = "DELETE FROM staff where staNo = ?";
+	private static final String UPDATE = "UPDATE staff set staAcct=?, staPswd=?,staName=? where staNo = ?";
+	private static final String VALIDATE_STMT = "SELECT * FROM staff WHERE staAcct=? AND staPswd=?";
 
 
 	private static final String GET_ALL_STMT = " FROM StaffVO order by staNo";
@@ -208,10 +214,83 @@ public List<StaffVO> getAll() {
 
 
 
-//	@Override
-//	public Set<AuthorityVO> getAuthorByStaNo(Integer staNo) {
-//		// TODO Auto-generated method stub
-//		return null;
-//	}
+			// Handle any driver errors
+		} catch (SQLException se) {
+			throw new RuntimeException("A database error occured. " + se.getMessage());
+			// Clean up JDBC resources
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
+		return list;				
+	}
+	
+	@Override
+	public StaffVO validate(String staAcct, String staPswd) {
+		StaffVO staffVO = null;
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 
+		try {
+			con = ds.getConnection();
+			pstmt = con.prepareStatement(VALIDATE_STMT);
+			
+			pstmt.setString(1, staAcct);
+			pstmt.setString(2, staPswd);
+
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				staffVO = new StaffVO();
+				staffVO.setStaNo(rs.getInt("staNo"));
+				staffVO.setStaAcct(rs.getString("staPswd"));
+				staffVO.setStaName(rs.getString("staName"));
+			}
+		}catch (SQLException se) {
+			throw new RuntimeException("A database error occured. " + se.getMessage());
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
+		return staffVO;
+	}
 }

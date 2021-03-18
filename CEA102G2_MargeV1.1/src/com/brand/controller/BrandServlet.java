@@ -21,7 +21,6 @@ import com.brand.model.BrandVO;
 import com.product.model.ProductVO;
 
 
-@WebServlet("/brand/brand.do")
 @MultipartConfig
 public class BrandServlet extends HttpServlet {
 
