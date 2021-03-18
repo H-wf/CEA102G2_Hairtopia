@@ -31,6 +31,9 @@
 .carouselFont{
 	font-size:5rem;
 }
+.myVideo {
+	width: 100%;
+}
 </style>
 
 <body>
@@ -48,7 +51,7 @@
         <div class="carousel-inner js-fullheight" role="listbox">
             <div class="carousel-item active ">
                 <div class="view">
-                    <video autoplay loop muted>
+                    <video class="myVideo" autoplay loop muted>
                         <source src="<%=request.getContextPath()%>/dist/vedio/V1.mp4" type="video/mp4" />
                     </video>
                 </div>
@@ -60,7 +63,7 @@
             </div>
             <div class="carousel-item">
                 <div class="view">
-                    <video autoplay loop muted>
+                    <video class="myVideo" autoplay loop muted>
                         <source src="<%=request.getContextPath()%>/dist/vedio/V2.mp4" type="video/mp4" />
                     </video>
                     <div class="mask rgba-indigo-light"></div>
@@ -73,7 +76,7 @@
             </div>
             <div class="carousel-item">
                 <div class="view">
-                    <video autoplay loop muted>
+                    <video class="myVideo" autoplay loop muted>
                         <source src="<%=request.getContextPath()%>/dist/vedio/V3.mp4" type="video/mp4" />
                     </video>
                 </div>
@@ -160,7 +163,7 @@
                 </div>
             </div>
 	            <div class="row justify-content-between slidemove">
-	            <c:forEach  var="postVO" items="${postSvc.pickup5Post()}">
+	            <c:forEach var="postVO" items="${postSvc.pickup5Post()}">
 					<div class="col-2 ">
 						<div class="card onePost" id="${postVO.postNo}">
 							<img src="<%=request.getContextPath()%>/PicFinder?pic=1&table=post&column=postPic1&idname=postNo&id=${postVO.postNo}"
@@ -328,7 +331,7 @@
         </div>
     </section>
 <!-- end Hot Trand -->
-    </div>
+</div>
 <!-- Page Content END -->
 <%@include file="/front-end/tempFile/footer" %>
 <%@include file="/front-end/tempFile/tempJs" %>

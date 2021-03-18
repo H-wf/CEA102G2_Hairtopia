@@ -57,6 +57,7 @@
             display: flex;
             align-items: flex-end;
             height: 0;
+            z-index: 1000;
         }
 
         .chatbox {
@@ -336,7 +337,7 @@
 		<!--第一區塊 -->
 		<!--第一區塊 -->
 		<!--第一區塊 -->
-        <div class="chatbox firstChatbox" style="z-index: 9999;">
+        <div class="chatbox firstChatbox" style="z-index: 1000;">
             <div class="chatbox-top">
                 <div class="chatbox-avatar">
                     <img
