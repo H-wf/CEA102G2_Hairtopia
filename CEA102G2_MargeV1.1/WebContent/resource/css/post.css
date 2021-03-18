@@ -1,0 +1,58 @@
+/* postCSS */
+	@media (min-width: 576px) {
+  .card-columns {
+	    column-count: 2;
+	  	}
+	}
+	@media (min-width: 768px) {
+	  .card-columns {
+	    column-count: 4;
+	  }
+	}
+	@media (min-width: 992px) {
+	  .card-columns {
+	    column-count: 4;
+	  }
+	}
+	@media (min-width: 1200px) {
+		.card-columns {
+	    column-count: 4;
+	  }
+	}
+	.post{
+		padding-left: 8em;
+		padding-right: 7em;
+	}
+ 	.card:hover{ 
+      transform: scale(1.05); 
+ 	  box-shadow: 0 10px 20px rgba(0,0,0,.12), 0 4px 8px rgba(0,0,0,.06); 
+ 	}
+ /* postCSS END */
+ 	
+/* Whole post Css */
+#postModal .modal-dialog{
+    max-width: 70%;
+}
+#postModal .close{
+    margin-top: -15px;
+    margin-right: -10px;
+}
+div.comDisplay{
+    overflow-y:auto;
+    height:300px;
+    }
+img {
+    max-width: 100%;
+}
+#tags div{
+	text-transform: uppercase;
+    display: inline-block;
+    padding: 4px 10px;
+    margin-bottom: 7px;
+    margin-right: 4px;
+    border-radius: 4px;
+    color: #000;
+    border: 1px solid #e6e6e6;
+    font-size: 11px;
+}
+/* Whole post Css END */

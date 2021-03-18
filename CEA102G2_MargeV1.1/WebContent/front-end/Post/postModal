@@ -1,0 +1,49 @@
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<!-- POST MODAL -->
+
+	<div class="modal fade" id="postModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-md-6 pl-0">
+                                <div id="carouselPostIndicators" class="carousel slide" data-ride="carousel">
+                                    <div class="carousel-inner">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 p-0">
+                                <div class="card-title" id="postTitle">
+                                    <h2></h2>
+                                    <h5 class="m-0"></h5>
+                                    <div id="tags"></div>
+                                    <small class="text-muted" id="postTime"></small>
+                                </div>
+                                <p class="card-text">
+                                    <div class="comDisplay">
+                                        <ul class="list-unstyled" id="comList">
+                                        </ul>
+                                    </div>
+                                    <!--  有會員之後要判斷出刪除、修改按鈕 -->
+                                    <form method="post"	action="<%=request.getContextPath()%>/comment/comment.do">
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" placeholder="輸入留言" name="comCon">
+                                            <input type="hidden" name="postNo" value="${postVO.postNo}">
+                                            <input type="hidden" name="memNo" value="1"> <input type="hidden" name="action"	value="insert_Front">
+                                            <button class="btn btn-outline-secondary" type="submit">留言</button>
+                                        </div>
+                                    </form>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<!-- POST MODAL END -->

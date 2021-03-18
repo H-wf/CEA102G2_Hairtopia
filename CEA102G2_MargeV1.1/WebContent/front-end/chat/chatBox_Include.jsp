@@ -31,7 +31,7 @@
     
 
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC&display=swap');
+/*         @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC&display=swap'); */
 
         * {
             margin: 0;
@@ -41,15 +41,15 @@
 
         body {
 /*         	height:1000px; */
-            font-family: 'Lato', sans-serif;
+/*             font-family: 'Lato', sans-serif; */
 /*             font-size: 16px; */
-            color: #999999;
+/*             color: #999999; */
 /*             word-wrap: break-word; */
         }
 
-        ul {
-            list-style: none;
-        }
+/*         ul { */
+/*             list-style: none; */
+/*         } */
 
         .chatbox-holder {
             position: fixed;
