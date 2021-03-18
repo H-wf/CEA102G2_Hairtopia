@@ -31,8 +31,6 @@ public class StaffDAO implements StaffDAO_interface {
 		}
 	}
 	private static final String INSERT_STMT = "INSERT INTO Staff (staAcct,staPswd,staName) VALUES (?, ?,?)";
-	private static final String GET_ALL_STMT = "SELECT staNo,staName,staAcct,staPswd FROM staff order by staNo";
-	private static final String GET_ONE_STMT = "SELECT staNo,staName,staAcct,staPswd FROM staff where staNo= ?";
 	private static final String DELETE = "DELETE FROM staff where staNo = ?";
 	private static final String UPDATE = "UPDATE staff set staAcct=?, staPswd=?,staName=? where staNo = ?";
 	private static final String VALIDATE_STMT = "SELECT * FROM staff WHERE staAcct=? AND staPswd=?";
@@ -214,35 +212,6 @@ public List<StaffVO> getAll() {
 
 
 
-			// Handle any driver errors
-		} catch (SQLException se) {
-			throw new RuntimeException("A database error occured. " + se.getMessage());
-			// Clean up JDBC resources
-		} finally {
-			if (rs != null) {
-				try {
-					rs.close();
-				} catch (SQLException se) {
-					se.printStackTrace(System.err);
-				}
-			}
-			if (pstmt != null) {
-				try {
-					pstmt.close();
-				} catch (SQLException se) {
-					se.printStackTrace(System.err);
-				}
-			}
-			if (con != null) {
-				try {
-					con.close();
-				} catch (Exception e) {
-					e.printStackTrace(System.err);
-				}
-			}
-		}
-		return list;				
-	}
 	
 	@Override
 	public StaffVO validate(String staAcct, String staPswd) {
