@@ -336,7 +336,7 @@
     </div>
 	<!--	about credit card	-->
 	<input type="hidden" name="action" value="insert">
-	<input type="submit" value="確定預約" class="bookingBtn">
+	<input type="submit" value="確定預約" class="bookingBtn" id="confirmRes">
 	<input type="hidden" name="serNo" value="${serviceVO.serNo}">
 	<input type="hidden" name="resDate" id="resDate">
     <input type="hidden" name="resTime" id="resTime">
@@ -345,7 +345,7 @@
     </FORM>
     <script>
         $(document).ready(function() {
-
+			var schStatus;
             let current = new Date();
             let thisYear = current.getFullYear();
             let thisMonth = current.getMonth();
@@ -353,7 +353,7 @@
             let todayStr = thisYear + "-" + (thisMonth + 1) + "-" + todayDate
             console.log(todayStr);
             createCalendar(thisYear, thisMonth);
-
+			
         })
         //點選date即會改變其value，將value取出並切割成年月日陣列
         function createCalendar(year, month) {
@@ -449,6 +449,7 @@
         			dataType : "json",
         			success : function(data) {
         				console.log(data.schStatus);
+        				schStatus=data.schStatus;
         				for(let i=0 ; i<48 ; i++){
         					if(data.schStatus.charAt(i)==1){
         						document.getElementById(i).style.display='inline-block';
@@ -463,6 +464,7 @@
         $(".pickTime").click(function(){
         	$(".timeText").remove();
         	console.log($(this).attr("id"));
+        	
         	let hourText = parseInt($(this).attr("id")/2);
         	let minuteText = ($(this).attr("id")%2==0)? "00" : "30";
         	//在callout中填入選取資料
@@ -473,13 +475,29 @@
         	//form表單存入時間資料
         	let resTime = document.getElementById("resTime");
         	resTime.value=$(this).attr("id");
+        	//用以判斷設計師是否有空
         	let period = ${serviceVO.serTime};
+        	let start = parseInt($(this).attr("id"));
+        	for(let i=0 ; i<period ; i++){
+        		if(schStatus.charAt(i+start)==2){	
+        			Swal.fire({
+        				  icon: 'error',
+        				  title: 'Oops...',
+        				  text: '請重新選擇時間',
+        				  confirmButtonColor:'#D8CF9E'
+        				})
+        			break;
+        		}
+        	}
+        	if(schStatus.substr(start,period)==('1'.repeat(period))){
         	document.getElementById("resDetail").style.display='block';
         	window.scrollTo({top:1500, behavior:"smooth"});
+        	}
         })
         }
 
     </script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
     <script src="<%= request.getContextPath()%>/resource/card-master/dist/card.js"></script>
     <script>
         new Card({
