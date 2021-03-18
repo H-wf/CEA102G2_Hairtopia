@@ -21,6 +21,7 @@ import com.google.gson.Gson;
 import com.websocketchat.jedis.JedisHandleMessage;
 import com.websocketchat.model.ChatMessage;
 import com.websocketchat.model.State;
+import com.chat.model.*;
 
 @ServerEndpoint("/FriendWS/{userName}")
 public class FriendWS {
@@ -70,20 +71,22 @@ public class FriendWS {
 			System.out.println(chatMessage.getMessage());
 			userSession.getAsyncRemote().sendText(message);
 			return;
+		}else if("chat".equals(chatMessage.getType())) {
+			Session receiverSession = sessionsMap.get(receiver);
+			//不管對方在不在線上，接回傳給自己以及存進Redis，下次對方上線存取的為最新資料就會包含新的內容
+			userSession.getAsyncRemote().sendText(message);
+			JedisHandleMessage.saveChatMessage(sender, receiver, message);
+			//對方在線的話，再發送新的資料給他
+			if (receiverSession != null && receiverSession.isOpen()) {
+				receiverSession.getAsyncRemote().sendText(message);
+//				userSession.getAsyncRemote().sendText(message);
+//				JedisHandleMessage.saveChatMessage(sender, receiver, message);
+			}
+			System.out.println("Message received: " + message);
 		}
 		
 		
-		Session receiverSession = sessionsMap.get(receiver);
-		//不管對方在不在線上，接回傳給自己以及存進Redis，下次對方上線存取的為最新資料就會包含新的內容
-		userSession.getAsyncRemote().sendText(message);
-		JedisHandleMessage.saveChatMessage(sender, receiver, message);
-		//對方在線的話，再發送新的資料給他
-		if (receiverSession != null && receiverSession.isOpen()) {
-			receiverSession.getAsyncRemote().sendText(message);
-//			userSession.getAsyncRemote().sendText(message);
-//			JedisHandleMessage.saveChatMessage(sender, receiver, message);
-		}
-		System.out.println("Message received: " + message);
+		
 	}
 
 	@OnError

@@ -164,7 +164,7 @@ body, html {
 .login-or {
 	position: relative;
 	color: #aaa;
-/*  	margin-top: 10px;  */
+/* 	margin-top: 10px;   */
 	margin-bottom: 10px;
 	padding-top: 10px;
 	padding-bottom: 10px;
@@ -212,8 +212,10 @@ body, html {
 				<span id="reauth-email" class="reauth-email"></span> 
 				<input type="email" id="inputEmail" class="form-control" placeholder="電子郵件地址" required autofocus autocomplete="off"
 					name="account"> 
+				<span id="memEmailMessage" style="color:red">&nbsp;${errorMsgs.memEmail}${errorMsgs.emailExist}</span> 
 				<input type="password" id="inputPassword" class="form-control" placeholder="密碼" required autocomplete="off"
 					name="password"> 
+				<span id="memPswdMessage" style="color:red"> &nbsp;${errorMsgs.memPswd}</span> 	
 					
 				<c:if test="${not empty errorMsgs}">
 						<c:forEach var="message" items="${errorMsgs}">
@@ -244,7 +246,7 @@ body, html {
 				</div>
 			</div>
 
-			<button onclick="location.href='signUp.jsp'"
+			<button onclick="location.href='<%=request.getContextPath()%>/front-end/member/signUp.jsp'"
 				class="btn btn-lg btn-primary btn-block btn-signin">註冊</button>
 			<a
 				href="<%=request.getContextPath()%>/front-end/member/forgetPassword.jsp"
