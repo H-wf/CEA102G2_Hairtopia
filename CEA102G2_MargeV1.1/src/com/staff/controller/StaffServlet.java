@@ -12,10 +12,16 @@ import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
-
-
+import com.authority.model.AuthorityService;
+import com.authority.model.AuthorityVO;
+import com.member.model.MemService;
+import com.member.model.MemVO;
 import com.staff.model.*;
+import com.util.mail.MailService;
+
+import util.MailServiceStaff;
 
 /**
  * Servlet implementation class StaffServlet
@@ -39,7 +45,52 @@ public class StaffServlet extends HttpServlet {
 		req.setCharacterEncoding("UTF-8");
 		String action = req.getParameter("action");
 		
+		if ("login".equals(action)) {
 
+			List<String> errorMsgs = new LinkedList<String>();
+			// Store this set in the request scope, in case we need to
+			// send the ErrorPage view.
+			req.setAttribute("errorMsgs", errorMsgs);
+			/*************************** 1.接收請求參數 - 輸入格式的錯誤處理 **********************/
+			// 【取得使用者 帳號(account) 密碼(password)】
+			String staAcct = req.getParameter("staAcct");
+			String staPswd = req.getParameter("staPswd");
+
+			/*************************** 2.開始查詢資料 *****************************************/
+			// 【檢查使用者輸入的帳號(account) 密碼(password)是否有效】
+			// 【實際上應至資料庫搜尋比對】
+			StaffService staSvc = new StaffService();
+			StaffVO staVO = staSvc.getOneStaff(staAcct, staPswd);
+
+			/*************************** 3.查詢完成,準備轉交(Send the Success view) *************/
+			if (staVO == null) { // 【帳號 , 密碼無效時】
+
+				errorMsgs.add("error account or password");
+				RequestDispatcher failureView = req.getRequestDispatcher("/back-end/Staff/login.jsp");
+				failureView.forward(req, res);
+			} else {
+				HttpSession session = req.getSession();
+				AuthorityService authSvc = new AuthorityService();
+				List<AuthorityVO> authList = authSvc.getAllByStaNo(staVO.getStaNo());
+				
+				session.setAttribute("authList", authList);
+				session.setAttribute("staAccount", staAcct);
+				session.setAttribute("staffVO", staVO);
+				
+				
+				try {
+					String location = (String) session.getAttribute("location");
+					if (location != null) {
+						session.removeAttribute("location"); // *工作2: 看看有無來源網頁 (-->如有來源網頁:則重導至來源網頁)
+						res.sendRedirect(location);
+						return;
+					}
+				} catch (Exception ignored) {
+				}
+
+				res.sendRedirect(req.getContextPath() + "/back-end/Staff/login_success.jsp");
+			}
+		}
 		if ("getOne_For_Display".equals(action)) { // 來自select_lec_page.jsp的請求
 
 			List<String> errorMsgs = new LinkedList<String>();
@@ -145,20 +196,17 @@ public class StaffServlet extends HttpServlet {
 				String staAcct = req.getParameter("staAcct");
 
 				String lecNameReg = "^[(a-zA-Z0-9_)]{2,30}$";
-				if (staAcct == null || staAcct.trim().isEmpty() == true) {
-
-					errorMsgs.add("員工帳號:請勿空白");
-				} else if (!staAcct.trim().matches(lecNameReg)) { // 以下練習正則(規)表示式(regular-expression)
-					errorMsgs.add("員工帳號: 英文字母、數字和_ , 且長度必需在2到30之間");
-				}
+				
 
 				String staPswd = req.getParameter("staPswd").trim();
+				String staPswd2 = req.getParameter("staPswd2").trim();
 				
-				if (staPswd == null || staPswd.trim().isEmpty() == true) {
+				if (staPswd2 == null || staPswd2.trim().isEmpty() == true) {
 					errorMsgs.add("密碼請勿空白");
-				} else if (!staPswd.trim().matches(lecNameReg)) { // 以下練習正則(規)表示式(regular-expression)
+				} else if (!staPswd2.trim().matches(lecNameReg)) { // 以下練習正則(規)表示式(regular-expression)
 					errorMsgs.add("員工密碼: 英文字母、數字和_ , 且長度必需在2到30之間");
 				} 
+				
 				String staName = req.getParameter("staName");
 				String enameReg = "^[(\u4e00-\u9fa5)(a-zA-Z0-9_)]{2,10}$";
 				if (staName == null || staName.trim().length() == 0) {
@@ -166,15 +214,22 @@ public class StaffServlet extends HttpServlet {
 				} else if(!staName.trim().matches(enameReg)) { //以下練習正則(規)表示式(regular-expression)
 					errorMsgs.add("員工姓名: 只能是中、英文字母、數字和_ , 且長度必需在2到10之間");
 	            }
-
-				
 				
 				StaffVO staVO = new StaffVO();
 				staVO.setStaNo(staNo);
 				staVO.setStaName(staName);
 				staVO.setStaAcct(staAcct);
-				staVO.setStaPswd(staPswd);
-			
+				
+				
+				StaffService staSvc = new StaffService();
+				StaffVO oldStaVo = staSvc.getOneStaff(staNo);
+				if(oldStaVo.getStaPswd().equals(staPswd)) {
+					
+				staVO.setStaPswd(staPswd2);	
+				}else {
+					errorMsgs.add("密碼錯誤");
+				}
+				
 
 				// Send the use back to the form, if there were errors
 				if (!errorMsgs.isEmpty()) {
@@ -184,10 +239,9 @@ public class StaffServlet extends HttpServlet {
 					return; // 程式中斷
 				}
 				/*************************** 2.開始修改資料 *****************************************/
-				StaffService staSvc = new StaffService();
+				staSvc = new StaffService();
 				// 下方if判斷式判斷以哪一個指令更新資料
-			
-					staVO = staSvc.updateStaff(staNo, staAcct, staPswd,staName);
+				staVO = staSvc.updateStaff(staNo, staAcct, staPswd2,staName);
 				
 
 				/*************************** 3.修改完成,準備轉交(Send the Success view) *************/
@@ -225,25 +279,12 @@ public class StaffServlet extends HttpServlet {
 				
 				String staAcct = req.getParameter("staAcct");
 
-				String lecNameReg = "^[(a-zA-Z0-9_)]{2,40}$";
-				if (staAcct == null || staAcct.trim().isEmpty() == true) {
-					errorMsgs.add("員工帳號: 請勿空白");
-				} else if (!staAcct.trim().matches(lecNameReg)) { // 以下練習正則(規)表示式(regular-expression)
-					errorMsgs.add("員工帳號: 只能是英文字母、數字和_ , 且長度必需在2到40之間");
-				}
-
-				String staPswd = req.getParameter("staPswd").trim();
-
-				if (staPswd == null || staPswd.trim().isEmpty() == true) {
-					errorMsgs.add("密碼請勿空白");
-				}else if (!staPswd.trim().matches(lecNameReg)) { // 以下練習正則(規)表示式(regular-expression)
-					errorMsgs.add("員工密碼: 只能是英文字母、數字和_ , 且長度必需在2到40之間");
-				}
+				
 
 					StaffVO staVO = new StaffVO();
 					staVO.setStaAcct(staName);
 					staVO.setStaAcct(staAcct);
-					staVO.setStaPswd(staPswd);
+					
 				
 
 				// Send the use back to the form, if there were errors
@@ -258,7 +299,19 @@ public class StaffServlet extends HttpServlet {
 
 				/*************************** 2.開始新增資料 ***************************************/
 				StaffService staSvc = new StaffService();
+				MailServiceStaff ms = new MailServiceStaff();
+				
+				
+				String subject = "密碼通知";
+				String staPswd = genAuthCode();
+				String messageText = "Thanks for signing up!\r\n"
+						+ "Your pasword has been reset, you can login with the following credentials.\r\n" + "  \r\n"
+						+ "------------------------\r\n" + "Username: " + staName + "\r\n" + "Password: " + staPswd
+						+ "\r\n" + "------------------------\r\n" + "  \r\n";
+				ms.sendMail(staAcct, subject, messageText);
+
 				staVO = staSvc.addStaff(staAcct, staPswd,staName);
+System.out.println(staVO.getStaNo());				
 
 				/*************************** 3.新增完成,準備轉交(Send the Success view) ***********/
 				String url = "/back-end/Staff/listAll_sta.jsp";
@@ -304,7 +357,69 @@ public class StaffServlet extends HttpServlet {
 			}
 		}
 
+		if ("login".equals(action)) {
+			
+			List<String> errorMsgs = new LinkedList<String>();
+			req.setAttribute("errorMsgs", errorMsgs);
+			/*************************** 1.接收請求參數 - 輸入格式的錯誤處理 **********************/
+			String staAcct = req.getParameter("staAcct");
+			if (staAcct == null || staAcct.trim().length() == 0) {
+				errorMsgs.add("帳號請勿空白");
+			}
+			String staPswd = req.getParameter("staPswd");
+			if (staPswd == null || staPswd.trim().length() == 0) {
+				errorMsgs.add("帳號請勿空白");
+			}
+			/*************************** 2.開始查詢資料 *****************************************/
+			StaffService staffSvc = new StaffService();
+			StaffVO staffVO = staffSvc.validate(staAcct, staPswd);
 
+			/*************************** 3.查詢完成,準備轉交(Send the Success view) *************/
+			if (staffVO == null) { 
+				errorMsgs.add("error account or password");
+				RequestDispatcher failureView = req.getRequestDispatcher("/back-end/Staff/login.jsp");
+				failureView.forward(req, res);
+			} else {
+				HttpSession session = req.getSession();
+				session.setAttribute("staAcct", staAcct);
+				session.setAttribute("staPswd", staffVO);
+				try {
+					String location = (String) session.getAttribute("location");
+					if (location != null) {
+						session.removeAttribute("location"); // *工作2: 看看有無來源網頁 (-->如有來源網頁:則重導至來源網頁)
+						res.sendRedirect(location);
+						return;
+					}
+				} catch (Exception ignored) {
+				}
+
+				res.sendRedirect(req.getContextPath() + "/back-end/Staff/login_success.jsp");
+			}
+		}
 	}
+	
+	
+	public String genAuthCode() {
+		char[] authCode = new char[8];
+		byte[] randNum = new byte[8];
+
+		for (int i = 0; i < randNum.length; i++) {
+			randNum[i] = (byte) (Math.random() * 62);
+
+		}
+
+		for (int i = 0; i < 8; i++) {
+			if (randNum[i] >= 0 && randNum[i] <= 9) {
+				authCode[i] = (char) (randNum[i] + 48);
+			} else if (randNum[i] >= 10 && randNum[i] <= 35) {
+				authCode[i] = (char) (randNum[i] + 55);
+			} else if (randNum[i] >= 36 && randNum[i] <= 61) {
+				authCode[i] = (char) (randNum[i] + 61);
+			}
+		}
+
+		return new String(authCode);
+	}
+
 
 }

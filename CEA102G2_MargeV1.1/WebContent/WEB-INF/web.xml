@@ -20,7 +20,21 @@
 	</filter>
 	<filter-mapping>
 		<filter-name>loginFilter</filter-name>
-		<url-pattern>/front-end/product/Cart.jsp</url-pattern>
+		<url-pattern>/front-end/member/NewFile.jsp</url-pattern>
+		<url-pattern>/front-end/product/Checkout.jsp</url-pattern>
+		<dispatcher>REQUEST</dispatcher>
+		<dispatcher>FORWARD</dispatcher>
+		<dispatcher>INCLUDE</dispatcher>
+		<dispatcher>ERROR</dispatcher>
+		<dispatcher>ASYNC</dispatcher>
+	</filter-mapping>
+	<filter>
+		<filter-name>StaffLoginFilter</filter-name>
+		<filter-class>com.util.filter.StaffLoginFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>StaffLoginFilter</filter-name>
+		<url-pattern>/back-end/Staff/login_success.jsp</url-pattern>
 		<dispatcher>REQUEST</dispatcher>
 		<dispatcher>FORWARD</dispatcher>
 		<dispatcher>INCLUDE</dispatcher>
@@ -37,8 +51,9 @@
 <!-- 		<filter-name>sitemesh</filter-name> -->
 <!-- 		<url-pattern>/front-end/*</url-pattern> -->
 <!-- 		<servlet-name>*</servlet-name> -->
-		<!-- <dispatcher>REQUEST</dispatcher> -->
-		<!-- <dispatcher>FORWARD</dispatcher> -->
+<!-- <dispatcher>REQUEST</dispatcher> -->
+
+    <!-- <dispatcher>FORWARD</dispatcher> -->
 		<!-- <dispatcher>INCLUDE</dispatcher> -->
 		<!-- <dispatcher>ERROR</dispatcher> -->
 		<!-- <dispatcher>ASYNC</dispatcher> -->
@@ -317,6 +332,59 @@
 	<servlet-mapping>
 		<servlet-name>ShowImage</servlet-name>
 		<url-pattern>/showImges.do</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>BrandServlet</servlet-name>
+		<servlet-class>com.brand.controller.BrandServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>BrandServlet</servlet-name>
+		<url-pattern>/brand/brand.do</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>OrderDetailServlet</servlet-name>
+		<servlet-class>com.orderdetail.controller.OrderDetailServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>OrderDetailServlet</servlet-name>
+		<url-pattern>/orderdetail/orderdetail.do</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>OrderMasterServlet</servlet-name>
+		<servlet-class>com.ordermaster.controller.OrderMasterServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>OrderMasterServlet</servlet-name>
+		<url-pattern>/ordermaster/ordermaster.do</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>ProductServlet</servlet-name>
+		<servlet-class>com.product.controller.ProductServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>ProductServlet</servlet-name>
+		<url-pattern>/product/product.do</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>PtypeServlet</servlet-name>
+		<servlet-class>com.ptype.controller.PtypeServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>PtypeServlet</servlet-name>
+		<url-pattern>/ptype/ptype.do</url-pattern>
+	</servlet-mapping>
+	<servlet>	
+		<servlet-name>TrenddescServlet</servlet-name>
+		<servlet-class>com.trenddescription.controller.TrenddescServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>TrenddescServlet</servlet-name>
+		<url-pattern>/trenddesc/trenddesc.do</url-pattern>
 	</servlet-mapping>
 
 	

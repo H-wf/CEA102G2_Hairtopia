@@ -23,7 +23,7 @@ public class LecturerDAO implements LecturerDAO_interface {
 		}
 	}
 
-	private static final String INSERT_STMT = "INSERT INTO lecturer (lecName,lecPic,lecIntro,lecStatus) VALUES (?, ?, ?, ?)";
+	private static final String INSERT_STMT = "INSERT INTO lecturer (lecName,lecPic,lecIntro,lecStatus,staNo) VALUES (?, ?, ?, ?,?)";
 	private static final String GET_ALL_STMT = "SELECT lecNo,lecName,lecPic,lecIntro,lecStatus FROM lecturer order by lecNo";
 	private static final String GET_ONE_STMT = "SELECT lecNo,lecName,lecPic,lecIntro,lecStatus FROM lecturer where lecNo= ?";
 	private static final String DELETE = "DELETE FROM lecturer where lecNo = ?";
@@ -43,6 +43,7 @@ public class LecturerDAO implements LecturerDAO_interface {
 			pstmt.setBytes(2, lecVO.getLecPic());
 			pstmt.setString(3, lecVO.getLecIntro());
 			pstmt.setInt(4, lecVO.getLecStatus());
+			pstmt.setInt(5, lecVO.getStaNo());
 
 			pstmt.executeUpdate();
 

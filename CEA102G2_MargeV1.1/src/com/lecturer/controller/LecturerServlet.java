@@ -254,6 +254,13 @@ public class LecturerServlet extends HttpServlet {
 				if (lecIntro == null || lecIntro.trim().isEmpty() == true) {
 					errorMsgs.add("簡介請勿空白");
 				}
+				Integer staNo = null;
+				try {
+					staNo = new Integer(req.getParameter("staNo").trim());
+				} catch (NumberFormatException e) {
+					staNo = 0;
+					errorMsgs.add("狀態請填整數");
+				}		
 
 				Integer lecStatus = null;
 				try {
@@ -295,7 +302,7 @@ public class LecturerServlet extends HttpServlet {
 
 				/*************************** 2.開始新增資料 ***************************************/
 				LecturerService lecSvc = new LecturerService();
-				lecVO = lecSvc.addLecturer(lecName, lecPic, lecIntro, lecStatus);
+				lecVO = lecSvc.addLecturer(lecName, lecPic, lecIntro, lecStatus,staNo);
 
 				/*************************** 3.新增完成,準備轉交(Send the Success view) ***********/
 				String url = "/back-end/Lecturer/listAll_lec.jsp";

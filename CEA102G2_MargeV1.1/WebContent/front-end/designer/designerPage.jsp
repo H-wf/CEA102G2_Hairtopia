@@ -37,7 +37,6 @@
     <link rel="stylesheet" href="<%=request.getContextPath()%>/dist/slick/slick-theme.css">
 </head>
 <style>
-
 /* navBarCSS */
     .navbar-brand img{
 		width: 250px;
@@ -62,7 +61,6 @@
                 top: 55%;
             }
     .offer-deal i::before{
-
         vertical-align: baseline;
         line-height: 0;
         padding-top: 0;
@@ -72,8 +70,6 @@
         font-size: 7em;
         color: #d9bf77;
     }
-
-
 	.img-profile {
 	    height: 3.5rem;
 	    width: 3.5rem;
@@ -124,7 +120,6 @@
 		padding-left: 15px; 
 		padding-right:15px;
 	}
-
 /* IncludeModalCSS */
 	@media (min-width: 576px) {
   		.card-columns {
@@ -154,7 +149,6 @@
       transform: scale(1.05); 
  	  box-shadow: 0 10px 20px rgba(0,0,0,.12), 0 4px 8px rgba(0,0,0,.06); 
  	}
-
 	.listOne {
  	  max-width: 70%;
  	  overflow: hidden;
@@ -199,7 +193,6 @@
 		font-size:1.45rem;
 		text-align:center;
 	}
-
 /* callOutCSS */
 .callout {
   background-color: #fff;
@@ -210,7 +203,6 @@
   padding: .75rem 1.25rem;
   position: relative;
 }
-
 .callout h4 {
   font-size: 1.3125rem;
   margin-top: 0;
@@ -219,7 +211,6 @@
 .callout p:last-child {
   margin-bottom: 0;
 }
-
 .callout-default{
   border-left-color: #D8CF9E;
 }
@@ -390,24 +381,21 @@
 								<c:forEach  var="serviceVo" items="${serviceSvc.getAllServiceByDesNo(designerVO.desNo)}">
 									<c:if test="${serviceVo.serStatus eq 1}">
 										<div class="callout callout-default">
-										  <h4>${serviceVo.serName}<br><h4 style="font-size:1rem;">服務時間:　${serviceVo.serTime}小時</h4></h4>
+										  <h4>${serviceVo.serName}<br><h4 style="font-size:1rem;">服務時間:　
+										  <c:set var="serTime" value="${serviceVo.serTime}"/>
+										  <fmt:formatNumber type="number" value="${((serTime*30 -(serTime*30%60)))/60}"  var="hour"/>
+										  <c:if test="${hour>0}">${hour}小時</c:if>${(serTime*30 %60 == 0)? "" :"30分" }</h4></h4>
 										  	
 										  	<span style="font-size:1rem;">${serviceVo.serDesc}</span>
 										  	<hr>
 										  	<div class="price">
 										  		<h4 style="display:inline;font-size: unset;">優惠價:　${serviceVo.serPrice}元</h4>
-										  		<a class="btn btn-outline-primary bookingBtn" href="" >立即預約<i class="bi bi-arrow-right"></i></a>
+										  		<a class="btn btn-outline-primary bookingBtn" href="<%=request.getContextPath()%>/service/service.do?serNo=${serviceVo.serNo}&action=getOne_For_AddRes" >立即預約<i class="bi bi-arrow-right"></i></a>
 											</div>
 										</div>
 									</c:if>
 								</c:forEach>
-								<div class="callout callout-default">
-								  <h4>Default Callout</h4>
-								  This is a default callout.
-								  <a class="btn btn-outline-primary bookingBtn" >立即預約<i class="bi bi-arrow-right"></i></a>
-								</div>
-							Service
-							<br><br><br><br><br><br><br><br><br><br></div>
+							</div>
 						</div>
 	                    <div class="tab-pane fade" id="Info" role="tabpanel" aria-labelledby="Info-tab">
 							<div class="InfoCard">
@@ -511,7 +499,7 @@
 	$(document).ready(function(){
 		$('#followBtn').on('click',function(){
 			var obj = {
-					memNo:${not empty memVO.memNo?memVO.memNo:"null"},
+					memNo:${not empty memVO.memNo?memVO.memNo:"null"},	//userSession
 					desNo:${designerVO.desNo},
 			}
 			
@@ -558,7 +546,7 @@
 // MAP
 	function initMap() {
         	//準備好要顯示的緯經度
-            const myLatLng = { lat: 24.957503, lng: 121.225111 };
+            const myLatLng = { lat: ${salVo.salLat}, lng: ${salVo.salLng} };
             //抓取div id生成Map類別
             const map = new google.maps.Map(document.getElementById("map"), {
                 zoom: 18,
@@ -568,7 +556,6 @@
                 position: myLatLng,
                 map,
                 title: "Hello World!",
-
             });
             //將地點資訊放入小卡片
             var infoWindow = new google.maps.InfoWindow({

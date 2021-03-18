@@ -1,8 +1,8 @@
 package com.tag.controller;
 
 import java.io.IOException;
-import java.util.LinkedList;
-import java.util.List;
+import java.io.PrintWriter;
+import java.util.*;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -11,10 +11,16 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.tag.model.TagService;
-import com.tag.model.TagVO;
+import com.google.gson.Gson;
+
+import com.designer.model.DesignerService;
+import com.tag.model.*;
+import com.tagdet.model.*;
+import com.post.model.*;
+
 
 public class TagServlet extends HttpServlet {
+	Gson gson = new Gson();
 	public void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 		doPost(req,res);
 	}
@@ -82,6 +88,57 @@ public class TagServlet extends HttpServlet {
 			tagSvc.deleteTag(tagNo);
 			
 			String url = "/back-end/Tag/listAllTag.jsp";
+			RequestDispatcher successView = req.getRequestDispatcher(url);
+			successView.forward(req, res);
+		}
+		
+		if ("nav_serchByAjax".equals(action)) { // 來自listAllEmp.jsp
+
+
+						
+						/***************************1.接收請求參數***************************************/
+						String keyWord = (req.getParameter("keyWord"));
+						/***************************2.開始查資料***************************************/
+						TagService tagSvc = new TagService();
+						List<String> ajaxList= tagSvc.getTagAJAX(keyWord);
+				
+						String jsonStr = gson.toJson(ajaxList);
+
+						res.setContentType("text/plain");
+						res.setCharacterEncoding("UTF-8");
+						PrintWriter out = res.getWriter();
+						out.print(jsonStr);
+						out.flush();
+						out.close();
+						return;
+
+						
+					
+				}
+		
+		if("navSearch".equals(action)) {
+			
+			/***************************1.接收請求參數***************************************/
+			String keyword = (req.getParameter("keyword"));
+			/***************************取得tagNo***************************************/
+			TagService tagSvc = new TagService();
+			Set<Integer> tagNoSet = tagSvc.getTagNoSet(keyword);
+			/***************************用tagNo從tagdet查出postNo***************************************/
+			TagdetService tagdetSvc = new TagdetService();
+			Set<Integer> postNoSet = new HashSet<Integer>();
+			for(Integer tagNo:tagNoSet){
+				postNoSet.addAll(tagdetSvc.getPostNo(tagNo));
+			}
+			/***************************用postNoSet查出postVo***************************************/
+			PostService postSvc = new PostService();
+			List<PostVO> postList = new ArrayList<PostVO>();
+			for(Integer postNo:postNoSet) {
+				postList.add(postSvc.getOnePost(postNo));
+			}
+			/***************************準備轉交***************************************/
+			req.setAttribute("postList", postList);
+			
+			String url = "/front-end/Post/listAll_postSearch.jsp";
 			RequestDispatcher successView = req.getRequestDispatcher(url);
 			successView.forward(req, res);
 		}

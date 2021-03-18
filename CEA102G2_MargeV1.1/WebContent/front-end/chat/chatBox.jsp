@@ -9,8 +9,8 @@
 	ChatService chatSvc = new ChatService();
 	MemService memSvc = new MemService();
 	List<ChatVO> list = chatSvc.getAll();
-	MemVO friend = memSvc.getOneMem(10);
-	MemVO userSession = memSvc.getOneMem(9);
+	MemVO friend = memSvc.getOneMem(4);
+	MemVO userSession = memSvc.getOneMem(2);
 	pageContext.setAttribute("friend", friend);
 	pageContext.setAttribute("userSession", userSession);
 	pageContext.setAttribute("list", list);
@@ -328,7 +328,7 @@
 <body>
 	
 	<div>
-		<button class="chatbtn">打開視窗</button>
+<!-- 		<button class="chatbtn">打開視窗</button> -->
 	</div>
 
     <div class="chatbox-holder">
@@ -336,7 +336,7 @@
 		<!--第一區塊 -->
 		<!--第一區塊 -->
 		<!--第一區塊 -->
-        <div class="chatbox firstChatbox" style="display:none">
+        <div class="chatbox firstChatbox" style="z-index: 9999;">
             <div class="chatbox-top">
                 <div class="chatbox-avatar">
                     <img

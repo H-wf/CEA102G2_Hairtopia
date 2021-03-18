@@ -1,6 +1,12 @@
 package com.salon.model;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+
+import com.designer.model.*;
+import com.post.model.PostVO;
+
 
 public class SalonService {
 	
@@ -11,7 +17,7 @@ public class SalonService {
 	}
 	
 	public SalonVO addSalon(String salName, String salAdd, String salTime,
-			String salPhone, Integer salStatus) {
+			String salPhone, Integer salStatus,String salLat,String salLng) {
 
 		SalonVO salonVO = new SalonVO();
 
@@ -20,10 +26,18 @@ public class SalonService {
 		salonVO.setSalTime(salTime);
 		salonVO.setSalPhone(salPhone);
 		salonVO.setSalStatus(salStatus);
+		salonVO.setSalLat(salLat);
+		salonVO.setSalLng(salLng);
 		dao.insert(salonVO);
 
 		return salonVO;
 	}
+	public void addSalonWithDes(SalonVO salonVO,List<DesignerVO> list) {
+		dao.insertWithDes(salonVO, list);
+		
+	}
+	
+	
 	
 	public SalonVO updateSalon(Integer salNo, String salName, String salAdd, 
 			String salTime, String salPhone, Integer salStatus) {
@@ -51,6 +65,35 @@ public class SalonService {
 
 	public List<SalonVO> getAll() {
 		return dao.getAll();
+	}
+
+	public List<SalonVO> getAllbyAjax(String keyword) {
+		return dao.getAllByAjax(keyword);
+	}
+	public SalonVO getOneSalon(String salName) {
+		return dao.findBySalName(salName);
+	}
+	public List<String> getSalAJAX(String keyword){
+		return dao.getSalAJAX(keyword);
+	}
+	public List<SalonVO> getSalSearch(String keyword){
+		return dao.getAllSearch(keyword);
+	}
+	public Set<SalonVO> pickup5Salon() {
+		List<SalonVO> allSalon = dao.getAll();
+		Set<SalonVO> reSalon = new HashSet<SalonVO>();
+		Set<Integer> index = new HashSet<Integer>();
+		
+		while(index.size()<5){
+			int x = (int) (Math.random()*allSalon.size())+1;
+			index.add(x);
+		}
+		while(reSalon.size()<5) {
+			for(Integer y:index) {
+				reSalon.add(allSalon.get(y));
+			}
+		}
+		return reSalon;
 	}
 
 }

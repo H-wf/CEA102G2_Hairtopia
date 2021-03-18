@@ -11,7 +11,7 @@
 
 <title>服務類別資料新增 - addStype.jsp</title>
 </head>
-<body>
+
 <body bgcolor='white'>
 
 	<table id="table-1">

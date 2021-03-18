@@ -3,6 +3,7 @@ package com.designer.controller;
 import java.io.IOException;
 
 import java.io.InputStream;
+import java.io.PrintWriter;
 import java.sql.Date;
 import java.util.LinkedList;
 import java.util.List;
@@ -16,6 +17,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
 
+import com.google.gson.Gson;
+
 import com.designer.model.*;
 import com.salon.model.*;
 import com.member.model.*;
@@ -23,7 +26,8 @@ import com.member.model.*;
 @MultipartConfig
 
 public class DesignerServlet extends HttpServlet {
-
+	
+	Gson gson = new Gson();
 	public void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 		doPost(req, res);
 	}
@@ -118,6 +122,7 @@ session.setAttribute("memVO", memVO);
 				 url = "/front-end/designer/designerPage.jsp";
 				 
 				}else if("getOne_For_Display".equals(action)) {
+
 
 //				 url = "/front-end/designer/select_des_page.jsp" ;
 				 url = "/front-end/designer/designerPage.jsp";
@@ -481,6 +486,40 @@ session.setAttribute("memVO", memVO);
 				failureView.forward(req, res);
 			}
 		}
+		
+		if ("nav_serchByAjax".equals(action)) { // 來自listAllEmp.jsp
+
+
+			
+			/***************************1.接收請求參數***************************************/
+			String keyWord = (req.getParameter("keyWord"));
+			/***************************2.開始刪除資料***************************************/
+			DesignerService desSvc = new DesignerService();
+			List<String> ajaxList= desSvc.getNameAJAX(keyWord);
+	
+			String jsonStr = gson.toJson(ajaxList);
+
+			res.setContentType("text/plain");
+			res.setCharacterEncoding("UTF-8");
+			PrintWriter out = res.getWriter();
+			out.print(jsonStr);
+			out.flush();
+			out.close();
+			return;
+	}
+	if("navSearch".equals(action)) {
+		/***************************1.接收請求參數***************************************/
+		String keyword = (req.getParameter("keyword"));
+		/***************************2.開始查資料***************************************/
+		DesignerService desSvc = new DesignerService();
+		List<DesignerVO> desList = desSvc.searchDes(keyword);
+		
+		req.setAttribute("desList", desList);
+		
+		String url = "/front-end/designer/SearchDes.jsp";
+		RequestDispatcher successView = req.getRequestDispatcher(url); // 新增成功後轉交listAllDesigner.jsp
+		successView.forward(req, res);
+	}
 
 	}
 

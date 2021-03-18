@@ -1,9 +1,11 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page import="com.service.model.*"%>
+<%@ page import="com.designer.model.*"%>
 
 <%
   ServiceVO serviceVO = (ServiceVO) request.getAttribute("serviceVO"); 
+  DesignerVO designerVO = (DesignerVO) request.getAttribute("designerVO"); 
 //ServiceServlet.java (Concroller) 存入req的serviceVO物件 (包括幫忙取出的serviceVO, 也包括輸入資料錯誤時的serviceVO物件)
 %>
 <html>
@@ -29,10 +31,6 @@
 <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/service/service.do" name="form1">
 <table>
 	<!-- 怎麼捕捉新增服務的設計師 -->
-	<tr>
-		<td>設計師編號:</td>
-		<td><%=serviceVO.getDesNo()%></td>
-	</tr>
 <%--
 類別建好改動態 	
 <jsp:useBean id="stypeSvc" scope="page" class="com.stype.model.StypeService" /> 

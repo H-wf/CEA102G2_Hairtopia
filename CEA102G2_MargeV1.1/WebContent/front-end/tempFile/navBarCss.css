@@ -52,6 +52,42 @@
 	    display: none;
 	}
 	
+#navbar-search,#navbar-bell{
+    font-size: 2em;
+    cursor: pointer;
+    margin:0 1rem;
+}
+#navbar-search:hover,#navbar-bell:hover{
+    color: #333333;
+}
+
+#navbar-search:active{
+    color:#a6a6a6;
+}
+.bi-search::before,.bi-bell::before{
+	vertical-align:-0.125em;
+}
+.search_3 label.btn{
+	margin: 0 50px 20px;
+}
+.btn-outline-primary:not(:disabled):not(.disabled).active{
+	background:#d9bf77;
+	border: 1px solid #d9bf77; 
+	color: #fff;
+}
+#nav-searchBox{
+	background: transparent !important;
+	color: #fff !important;
+	border: 1px solid #d9bf77 !important;
+}
+.ui-autocomplete{
+        display:block;
+        z-index:1500;
+    }
+.ui-widget-content{
+	background:#F8F7F1;
+	color:#333333;
+}
 /* 	navBarCSS END */
 
 /* footerCSS */
