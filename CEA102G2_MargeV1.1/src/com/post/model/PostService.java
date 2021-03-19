@@ -132,7 +132,7 @@ public class PostService {
 		Set<Integer> index = new HashSet<Integer>();
 		
 		while(index.size()<5){
-			int x = (int) (Math.random()*allPost.size())+1;
+			int x = (int) (Math.random()*allPost.size());
 			index.add(x);
 		}
 		while(rePost.size()<5) {

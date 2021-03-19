@@ -9,10 +9,12 @@
 <html>
 <head>
 <title>訂單資料 - listOneOrderMaster.jsp</title>
-
+<%@include file="/front-end/tempFile/head" %>
 </head>
 <body bgcolor='white'>
-
+<%@include file="/front-end/tempFile/navBar" %>
+<!-- Begin Page Content -->
+<div class="container-fluid px-0">
 <h4>此頁暫練習採用 Script 的寫法取值:</h4>
 <table id="table-1">
 	<tr><td>
@@ -38,6 +40,9 @@
 	</tr>
 
 </table>
-
+</div>
+<!-- Page Content END -->
+<%@include file="/front-end/tempFile/footer" %>
+<%@include file="/front-end/tempFile/tempJs" %>
 </body>
 </html>

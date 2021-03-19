@@ -3,6 +3,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <html>
 <head>
+<meta charset="utf-8">
+<meta name="viewport" content="initial-scale=1">
 <title>Checkout.jsp</title>
 <%@include file="/front-end/tempFile/head"%>
 </head>
@@ -43,7 +45,7 @@ input {
 	border: solid 0.5px #969592;
 }
 </style>
-<style type="text/css">
+<style>
 @media ( max-width : 768px) {
 	.stepword {
 		display: none;
@@ -88,10 +90,19 @@ input {
 	content: "3" !important;
 }
 /* 線條處理 */
-.step1::after {
+.step2::after {
 	position: absolute;
 	content: "";
-	top: 105px;
+	top: -210px;
+	left: 4.3em;
+	z-index: -1; /* 讓線條置於圓圈後 */
+	border-left: 1px solid #BDB58C;
+	padding-left: 20px;
+}
+.step3::after {
+	position: absolute;
+	content: "";
+	top: -595px;
 	left: 4.3em;
 	z-index: -1; /* 讓線條置於圓圈後 */
 	border-left: 1px solid #BDB58C;
@@ -108,19 +119,15 @@ input {
 	.a{
 		padding-top:7px;
 	}
-	#form11{
-		font-size:16px;
-	}
+ 	#form11{
+ 		font-size:16px;
+ 	} 
 	.demo-container{
 		margin-bottom:15px;
 	}
 	table th, table td{
 		border-color:#D8CF9E !important;
 	}
-/* 	tr:first-child{ */
-/* 		background-color:#333333;  */
-/* 		color:#D8CF9E; */
-/* 	} */
 
 </style>
 
@@ -136,10 +143,9 @@ input {
 
 	<div class="container-fluid" style="margin-top: 30px;">
 		<div class="row">
-			<div class="col-md-3 col-lg-3 " style="padding-top: 0;">
-				<div style="transform: translateX(16%);" class="stepword">Step</div>
+			<div class="col-md-3 col-lg-3 " style="padding-top:12px;">
 				<ul class="horizontalProgress">
-					<li class="step1 step"></li>
+					<li class="step1 step">Step1</li>
 				</ul>
 			</div>
 			<div class="col-12 col-md-8 col-lg-8" style="padding: 0;">
@@ -193,14 +199,10 @@ input {
 						</tr>
 						<tr>
 							<td scope="col" colspan="8">
-								<form action="<%=request.getContextPath()%>/ordermaster/ordermaster.do" method="POST" >
-								<input type="hidden" name="memNo"
-									value="${sessionScope.memVO.memNo}"> <input type="hidden"
-									name="ordAmt" class="ordAmt" value="${sessionScope.ordAmt}">
-								<input type="hidden" name="action" value="PAY"> <input
-									type="submit" class="btn btn-primary" value="NEXT→"
-									style="float: right;">
-								</form>
+								
+								
+								<input type="submit" class="btn btn-primary go2 section2" value="NEXT→" style="float: right;">
+								
 							</td>
 						</tr>
 					</tbody>
@@ -208,11 +210,12 @@ input {
 			</div>
 		</div>
 	</div>
+	<hr class="section2-1" style="border-top:none;">
 	<div class="container-fluid">
-		<div class="row">
-			<div class="col-md-3 col-lg-3" style="padding-top: 50px;">
+		<div class="row" style="display:none;">
+			<div class="col-md-3 col-lg-3" style="padding-top: 12px;">
 				<ul class="horizontalProgress">
-					<li class="step2 step"></li>
+					<li class="step2 step">Step2</li>
 				</ul>
 			</div>
 			<div class="col-12 col-md-8 col-lg-8" style="padding: 0;">
@@ -272,14 +275,8 @@ input {
 						</tr>
 						<tr>
 							<td scope="col" colspan="2" style="padding-right:0;">
-								<form action="<%=request.getContextPath()%>/ordermaster/ordermaster.do" method="POST" >
-								<input type="hidden" name="memNo"
-									value="${sessionScope.memVO.memNo}"> <input type="hidden"
-									name="ordAmt" class="ordAmt" value="${sessionScope.ordAmt}">
-								<input type="hidden" name="action" value="PAY"> <input
-									type="submit" class="btn btn-primary" value="NEXT→"
-									style="float: right;">
-								</form>
+								<input type="submit" class="btn btn-primary go3 section3" value="NEXT→" style="float: right;">
+								
 							</td>
 						</tr>
 					</tbody>
@@ -289,11 +286,12 @@ input {
 			</div>
 		</div>
 	</div>
+	<hr class="section3-1" style="border-top:none;">
 	<div class="container-fluid">
-		<div class="row">
-			<div class="col-md-3 col-lg-3" style="padding-top: 50px;">
+		<div class="row" style="display:none;">
+			<div class="col-md-3 col-lg-3" style="padding-top: 12px;">
 				<ul class="horizontalProgress">
-					<li class="step3 step"></li>
+					<li class="step3 step">Step3</li>
 				</ul>
 			</div>			
 			<div class="col-12 col-md-8 col-lg-8 demo-container" style="padding: 0;">
@@ -335,13 +333,15 @@ input {
 				</form>
 			 </div>
 			 <form action="<%=request.getContextPath()%>/ordermaster/ordermaster.do" method="POST">
-					<input type="hidden" name="memNo"
-						value="${sessionScope.memVO.memNo}"> <input type="hidden"
-						name="ordAmt" class="ordAmt" value="${sessionScope.ordAmt}">
-					<input type="hidden" name="action" value="PAY"> <input
-						type="submit" class="btn btn-primary" value="送出"
-						style="float: right;">
-				</form>
+					<input type="hidden" name="memNo" value="${sessionScope.memVO.memNo}">
+					<input type="hidden" name="ordName" value="">
+					<input type="hidden" name="ordMail" value="">
+					<input type="hidden" name="ordAddr" value="">
+					<input type="hidden" name="ordName" value="">					 
+					<input type="hidden" name="ordAmt" class="ordAmt" value="${sessionScope.ordAmt}">
+					<input type="hidden" name="action" value="PAY"> 
+					<input type="submit" class="btn btn-primary" value="送出" style="float: right;">
+			</form>
 				
 			</div>
 			
@@ -349,7 +349,7 @@ input {
 	</div>
 
 	<!-- Page Content END -->
-	<%@include file="/front-end/tempFile/footer"%>
+<%-- 	<%@include file="/front-end/tempFile/footer"%> --%>
 	<%@include file="/front-end/tempFile/tempJs"%>
 	<script
 		src="https://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
@@ -424,10 +424,26 @@ function change(proNo,beforequantity,afterquantity){
 		$(document).ready(
 				function() {
 					var h = $("table:first-child").height()
-							+ $("table:nth-child(2)").height() + 350
+							+ $("table:nth-child(2)").height()+10 
 					$("head").append(
-							"<style>.step1::after{ height:" + h + "}</style>");
+							"<style>.step2::after{ height:" + h + "}</style>");
 				});
+		$(document).ready(
+				function() {
+					var h = $("table:first-child").height() 
+						    + $("table:nth-child(3)").height()
+							+ $("table:nth-child(2)").height()+410
+					$("head").append(
+							"<style>.step3::after{ height:" + h + "}</style>");
+				});
+		$(".go2").click(function(){
+			$(".section2-1+div div:first-of-type").show();
+			$("html,body").animate({scrollTop:$(".section2").offset().top},800);
+		});
+		$(".go3").click(function(){
+			$(".section3-1+div div:first-of-type").show();
+			$("html,body").animate({scrollTop:$(".section3").offset().top},800);
+		});
 		$(".form-check-input").click(function() {
 			$(".name").val("${sessionScope.memVO.memName}");
 			$(".mail").val("${sessionScope.memVO.memEmail}");
@@ -436,14 +452,19 @@ function change(proNo,beforequantity,afterquantity){
 		});
 	</script>
 	
+	
 	<script>
-		$('#form11').card({
+	
+
+	$('#form11').card({ 
 			// a selector or DOM element for the container
 			// where you want the card to appear
 			container : '.card-wrapper', // *required*
 
 		// all of the other options from above
 		});
+	
 	</script>
+	
 </body>
 </html>

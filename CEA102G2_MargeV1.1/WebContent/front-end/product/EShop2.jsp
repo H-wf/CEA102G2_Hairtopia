@@ -10,9 +10,9 @@
  
 </head>
 	<style>
-		.ftco-navbar-light{
-			position:static;
-		}
+ 		.ftco-navbar-light{
+/*  			position:static; */
+ 		}
         .cart{
         	right:15px;
         	bottom:78.5%;
@@ -21,8 +21,7 @@
         }
 
         .cart-btn {
-            background: rgba(255, 255, 255, 0.3); 
-            border-radius: 4em;			
+            background: rgba(255, 255, 255, 0);
             border: 0px;
             cursor: pointer;
         }
@@ -39,8 +38,8 @@
 		  background:#D9BF77;
 		  color:black;
  		  position:absolute; 
-		  width: 25px;
-		  height: 25px;
+		  width: 20px;
+		  height: 20px;
 		  border-radius:50%;
 		  display: flex;
 		  justify-content: center;
@@ -49,11 +48,11 @@
 		  top:10px;
 		}
         .carousel-inner { 
-            height: 80vh;
+            height: 90vh;
         }
 
         .carousel-inner .carousel-item img {
-        	height: 80vh;
+        	height: 90vh;
         	object-fit: cover;
         }
         .btn-danger.focus, .btn-danger:focus{
@@ -244,14 +243,17 @@
 <body>
 <%@include file="/front-end/tempFile/navBar" %>
 
-<div class="container-fluid">
+<div class="container-fluid" style="padding-left:0;padding-right:0;">
 	<jsp:useBean id="productSvc" scope="page" class="com.product.model.ProductService"/>
 	<jsp:useBean id="ptypeSvc" scope="page" class="com.ptype.model.PtypeService"/>
 	<jsp:useBean id="brandSvc" scope="page" class="com.brand.model.BrandService"/>
 	<!-- cart -->
     <div class="cart">
         <button class="cart-btn">
-            <img src="<%=request.getContextPath()%>/dist/images/cart.jpg">
+        	<svg style="color:#D8CF9E;" xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-bag" viewBox="0 0 16 16">
+        		<path d="M8 1a2.5 2.5 0 0 1 2.5 2.5V4h-5v-.5A2.5 2.5 0 0 1 8 1zm3.5 3v-.5a3.5 3.5 0 1 0-7 0V4H1v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V4h-3.5zM2 5h12v9a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V5z" />
+    		</svg>
+<%--             <img src="<%=request.getContextPath()%>/dist/images/cart.jpg"> --%>
             <c:if test="${not empty sessionScope.shoppingcart}">
             	<span class="sum">${sessionScope.sum}</span>
             </c:if>            
@@ -276,13 +278,13 @@
         </ol>
         <div class="carousel-inner">
             <div class="carousel-item active">
-                <img class="d-block w-100" src="https://picsum.photos/1200/800?random=1">
+                <img class="d-block w-100" src="<%=request.getContextPath()%>/dist/images/shop1.jpg">
             </div>
             <div class="carousel-item">
-                <img class="d-block w-100 " src="https://picsum.photos/1200/800?random=2">
+                <img class="d-block w-100 " src="<%=request.getContextPath()%>/dist/images/shop2.jpg">
             </div>
             <div class="carousel-item">
-                <img class="d-block w-100 " src="https://picsum.photos/1200/800?random=3">
+                <img class="d-block w-100 " src="<%=request.getContextPath()%>/dist/images/shop3.jpg">
             </div>
         </div>
         <a class="carousel-control-prev" href="#carouselPics" data-slide="prev">
