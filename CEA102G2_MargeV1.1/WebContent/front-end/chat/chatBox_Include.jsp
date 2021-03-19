@@ -41,7 +41,7 @@
         body {
 /*         	height:1000px; */
             font-family: 'Lato', sans-serif;
-            font-size: 16px;
+/*             font-size: 16px; */
             color: #999999;
 /*             word-wrap: break-word; */
         }

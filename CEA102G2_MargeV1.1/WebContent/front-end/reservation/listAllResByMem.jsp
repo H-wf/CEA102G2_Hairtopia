@@ -21,15 +21,19 @@
 		position:static;
 	}
 	a{
-		text-decoration:none
+		text-decoration:none;
+		font-size:.5rem;
 	}
 	td,th{
 		font-size:1rem;
 	}
+	.space{
+		margin:3rem 0;
+	}
 </style>
 <body>
 <%@include file="/front-end/tempFile/navBar" %>
-
+<hr class="space">
 <!-- Begin Page Content -->
 <div class="container-fluid">
 <div class="row">
@@ -44,10 +48,10 @@
 		</ul>
 	</c:if>
 	
-	<h4>會員名稱:之後用session.getAttribute()取得會員編號</h4>
+	<h4>${sessionScope.memVO.memName}</h4>
 	<table class="table table-striped">
 	<tr>
-		<th>預約編號</th>
+		<th>單號</th>
 		<th>服務項目</th>
 		<th>設計師</th>
 		<th>預約時間</th>
@@ -60,7 +64,7 @@
 	<c:forEach var="resVO" items="${list}" >
 		
 		<tr>
-			<td><a href="res.do?resNo=${resVO.resNo}&action=getOne_For_Display_Of_Mem">${resVO.resNo}</a></td>
+			<td>${resVO.resNo}</td>
 			<td>
 				<c:forEach var="serviceVO" items="${serviceSvc.all}">
 					<c:if test="${serviceVO.serNo==resVO.serNo}">
@@ -71,7 +75,7 @@
 			<td>
 				<c:forEach var="designerVO" items="${designerSvc.all}">
 					<c:if test="${designerVO.desNo==resVO.desNo}">
-	            	${designerVO.desNo}-${designerVO.desName}
+	            	${designerVO.desName}
             		</c:if>
 				</c:forEach>
 			</td>
@@ -123,7 +127,8 @@
 			     	<input type="submit" value="取消預約"  class="btn btn-primary" style="border:0px;padding:.3rem .75rem">
 			    	<input type="hidden" name="resNo"  value="${resVO.resNo}">
 			     	<input type="hidden" name="action"	value="cancelByMem"></FORM>
-				</c:if>
+				</c:if><br>
+				<a href="res.do?resNo=${resVO.resNo}&action=getOne_For_Display_Of_Mem">查看明細</a>
 			</td>
 			
 		</tr>

@@ -9,6 +9,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.designer.model.DesignerService;
 import com.designer.model.DesignerVO;
@@ -193,9 +194,9 @@ public class ServiceServlet extends HttpServlet{
 								
 				/***************************3.查詢完成,準備轉交(Send the Success view)************/
 				req.setAttribute("serviceVO", serviceVO);         // 資料庫取出的serviceVO物件,存入req
-				DesignerService designerSvc = new DesignerService();
-				DesignerVO designerVO = designerSvc.getOneDesByDesNo(serviceVO.getDesNo());
-				req.setAttribute("designerVO", designerVO);
+//				DesignerService designerSvc = new DesignerService();
+//				DesignerVO designerVO = designerSvc.getOneDesByDesNo(serviceVO.getDesNo());
+//				req.setAttribute("designerVO", designerVO);
 				boolean openModal=true;
 				req.setAttribute("openModal",openModal );
 				String url = "/front-end/service/listAllSerByDes.jsp";
@@ -227,7 +228,8 @@ public class ServiceServlet extends HttpServlet{
 				ServiceVO serviceVO = serviceSvc.getOneServiceBySerNo(serNo);
 				
 				/***************************3.查詢完成,準備轉交(Send the Success view)************/
-				req.setAttribute("serviceVO", serviceVO);         // 資料庫取出的salonVO物件,存入req
+				HttpSession session = req.getSession();
+				session.setAttribute("serviceVO", serviceVO);         // 資料庫取出的salonVO物件,存入req
 				String url = "/front-end/reservation/AddResTest.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url);// 成功轉交 AddResTest.jsp
 				successView.forward(req, res);
@@ -334,12 +336,14 @@ public class ServiceServlet extends HttpServlet{
 				/***************************1.接收請求參數 - 輸入格式的錯誤處理**********************/
 				Integer serNo = new Integer(req.getParameter("serNo"));
 				Integer serStatus = new Integer(req.getParameter("serStatus"));
+				
 				if(serStatus == 1) {
 					serStatus = 0;
+					System.out.println(serStatus+"a");
 				}else {
 					serStatus = 1;
+					System.out.println(serStatus+"b");
 				}
-				Integer desNo = new Integer(req.getParameter("desNo"));
 				
 				ServiceVO serviceVO = new ServiceVO();				
 				serviceVO.setSerNo(serNo);
@@ -360,6 +364,8 @@ public class ServiceServlet extends HttpServlet{
 				
 				/***************************3.修改完成,準備轉交(Send the Success view)*************/
 //				req.setAttribute("serviceVO", serviceVO); // 資料庫update成功後,正確的的serviceVO物件,存入req
+				DesignerVO designerVO=new DesignerService().getOneDesByDesNo(serviceVO.getDesNo());
+				req.setAttribute("designerVO", designerVO);
 				List<ServiceVO> list = serviceSvc.getAllServiceByDesNo(serviceVO.getDesNo());
 				req.setAttribute("list", list);
 				String url = "/front-end/service/listAllSerByDes.jsp";

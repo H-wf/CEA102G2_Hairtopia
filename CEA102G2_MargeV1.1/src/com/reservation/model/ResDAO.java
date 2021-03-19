@@ -36,7 +36,7 @@ public class ResDAO implements ResDAO_interface{
 		private static final String GET_ALL_BY_DESNO = 
 			"SELECT resNo,memNo,serNo,desNo,resProDate,resDate,resTime,resStatus,resCom,resCode,resPrice FROM reservation where desNo = ?";
 		private static final String GET_CONFIRM_BY_DESNO = 
-			"SELECT resNo,memNo,serNo,desNo,resProDate,resDate,resTime,resStatus,resCom,resCode,resPrice FROM reservation where resStatus in(1,2,3) and desNo = ? order by resTime";
+			"SELECT resNo,memNo,serNo,desNo,resProDate,resDate,resTime,resStatus,resCom,resCode,resPrice FROM reservation where resStatus in(0,1,2,3) and desNo = ? order by resTime";
 		private static final String GET_ALL_BY_MEMNO = 
 			"SELECT resNo,memNo,serNo,desNo,resProDate,resDate,resTime,resStatus,resCom,resCode,resPrice FROM reservation where memNo = ?";
 		

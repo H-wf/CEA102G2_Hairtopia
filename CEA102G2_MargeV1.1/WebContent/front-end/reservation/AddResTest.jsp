@@ -7,7 +7,6 @@
 
 <%
 	ResVO resVO = (ResVO)request.getAttribute("resVO");
-	ServiceVO serviceVO = (ServiceVO)request.getAttribute("serviceVO");
 %>
 <!DOCTYPE html>
 <html>
@@ -205,10 +204,10 @@
    	<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/reservation/res.do"
 	  name="form1">
 	  <%-- 	之後用session取得會員:<%session.getAttribute(); %> --%>
-	<div>
-	會員編號:<input type="TEXT" name="memNo" size="3"
-			 value="<%= (resVO==null)? "" : resVO.getMemNo()%>" />
-	</div>
+<!-- 	<div> -->
+<!-- 	會員編號:<input type="TEXT" name="memNo" size="3" -->
+<%-- 			 value="<%= (resVO==null)? "" : resVO.getMemNo()%>" /> --%>
+<!-- 	</div> -->
 <div id="stepOne">	
 	<div id="stepTitle"><span class="stepIcon"><i class="far fa-calendar-alt"></i></span>STEP1 : 選擇日期</div>
 	<br><hr>
@@ -340,6 +339,7 @@
 	<input type="hidden" name="serNo" value="${serviceVO.serNo}">
 	<input type="hidden" name="resDate" id="resDate">
     <input type="hidden" name="resTime" id="resTime">
+    <input type="hidden" name="memNo" value="${sessionScope.memVO.memNo}">
     </div>
    
     </FORM>
@@ -434,7 +434,7 @@
             	let selectDate = $(this).attr("data-date")
             	let week = new Date(year,month,selectDate).getDay();
             	console.log(week);
-            	let desNo = <%=serviceVO.getDesNo()%>;
+            	let desNo = ${serviceVO.desNo};
                 $.ajax({
                 	url : "<%=request.getContextPath()%>/schedule/schedule.do",
                 	data : {
@@ -484,7 +484,7 @@
         				  icon: 'error',
         				  title: 'Oops...',
         				  text: '請重新選擇時間',
-        				  confirmButtonColor:'#D8CF9E'
+        				  confirmButtonColor:'rgba(216,207,158,0.8)'
         				})
         			break;
         		}

@@ -53,7 +53,19 @@
 				<fmt:formatNumber type="number" value="${((endTime*30 -(endTime*30%60)))/60}"  var="ehour"/>
 				${shour}:${(startTime*30 %60 == 0)? "00" :"30" }~${ehour}:${(endTime*30 %60 == 0)? "00" :"30" }
 		</td></tr>
-	<tr><th>預約評價</th><td>${resVO.resCom}</td></tr>
+	<tr><th>預約評價</th>
+		<td><c:if test="${resVO.resCom != 0}">
+			<c:forEach var="star" begin="1" end="5">
+				<c:choose>
+					<c:when test="${resVO.resCom>=star}"	>
+						&#x2605;
+					</c:when>
+					<c:otherwise>
+						&#x2606;
+					</c:otherwise>
+				</c:choose>
+			</c:forEach>
+			</c:if></td></tr>
 	<tr><th>預約驗證碼</th>
 		<td>
 		<c:choose>

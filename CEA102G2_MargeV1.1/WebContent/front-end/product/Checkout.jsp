@@ -300,14 +300,14 @@ input {
 				  </div>
 				</form>
 			 </div>
-			 <form action="<%=request.getContextPath()%>/ordermaster/ordermaster.do" method="POST">
-					<input type="hidden" name="memNo"
-						value="${sessionScope.memVO.memNo}"> <input type="hidden"
-						name="ordAmt" class="ordAmt" value="${sessionScope.ordAmt}">
-					<input type="hidden" name="action" value="PAY"> <input
-						type="submit" class="btn btn-primary" value="送出"
-						style="float: right;">
-				</form>
+<%-- 			 <form action="<%=request.getContextPath()%>/ordermaster/ordermaster.do" method="POST"> --%>
+<!-- 					<input type="hidden" name="memNo" -->
+<%-- 						value="${sessionScope.memVO.memNo}"> <input type="hidden" --%>
+<%-- 						name="ordAmt" class="ordAmt" value="${sessionScope.ordAmt}"> --%>
+<!-- 					<input type="hidden" name="action" value="PAY"> <input -->
+<!-- 						type="submit" class="btn btn-primary" value="送出" -->
+<!-- 						style="float: right;"> -->
+<!-- 				</form> -->
 				
 			</div>
 			

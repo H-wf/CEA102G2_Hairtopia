@@ -385,10 +385,11 @@ public class ResServlet extends HttpServlet{
 				/***************************3.修改完成,準備轉交(Send the Success view)*************/
 				req.setAttribute("resVO", resVO); // 資料庫update成功後,正確的的resVO物件,存入req
 				Integer desNo = resVO.getDesNo();
-				List<ResVO> list = resSvc.getAllResByDesNo(resVO.getDesNo());
-				req.setAttribute("list", list);
-				req.setAttribute("desNo", desNo);
-				String url = "/front-end/reservation/listAllResByDes.jsp";
+				DesignerVO designerVO = new DesignerService().getOneDesByDesNo(desNo);
+				req.setAttribute("designerVO", designerVO);
+//				List<ResVO> list = resSvc.getAllResByDesNo(resVO.getDesNo());
+//				req.setAttribute("list", list);
+				String url = "/front-end/reservation/listScheduleOfDes.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url); // 修改成功後,轉交listAllEmpByDes.jsp
 				successView.forward(req, res);
 

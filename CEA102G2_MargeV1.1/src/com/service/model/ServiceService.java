@@ -58,7 +58,7 @@ public class ServiceService {
 		serviceVO.setSerStatus(serStatus);
 		dao.updateSerStatus(serviceVO);
 		
-		return serviceVO;
+		return dao.findByPrimaryKeySerNo(serNo);
 	}
 	
 	public void deleteService(Integer serNo) {
