@@ -1,8 +1,11 @@
 package com.salon.model;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import com.designer.model.*;
+import com.post.model.PostVO;
 
 
 public class SalonService {
@@ -76,5 +79,27 @@ public class SalonService {
 	public List<SalonVO> getSalSearch(String keyword){
 		return dao.getAllSearch(keyword);
 	}
+	
+	public Set<SalonVO> pickup5Sal() {
+		Set<SalonVO> reSal = new HashSet<SalonVO>();
+		try {
+			List<SalonVO> allSal = dao.getAll();
+			Set<Integer> index = new HashSet<Integer>();
+
+			while (index.size() < 5) {
+				int x = (int) (Math.random() * allSal.size());
+				index.add(x);
+			}
+			while (reSal.size() < 5) {
+				for (Integer y : index) {
+					reSal.add(allSal.get(y));
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return reSal;
+	}
+
 
 }
