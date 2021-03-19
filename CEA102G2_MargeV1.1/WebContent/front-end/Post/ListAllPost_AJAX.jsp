@@ -3,8 +3,14 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page import="java.util.*"%>
 <%@ page import="com.post.model.*"%>
+<%@ page import="com.member.model.*"%>
 
 <jsp:useBean id="postSvc"  scope="page" class="com.post.model.PostService" />
+<%
+	MemService memSvc = new MemService();
+	MemVO userSession = memSvc.getOneMem(2);
+	pageContext.setAttribute("userSession", userSession);
+%>
 
 <!DOCTYPE html>
 <html>
@@ -17,6 +23,8 @@
  
 </head>
 <style>
+
+
 </style>
 <body>
 <%@include file="/front-end/tempFile/navBar" %>
@@ -58,7 +66,6 @@
 <script src="<%=request.getContextPath()%>/resource/js/postModal.js"></script>
 </body>
 <script>
-var contextPath = "<%=request.getContextPath()%>";
-
+var userSessionNo = "${userSession.memNo}";
 </script>
 </html>

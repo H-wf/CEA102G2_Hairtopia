@@ -55,4 +55,57 @@ img {
     border: 1px solid #e6e6e6;
     font-size: 11px;
 }
+li.media img,#desPic{
+width:15%;
+margin-right:2%;
+}
+li.media img.img-thumbnail,#desPic.img-thumbnail{
+padding: 0.15rem;
+}
+.comCon{
+font-size:0.9rem;
+color:#6D6D6D;
+}
+#comList li{
+margin: 2% 0 2% 0;
+}
+#comList .media{
+border-radius: 0.2em;
+}
+#comList .media:hover{
+background-color: rgba(244,244,244,0.8);
+}
+
+p.comCon{
+margin-bottom: 0;
+}
+.comTime{
+float:right;
+}
+#desInfo h5{
+    display: inline;
+    vertical-align: middle;
+}
+#desInfo {
+margin-bottom:5%;
+}
+#postTime{
+    display: block;
+    text-align: end;
+}
+p#postCon{
+	color:#333333;
+	text-indent:1em;
+}
+#tags{
+margin-top:3%;
+}
+#postHr{
+	margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+.media-body h5{
+    display: inline;
+    vertical-align: middle;
+}
 /* Whole post Css END */

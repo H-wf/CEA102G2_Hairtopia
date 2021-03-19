@@ -18,25 +18,25 @@
                             </div>
                             <div class="col-md-6 p-0">
                                 <div class="card-title" id="postTitle">
-                                    <h2></h2>
-                                    <h5 class="m-0"></h5>
+                                	<div id="desInfo">
+                                    	<h5></h5>
+                                    </div>
+                                    <p id="postCon" class="m-0"></p>
                                     <div id="tags"></div>
-                                    <small class="text-muted" id="postTime"></small>
+                                   	<small class="text-muted" id="postTime"></small>
+                                    
                                 </div>
+                                <hr id="postHr">
                                 <p class="card-text">
                                     <div class="comDisplay">
                                         <ul class="list-unstyled" id="comList">
                                         </ul>
                                     </div>
                                     <!--  有會員之後要判斷出刪除、修改按鈕 -->
-                                    <form method="post"	action="<%=request.getContextPath()%>/comment/comment.do">
                                         <div class="input-group">
-                                            <input type="text" class="form-control" placeholder="輸入留言" name="comCon">
-                                            <input type="hidden" name="postNo" value="${postVO.postNo}">
-                                            <input type="hidden" name="memNo" value="1"> <input type="hidden" name="action"	value="insert_Front">
-                                            <button class="btn btn-outline-secondary" type="submit">留言</button>
+                                            <input type="text" class="form-control" placeholder="輸入留言" id="comCon">
+                                            <button class="btn btn-outline-secondary" id="comButton" type="submit">留言</button>
                                         </div>
-                                    </form>
                                 </p>
                             </div>
                         </div>

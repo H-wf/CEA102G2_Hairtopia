@@ -22,6 +22,7 @@ import com.designer.model.*;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonElement;
 
 @MultipartConfig
 public class PostServlet extends HttpServlet {
@@ -727,7 +728,13 @@ System.out.println("postVO設置完成");
 			
 //取得postVo
 			PostVO postVo = postSvc.getOnePost(postNo);
-			
+//判斷幾張照片
+			postVo.setPostPic1(new byte[0]);
+			if(postVo.getPostPic2() != null) {
+				postVo.setPostPic2(new byte[0]);
+			}else if(postVo.getPostPic3() != null) {
+				postVo.setPostPic3(new byte[0]);
+			}
 //用postNo取得tagDet的tagNo再取得所有tagName
 			Set<Integer> tagNoSet = tagdetSvc.getTagNo(postNo);
 			List<String> tagNameList = tagSvc.getTagName(tagNoSet);
@@ -735,12 +742,6 @@ System.out.println("postVO設置完成");
 //用postNo取得所有comment
 			List<CommentVO> commentList = comSvc.getComsByPostNo(postNo);
 			
-			postVo.setPostPic1(new byte[0]);
-			if(postVo.getPostPic2() != null) {
-				postVo.setPostPic2(new byte[0]);
-			}else if(postVo.getPostPic3() != null) {
-				postVo.setPostPic3(new byte[0]);
-			}
 			
 			Map ajaxMap = new HashMap();
 			ajaxMap.put("postVo", postVo);
@@ -748,8 +749,6 @@ System.out.println("postVO設置完成");
 			ajaxMap.put("commentList", commentList);
 
 			String jsonStr = gson.toJson(ajaxMap);
-System.out.println(jsonStr);
-
 			res.setContentType("text/plain");
 			res.setCharacterEncoding("UTF-8");
 			PrintWriter out = res.getWriter();

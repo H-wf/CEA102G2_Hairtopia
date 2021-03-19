@@ -27,6 +27,34 @@ $(document).ready(function(){
 				},
 			});
 		});
+		
+		$('#comButton').on('click',function(){
+			if(userSessionNo === null){
+				window.alert("登入後即可對該貼文留言。");
+				return false;
+			}if($('#comCon').val().trim().length === 0 ){
+				window.alert("請輸入留言內容。");
+				return false;
+			}
+			$.ajax({
+				type:"POST",
+				url:contextPath + "/comment/comment.do",
+				data:{
+					action:"addComByAJAX",
+					userSessionNo:userSessionNo,
+					postNo:$('.modal-body').attr('id'),
+					comCon:$('#comCon').val(),
+				},
+				success:function(data){
+					var comVo =  JSON.parse(data);
+					addCom(comVo);
+				},
+				error:function(){
+					console.log("AJAX ERROR!");
+				},
+			});
+		});
+		
 	});
 	
 function showWholePost(commentList, postVo, tagNameList) {
@@ -53,9 +81,10 @@ function showWholePost(commentList, postVo, tagNameList) {
 
     }
         // post pic 設置完成
-
-        $('#postTitle h2').append(postVo.desNo);
-        $('#postTitle h5').append(postVo.postCon);
+    	$('.modal-body').attr('id',postVo.postNo);
+    	$('#desInfo').prepend(`<img src="` + contextPath + `/PicFinder?pic=1&table=designer&column=desPic&idname=desNo&id=` + postVo.desNo + `" id="desPic" class="img-thumbnail" />`);
+        $('#postTitle h5').append(postVo.desName);
+        $('#postTitle p').append(postVo.postCon);
         $.each(tagNameList, function(index,value) {
             $('#tags').append(`<div>` + value + `</div>`);
         })
@@ -66,9 +95,9 @@ function showWholePost(commentList, postVo, tagNameList) {
         $.each(commentList, function(index,item) {
             if (item.comStatus != false) {
                 $('#comList').append(`<li class="media">` + `
-                                                <!--            會員頭貼                  <img src="..." class="mr-3" alt="..."> -->` +
+                                                <img src="` + contextPath + `/PicFinder?pic=1&table=member&column=memPic&idname=memNo&id=` + item.memNo + `" class="img-thumbnail" />` +
                     `<div class="media-body">
-                                                    <h5 class="mt-0 mb-1">` + item.memNo + `</h5>
+                                                    <h5 class="mt-0 mb-1">` + item.memName + `</h5>
                                                     <p class="comCon">` + item.comCon + `</p>
                                                     <small class="text-muted comTime">` + item.comTime + `</small>
                                                 </div>
@@ -81,11 +110,30 @@ function emptyModal(){
 	$('#carouselPostIndicators .carousel-inner').empty();
 	$('#carouselPostIndicators .carousel-indicators').remove();
 	$('#carouselPostIndicators a').remove();
-	$('#postTitle h2').empty();
+	$('#desPic').remove();
 	$('#postTitle h5').empty();
+	$('#postTitle p').empty();
 	$('#tags').empty();
 	$('#postTime').empty();
 	$('#comList').empty();
+	$('.modal-body').removeAttr('id');
+	$('#comCon').val("");
 	
 	
+	
+}
+function addCom(comVo){
+console.log(comVo.comStatus);
+console.log(comVo.memName);
+
+	if (comVo.comStatus !== false) {
+        $('#comList').append(`<li class="media">` + `
+                                        <img src="` + contextPath + `/PicFinder?pic=1&table=member&column=memPic&idname=memNo&id=` + comVo.memNo + `" class="img-thumbnail" />` +
+            `<div class="media-body">
+                                            <h5 class="mt-0 mb-1">` + comVo.memName + `</h5>
+                                            <p class="comCon">` + comVo.comCon + `</p>
+                                            <small class="text-muted comTime">` + comVo.comTime + `</small>
+                                        </div>
+                                    </li>`);
+    }
 }

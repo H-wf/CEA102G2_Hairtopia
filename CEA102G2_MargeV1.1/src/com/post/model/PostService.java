@@ -2,6 +2,8 @@ package com.post.model;
 
 import java.util.*;
 
+import com.designer.model.*;
+
 public class PostService {
 	private PostDAO_Interface dao;
 
@@ -122,7 +124,10 @@ public class PostService {
 	}
 
 	public PostVO getOnePost(Integer postNo) {
-		return dao.findByPrimaryKey(postNo);
+		PostVO postVo = dao.findByPrimaryKey(postNo);
+		String desName = new DesignerService().getOneDesByDesNo(postVo.getDesNo()).getDesName();
+		postVo.setDesName(desName);
+		return postVo;
 	}
 
 	public List<PostVO> getAll() {

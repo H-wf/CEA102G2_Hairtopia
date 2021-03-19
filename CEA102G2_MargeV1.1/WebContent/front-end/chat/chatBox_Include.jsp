@@ -23,33 +23,20 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+<!--     <meta http-equiv="X-UA-Compatible" content="IE=edge"> -->
+<!--     <meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
+<!--     <title>Document</title> -->
 	<link rel="stylesheet" href="<%=request.getContextPath()%>/resource/web-fonts-with-css/css/fontawesome-all.min.css">
 	<script src="<%=request.getContextPath()%>/dist/js/jquery.min.js"></script>
     
 
     <style>
-/*         @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC&display=swap'); */
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
-
-        body {
-/*         	height:1000px; */
-/*             font-family: 'Lato', sans-serif; */
-/*             font-size: 16px; */
-/*             color: #999999; */
-/*             word-wrap: break-word; */
-        }
-
-/*         ul { */
-/*             list-style: none; */
-/*         } */
 
         .chatbox-holder {
             position: fixed;
@@ -116,7 +103,6 @@
             font-size: 15px;
             font-weight: bold;
             color: #30649c;
-/*             text-shadow: 1px 1px 0 white; */
             transition: .1s ease-out;
         }
 
@@ -268,11 +254,6 @@
         .message-send {
             -webkit-appearance: none;
             background: #999;
-/*             background: -moz-linear-gradient(180deg, #00d8ff, #00b5d6); */
-/*             background: -webkit-linear-gradient(180deg, #00d8ff, #00b5d6); */
-/*             background: -o-linear-gradient(180deg, #00d8ff, #00b5d6); */
-/*             background: -ms-linear-gradient(180deg, #00d8ff, #00b5d6); */
-/*             background: linear-gradient(180deg, #00d8ff, #00b5d6); */
             color: white;
             font-size: 12px;
             padding: 0 15px;
@@ -308,7 +289,6 @@
 
         .chatbox-min {
             margin-bottom: -362px;
-            /*   height: 46px; */
         }
 
         .chatbox-min .chatbox-avatar {

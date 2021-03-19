@@ -2,6 +2,8 @@ package com.comment.model;
 
 import java.util.List;
 
+import com.member.model.*;
+
 
 public class CommentService {
 
@@ -18,7 +20,12 @@ public class CommentService {
 		commentVo.setMemNo(memNo);
 		commentVo.setComCon(comCon);
 		
-		dao.insert(commentVo);
+		Integer new_comNo = dao.insert(commentVo);
+		
+		commentVo=dao.getOneCom(new_comNo);
+		String memName = new MemService().getOneMemName(commentVo.getMemNo());
+		commentVo.setMemName(memName);
+		System.out.println(memName);
 		
 		return commentVo;
 	}
@@ -28,8 +35,15 @@ public class CommentService {
 	}
 	
 	public List<CommentVO> getComsByPostNo(Integer postNo) {
-		System.out.println("回傳留言");
-		return dao.getComsByPostNo(postNo);
+		List<CommentVO> listComVO = dao.getComsByPostNo(postNo);
+		
+		for(CommentVO comVo : listComVO) {
+			String memName = new MemService().getOneMemName(comVo.getMemNo());
+			comVo.setMemName(memName);
+System.out.println(memName);
+		}
+		
+		return listComVO;
 	}
 	
 	
