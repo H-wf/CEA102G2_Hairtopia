@@ -20,6 +20,12 @@
 .ftco-navbar-light {
 	position: static;
 }
+
+
+.salName{
+		font-size:1.45rem;
+/* 		text-align:center; */
+	}
 </style>
 
 </head>
@@ -52,28 +58,34 @@
 									src="<%=request.getContextPath()%>/PicFinder?pic=1&table=Designer&column=desPic&idname=desNo&id=${designerVO.desNo}"
 									alt='沒有圖片' />
 							</div>
-							<div class="col-md-6">
-								<div class="card-body pl-3">
+							<div class="col-md-6 mr-5">
+								<div class="card-body pl-3 pb-0">
+									<h2 class="card-text salName">${designerVO.desName}</h2>
+									<h2 class="card-text salName">${salonSvc.getOneSalon(designerVO.salNo).salName}</h2>
+									<span class="icon icon-map-marker mr-3"><i
+								class="bi bi-geo-alt-fill"></i></span><span class="card-text mb-0 salName">${salonSvc.getOneSalon(designerVO.salNo).salAdd}</span><br>
+								<span class="icon icon-phone mr-3"><i
+											class="bi bi-telephone-fill"></i></span> <span class="text">${salonSvc.getOneSalon(designerVO.salNo).salPhone}</span></a>
 								
-									<p class="card-text">髮廊:${salonSvc.getOneSalon(designerVO.salNo).salName}</p>
-									<p class="card-text">設計師:${designerVO.desName}</p>
-									<p class="card-text">簡介:${designerVO.desInfor}</p>
-									<p class="card-text">平均分數:${designerVO.desTolScore /designerVO.desCount}</p>
+								
+								
 								</div>
 							</div>
-								<div class="col-md-3 align-self-end text-right mb-3">
-									<a href="<%=request.getContextPath()%>/designer/designer.do?action=getOne_For_Display&desNo=${designerVO.desNo}"
+							<span class="col-md-2 align-self-end  mb-3 ml-1">
+									<a
+										href="<%=request.getContextPath()%>/designer/designer.do?action=getOne_For_Display&desNo=${designerVO.desNo}"
 										class="btn btn-primary">查看更多</a>
-								</div>
 							
+							</span>
+
 
 						</div>
 					</div>
 
 				</c:forEach>
+			</div>
 
-
-				<%@include file="/front-end/tempFile/footer"%>
-				<%@include file="/front-end/tempFile/tempJs"%>
+			<%@include file="/front-end/tempFile/footer"%>
+			<%@include file="/front-end/tempFile/tempJs"%>
 </body>
 </html>
