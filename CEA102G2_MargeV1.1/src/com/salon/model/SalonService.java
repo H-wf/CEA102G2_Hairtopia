@@ -80,6 +80,7 @@ public class SalonService {
 		return dao.getAllSearch(keyword);
 	}
 	
+	//增加index需要的方法 0320
 	public Set<SalonVO> pickup5Sal() {
 		Set<SalonVO> reSal = new HashSet<SalonVO>();
 		try {

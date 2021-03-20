@@ -40,7 +40,7 @@ public class LecturerServlet extends HttpServlet {
 		String action = req.getParameter("action");
 		
 
-		if ("getOne_For_Display".equals(action)) { // 來自select_lec_page.jsp的請求
+		if ("getOne_For_Display".equals(action) || "getOne_For_Display_front".equals(action)) { // 來自select_lec_page.jsp的請求
 
 			List<String> errorMsgs = new LinkedList<String>();
 			// Store this set in the request scope, in case we need to
@@ -87,7 +87,12 @@ public class LecturerServlet extends HttpServlet {
 
 				/*************************** 3.查詢完成,準備轉交(Send the Success view) *************/
 				req.setAttribute("lecVO", lecVO); // 資料庫取出的lecVO物件,存入req
-				String url = "/back-end/Lecturer/listOneLec.jsp";
+				String url ="" ;
+				if("getOne_For_Display".equals(action)) {
+					url ="/back-end/Lecturer/listOneLec.jsp";
+				}else if("getOne_For_Display_front".equals(action)) {
+					url ="/front-end/Lecturer/lecturerPage.jsp";
+				}
 				RequestDispatcher successView = req.getRequestDispatcher(url); // 成功轉交 listOneLec.jsp
 				successView.forward(req, res);
 

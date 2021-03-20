@@ -18,6 +18,7 @@ public class SalonVO implements Serializable{
 		result = prime * result + ((salTime == null) ? 0 : salTime.hashCode());
 		return result;
 	}
+	//index需要複寫 0320
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)

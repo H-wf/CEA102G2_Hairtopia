@@ -48,8 +48,35 @@
 			</div>
 			<jsp:useBean id="lecSvc" scope="page" class="com.lecturer.model.LecturerService" />
 			<div class="col-md-6 ">
-	
+			<c:set var="size" value="${lecSvc.all.size()}"/>
+			
+<!-- 			pagination start -->
+			<nav aria-label="Page navigation example">
+			  <ul class="pagination justify-content-center">
+			    <li class="page-item">
+			      <a class="page-link" href="#" aria-label="Previous">
+			        <span aria-hidden="true">&laquo;</span>
+			      </a>
+			    </li>
+			    <forEach var="whichPages" begin="1" end="${((size-size%5)/5) + 1}">
+		
+			    
+			    <li class="page-item"><a class="page-link" href="#">1</a></li>
+			 
+			    </forEach>
+			    <li class="page-item">
+			      <a class="page-link" href="#" aria-label="Next">
+			        <span aria-hidden="true">&raquo;</span>
+			      </a>
+			    </li>
+			  </ul>
+			</nav>
+<!--     pagination end	 -->
+
+
 				<c:forEach var="lecturerVO" items="${lecSvc.all}" >
+				
+				<c:if test="${lecturerVO.lecStatus == 1 }">
 					<div class="card w-auto" style="width: 18rem;">
 						<div class="row no-gutters">
 							<div class="col-md-3 ">
@@ -68,7 +95,7 @@
 							</div>
 							<span class="col-md-2 align-self-end  mb-3 ml-2">
 									<a
-										href="<%=request.getContextPath()%>/lecturer/lecturer.do?action=getOne_For_Display&lecNo=${lecturerVO.lecNo}"
+										href="<%=request.getContextPath()%>/lecturer/lecturer.do?action=getOne_For_Display_front&lecNo=${lecturerVO.lecNo}"
 										class="btn btn-primary">查看詳情</a>
 							
 							</span>
@@ -76,7 +103,7 @@
 
 						</div>
 					</div>
-
+			</c:if>
 				</c:forEach>
 			
 			</div>
