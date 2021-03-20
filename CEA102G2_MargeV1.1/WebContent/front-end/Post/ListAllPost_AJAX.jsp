@@ -23,7 +23,7 @@
  
 </head>
 <style>
-.form-control#udComCon{
+.form-control.udComCon{
     font-size: .9rem;
     height: 1%!important;
 }

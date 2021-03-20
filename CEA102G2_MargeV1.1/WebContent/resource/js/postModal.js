@@ -56,19 +56,6 @@ $(document).ready(function(){
 			});
 		});
 		
-		$('#udComButtom').on('click',function(){
-//			$.ajax({
-//				type:"POST",
-//				url:contextPath + "/comment/comment.do",
-//				data:{
-//					action:"updateComByAJAX",
-//					comNo:$(this).attr('comNo'),
-//					comCon:$(this).prev().val(),
-//				},
-//			});
-			console.log($('#udComButtom').attr('class'));
-		});
-		
 	});
 	
 function showWholePost(commentList, postVo, tagNameList) {
@@ -149,8 +136,8 @@ function showWholePost(commentList, postVo, tagNameList) {
 	                            `<p class="comCon">` + item.comCon + `</p>
 	                            <div class="collapse" id="udCom`+item.comNo+`">
 	                            		<div class="input-group">
-                                            <input type="text" class="form-control" placeholder="修改留言" id="udComCon">
-                                            <button class="btn btn-outline-secondary" id="udComButtom" type="submit" comNo="`+item.comNo+`">修改</button>
+                                            <input type="text" class="form-control udComCon" placeholder="修改留言" id="udComCon`+item.comNo+`">
+                                            <button class="btn btn-outline-secondary udComButtom" id="" type="submit">修改</button>
                                         </div>
 								 </div>
 	                            <small class="text-muted comTime">` + item.comTime + `</small>
@@ -159,6 +146,19 @@ function showWholePost(commentList, postVo, tagNameList) {
 	            }
             }
         });
+        $('.udComButtom').on('click',function(){
+//			$.ajax({
+//				type:"POST",
+//				url:contextPath + "/comment/comment.do",
+//				data:{
+//					action:"updateComByAJAX",
+//					comNo:$(this).attr('comNo'),
+//					comCon:$(this).prev().val(),
+//				},
+//			});
+			window.alert("IN!!");
+			console.log($(this).prev('input').val());
+		});
         
 }
 
@@ -210,7 +210,7 @@ console.log(comVo.memName);
 		                <div class="collapse" id="udCom`+comVo.comNo+`">
 		                		<div class="input-group">
 		                            <input type="text" class="form-control" placeholder="修改留言" id="udComCon">
-		                            <button class="btn btn-outline-secondary" id="udComButtom" type="submit">修改</button>
+		                            <button class="btn btn-outline-secondary udComButtom" id="" type="submit">修改</button>
 		                        </div>
 						 </div>
 		                <small class="text-muted comTime">` + comVo.comTime + `</small>
@@ -218,4 +218,17 @@ console.log(comVo.memName);
 		        </li>`);
 		}
 	}
+		$('.udComButtom').on('click',function(){
+//			$.ajax({
+//				type:"POST",
+//				url:contextPath + "/comment/comment.do",
+//				data:{
+//					action:"updateComByAJAX",
+//					comNo:$(this).attr('comNo'),
+//					comCon:$(this).prev().val(),
+//				},
+//			});
+			window.alert("IN!!");
+			console.log($(this).prev('input').val());
+		});
 }
