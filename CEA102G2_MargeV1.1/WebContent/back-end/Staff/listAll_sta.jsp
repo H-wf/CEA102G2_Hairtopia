@@ -24,80 +24,89 @@ img {
 </style>
 <meta charset="UTF-8">
 <title>所有講師資料 - listAll_sta.jsp</title>
+<%@include file="/back-end/tempFile/head"%>
 </head>
-<body>
-	<h4>此頁練習採用 EL 的寫法取值:</h4>
-	<table id="table-1">
-		<tr>
-			<td>
-				<h3>所有講師資料 - listAll_sta.jsp</h3>
-				<h4>
-					<a href="<%=request.getContextPath()%>/back-end/Staff/select_sta_page.jsp">
-					<img src="<%=request.getContextPath()%>/resource/images/back1.gif"
-						width="100" height="32" border="0">回首頁</a>
-				</h4>
-			</td>
-		</tr>
-	</table>
+<body id="page-top">
+	<%@include file="/back-end/tempFile/navBar_sideBar"%>
 
 
-	<c:if test="${not empty errorMsgs}">
-		<font style="color: red">請修正以下錯誤:</font>
-		<ul>
-			<c:forEach var="message" items="${errorMsgs}">
-				<li style="color: red">${message}</li>
-			</c:forEach>
-		</ul>
-	</c:if>
-
-
-	<table>
-		<tr>
-			<th>員工編號</th>
-			<th>員工姓名</th>
-			<th>員工帳號</th>
-			<th>員工密碼</th>
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-2">
 			
+			<c:if test="${not empty errorMsgs}">
+					<font style="color: red">請修正以下錯誤:</font>
+					<ul>
+						<c:forEach var="message" items="${errorMsgs}">
+							<li style="color: red">${message}</li>
+						</c:forEach>
+					</ul>
+				</c:if>
+			
+			</div>
 
-		</tr>
-	
-		<jsp:useBean id="staSvc" scope="page"
-			class="com.staff.model.StaffService" />
+			<div class="col-8">
 
-		<%@ include file="/resource/pages/page1.file" %> 
-		<c:forEach var="staVO" items="${staSvc.all}" begin="<%=pageIndex%>" end="<%=pageIndex+rowsPerPage-1%>">>
-			<tr>
-				<td>${staVO.staName}</td>
-				<td>${staVO.staNo}</td>
-				<td>${staVO.staAcct}</td>
-				<td>${staVO.staPswd}</td>
-				<td>
-					<FORM METHOD="post"
-						ACTION="<%=request.getContextPath()%>/staff/staff.do"
-						style="margin-bottom: 0px;">
-						<input type="submit" value="修改"> <input type="hidden"
-							name="staNo" value="${staVO.staNo}"> <input
-							type="hidden" name="action" value="getOne_For_Update">
-					</FORM>
-				</td>
-				<td>
-					<FORM METHOD="post"
-						ACTION="<%=request.getContextPath()%>/staff/staff.do"
-						style="margin-bottom: 0px;">
-						<input type="submit" value="刪除"> <input type="hidden"
-							name="staNo" value="${staVO.staNo}"> <input
-							type="hidden" name="action" value="delete">
-					</FORM>
-				</td>
-			</tr>
+		
+							<h3 class="text-center">所有員工資料</h3>
 
-		</c:forEach>
+				
 
 
+				<table class="table table-borderless">
+					<thead class="thead-dark">
+						<tr>
+							<th colspan="1">員工編號</th>
+							<th colspan="1">員工姓名</th>
+							
+							<th colspan="1">員工帳號</th>
+							<th colspan="1">員工密碼</th>
+							<th colspan="6" class="text-center">員工權限</th>
 
 
-	</table>
-<%@ include file="/resource/pages/page2.file" %>
+						</tr>
+					</thead>
+					<jsp:useBean id="staSvc" scope="page"
+						class="com.staff.model.StaffService" />
+					<jsp:useBean id="authSvc" scope="page"
+						class="com.authority.model.AuthorityService" />	
+					<jsp:useBean id="funcSvc" scope="page"
+						class="com.func.model.FuncService" />	
+						
 
+					<%@ include file="/resource/pages/page1.file"%>
+					<c:forEach var="staVO" items="${staSvc.all}" begin="<%=pageIndex%>"
+						end="<%=pageIndex+rowsPerPage-1%>">
+						<tbody>
+						<tr>
+							<td colspan="1">${staVO.staNo}</td>
+							<td colspan="1">${staVO.staName}</td>
+							
+							<td colspan="1">${staVO.staAcct}</td>
+							<td colspan="1">${staVO.staPswd}</td>
+							
+							<c:forEach var="authVO" items="${authSvc.getAllByStaNo(staVO.staNo)}">
+							
+							<td colspan="1">
+							${funcSvc.getOneFunc(authVO.funcNo).funcName} 
+							
+							</c:forEach>
+							</td>
+						
+						</tr>
+					</tbody>
+					</c:forEach>
+
+
+
+
+				</table>
+				<%@ include file="/resource/pages/page2.file"%>
+			</div>
+		</div>
+	</div>
+
+	<%@include file="/back-end/tempFile/footer"%>
+	<%@include file="/back-end/tempFile/srcJs"%>
 </body>
 </html>

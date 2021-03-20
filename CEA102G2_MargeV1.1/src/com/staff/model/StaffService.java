@@ -42,6 +42,11 @@ public class StaffService {
 	public StaffVO getOneStaff(Integer staNo) {
 		return dao.findByPrimaryKey(staNo);
 	}
+	
+	public StaffVO getOneStaff(String staAcct) {
+		return dao.findByPrimaryKey(staAcct);
+	}
+
 
 	public List<StaffVO> getAll() {
 

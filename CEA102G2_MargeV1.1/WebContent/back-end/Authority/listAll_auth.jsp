@@ -9,6 +9,7 @@
 
 <%
 	StaffVO staVO = (StaffVO) request.getAttribute("staVO");
+	
 %>
 <!DOCTYPE html>
 <html>
@@ -71,7 +72,7 @@ img {
 						style="margin-bottom: 0px;">
 						<input type="submit" value="刪除權限"> 
 						<input type="hidden" name="funcNo" value="${funcVO.funcNo}"> 
-						<input type="hidden" name="staNo" value="${param.staNo}">
+						<input type="hidden" name="staNo" value="${staVO.staNo}">
 						<input type="hidden" name="action" value="listAll_auth">
 					</FORM>
 				</td>
@@ -81,7 +82,7 @@ img {
 						style="margin-bottom: 0px;">
 						<input type="submit" value="增加權限" disabled> 
 						<input type="hidden" name="funcNo" value="${funcVO.funcNo}"> 
-						<input type="hidden" name="staNo" value="${param.staNo}">
+						<input type="hidden" name="staNo" value="${staVO.staNo}">
 						<input type="hidden" name="action" value="insert">
 						</FORM>
 				</td>		
@@ -93,7 +94,7 @@ img {
 						style="margin-bottom: 0px;">
 						<input type="submit" value="刪除權限"  disabled> 
 						<input type="hidden" name="funcNo" value="${funcVO.funcNo}"> 
-						<input type="hidden" name="staNo" value="${param.staNo}">
+						<input type="hidden" name="staNo" value="${staVO.staNo}">
 						<input type="hidden" name="action" value="listAll_auth">
 						</FORM>
 						</td>
@@ -103,7 +104,7 @@ img {
 						style="margin-bottom: 0px;">
 						<input type="submit" value="增加權限" > 
 						<input type="hidden" name="funcNo" value="${funcVO.funcNo}"> 
-						<input type="hidden" name="staNo" value="${param.staNo}">
+						<input type="hidden" name="staNo" value="${staVO.staNo}">
 						<input type="hidden" name="action" value="insert">
 						</FORM>
 						</td>

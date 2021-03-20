@@ -34,7 +34,7 @@ public class StaffDAO implements StaffDAO_interface {
 
 	private static final String GET_ALL_STMT = " FROM StaffVO order by staNo";
 	private static final String GET_ONE_STMT = "SELECT staNo,staName,staAcct,staPswd FROM staff where staAcct=? and staPswd=?";
-
+	private static final String GET_ONE_STMT_Acct = "SELECT staNo,staName,staAcct,staPswd FROM staff where staAcct=?";
 
 	@Override
 	public Object insert(StaffVO staVO) {
@@ -104,6 +104,8 @@ public class StaffDAO implements StaffDAO_interface {
 		}
 		return staffVO;
 	}
+	
+
 
 
 
@@ -160,6 +162,66 @@ public List<StaffVO> getAll() {
 
 			pstmt.setString(1, staAcct);
 			pstmt.setString(2, staPswd);
+
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				// empVo 也稱為 Domain objects
+				staVO = new StaffVO();
+				staVO.setStaNo(rs.getInt("staNo"));
+				staVO.setStaName(rs.getString("staName"));
+				staVO.setStaAcct(rs.getString("staAcct"));
+				staVO.setStaPswd(rs.getString("staPswd"));
+				
+
+			}
+
+			// Handle any driver errors
+		} catch (SQLException se) {
+			throw new RuntimeException("A database error occured. " + se.getMessage());
+			// Clean up JDBC resources
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
+		return staVO;
+	}
+
+
+
+	@Override
+	public StaffVO findByPrimaryKey(String staAcct) {
+		StaffVO staVO = null;
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+
+		try {
+
+			con = ds.getConnection();
+			pstmt = con.prepareStatement(GET_ONE_STMT_Acct);
+
+			pstmt.setString(1, staAcct);
+		
 
 			rs = pstmt.executeQuery();
 
