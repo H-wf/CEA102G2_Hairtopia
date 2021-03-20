@@ -174,6 +174,19 @@ System.out.println(jsonStr);
 			return;
 		}
 		
+		if("updateComByAJAX".equals(action)) {
+			String comCon = req.getParameter("comCon");
+				
+			Integer comNo = new Integer(req.getParameter("comNo"));
+			
+			CommentVO commentVo = new CommentVO();
+			commentVo.setPostNo(comNo);
+			commentVo.setComCon(comCon);
+			
+			CommentService commentSvc = new CommentService();
+			commentSvc.updateComment(comNo, comCon);
+		}
+		
 	}
 
 }

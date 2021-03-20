@@ -41,7 +41,6 @@
                                         <ul class="list-unstyled" id="comList">
                                         </ul>
                                     </div>
-                                    <!--  有會員之後要判斷出刪除、修改按鈕 -->
                                         <div class="input-group">
                                             <input type="text" class="form-control" placeholder="輸入留言" id="comCon">
                                             <button class="btn btn-outline-secondary" id="comButton" type="submit">留言</button>

@@ -56,6 +56,19 @@ $(document).ready(function(){
 			});
 		});
 		
+		$('#udComButtom').on('click',function(){
+//			$.ajax({
+//				type:"POST",
+//				url:contextPath + "/comment/comment.do",
+//				data:{
+//					action:"updateComByAJAX",
+//					comNo:$(this).attr('comNo'),
+//					comCon:$(this).prev().val(),
+//				},
+//			});
+			console.log($('#udComButtom').attr('class'));
+		});
+		
 	});
 	
 function showWholePost(commentList, postVo, tagNameList) {
@@ -130,21 +143,19 @@ function showWholePost(commentList, postVo, tagNameList) {
 							                    </a>
 												  <div class="dropdown-menu" aria-labelledby="comDropdown`+item.comNo+`">
 												    <a class="dropdown-item" href="#">刪除留言</a>
-												    <a class="dropdown-item" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">修改</a>
+												    <a class="dropdown-item" data-toggle="collapse" href="#udCom`+item.comNo+`" role="button" aria-expanded="false" aria-controls="udCom`+item.comNo+`">修改</a>
 							   					  </div>
 												</div>`+
 	                            `<p class="comCon">` + item.comCon + `</p>
-	                            <div class="collapse" id="collapseExample">
+	                            <div class="collapse" id="udCom`+item.comNo+`">
 	                            		<div class="input-group">
                                             <input type="text" class="form-control" placeholder="修改留言" id="udComCon">
-                                            <button class="btn btn-outline-secondary" id="udCom" type="submit">留言</button>
+                                            <button class="btn btn-outline-secondary" id="udComButtom" type="submit" comNo="`+item.comNo+`">修改</button>
                                         </div>
 								 </div>
 	                            <small class="text-muted comTime">` + item.comTime + `</small>
 	                        </div>
 	                    </li>`);
-	            }else{
-	            	console.log("XXXX");
 	            }
             }
         });
@@ -171,14 +182,40 @@ function addCom(comVo){
 console.log(comVo.comStatus);
 console.log(comVo.memName);
 
-	if (comVo.comStatus !== false) {
-        $('#comList').append(`<li class="media">` + `
-                                        <img src="` + contextPath + `/PicFinder?pic=1&table=member&column=memPic&idname=memNo&id=` + comVo.memNo + `" class="img-thumbnail" />` +
-            `<div class="media-body">
-                                            <h5 class="mt-0 mb-1">` + comVo.memName + `</h5>
-                                            <p class="comCon">` + comVo.comCon + `</p>
-                                            <small class="text-muted comTime">` + comVo.comTime + `</small>
-                                        </div>
-                                    </li>`);
-    }
+		if (comVo.comStatus != false) {
+			if(comVo.memNo != userSessionNo){
+		    $('#comList').append(`<li class="media">` + `
+		                                    <img src="` + contextPath + `/PicFinder?pic=1&table=member&column=memPic&idname=memNo&id=` + comVo.memNo + `" class="img-thumbnail" />` +
+		        `<div class="media-body">
+		                                        <h5 class="mt-0 mb-1">` + comVo.memName + `</h5>
+		                                        <p class="comCon">` + comVo.comCon + `</p>
+		                                        <small class="text-muted comTime">` + comVo.comTime + `</small>
+		                                    </div>
+		                                </li>`);	
+		}else if(comVo.memNo === userSessionNo){
+			$('#comList').append(`<li class="media">` + `
+		            <img src="` + contextPath + `/PicFinder?pic=1&table=member&column=memPic&idname=memNo&id=` + comVo.memNo + `" class="img-thumbnail" />` +
+		            `<div class="media-body">
+		                <h5 class="mt-0 mb-1">` + comVo.memName + `</h5>`+
+		                `<div class="dropdown" id="comD">
+		                            	<a class="dropdown-toggle" href="#" id="comDropdown`+comVo.comNo+`" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+		                            		<i class="bi bi-three-dots-vertical"></i>
+					                    </a>
+										  <div class="dropdown-menu" aria-labelledby="comDropdown`+comVo.comNo+`">
+										    <a class="dropdown-item" href="#">刪除留言</a>
+										    <a class="dropdown-item" data-toggle="collapse" href="#udCom`+comVo.comNo+`" role="button" aria-expanded="false" aria-controls="udCom`+comVo.comNo+`">修改</a>
+					   					  </div>
+										</div>`+
+		                `<p class="comCon">` + comVo.comCon + `</p>
+		                <div class="collapse" id="udCom`+comVo.comNo+`">
+		                		<div class="input-group">
+		                            <input type="text" class="form-control" placeholder="修改留言" id="udComCon">
+		                            <button class="btn btn-outline-secondary" id="udComButtom" type="submit">修改</button>
+		                        </div>
+						 </div>
+		                <small class="text-muted comTime">` + comVo.comTime + `</small>
+		            </div>
+		        </li>`);
+		}
+	}
 }
