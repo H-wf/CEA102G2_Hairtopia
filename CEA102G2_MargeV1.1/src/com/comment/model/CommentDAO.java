@@ -64,9 +64,25 @@ public class CommentDAO implements CommentDAO_Interface{
 		}  catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}	
+		}finally {
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
 		return new_comNo;
 	}
+		
 	@Override
 	public void update(CommentVO commentVo) {
 		Connection con = null;

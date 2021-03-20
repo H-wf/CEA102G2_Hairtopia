@@ -31,7 +31,7 @@
  	
 /* Whole post Css */
 #postModal .modal-dialog{
-    max-width: 70%;
+    max-width: 90%;
 }
 #postModal .close{
     margin-top: -15px;
@@ -121,6 +121,9 @@ color:#A6A6A6;
     top: 1.5%;
     left: 95%;
     position: absolute;
+}
+#comD{
+float:right;
 }
 .dropdown-toggle::after{
 content:none;

@@ -23,12 +23,10 @@
  
 </head>
 <style>
-
-/* .bi-three-dots-vertical#3dot{ */
-/* 	position: absolute; */
-/*     left: 95%; */
-/* } */
-
+.form-control#udComCon{
+    font-size: .9rem;
+    height: 1%!important;
+}
 </style>
 <body>
 <%@include file="/front-end/tempFile/navBar" %>
@@ -69,12 +67,14 @@
 <%@include file="/front-end/tempFile/tempJs" %>
 <script src="<%=request.getContextPath()%>/resource/js/postModal.js"></script>
 </body>
+<script>
+var userSessionNo = parseInt("${userSession.memNo}");
+var isDes = false;
+</script>
 <c:if test="${not empty desSession}">
 	<script>
-	var desSessionNo = "${desSession.desNo}";
+		var isDes = true;
+		var desSessionNo = parseInt("${desSession.desNo}");
 	</script>
 </c:if>
-<script>
-var userSessionNo = "${userSession.memNo}";
-</script>
 </html>

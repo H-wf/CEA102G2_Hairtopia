@@ -90,33 +90,65 @@ function showWholePost(commentList, postVo, tagNameList) {
             $('#tags').append(`<div>` + value + `</div>`);
         })
         $('#postTime').append( postVo.postTime);
-        
-        if(desSessionNo !== null && desSessionNo === postVo.desNo){
-        	$('#desInfo').append(`<div class="dropdown" id="postD">
-	                                    	<a class="dropdown-toggle" href="#" id="postDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-	                                    		<i class="bi bi-three-dots-vertical""></i>
-						                    </a>
-											  <div class="dropdown-menu" aria-labelledby="postDropdown">
-											    <a class="dropdown-item" href="#">隱藏此貼文</a>
-											    <a class="dropdown-item" href="#">修改</a>
-						   					  </div>
-										</div>`);
+        if(isDes === true){
+	        if(desSessionNo === postVo.desNo){
+	        	$('#desInfo').append(`<div class="dropdown" id="postD">
+		                                    	<a class="dropdown-toggle" href="#" id="postDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+		                                    		<i class="bi bi-three-dots-vertical""></i>
+							                    </a>
+												  <div class="dropdown-menu" aria-labelledby="postDropdown">
+												    <a class="dropdown-item" href="#">隱藏此貼文</a>
+												    <a class="dropdown-item" href="#">修改</a>
+							   					  </div>
+											</div>`);
+	        }
         }
 
         //post title 設置完成
 
         $.each(commentList, function(index,item) {
+        	
+        	
             if (item.comStatus != false) {
-                $('#comList').append(`<li class="media">` + `
-                                                <img src="` + contextPath + `/PicFinder?pic=1&table=member&column=memPic&idname=memNo&id=` + item.memNo + `" class="img-thumbnail" />` +
-                    `<div class="media-body">
-                                                    <h5 class="mt-0 mb-1">` + item.memName + `</h5>
-                                                    <p class="comCon">` + item.comCon + `</p>
-                                                    <small class="text-muted comTime">` + item.comTime + `</small>
-                                                </div>
-                                            </li>`);
+	            	if(item.memNo != userSessionNo){
+	                $('#comList').append(`<li class="media">` + `
+	                                                <img src="` + contextPath + `/PicFinder?pic=1&table=member&column=memPic&idname=memNo&id=` + item.memNo + `" class="img-thumbnail" />` +
+	                    `<div class="media-body">
+	                                                    <h5 class="mt-0 mb-1">` + item.memName + `</h5>
+	                                                    <p class="comCon">` + item.comCon + `</p>
+	                                                    <small class="text-muted comTime">` + item.comTime + `</small>
+	                                                </div>
+	                                            </li>`);
+	            }else if(item.memNo === userSessionNo){
+	            	$('#comList').append(`<li class="media">` + `
+	                        <img src="` + contextPath + `/PicFinder?pic=1&table=member&column=memPic&idname=memNo&id=` + item.memNo + `" class="img-thumbnail" />` +
+	                        `<div class="media-body">
+	                            <h5 class="mt-0 mb-1">` + item.memName + `</h5>`+
+	                            `<div class="dropdown" id="comD">
+		                                    	<a class="dropdown-toggle" href="#" id="comDropdown`+item.comNo+`" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+		                                    		<i class="bi bi-three-dots-vertical"></i>
+							                    </a>
+												  <div class="dropdown-menu" aria-labelledby="comDropdown`+item.comNo+`">
+												    <a class="dropdown-item" href="#">刪除留言</a>
+												    <a class="dropdown-item" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">修改</a>
+							   					  </div>
+												</div>`+
+	                            `<p class="comCon">` + item.comCon + `</p>
+	                            <div class="collapse" id="collapseExample">
+	                            		<div class="input-group">
+                                            <input type="text" class="form-control" placeholder="修改留言" id="udComCon">
+                                            <button class="btn btn-outline-secondary" id="udCom" type="submit">留言</button>
+                                        </div>
+								 </div>
+	                            <small class="text-muted comTime">` + item.comTime + `</small>
+	                        </div>
+	                    </li>`);
+	            }else{
+	            	console.log("XXXX");
+	            }
             }
         });
+        
 }
 
 function emptyModal(){

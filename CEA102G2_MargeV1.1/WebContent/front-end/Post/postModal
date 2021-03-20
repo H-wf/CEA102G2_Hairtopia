@@ -10,13 +10,13 @@
                     </button>
                     <div class="container-fluid">
                         <div class="row">
-                            <div class="col-md-6 pl-0">
+                            <div class="col-md-5 pl-0">
                                 <div id="carouselPostIndicators" class="carousel slide" data-ride="carousel">
                                     <div class="carousel-inner">
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-6 p-0">
+                            <div class="col-md-7 p-0">
                                 <div class="card-title" id="postTitle">
                                 	<div id="desInfo">
                                     	<h5></h5>
