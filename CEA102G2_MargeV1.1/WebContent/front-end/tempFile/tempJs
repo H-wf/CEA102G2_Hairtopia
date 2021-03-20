@@ -8,9 +8,9 @@
         <script src="<%=request.getContextPath()%>/dist/js/jquery.animateNumber.min.js"></script>
         <script src="<%=request.getContextPath()%>/dist/js/jquery.timepicker.min.js"></script>
         <script src="<%=request.getContextPath()%>/dist/js/jquery-ui.js"></script>
+        <script src="<%=request.getContextPath()%>/dist/js/popper.min.js"></script>
         <script src="<%=request.getContextPath()%>/dist/js/bootstrap.min.js"></script>
         <script src="<%=request.getContextPath()%>/dist/js/bootstrap-datepicker.js"></script>
-        <script src="<%=request.getContextPath()%>/dist/js/popper.min.js"></script>
         <script src="<%=request.getContextPath()%>/dist/js/aos.js"></script>
         <script src="<%=request.getContextPath()%>/dist/js/owl.carousel.min.js"></script><!-- << -->
         <script src="<%=request.getContextPath()%>/dist/js/scrollax.min.js"></script>

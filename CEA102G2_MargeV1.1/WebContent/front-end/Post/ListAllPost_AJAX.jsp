@@ -24,6 +24,10 @@
 </head>
 <style>
 
+/* .bi-three-dots-vertical#3dot{ */
+/* 	position: absolute; */
+/*     left: 95%; */
+/* } */
 
 </style>
 <body>
@@ -65,6 +69,11 @@
 <%@include file="/front-end/tempFile/tempJs" %>
 <script src="<%=request.getContextPath()%>/resource/js/postModal.js"></script>
 </body>
+<c:if test="${not empty desSession}">
+	<script>
+	var desSessionNo = "${desSession.desNo}";
+	</script>
+</c:if>
 <script>
 var userSessionNo = "${userSession.memNo}";
 </script>

@@ -108,4 +108,21 @@ margin-top:3%;
     display: inline;
     vertical-align: middle;
 }
+.bi-three-dots-vertical{
+color:#A6A6A6;
+}
+.bi-three-dots-vertical:hover{
+	color:#333333;
+	cursor:pointer;
+}
+#postD{
+    display: inline-block;
+    float: right;
+    top: 1.5%;
+    left: 95%;
+    position: absolute;
+}
+.dropdown-toggle::after{
+content:none;
+}
 /* Whole post Css END */

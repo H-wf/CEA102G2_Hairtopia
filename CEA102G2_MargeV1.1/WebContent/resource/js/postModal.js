@@ -48,6 +48,7 @@ $(document).ready(function(){
 				success:function(data){
 					var comVo =  JSON.parse(data);
 					addCom(comVo);
+					$('#comCon').val("");
 				},
 				error:function(){
 					console.log("AJAX ERROR!");
@@ -89,6 +90,18 @@ function showWholePost(commentList, postVo, tagNameList) {
             $('#tags').append(`<div>` + value + `</div>`);
         })
         $('#postTime').append( postVo.postTime);
+        
+        if(desSessionNo !== null && desSessionNo === postVo.desNo){
+        	$('#desInfo').append(`<div class="dropdown" id="postD">
+	                                    	<a class="dropdown-toggle" href="#" id="postDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+	                                    		<i class="bi bi-three-dots-vertical""></i>
+						                    </a>
+											  <div class="dropdown-menu" aria-labelledby="postDropdown">
+											    <a class="dropdown-item" href="#">隱藏此貼文</a>
+											    <a class="dropdown-item" href="#">修改</a>
+						   					  </div>
+										</div>`);
+        }
 
         //post title 設置完成
 
