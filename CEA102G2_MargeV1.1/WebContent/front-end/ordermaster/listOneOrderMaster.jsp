@@ -30,6 +30,10 @@
 		<th>訂購日期</th>
 		<th>訂單狀態</th>
 		<th>總金額</th>
+		<th>收件人姓名</th>
+		<th>收件人信箱</th>
+		<th>收件人手機</th>
+		<th>收件人地址</th>
 	</tr>
 	<tr>
 		<td>${ordermasterVO.ordNo}</td>
@@ -37,6 +41,10 @@
 		<td>${ordermasterVO.ordDate}</td>
 		<td>${ordermasterVO.ordStatus}</td>
 		<td>${ordermasterVO.ordAmt}</td>
+		<td>${ordermasterVO.ordName}</td>
+		<td>${ordermasterVO.ordEmail}</td>
+		<td>${ordermasterVO.ordPhone}</td>
+		<td>${ordermasterVO.ordAddr}</td>
 	</tr>
 
 </table>

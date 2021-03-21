@@ -22,6 +22,7 @@
 		<filter-name>loginFilter</filter-name>
 		<url-pattern>/front-end/member/NewFile.jsp</url-pattern>
 		<url-pattern>/front-end/product/Checkout.jsp</url-pattern>
+		<url-pattern>/front-end/ordermaster/listAllOrderMaster.jsp</url-pattern>
 		<dispatcher>REQUEST</dispatcher>
 		<dispatcher>FORWARD</dispatcher>
 		<dispatcher>INCLUDE</dispatcher>

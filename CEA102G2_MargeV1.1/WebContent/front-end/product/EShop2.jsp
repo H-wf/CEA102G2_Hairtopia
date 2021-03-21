@@ -10,9 +10,6 @@
  
 </head>
 	<style>
- 		.ftco-navbar-light{
-/*  			position:static; */
- 		}
         .cart{
         	right:15px;
         	bottom:78.5%;
@@ -239,7 +236,6 @@
 		}
 
     </style>
-</head>
 <body>
 <%@include file="/front-end/tempFile/navBar" %>
 

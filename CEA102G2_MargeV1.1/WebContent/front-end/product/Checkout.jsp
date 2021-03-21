@@ -256,27 +256,31 @@ input {
 						</tr>
 					</thead>
 					<tbody>
+						<form class="order" action="<%=request.getContextPath()%>/ordermaster/ordermaster.do" method="POST">					
 						<tr>
 							<td width="120">姓名</td>
-							<td><input type="text" class="name"></td>
+							<td style="color:red"><input type="text" class="name" name="ordName"></td>
 						</tr>
 						<tr>
 							<td width="120">信箱</td>
-							<td><input type="text" class="mail"></td>
+							<td style="color:red"><input type="email" class="mail" name="ordEmail"></td>
 						</tr>
 						<tr>
 							<td width="120">手機</td>
-							<td><input type="text" class="phone"></td>
+							<td style="color:red"><input type="tel" class="phone" name="ordPhone"></td>
 						</tr>
 						<tr>
 							<td width="120">地址</td>
-							<td><div id="twzipcode"></div>
-								<input type="text" style="width: 412px;" class="address"></td>
+							<td style="color:red"><div id="twzipcode"></div>
+								<input type="text" style="width: 412px;" class="address" name="ordAddr"></td>
 						</tr>
+						<input type="hidden" name="memNo" value="${sessionScope.memVO.memNo}">				 
+						<input type="hidden" name="ordAmt" class="ordAmt" value="${sessionScope.ordAmt}">
+						<input type="hidden" name="action" value="PAY">
+						</form>
 						<tr>
 							<td scope="col" colspan="2" style="padding-right:0;">
-								<input type="submit" class="btn btn-primary go3 section3" value="NEXT→" style="float: right;">
-								
+								<input type="submit" class="btn btn-primary go3 section3" value="NEXT→" style="float: right;">								
 							</td>
 						</tr>
 					</tbody>
@@ -332,16 +336,12 @@ input {
 				  </div>
 				</form>
 			 </div>
-			 <form action="<%=request.getContextPath()%>/ordermaster/ordermaster.do" method="POST">
-					<input type="hidden" name="memNo" value="${sessionScope.memVO.memNo}">
-					<input type="hidden" name="ordName" value="">
-					<input type="hidden" name="ordMail" value="">
-					<input type="hidden" name="ordAddr" value="">
-					<input type="hidden" name="ordName" value="">					 
-					<input type="hidden" name="ordAmt" class="ordAmt" value="${sessionScope.ordAmt}">
-					<input type="hidden" name="action" value="PAY"> 
-					<input type="submit" class="btn btn-primary" value="送出" style="float: right;">
-			</form>
+			 <input type="submit" class="btn btn-primary alert" value="送出" style="float: right;">			 
+<%-- 			 <form class="order" action="<%=request.getContextPath()%>/ordermaster/ordermaster.do" method="POST"> --%>
+<%-- 					<input type="hidden" name="memNo" value="${sessionScope.memVO.memNo}">				  --%>
+<%-- 					<input type="hidden" name="ordAmt" class="ordAmt" value="${sessionScope.ordAmt}"> --%>
+<!-- 					<input type="hidden" name="action" value="PAY">  -->
+<!-- 			</form> -->
 				
 			</div>
 			
@@ -351,14 +351,13 @@ input {
 	<!-- Page Content END -->
 <%-- 	<%@include file="/front-end/tempFile/footer"%> --%>
 	<%@include file="/front-end/tempFile/tempJs"%>
-	<script
-		src="https://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
-	<script
-		src="https://cdn.jsdelivr.net/npm/jquery-twzipcode@1.7.14/jquery.twzipcode.min.js"></script>
+<!-- 	<script -->
+<!-- 		src="https://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script> -->
+	<script src="https://cdn.jsdelivr.net/npm/jquery-twzipcode@1.7.14/jquery.twzipcode.min.js"></script>
 	<script src="<%=request.getContextPath()%>/resource/card-master/dist/jquery.card.js"></script>
-	<script>
 	
-//數量減少
+<script>	
+//點-數量減少
 $(".minus").click(function(){
 	var proNo = $(this).parent().parent("tr").find(".proNo").val();
 	var beforequantity = $(this).next(".quantity").val();
@@ -370,7 +369,7 @@ $(".minus").click(function(){
 		$(this).next(".quantity").attr("preValue",afterquantity);
 	}	
 });
-//數量增加
+//點+數量增加
 $(".plus").click(function(){
 	var proNo = $(this).parent().parent("tr").find(".proNo").val();
 	var beforequantity = $(this).prev().val();
@@ -389,82 +388,104 @@ $(".quantity").blur(function(){
 		$(this).attr("preValue",afterquantity);
 	}	
 });
+//當數量改變,更改購物車數量、金額
 function change(proNo,beforequantity,afterquantity){
 	$.ajax({
 		url:"<%=request.getContextPath()%>/product/product.do",
-				type : "POST",
-				data : {
-					action : "ADD",
-					proNo : proNo,
-					quantity : afterquantity - beforequantity
-				},
-				dataType : "json",
-				success : function(data) {
+		type : "POST",
+		data : {
+			action : "ADD",
+			proNo : proNo,
+			quantity : afterquantity - beforequantity
+		},
+		dataType : "json",
+		success : function(data) {
 					var total = 0;
 					for (let i = 0; i < data.length; i++) {
 						$(".subtotal").eq(i).html(
 								data[i].proPrice * data[i].quantity);
 						total += data[i].proPrice * data[i].quantity;
-					}
-					$(".total").html("NT$" + total);
-					$(".ordAmt").attr("value", total);
-				}
-			});
-
+				  }
+				  $(".total").html("NT$" + total);
+				  $(".ordAmt").attr("value", total);
 		}
-	</script>
-	<script>
-		//帶入3+2郵遞區號
-		$(document).ready(function() {
-			$("#twzipcode").twzipcode();
-			$("select").attr("class", "custom-select mr-2 custom-select-sm");
-			$("select").attr("style", "width:100px;height:28px");
-		});
-		//進度條的線
-		$(document).ready(
-				function() {
-					var h = $("table:first-child").height()
-							+ $("table:nth-child(2)").height()+10 
-					$("head").append(
-							"<style>.step2::after{ height:" + h + "}</style>");
-				});
-		$(document).ready(
-				function() {
-					var h = $("table:first-child").height() 
-						    + $("table:nth-child(3)").height()
-							+ $("table:nth-child(2)").height()+410
-					$("head").append(
-							"<style>.step3::after{ height:" + h + "}</style>");
-				});
-		$(".go2").click(function(){
-			$(".section2-1+div div:first-of-type").show();
-			$("html,body").animate({scrollTop:$(".section2").offset().top},800);
-		});
-		$(".go3").click(function(){
-			$(".section3-1+div div:first-of-type").show();
-			$("html,body").animate({scrollTop:$(".section3").offset().top},800);
-		});
-		$(".form-check-input").click(function() {
-			$(".name").val("${sessionScope.memVO.memName}");
-			$(".mail").val("${sessionScope.memVO.memEmail}");
-			$(".phone").val("${sessionScope.memVO.memPhone}");
-			$(".address").val("${sessionScope.memVO.memAddr}");
-		});
-	</script>
-	
-	
-	<script>
-	
+	});
+}	
+//帶入3+2郵遞區號
+$(document).ready(function() {	 
+	$("#twzipcode").twzipcode({
+	    onDistrictSelect: function() {
+			var country = $("select[name='county']").val();  // 取縣市的值
+			var district = $("select[name='district']").val();  // 取鄉鎮市區的值
+			var zipcode = $("input[name='zipcode']").val();  // 取郵遞區號的值
+			$(".address").val(zipcode+country+district);
+		}
+	});
+	$("select").attr("class", "custom-select mr-2 custom-select-sm");
+	$("select").attr("style", "width:100px;height:28px");
+});
+//step1到step2的線
+$(document).ready(function() {
+	var h = $("table:first-child").height()+$("table:nth-child(2)").height()+10 
+	$("head").append("<style>.step2::after{ height:" + h + "}</style>");
+});
+//step2到step3的線
+$(document).ready(function() {
+	var h = $("table:first-child").height()+$("table:nth-child(3)").height()+$("table:nth-child(2)").height()+410
+	$("head").append("<style>.step3::after{ height:" + h + "}</style>");
+});
+//點選next出現且滑動到下一個part
+$(".go2").click(function(){
+	$(".section2-1+div div:first-of-type").show();
+	$("html,body").animate({scrollTop:$(".section2").offset().top},800);
+});
+$(".go3").click(function(){
+	$(".section3-1+div div:first-of-type").show();
+	$("html,body").animate({scrollTop:$(".section3").offset().top},800);
+});
+//點選同上將訂購人資料帶入收件人資料
+$(".form-check-input").click(function() {
+	$(".name").val("${sessionScope.memVO.memName}");
+	$(".mail").val("${sessionScope.memVO.memEmail}");
+	$(".phone").val("${sessionScope.memVO.memPhone}");
+	$(".address").val("${sessionScope.memVO.memAddr}");
+});
 
-	$('#form11').card({ 
-			// a selector or DOM element for the container
-			// where you want the card to appear
-			container : '.card-wrapper', // *required*
 
-		// all of the other options from above
-		});
-	
-	</script>
-	
+//信用卡
+$('#form11').card({ 			
+	container : '.card-wrapper', 
+});
+//按送出後alert付款,按確認後,3秒後送出表單	ordermaster的servlet,action=PAY		
+$(".alert").click(function(){
+	//姓名信箱手機地址沒填則不能送出表單,且顯示警告字串在未填的欄位後
+	if($(".name").val().trim()==""||$(".mail").val().trim()==""||$(".phone").val().trim()==""||$(".address").val().trim()==""){
+		if($(".name").val().trim()==""){
+			$(".name").after(" *姓名不得為空");
+		}
+		if($(".mail").val().trim()==""){
+			$(".mail").after(" *信箱不得為空");
+		}
+		if($(".phone").val().trim()==""){
+			$(".phone").after(" *手機不得為空");
+		}
+		if($(".address").val().trim()==""){
+			$(".address").after(" *地址不得為空");
+		}
+	}else{
+		Swal.fire({
+			title: '確定付款?',
+			showDenyButton: true,
+			confirmButtonText: '確認',
+			denyButtonText: '在思考一下',
+		}).then((result) => {
+			if (result.isConfirmed) {
+				Swal.fire('Saved!', '', 'success');
+				setTimeout(function(){ $(".order").submit()}, 3000);
+			}			  
+		})
+	}	
+});	
+</script>
 </body>
 </html>
