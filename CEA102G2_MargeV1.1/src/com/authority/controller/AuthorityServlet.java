@@ -147,8 +147,8 @@ public class AuthorityServlet extends HttpServlet {
 							+ "------------------------\r\n" + "Username: " + staName + "\r\n" + "Password: " + staPswd
 							+ "\r\n" + "------------------------\r\n" + "  \r\n";
 				ms.sendMail(staAcct, subject, messageText);
-
-				staVO = staSvc.addStaff(staAcct, staPswd,staName);
+				Integer staStasus = new Integer("1");
+				staVO = staSvc.addStaff(staAcct, staPswd,staName,staStasus);
 				
 				
 				

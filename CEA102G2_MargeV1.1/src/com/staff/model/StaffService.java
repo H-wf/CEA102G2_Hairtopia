@@ -10,11 +10,12 @@ public class StaffService {
 		dao = new StaffDAO();
 	}
 
-	public StaffVO addStaff(String staAcct, String staPswd,String staName) {
+	public StaffVO addStaff(String staAcct, String staPswd,String staName,Integer staStatus) {
 		StaffVO staVO = new StaffVO();
 		staVO.setStaName(staName);
 		staVO.setStaAcct(staAcct);
 		staVO.setStaPswd(staPswd);
+		staVO.setStaStatus(staStatus);
 
 		dao.insert(staVO);
 
@@ -33,6 +34,13 @@ public class StaffService {
 		dao.update(staVO);
 
 		return staVO;
+	}
+	
+	public StaffVO updateStaff(StaffVO staVO) {
+		dao.update(staVO);
+		StaffVO newVO = dao.findByPrimaryKey(staVO.getStaNo());
+		
+		return newVO;
 	}
 
 	public void deleteStaff(Integer staNo) {

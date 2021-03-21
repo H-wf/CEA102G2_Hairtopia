@@ -434,28 +434,22 @@ session.setAttribute("memVO", memVO);
 				Integer desNo = new Integer(req.getParameter("desNo"));	
 				Integer desStatus = new Integer(req.getParameter("desStatus"));	
 
-				java.sql.Date desEndDate = null;
-				try {
-					desEndDate = java.sql.Date.valueOf(req.getParameter("desEndDate").trim());
-				} catch (IllegalArgumentException e) {
-					desEndDate = new java.sql.Date(System.currentTimeMillis());
-					errorMsgs.add("請輸入設計師到期日!");
-				}
+			
 
 				/*************************** 2.開始修改資料 *****************************************/
 				DesignerService designerSvc = new DesignerService();
 				DesignerVO designerVO = new DesignerVO();
-				designerSvc.updateOneStatus(desEndDate,desStatus,desNo);
+				designerSvc.updateOneStatus(desStatus,desNo);
 				designerVO=designerSvc.getOneDesByDesNo(desNo);
 				/*************************** 3.修改完成,準備轉交(Send the Success view) *************/
 				req.setAttribute("designerVO", designerVO); // 資料庫update成功後,正確的的empVO物件,存入req
-				String url = "/back-end/designer/update_designer_input_Back.jsp";
+				String url = "/back-end/designer/listAllDesigner.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url); // 修改成功後,轉交listOneEmp.jsp
 				successView.forward(req, res);
 				/*************************** 其他可能的錯誤處理 **********************************/
 			} catch (Exception e) {
 				errorMsgs.add("無法取得要修改的資料:" + e.getMessage());
-				RequestDispatcher failureView = req.getRequestDispatcher("/back-end/designer/listOneDesignerBack.jsp");
+				RequestDispatcher failureView = req.getRequestDispatcher("/back-end/designer/listAllDesigner.jsp");
 				failureView.forward(req, res);
 			}
 		}

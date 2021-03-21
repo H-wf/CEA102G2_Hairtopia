@@ -58,19 +58,32 @@
 		ACTION="<%=request.getContextPath()%>/lecturer/lecturer.do"
 		name="form" enctype="multipart/form-data">
 		<table>
+				<jsp:useBean id="staffSvc" scope="page"
+			class="com.staff.model.StaffService" />
+
+
+		
+				<tr>
+				<td><b>選擇員工:</b></td> 
+				<td>
+				<select size="1" name="staNo">
+					<c:forEach var="lecVO" items="${staffSvc.all}">
+						<option value="${lecVO.staNo}">${lecVO.staName}
+					</c:forEach>
+				</select>
+				</td>
+		
+			
+			
+			
+			</tr>
+		
 			<tr>
 				<td>講師名稱:</td>
 				<td><input type="TEXT" name="lecName" size="48"
 					value="<%=(lecVO == null) ? "" : lecVO.getLecName()%>" /></td>
 
 			</tr>
-			<tr>
-				<td>員工編號:</td>
-				<td><input type="TEXT" name="staNo" size="48"
-					value="<%=(lecVO == null) ? "" : lecVO.getStaNo()%>" /></td>
-
-			</tr>
-
 			<tr>
 				<td>講師照片</td>
 				<td><input type="file" name="upfile1" id="myFile"></td>

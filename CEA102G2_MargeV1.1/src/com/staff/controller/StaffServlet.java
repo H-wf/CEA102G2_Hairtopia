@@ -180,6 +180,66 @@ public class StaffServlet extends HttpServlet {
 				failureView.forward(req, res);
 			}
 		}
+		
+//修改員工狀態  離職使用		
+		if ("updateForResign".equals(action)) { // 來自update_lec_input.jsp的請求
+
+			List<String> errorMsgs = new LinkedList<String>();
+			// Store this set in the request scope, in case we need to
+			// send the ErrorPage view.
+			req.setAttribute("errorMsgs", errorMsgs);
+
+			try {
+				/*************************** 1.接收請求參數 - 輸入格式的錯誤處理 **********************/
+
+				Integer staNo = new Integer(req.getParameter("staNo").trim());
+				Integer staStatus =  new Integer(req.getParameter("staStatus").trim());
+				
+				
+				
+				
+			
+				
+				
+				StaffService staSvc = new StaffService();
+				StaffVO staVO = staSvc.getOneStaff(staNo);
+				
+				
+				
+				
+
+				// Send the use back to the form, if there were errors
+				if (!errorMsgs.isEmpty()) {
+					req.setAttribute("staVO", staVO); // 含有輸入格式錯誤的staVO物件,也存入req
+					RequestDispatcher failureView = req.getRequestDispatcher("/back-end/Staff/update_sta_input.jsp");
+					failureView.forward(req, res);
+					return; // 程式中斷
+				}
+				/*************************** 2.開始修改資料 *****************************************/
+				staVO.setStaStatus(staStatus);
+				staVO.setStaPswd(genAuthCode());
+	//修改狀態 & 密碼
+				StaffVO newStaVO = staSvc.updateStaff(staVO);
+				AuthorityService authSvc = new AuthorityService();
+				authSvc.deleteAuthority(staNo);
+				
+				
+
+				/*************************** 3.修改完成,準備轉交(Send the Success view) *************/
+				req.setAttribute("staVO", newStaVO); // 資料庫update成功後,正確的的lecVO物件,存入req
+				String url = "/back-end/Staff/listAll_sta.jsp";
+				RequestDispatcher successView = req.getRequestDispatcher(url); // 修改成功後,轉交listOneLec.jsp
+				successView.forward(req, res);
+
+				/*************************** 其他可能的錯誤處理 *************************************/
+			} catch (Exception e) {
+				errorMsgs.add("修改資料失敗:" + e.getMessage());
+				RequestDispatcher failureView = req.getRequestDispatcher("/back-end/Staff/update_sta_input.jsp");
+				failureView.forward(req, res);
+			}
+		}
+		
+//離職更新結束		
 
 		if ("update".equals(action)) { // 來自update_lec_input.jsp的請求
 
@@ -282,8 +342,9 @@ public class StaffServlet extends HttpServlet {
 				
 
 					StaffVO staVO = new StaffVO();
-					staVO.setStaAcct(staName);
+					staVO.setStaName(staName);
 					staVO.setStaAcct(staAcct);
+					Integer staStatus = new Integer(1);
 					
 				
 
@@ -310,8 +371,8 @@ public class StaffServlet extends HttpServlet {
 						+ "\r\n" + "------------------------\r\n" + "  \r\n";
 				ms.sendMail(staAcct, subject, messageText);
 
-				staVO = staSvc.addStaff(staAcct, staPswd,staName);
-System.out.println(staVO.getStaNo());				
+				staVO = staSvc.addStaff(staAcct, staPswd,staName,staStatus);
+			
 
 				/*************************** 3.新增完成,準備轉交(Send the Success view) ***********/
 				String url = "/back-end/Staff/listAll_sta.jsp";

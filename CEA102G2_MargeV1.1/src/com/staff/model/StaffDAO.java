@@ -133,17 +133,22 @@ public List<StaffVO> getAll() {
 	public static void main(String[] args) {
 		StaffDAO dao = new StaffDAO();
 		
-		List<StaffVO> list2 = dao.getAll();
-		for (StaffVO aDept : list2) {
-			System.out.print(aDept.getStaNo() + ",");
-			System.out.print(aDept.getStaName() + ",");
-			System.out.print(aDept.getStaAcct());
-			System.out.print(aDept.getStaPswd());
-			System.out.println("\n-----------------");
-			
-			
-			}
-			System.out.println();
+//		List<StaffVO> list2 = dao.getAll();
+//		for (StaffVO aDept : list2) {
+//			System.out.print(aDept.getStaNo() + ",");
+//			System.out.print(aDept.getStaName() + ",");
+//			System.out.print(aDept.getStaAcct());
+//			System.out.print(aDept.getStaPswd());
+//			System.out.println("\n-----------------");
+//			
+//			
+//			}
+//			System.out.println();
+		//修改 狀態 先查再改
+		StaffVO staVo= dao.findByPrimaryKey(1);
+		staVo.setStaNo(1);
+		staVo.setStaStatus(0);
+		dao.update(staVo);
 		}
 
 
