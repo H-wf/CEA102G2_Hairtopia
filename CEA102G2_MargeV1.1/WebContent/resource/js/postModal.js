@@ -8,7 +8,6 @@ $(document).ready(function(){
 						postNo:$(this).attr('id'),
 					},
 				success:function(data){
-					//console.log(data);
 					emptyModal();
 					var jData = JSON.parse(data);
 					
@@ -17,9 +16,6 @@ $(document).ready(function(){
 					var tagNameList = jData.tagNameList;
 					
 					showWholePost(commentList, postVo, tagNameList);
-// 					console.log(commentList.);
-// 					console.log(postVo);
-// 					console.log(tagNameList);
 					$('#postModal').modal('show');
 				},
 				error:function(){
@@ -107,8 +103,6 @@ function showWholePost(commentList, postVo, tagNameList) {
         //post title 設置完成
 
         $.each(commentList, function(index,item) {
-        	
-        	
             if (item.comStatus != false) {
 	            	if(item.memNo != userSessionNo){
 	                $('#comList').append(`<li class="media">` + `
@@ -133,11 +127,11 @@ function showWholePost(commentList, postVo, tagNameList) {
 												    <a class="dropdown-item" data-toggle="collapse" href="#udCom`+item.comNo+`" role="button" aria-expanded="false" aria-controls="udCom`+item.comNo+`">修改</a>
 							   					  </div>
 												</div>`+
-	                            `<p class="comCon">` + item.comCon + `</p>
+	                            `<p class="comCon" id="comCon`+item.comNo+`">` + item.comCon + `</p>
 	                            <div class="collapse" id="udCom`+item.comNo+`">
 	                            		<div class="input-group">
                                             <input type="text" class="form-control udComCon" placeholder="修改留言" id="udComCon`+item.comNo+`">
-                                            <button class="btn btn-outline-secondary udComButtom" id="" type="submit">修改</button>
+                                            <button class="btn btn-outline-secondary udComButtom" id="`+item.comNo+`" type="submit">修改</button>
                                         </div>
 								 </div>
 	                            <small class="text-muted comTime">` + item.comTime + `</small>
@@ -147,17 +141,33 @@ function showWholePost(commentList, postVo, tagNameList) {
             }
         });
         $('.udComButtom').on('click',function(){
-//			$.ajax({
-//				type:"POST",
-//				url:contextPath + "/comment/comment.do",
-//				data:{
-//					action:"updateComByAJAX",
-//					comNo:$(this).attr('comNo'),
-//					comCon:$(this).prev().val(),
-//				},
-//			});
-			window.alert("IN!!");
-			console.log($(this).prev('input').val());
+        	if($(this).prev('input').val().trim().length === 0 ){
+				window.alert("請輸入修改內容。");
+				return false;
+			}
+			$.ajax({
+				type:"POST",
+				url:contextPath + "/comment/comment.do",
+				data:{
+					action:"updateComByAJAX",
+					comNo:$(this).attr('id'),
+					comCon:$(this).prev('input').val(),
+				},
+				success:function(data){
+					var  comVo =  JSON.parse(data);
+					var comNo = comVo.comNo;
+					var comConId ='#comCon'+comNo;
+					var udComId = '#udCom'+comNo;
+					var udComConId='#udComCon'+comNo;
+					$(comConId).text(comVo.comCon);
+					$(udComConId).val('');
+					$(udComId).collapse('hide');
+					window.alert("留言已修改。");
+				},
+				error:function(){
+					console.log("AJAX ERROR!!")
+				},
+			});
 		});
         
 }
@@ -179,9 +189,6 @@ function emptyModal(){
 	
 }
 function addCom(comVo){
-console.log(comVo.comStatus);
-console.log(comVo.memName);
-
 		if (comVo.comStatus != false) {
 			if(comVo.memNo != userSessionNo){
 		    $('#comList').append(`<li class="media">` + `
@@ -194,41 +201,57 @@ console.log(comVo.memName);
 		                                </li>`);	
 		}else if(comVo.memNo === userSessionNo){
 			$('#comList').append(`<li class="media">` + `
-		            <img src="` + contextPath + `/PicFinder?pic=1&table=member&column=memPic&idname=memNo&id=` + comVo.memNo + `" class="img-thumbnail" />` +
-		            `<div class="media-body">
-		                <h5 class="mt-0 mb-1">` + comVo.memName + `</h5>`+
-		                `<div class="dropdown" id="comD">
-		                            	<a class="dropdown-toggle" href="#" id="comDropdown`+comVo.comNo+`" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-		                            		<i class="bi bi-three-dots-vertical"></i>
+                    <img src="` + contextPath + `/PicFinder?pic=1&table=member&column=memPic&idname=memNo&id=` + comVo.memNo + `" class="img-thumbnail" />` +
+                    `<div class="media-body">
+                        <h5 class="mt-0 mb-1">` + comVo.memName + `</h5>`+
+                        `<div class="dropdown" id="comD">
+                                    	<a class="dropdown-toggle" href="#" id="comDropdown`+comVo.comNo+`" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    		<i class="bi bi-three-dots-vertical"></i>
 					                    </a>
 										  <div class="dropdown-menu" aria-labelledby="comDropdown`+comVo.comNo+`">
 										    <a class="dropdown-item" href="#">刪除留言</a>
 										    <a class="dropdown-item" data-toggle="collapse" href="#udCom`+comVo.comNo+`" role="button" aria-expanded="false" aria-controls="udCom`+comVo.comNo+`">修改</a>
 					   					  </div>
 										</div>`+
-		                `<p class="comCon">` + comVo.comCon + `</p>
-		                <div class="collapse" id="udCom`+comVo.comNo+`">
-		                		<div class="input-group">
-		                            <input type="text" class="form-control" placeholder="修改留言" id="udComCon">
-		                            <button class="btn btn-outline-secondary udComButtom" id="" type="submit">修改</button>
-		                        </div>
+                        `<p class="comCon" id="comCon`+comVo.comNo+`">` + comVo.comCon + `</p>
+                        <div class="collapse" id="udCom`+comVo.comNo+`">
+                        		<div class="input-group">
+                                    <input type="text" class="form-control udComCon" placeholder="修改留言" id="udComCon`+comVo.comNo+`">
+                                    <button class="btn btn-outline-secondary udComButtom" id="`+comVo.comNo+`" type="submit">修改</button>
+                                </div>
 						 </div>
-		                <small class="text-muted comTime">` + comVo.comTime + `</small>
-		            </div>
-		        </li>`);
+                        <small class="text-muted comTime">` + comVo.comTime + `</small>
+                    </div>
+                </li>`);
 		}
 	}
 		$('.udComButtom').on('click',function(){
-//			$.ajax({
-//				type:"POST",
-//				url:contextPath + "/comment/comment.do",
-//				data:{
-//					action:"updateComByAJAX",
-//					comNo:$(this).attr('comNo'),
-//					comCon:$(this).prev().val(),
-//				},
-//			});
-			window.alert("IN!!");
-			console.log($(this).prev('input').val());
+        	if($(this).prev('input').val().trim().length === 0 ){
+				window.alert("請輸入修改內容。");
+				return false;
+			}
+        	$.ajax({
+				type:"POST",
+				url:contextPath + "/comment/comment.do",
+				data:{
+					action:"updateComByAJAX",
+					comNo:$(this).attr('id'),
+					comCon:$(this).prev('input').val(),
+				},
+				success:function(data){
+					var  comVo =  JSON.parse(data);
+					var comNo = comVo.comNo;
+					var comConId ='#comCon'+comNo;
+					var udComId = '#udCom'+comNo;
+					var udComConId='#udComCon'+comNo;
+					$(comConId).text(comVo.comCon);
+					$(udComConId).text('');
+					$(udComId).collapse('hide');
+					window.alert("留言已修改。");
+				},
+				error:function(){
+					console.log("AJAX ERROR!!")
+				},
+			});
 		});
 }

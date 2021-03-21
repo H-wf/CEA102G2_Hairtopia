@@ -128,4 +128,8 @@ float:right;
 .dropdown-toggle::after{
 content:none;
 }
+.form-control.udComCon{
+    font-size: .9rem;
+    height: 1%!important;
+}
 /* Whole post Css END */

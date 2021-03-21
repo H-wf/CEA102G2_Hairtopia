@@ -42,6 +42,7 @@
 	                        	<img src="<%=request.getContextPath()%>/PicFinder?pic=1&table=Designer&column=desPic&idname=desNo&id=${designerVO.desNo}" alt='沒有圖片' 
 	                        	class="rounded mb-2 img-thumbnail" />
 		                        <a href="#" class="btn btn-outline-dark btn-sm btn-block">Edit profile</a>
+		                        <a href="#" class="btn btn-outline-dark btn-sm btn-block" id="addPostBtn">Add Post</a>
 	                        </div>
 	                        <div class="media-body mb-5 text-white myrow">
 	                            <h4 class="mt-0 mb-0" >${designerVO.desName}</h4>
@@ -211,6 +212,10 @@
 							}
 					});
 				}
+		});
+		
+		$('#addPostBtn').on('click',function(){
+			
 		});
 		
 	});

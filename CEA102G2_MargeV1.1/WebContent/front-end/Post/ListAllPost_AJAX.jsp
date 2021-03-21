@@ -23,10 +23,7 @@
  
 </head>
 <style>
-.form-control.udComCon{
-    font-size: .9rem;
-    height: 1%!important;
-}
+
 </style>
 <body>
 <%@include file="/front-end/tempFile/navBar" %>
@@ -67,14 +64,5 @@
 <%@include file="/front-end/tempFile/tempJs" %>
 <script src="<%=request.getContextPath()%>/resource/js/postModal.js"></script>
 </body>
-<script>
-var userSessionNo = parseInt("${userSession.memNo}");
-var isDes = false;
-</script>
-<c:if test="${not empty desSession}">
-	<script>
-		var isDes = true;
-		var desSessionNo = parseInt("${desSession.desNo}");
-	</script>
-</c:if>
+
 </html>

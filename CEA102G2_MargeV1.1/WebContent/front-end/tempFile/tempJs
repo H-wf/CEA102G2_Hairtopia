@@ -18,10 +18,13 @@
         <script src="<%=request.getContextPath()%>/dist/slick/slick.min.js"></script>
         <script src="<%=request.getContextPath()%>/resource/sweetAlert2/dist/sweetalert2.min.js"></script>
         <script src="<%=request.getContextPath()%>/resource/js/SearchBar.js"></script>
-        <script>
-	        $('#loginModal').on('shown.bs.modal', function() {
-		    $('#myInput').trigger('focus')
-			});
-			
-        </script>
-        
+<script>
+var userSessionNo = parseInt("${userSession.memNo}");
+var isDes = false;
+</script>
+<c:if test="${not empty desSession}">
+	<script>
+		var isDes = true;
+		var desSessionNo = parseInt("${desSession.desNo}");
+	</script>
+</c:if>        

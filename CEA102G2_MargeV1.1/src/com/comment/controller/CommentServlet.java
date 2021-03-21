@@ -164,7 +164,7 @@ public class CommentServlet extends HttpServlet {
 			CommentService commentSvc = new CommentService();
 			CommentVO comVoAJAX = commentSvc.addComment(postNo,memNo,comCon);
 			String jsonStr = gson.toJson(comVoAJAX);
-System.out.println(jsonStr);
+
 			res.setContentType("text/plain");
 			res.setCharacterEncoding("UTF-8");
 			PrintWriter out = res.getWriter();
@@ -184,7 +184,16 @@ System.out.println(jsonStr);
 			commentVo.setComCon(comCon);
 			
 			CommentService commentSvc = new CommentService();
-			commentSvc.updateComment(comNo, comCon);
+			commentVo = commentSvc.updateComment(comNo, comCon);
+			
+			String jsonStr = gson.toJson(commentVo);
+			res.setContentType("text/plain");
+			res.setCharacterEncoding("UTF-8");
+			PrintWriter out = res.getWriter();
+			out.print(jsonStr);
+			out.flush();
+			out.close();
+			return;
 		}
 		
 	}

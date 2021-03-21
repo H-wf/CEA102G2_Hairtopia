@@ -22,7 +22,7 @@
     <link rel="stylesheet" href="<%=request.getContextPath()%>/dist/css/bootstrap-datepicker.css">
     <link rel="stylesheet" href="<%=request.getContextPath()%>/dist/css/jquery.timepicker.css">
     <link rel="stylesheet" href="<%=request.getContextPath()%>/dist/css/style.css">
-    <link rel="stylesheet" href="<%=request.getContextPath()%>/dist/tagify/tagify.css">
+    <link rel="stylesheet" href="<%=request.getContextPath()%>/resource/tagify/dist/tagify.css">
 
     
 </head>
@@ -134,9 +134,8 @@
 		name="form" enctype="multipart/form-data">
 		<table>
 			<tr>
-				<td>設計師編號:</td>
-				<td><input type="TEXT" name="desNo" size="48" 
-					value="<%=(postVO == null) ? "" : postVO.getDesNo()%>" /></td>
+				<td><input readonly type="text" name="desNo" size="48" 
+					value="${desSession.desno}" /></td>
 			</tr>
 			<tr>
 			<td>標籤</td>
@@ -164,14 +163,6 @@
 			</tr>
 			
 			<tr>
-				<td>是否置頂</td>
-				<td><input type="radio" name="postPror" 
-					value="true" /> 是
-					<input type="radio" name="postPror" 
-					value="false"  checked/> 否
-				</td>
-			</tr>	
-			<tr>
 				<td>貼文編輯</td>
 				<td><textarea id='postCon' row="10" cols="48" name="postCon"
 						size="45" >${postVO.postCon}</textarea>
@@ -179,7 +170,7 @@
 			</tr>
 		</table>
 		<br> <input name="action" value="insert" type="hidden"> <input
-			type="button" value="新增" onclick="processData()">
+			type="button" value="新增" >
 
 	</form>
 </body>
@@ -198,8 +189,7 @@
 <script src="<%=request.getContextPath()%>/dist/js/owl.carousel.min.js"></script><!-- << -->
 <script src="<%=request.getContextPath()%>/dist/js/scrollax.min.js"></script>
 <script src="<%=request.getContextPath()%>/dist/js/main.js"></script>
-<script src="<%=request.getContextPath()%>/resource/ckeditor/ckeditor.js"></script>
-<script src="<%=request.getContextPath()%>/dist/tagify/jQuery.tagify.min.js"></script>
+<script src="<%=request.getContextPath()%>/resource/tagify/dist/jQuery.tagify.min.js"></script>
 <script>
         $('#loginModal').on('shown.bs.modal', function() {
             $('#myInput').trigger('focus')
@@ -207,15 +197,7 @@
         
         $('#tagName').tagify();
         
-        window.onload=function () {
-			CKEDITOR.replace('postCon');
-		}
         
-        function processData() {
-    		// getting data
-    		var data = CKEDITOR.instances.postCon.getData()
-    		form.submit();
-    	}
 </script>
 
 </html>

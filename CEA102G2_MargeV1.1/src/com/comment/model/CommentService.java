@@ -25,7 +25,6 @@ public class CommentService {
 		commentVo=dao.getOneCom(new_comNo);
 		String memName = new MemService().getOneMemName(commentVo.getMemNo());
 		commentVo.setMemName(memName);
-		System.out.println(memName);
 		
 		return commentVo;
 	}
@@ -40,7 +39,6 @@ public class CommentService {
 		for(CommentVO comVo : listComVO) {
 			String memName = new MemService().getOneMemName(comVo.getMemNo());
 			comVo.setMemName(memName);
-System.out.println(memName);
 		}
 		
 		return listComVO;
@@ -55,6 +53,8 @@ System.out.println(memName);
 		commentVo.setComCon(comCon);
 		
 		dao.update(commentVo);
+		
+		commentVo = dao.getOneCom(comNo);
 		
 		return commentVo;
 	}
