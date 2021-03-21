@@ -260,7 +260,7 @@
             	<div class="col-8 name">${productVO.proName}<br>Qty:<i>${productVO.quantity}</i></div>
             </c:forEach>
             <hr color="white" style="margin-bottom:0;">
-            <div class="checkout"><a href="<%=request.getContextPath()%>/product/product.do?action=CHECKOUT">CHECKOUT</a></div>
+            <div class="checkout"><a href="<%=request.getContextPath()%>/product/product.do?action=CHECKOUT&from=EShop2.jsp">CHECKOUT</a></div>
     	</div>        
     </div>
     
@@ -320,7 +320,7 @@
                	 金額
             </button>
             <div class="dropdown-menu price">
-                <a class="dropdown-item" href="##">100</a>
+                <a class="dropdown-item" href="##">100以下</a>
                 <a class="dropdown-item" href="##">100~500</a>
                 <a class="dropdown-item" href="##">500以上</a>
             </div>
@@ -381,11 +381,8 @@
         	myKey.splice(index,1);
         	myValue.splice(index,1);
         	filter();
-            $(this).parent(".label-primary").remove();
-            
-        });
-        
-       
+            $(this).parent(".label-primary").remove();                        
+        });       
         $(document).on("click", ".btn-outline-success", function() {
             if ($(".form-control").val() !== "") {
                 var text = "<lable class='label-primary search'>" + $(".form-control").val() + "&nbsp;<a><img src='"+$(".PageContext").val()+"/dist/images/x.png'></a></lable>";
@@ -397,58 +394,58 @@
        		
         });
         $(".brand").on("click", ".dropdown-item", function() {
-            var text = "<lable class='label-primary'>" + $(this).text() + "&nbsp;<a><img src='"+$(".PageContext").val()+"/dist/images/x.png'></a></lable>";
-            var str = $(this).text();
+            var text = "<lable class='label-primary'>" + $(this).text() + "&nbsp;<a><img src='"+$(".PageContext").val()+"/dist/images/x.png'></a></lable>";         
 			var i = myKey.indexOf("brand")
 			if(i==-1){
 				myKey.push("brand");
-             	myValue.push(str);
+				myValue.push($(this).text());
                 $(".searchbar").before("\n" + text);
 			}else{		
 				myKey.splice(i,1,"brand");
-        		myValue.splice(i,1,str);      		
+				myValue.splice(i,1,$(this).text());
         		$(".label-primary").eq(i).html($(this).text() + "&nbsp;<a><img src='"+$(".PageContext").val()+"/dist/images/x.png'></a>");        		
 			}
           	filter();
-				
         }); 
         $(".ptype").on("click", ".dropdown-item", function() {
         	var text = "<lable class='label-primary'>" + $(this).text() + "&nbsp;<a><img src='"+$(".PageContext").val()+"/dist/images/x.png'></a></lable>";
-            var str = $(this).text();
 			var i = myKey.indexOf("ptype")
 			if(i==-1){
 				myKey.push("ptype");
-             	myValue.push(str);
+				myValue.push($(this).text());
                 $(".searchbar").before("\n" + text);
 			}else{		
-				myKey.splice(i,1,"ptype");
-        		myValue.splice(i,1,str);      		
+				myKey.splice(i,1,"ptype");  
+				myValue.splice(i,1,$(this).text())
         		$(".label-primary").eq(i).html($(this).text() + "&nbsp;<a><img src='"+$(".PageContext").val()+"/dist/images/x.png'></a>");        		
 			}
            	filter();
-           		
         });
         $(".price").on("click", ".dropdown-item", function() {
-            var text = "<lable class='label-primary fromprice'>" + $(this).text() + "&nbsp;<a><img src='"+$(".PageContext").val()+"/dist/images/x.png'></a></lable>";
-            $(".searchbar").before("\n" + text);
-            
+            var text = "<lable class='label-primary'>" + $(this).text() + "&nbsp;<a><img src='"+$(".PageContext").val()+"/dist/images/x.png'></a></lable>";
+            var i = myKey.indexOf("price")
+			if(i==-1){
+				myKey.push("price");
+				myValue.push($(this).text());
+                $(".searchbar").before("\n" + text);
+			}else{		
+				myKey.splice(i,1,"price");  
+				myValue.splice(i,1,$(this).text())
+        		$(".label-primary").eq(i).html($(this).text() + "&nbsp;<a><img src='"+$(".PageContext").val()+"/dist/images/x.png'></a>");        		
+			}
+           	filter();            
         });
         
 
-        function filter(){
-        	if(myKey.length==0){
-        		$(".products").each(function(){        			
-       				$(this).show();       				
-       			});       				
-        	}
-        	for(let i=0;i<myKey.length;i++){
-
+        function filter(){       	
+        	$(".products").each(function(){        			
+       			$(this).show();       				
+       		});       				            	
+        	for(let i=0;i<myKey.length;i++){        		       		
 	        	if(myKey[i]=="brand"){
 	        		$(".products").each(function(){
 	        			if($(this).find(".braName").val()!=myValue[i]){
 	       					$(this).hide();
-	       				}else{
-	       					$(this).show();
 	       				}
 	       			});       				
 	        	}        		
@@ -456,29 +453,46 @@
 	       			$(".products").each(function(){
 	       				if($(this).find(".ptypeName").val()!=myValue[i]){
 	       					$(this).hide();
-	       				}else{
-	       					$(this).show();
 	       				}
 	       			});       				
 	       		}
+	        	if(myKey[i]=="price"){
+	        		if(myValue[i]=="100以下"){
+	        			$(".products").each(function(){
+		       				if(parseInt($(this).find(".proPrice").val())>100){
+		       					$(this).hide();
+		       				}
+		       			}); 
+	        		}
+	        		if(myValue[i]=="100~500"){
+	        			$(".products").each(function(){
+		       				if(parseInt($(this).find(".proPrice").val())<100||parseInt($(this).find(".proPrice").val())>500){
+		       					$(this).hide();
+		       				}
+		       			}); 
+	        		}
+	        		if(myValue[i]=="500以上"){
+	        			$(".products").each(function(){
+		       				if(parseInt($(this).find(".proPrice").val())<500){
+		       					$(this).hide();
+		       				}
+		       			}); 
+	        		}
+	        	}
 	        	if(myKey[i]=="search"){
-	        		console.log(myValue[i]);
 	       			$(".products").each(function(){
-	       				var ptypName =$(this).find(".ptypeName").val();
+	       				var ptypeName =$(this).find(".ptypeName").val();	       				
 	       				var braName =$(this).find(".braName").val();
 	       				var proName =$(this).find(".proName").val();
-	       				var proPrice = $(this).find(".proPrice").val();        			
-	       				if(myValue[i]!=ptypName&&braName&&proName&&proPrice){
+	       				var proPrice = $(this).find(".proPrice").val();
+	       				var re = new RegExp(myValue[i], "g" );
+	       				if(re.exec(ptypeName)==null&&re.exec(braName)==null&&re.exec(proName)==null&&re.exec(proPrice)==null){
 	       					$(this).hide();
-	       				}else{
-	       					$(this).show();
 	       				}
         			});       				
 	        	}
-        	}
-       	
-       }
-        
+        	}      	
+      }
     </script>
 
 </body>

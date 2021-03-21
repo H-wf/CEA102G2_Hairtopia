@@ -198,7 +198,7 @@
  	} 
         .carousel-indicators {
             position: absolute;
-            bottom: -20%;
+            bottom: -15%;
         }
 
         .carousel-indicators .active {
@@ -248,7 +248,7 @@
             	<div class="col-8 name">${productVO.proName}<br>Qty:<i>${productVO.quantity}</i></div>
             </c:forEach>
             <hr color="white" style="margin-bottom:0;">
-            <div class="checkout"><a href="<%=request.getContextPath()%>/product/product.do?action=CHECKOUT">CHECKOUT</a></div>
+            <div class="checkout"><a href="<%=request.getContextPath()%>/product/product.do?action=CHECKOUT&from=EShop2.jsp">CHECKOUT</a></div>
     	</div>   
     </div>
 	<div class="row">

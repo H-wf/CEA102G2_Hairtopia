@@ -1,9 +1,12 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ page import="com.member.model.*,com.ordermaster.model.*, java.util.*"%>
 
 <jsp:useBean id="orddSvc" scope="page" class="com.orderdetail.model.OrderDetailService" />
 <jsp:useBean id="proSvc" scope="page" class="com.product.model.ProductService" />
+<jsp:useBean id="ptypeSvc" scope="page" class="com.ptype.model.PtypeService" />
+<jsp:useBean id="brandSvc" scope="page" class="com.brand.model.BrandService" />
 <!DOCTYPE html>
 <html>
 <head>
@@ -63,7 +66,7 @@
 				</div>
 				<div class="col-6">
 					<ul>
-						<li>訂購日期:&emsp;${ordermasterVO.ordDate}
+						<li>訂購日期:&emsp;<fmt:formatDate pattern="yyyy-MM-dd" value="${ordermasterVO.ordDate}" />
 						<li>付款方式:&emsp;信用卡
 					</ul>
 				</div>						
@@ -75,6 +78,9 @@
 						<th scope="col">#</th>
 						<th scope="col">商品圖片</th>
 						<th scope="col">商品名稱</th>
+						<th scope="col">商品類別</th>
+						<th scope="col">品牌名稱</th>
+						<th scope="col">價格</th>
 						<th scope="col">數量</th>
 						<th scope="col">小計</th>
 					</tr>
@@ -88,6 +94,9 @@
 						<th scope="row">${i}</th>
 						<td><img src="<%=request.getContextPath()%>/PicFinder?pic=1&table=product&column=proMpic&idname=proNo&id=${orddVO.proNo}"alt='沒有圖片' width="50" height="40"></td>
 						<td>${proSvc.getOneProduct(orddVO.proNo).proName}</td>
+						<td>${ptypeSvc.getOnePtype(proSvc.getOneProduct(orddVO.proNo).ptypeNo).ptypeName}</td>
+						<td>${brandSvc.getOneBrand(proSvc.getOneProduct(orddVO.proNo).braNo).braName}</td>
+						<td>${proSvc.getOneProduct(orddVO.proNo).proPrice}</td>
 						<td>${orddVO.ordDetAmt}</td>
 						<td>${orddVO.ordDetPrice}</td>
 					</tr>
@@ -95,6 +104,9 @@
 			      	</c:forEach>
 			      	<tr>
 					    <th scope="row"></th>
+					    <td></td>
+					    <td></td>
+					    <td></td>
 					    <td></td>
 					    <td></td>
 						<td>TOTAL</td>

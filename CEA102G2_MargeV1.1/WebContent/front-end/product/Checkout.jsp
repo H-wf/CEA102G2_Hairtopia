@@ -163,8 +163,10 @@ input {
 						</tr>
 					</thead>
 					<tbody>
+						<c:set var="total" value="0"/>
 						<c:forEach var="productVO" items="${sessionScope.shoppingcart}"
 							varStatus="i">
+						<c:set var="total" value="${total+(productVO.proPrice)*(productVO.quantity)}"/>
 							<tr>
 								<th scope="row" style="padding-left: 10px; padding-right: 10px;">${i.index+1}</th>
 								<td>${ptypeSvc.getOnePtype(productVO.ptypeNo).ptypeName}</td>
@@ -187,15 +189,16 @@ input {
 										viewBox="0 0 16 16">
 	  				  <path
 											d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z" />
-				  </svg></td>
+				  </svg></td>	
 								<td class="subtotal">${(productVO.proPrice)*(productVO.quantity)}</td>
 								<input type="hidden" class="proNo" value="${productVO.proNo}">
 							</tr>
 						</c:forEach>
 						<tr>
 							<th scope="row"></th>
-							<td colspan="6">TOTAL</td>
-							<td class="total">NT$${sessionScope.ordAmt}</td>
+							<td colspan="5">TOTAL</td>
+							<td style="text-align:right;">NT$</td>
+							<td class="total">${total}</td>
 						</tr>
 						<tr>
 							<td scope="col" colspan="8">
@@ -259,19 +262,19 @@ input {
 						<form class="order" action="<%=request.getContextPath()%>/ordermaster/ordermaster.do" method="POST">					
 						<tr>
 							<td width="120">姓名</td>
-							<td style="color:red"><input type="text" class="name" name="ordName"></td>
+							<td><input type="text" class="name" name="ordName"></td>
 						</tr>
 						<tr>
 							<td width="120">信箱</td>
-							<td style="color:red"><input type="email" class="mail" name="ordEmail"></td>
+							<td><input type="email" class="mail" name="ordEmail"></td>
 						</tr>
 						<tr>
 							<td width="120">手機</td>
-							<td style="color:red"><input type="tel" class="phone" name="ordPhone"></td>
+							<td><input type="tel" class="phone" name="ordPhone"></td>
 						</tr>
 						<tr>
 							<td width="120">地址</td>
-							<td style="color:red"><div id="twzipcode"></div>
+							<td><div id="twzipcode"></div>
 								<input type="text" style="width: 412px;" class="address" name="ordAddr"></td>
 						</tr>
 						<input type="hidden" name="memNo" value="${sessionScope.memVO.memNo}">				 
@@ -406,7 +409,7 @@ function change(proNo,beforequantity,afterquantity){
 								data[i].proPrice * data[i].quantity);
 						total += data[i].proPrice * data[i].quantity;
 				  }
-				  $(".total").html("NT$" + total);
+				  $(".total").html(total);
 				  $(".ordAmt").attr("value", total);
 		}
 	});
@@ -426,12 +429,12 @@ $(document).ready(function() {
 });
 //step1到step2的線
 $(document).ready(function() {
-	var h = $("table:first-child").height()+$("table:nth-child(2)").height()+10 
+	var h = $("table:first-child").height()+10 
 	$("head").append("<style>.step2::after{ height:" + h + "}</style>");
 });
 //step2到step3的線
 $(document).ready(function() {
-	var h = $("table:first-child").height()+$("table:nth-child(3)").height()+$("table:nth-child(2)").height()+410
+	var h = $("table:first-child").height()+410
 	$("head").append("<style>.step3::after{ height:" + h + "}</style>");
 });
 //點選next出現且滑動到下一個part
@@ -460,28 +463,32 @@ $('#form11').card({
 $(".alert").click(function(){
 	//姓名信箱手機地址沒填則不能送出表單,且顯示警告字串在未填的欄位後
 	if($(".name").val().trim()==""||$(".mail").val().trim()==""||$(".phone").val().trim()==""||$(".address").val().trim()==""){
-		if($(".name").val().trim()==""){
-			$(".name").after(" *姓名不得為空");
+		$(".name").next().remove();
+		$(".mail").next().remove();
+		$(".phone").next().remove();
+		$(".address").next().remove();
+		if($(".name").val().trim()==""){			
+			$(".name").after("<span style='color:red'> *姓名不得為空</span>");
 		}
-		if($(".mail").val().trim()==""){
-			$(".mail").after(" *信箱不得為空");
+		if($(".mail").val().trim()==""){			
+			$(".mail").after("<span style='color:red'> *信箱不得為空</span>");
 		}
-		if($(".phone").val().trim()==""){
-			$(".phone").after(" *手機不得為空");
+		if($(".phone").val().trim()==""){			
+			$(".phone").after("<span style='color:red'> *手機不得為空</span>");
 		}
-		if($(".address").val().trim()==""){
-			$(".address").after(" *地址不得為空");
+		if($(".address").val().trim()==""){			
+			$(".address").after("<span style='color:red'> *地址不得為空</span>");
 		}
 	}else{
 		Swal.fire({
 			title: '確定付款?',
 			showDenyButton: true,
 			confirmButtonText: '確認',
-			denyButtonText: '在思考一下',
+			denyButtonText: '請讓我三思',
 		}).then((result) => {
 			if (result.isConfirmed) {
 				Swal.fire('Saved!', '', 'success');
-				setTimeout(function(){ $(".order").submit()}, 3000);
+				setTimeout(function(){ $(".order").submit()}, 2000);
 			}			  
 		})
 	}	
