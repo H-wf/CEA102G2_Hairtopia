@@ -49,6 +49,13 @@ input[type=file],.tagify.form-control {
 #addPostModal .form-check-label{
 font-size: .9rem;
 }
+#swal2-content{
+display:inline-block !important;
+text-align:center;
+}
+#swal2-content li{
+text-align:left;
+}
 </style>
 
 <body>
@@ -73,8 +80,15 @@ font-size: .9rem;
 							<div class="media-body mb-5 text-white myrow">
 								<h4 class="mt-0 mb-0">${designerVO.desName}</h4>
 								<div class="row  justify-content-end">
-									<div class="btn btn-outline-primary profileBtn" id="followBtn"
-										style="margin: 0 2%;">${followSvc.isfollowing(memVO.memNo,designerVO.desNo) ==true?"Unfollow":"Follow"}</div>
+									<div class="btn btn-outline-primary profileBtn" id="followBtn" style="margin: 0 2%;">
+									<c:choose>
+										<c:when test="">
+										</c:when>
+										<c:otherwise></c:otherwise>
+									</c:choose>
+										${not empty userSession == true?:"Follow"}
+										${followSvc.isfollowing(memVO.memNo,designerVO.desNo) ==true?"Unfollow":"Follow"}
+									</div>
 									<div class="btn btn-outline-primary" id="msgBtn">傳送訊息</div>
 								</div>
 							</div>
@@ -215,12 +229,9 @@ font-size: .9rem;
 						aria-label="Close">
 						<span aria-hidden="true">&times;</span>
 					</button>
-					<form METHOD="POST"
-						ACTION="<%=request.getContextPath()%>/post/post.do" name="form"
-						enctype="multipart/form-data">
+					<form METHOD="POST"	ACTION="<%=request.getContextPath()%>/post/post.do" id="addPostForm" name="form"	enctype="multipart/form-data">
 						<div class="row justify-content-center">
 							<div class="col-md-12 ftco-animate">
-								<form action="#" class="contact-form">
 									<div class="form-group">
 										<label for="tagName">貼文標籤</label> 
 										<input class="form-control"	id="tagName" name="tagName" placeholder="write some tags" value="predefined,tags,here" size="50">
@@ -255,9 +266,8 @@ font-size: .9rem;
 									<input name="action" value="insert" type="hidden">
 									<input name="desNo" value="${desSession.desNo}" type="hidden">
 									<div class="form-group" style="text-align: center;">
-										<input type="submit" value="上傳貼文" class="btn btn-primary py-3 px-5" id="addPostBtn">
+										<input type="button" value="上傳貼文" class="btn btn-primary py-3 px-5" id="addPostSmtBtn">
 									</div>
-								</form>
 							</div>
 						</div>
 					</form>
@@ -286,10 +296,22 @@ font-size: .9rem;
 			}
 			
 			if(obj.memNo === null){
-				window.alert("請先登入");
+				swal.fire({
+					title:'請先登入',
+					icon:'warning',
+					showCloseButton: true,
+					confirmButtonText:'登入',
+					cancelButtonText:'取消',
+				}).then(function(){
+					
+				});
 				return false;
 			}else if(obj.memNo === ${designerVO.memNo}){
-				window.alert("自己不能追蹤自己");
+				swal.fire({
+					title:'自己不能追蹤自己',
+					icon:'warning',
+					showCloseButton: true,
+				});
 				return false;
 			}else if($('#followBtn').text() ==="Unfollow"){
 				obj.action = "deleteByAJAX";
@@ -298,7 +320,11 @@ font-size: .9rem;
 						url:"<%=request.getContextPath()%>/followlist/followlist.do",
 						data:obj,
 						success:function(data){
-							window.alert("已解除追蹤")
+							swal.fire({
+								title:'已解除追蹤',
+								icon:'success',
+								showCloseButton: true,
+							});
 							$('#followBtn').text("Follow");
 						},
 						error:function(){
@@ -313,7 +339,12 @@ font-size: .9rem;
 							url:"<%=request.getContextPath()%>/followlist/followlist.do",
 							data:obj,
 							success:function(data){
-								window.alert("追蹤成功");
+								swal.fire({
+									title:'追蹤成功',
+									icon:'success',
+									showCloseButton: true,
+								});
+// 								window.alert("追蹤成功");
 								$('#followBtn').text("Unfollow");
 							},
 							error:function(){
@@ -322,31 +353,49 @@ font-size: .9rem;
 					});
 				}
 		});
-// 		$('#addPostBtn').on('click',function(){
-// 			var errorText;
-// 			if($('tags').val().trim().length === 0){
-// 				var tagError ="・請至少輸入一個標籤。";
-// 				errorText.concat(tagError);
-// 			}
-// 			if($('#postCon').val().trim().length === 0){
-// 				var postConError = "請輸入貼文內容。";
-// 				errorText.concat(postConError);
-// 			}
-// 			if($('#myFile1').val().trim().length === 0){
-// 				var fileError = "請至少上傳一張照片。";
-// 				errorText.concat(fileError);
-// 			}
-// 			if($('input[name=postStatus]:checked').val()==null){
-// 				var postStatusError = "請選擇貼文狀態。";
-// 				errorText.concat(postStatusError);
-// 			}
-// 			swal.fire({
-// 				title:'請修正以下錯誤',
-// 				text:,
-// 				type:'warning',
-// 				showCloseButton: true,
-// 			});
-// 		});
+		$('#addPostSmtBtn').on('click',function(){
+			var isTags = $('tags').attr('class');
+			if(isTags.indexOf('tagify--noTags') != -1 || $('#postCon').val().trim().length === 0 || $('#myFile1').val().trim().length === 0 || $('input[name=postStatus]:checked').val()==null){
+				var errorText=[];
+				var AllError='';
+				if(isTags.indexOf('tagify--noTags') != -1){
+					var tagError ="請至少輸入一個標籤。";
+					errorText.push(tagError);
+				}
+				if($('#postCon').val().trim().length === 0){
+					var postConError = "請輸入貼文內容。";
+					errorText.push(postConError);
+				}
+				if($('#myFile1').val().trim().length === 0){
+					var fileError = "請至少上傳一張照片。";
+					errorText.push(fileError);
+				}
+				if($('input[name=postStatus]:checked').val()==null){
+					var postStatusError = "請選擇貼文狀態。";
+					errorText.push(postStatusError);
+				}
+				
+			for(let i=0;i<errorText.length;i++){
+				let oneError = '<li>'+errorText[i]+'</li>';
+				console.log(oneError);
+				AllError=AllError+oneError;
+			}
+				swal.fire({
+					title:'請修正以下錯誤',
+					html:`<ul>`+AllError+`</ul>`,
+					icon:'warning',
+					showCloseButton: true,
+				});
+			}
+			swal.fire({
+				title:'已送出貼文',
+				icon:'success',
+				showCloseButton: true,
+			}).then(function(){
+				$('#addPostForm').submit();
+				
+			});
+		});
 	});
 	
 // MAP

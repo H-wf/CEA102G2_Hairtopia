@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 
 import com.post.model.*;
+import com.salon.model.*;
 import com.tag.model.*;
 import com.tagdet.model.*;
 import com.comment.model.*;
@@ -659,6 +660,10 @@ System.out.println("postVO設置完成");
 				DesignerService desSvc = new DesignerService();
 				DesignerVO desVo = desSvc.getOneDesByDesNo(desNo);
 				req.setAttribute("designerVO", desVo);
+				
+				SalonService salSvc = new SalonService();
+				SalonVO salVo = salSvc.getOneSalon(desVo.getSalNo());
+				req.setAttribute("salVo", salVo);
 //轉回設計師頁面
 				String url = "/front-end/designer/designerPage.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url); // 新增成功後轉交listAll_lec.jsp
