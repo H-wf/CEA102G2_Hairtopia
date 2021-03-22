@@ -29,7 +29,7 @@ import com.cos.model.CosService;
 import com.cos.model.CosVO;
 
 @MultipartConfig
-public class OrderDetailServlet extends HttpServlet {
+public class OrderServlet extends HttpServlet {
 
 	protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 		doPost(req, res);
@@ -48,6 +48,7 @@ public class OrderDetailServlet extends HttpServlet {
 		}
 		
 		if (action.equals("DELETE")||action.equals("ADD")) {
+			System.out.println("orderServlet no.51：已經做到加入");
 			String url = null;
 			List<String> errorMsgs = new LinkedList<String>();
 			// Store this set in the request scope, in case we need to
@@ -80,13 +81,17 @@ public class OrderDetailServlet extends HttpServlet {
 				
 				// 取得後來新增的訂單明細
 				Integer cosNo = new Integer(req.getParameter("cosNo"));
-//				System.out.println(cosNo);
+				System.out.println("orderServlet no. 83：" + cosNo);
+				
+//				Integer memNo = new Integer(req.getParameter("memNo"));//先設死10
+//				System.out.println("orderServlet no. 87 先設死memNo 10：" + memNo);
 				
 				Integer cosDetailPrice = new Integer(req.getParameter("cosDetailPrice"));
-//				System.out.println(cosDetailPrice);
+				System.out.println("orderServlet no. 90：" + cosDetailPrice);
 				
 				CosdetVO cosdetVO = new CosdetVO();
 				cosdetVO.setCosNo(new Integer(cosNo));
+//				cosdetVO.setMemNo(new Integer(memNo));
 				cosdetVO.setCosDetailPrice(new Integer(cosDetailPrice));
 				buylist.add(cosdetVO);
 				url = "/front-end/Cos/listAllCosApplyFromfront.jsp";
@@ -116,7 +121,7 @@ public class OrderDetailServlet extends HttpServlet {
 		}
 		
 		
-		if (action.equals("SENDMAIL")) {
+		if (action.equals("SENDCOSDETAIL")) {
 			List<String> errorMsgs = new LinkedList<String>();
 			// Store this set in the request scope, in case we need to
 			// send the ErrorPage view.
@@ -143,11 +148,13 @@ public class OrderDetailServlet extends HttpServlet {
 				//insert into cosdet table
 				CosdetVO cosdetVO = new CosdetVO();
 				cosdetVO.setCosNo(cosNo);
-				cosdetVO.setMemNo(1000);//因為memNo還沒抓到，因此先用1000代替
+				cosdetVO.setMemNo(10);//因為memNo還沒抓到，因此先用10代替
+				System.out.println("orderServlet no.148：" + 10);
 				cosdetVO.setCosDetailPrice(cosDetailPrice);
 				
 				CosdetService cosdetSvc = new CosdetService();
-				cosdetVO = cosdetSvc.insertCosDetNoComment(cosNo, 1000, cosDetailPrice);
+				cosdetVO = cosdetSvc.insertCosDetNoComment(cosNo, 10, cosDetailPrice);
+				System.out.println("orderServlet no.153：" + 10);
 //				System.out.println("成功送入cosdet");
 //				String url = "/back-end/Cosdetail/listAllCosdetail.jsp";
 //				RequestDispatcher successView = req.getRequestDispatcher(url);
@@ -163,8 +170,24 @@ public class OrderDetailServlet extends HttpServlet {
 				
 				CosService cosSvc2 = new CosService();
 				cosVO = cosSvc2.AddCountApplyNo(cosNo, cosCount);
-				System.out.println("成功送入cos人數");
+				System.out.println("OrderServlet no.167：成功送入cos人數");
+				
+				//trnasfer to QRCodegenerate.jsp
+				Integer memNo = vo.getMemNo();
+				System.out.println("OrderServlet no.171："+memNo);
+				
+				String url = "/front-end/Cos/QRCodegenerate.jsp";
+				CosdetVO generateQRCode = new CosdetVO();
+				generateQRCode.setCosNo(cosNo);				
+//				generateQRCode.setCosNo(memNo);//先寫死1000
+				session.setAttribute("generateQRCode", generateQRCode);
+				
+				RequestDispatcher rd = req.getRequestDispatcher(url);
+				rd.forward(req, res);
+				
+				
 			}
+			
 			
 			String url = "/front-end/Cos/listOneCosfront.jsp";
 			

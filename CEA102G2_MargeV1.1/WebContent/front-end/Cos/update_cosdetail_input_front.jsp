@@ -3,7 +3,8 @@
 <%@ page import="com.coudet.model.*"%>
 
 <%
-  CosdetVO cosdetVO = (CosdetVO) request.getAttribute("cosdetVO"); 
+  CosdetVO cosdetVO = (CosdetVO) request.getAttribute("cosdetVO");
+	System.out.println("front-end/update_cosdetail_input.jsp no.7" + cosdetVO);
 %>
 <html>
 <head>
@@ -61,7 +62,7 @@
 		</c:forEach>
 	</ul>
 </c:if>
-
+ <jsp:useBean id="cosdetSvc" scope="page" class="com.coudet.model.CosdetService"/>
 <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/coudet/coudet.do" name="form1" enctype="multipart/form-data">
 <table>
 	<tr>

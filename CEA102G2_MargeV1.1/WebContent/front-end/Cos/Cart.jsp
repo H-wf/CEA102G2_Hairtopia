@@ -90,7 +90,7 @@
 </table>
 
 <p>
-          <form name="checkoutForm" action="<%=request.getContextPath()%>/cos/orderdetail.do" method="POST">
+          <form name="checkoutForm" action="<%=request.getContextPath()%>/cos/order.do" method="POST">
               <input type="hidden" name="action"  value="CHECKOUT">
               <input type="hidden" name="cosNo"  value="${cosVO.cosNo}">
               <input type="hidden" name="cosDetailPrice"  value="${cosVO.cosDetailPrice}"> 

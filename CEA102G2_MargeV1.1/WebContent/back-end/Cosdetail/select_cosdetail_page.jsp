@@ -51,10 +51,19 @@
   <li><a href="<%=request.getContextPath()%>/back-end/Cosdetail/listAllCosdetail.jsp">List</a> all Cosdetail.  <br><br></li>
   
   <li>
-    <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/coudet/coudet.do" >
+    <FORM METHOD="get" ACTION="<%=request.getContextPath()%>/coudet/coudet.do" >
         <b>輸入課程編號(如1):</b>
         <input type="text" name="cosNo">
         <input type="hidden" name="action" value="getOne_For_Display">
+        <input type="submit" value="送出">
+    </FORM>
+  </li>
+  
+  <li>
+    <FORM METHOD="get" ACTION="<%=request.getContextPath()%>/coudet/coudet.do" >
+        <b>輸入會員編號(如1):</b>
+        <input type="text" name="memNo">
+        <input type="hidden" name="action" value="getMemsCos_For_Display">
         <input type="submit" value="送出">
     </FORM>
   </li>

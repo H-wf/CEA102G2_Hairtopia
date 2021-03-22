@@ -243,6 +243,7 @@ public class MemDAO implements MemDAO_interface{
 			pstmt = con.prepareStatement(GET_ONE_STMT);
 
 			pstmt.setInt(1, memNo);
+			System.out.println("MemDAO no.246 for memNo："+ memNo);
 
 			rs = pstmt.executeQuery();
 

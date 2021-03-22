@@ -30,10 +30,11 @@ public class CosdetServlet extends HttpServlet {
 
 			req.setCharacterEncoding("UTF-8");
 			String action = req.getParameter("action");
-			MemService memSvc = new MemService();
-			MemVO memVO = memSvc.getOneMem(3);
-			HttpSession session = req.getSession();
-			session.setAttribute("memVO", memVO);
+//			MemService memSvc = new MemService();
+//			Integer memNo;
+//			MemVO memVO = memSvc.getOneMem(memNo);
+//			HttpSession session = req.getSession();
+//			session.setAttribute("memVO", memVO);
 			
 			
 			if ("getOne_For_Display".equals(action)) {
@@ -67,7 +68,9 @@ public class CosdetServlet extends HttpServlet {
 					}
 					
 					CosdetService cosdetSvc = new CosdetService();
-					CosdetVO cosdetVO = cosdetSvc.getOneCosDet(cosNo);
+					List<CosdetVO> cosdetVO = cosdetSvc.getOneCosDet(cosNo);
+					System.out.println("cosNo第71行"+cosNo);
+					System.out.println("cosdetVO第72行"+cosdetVO);
 					if (cosdetVO == null) {
 						errorMsgs.add("getOne_For_Display：cosdetVO為null");
 					}
@@ -101,7 +104,7 @@ public class CosdetServlet extends HttpServlet {
 //					System.out.println(cosTypeNo);
 
 					CosdetService cosdetSvc = new CosdetService();
-					CosdetVO cosdetVO = cosdetSvc.getOneCosDet(cosNo);
+					List<CosdetVO> cosdetVO = cosdetSvc.getOneCosDet(cosNo);
 
 					req.setAttribute("cosdetVO", cosdetVO);
 					String url = "/back-end/Cosdetail/update_cosdetail_input.jsp";
@@ -288,7 +291,7 @@ public class CosdetServlet extends HttpServlet {
 					failureView.forward(req, res);
 					return;
 				}
-				System.out.println(str);
+				System.out.println("CosdetServlet no.293："+str);
 				
 				Integer memNo = null;
 				try {
@@ -303,7 +306,7 @@ public class CosdetServlet extends HttpServlet {
 					return;
 				}
 				
-				System.out.println(memNo);
+				System.out.println("CosdetServlet no.308："+memNo);
 				
 				CosdetService cosdetSvc = new CosdetService();
 //				CosdetVO cosdetVO = cosdetSvc.findByMenNoToCos(memNo);
@@ -342,9 +345,11 @@ public class CosdetServlet extends HttpServlet {
 		
 		try {
 			Integer cosNo = new Integer(req.getParameter("cosNo"));
+			System.out.println("CosdetServlet no.347" + cosNo);
 
 			CosdetService cosdetSvc = new CosdetService();
-			CosdetVO cosdetVO = cosdetSvc.getOneCosDet(cosNo);
+			CosdetVO cosdetVO = cosdetSvc.findOneCosByCosNo(cosNo);
+			System.out.println("CosdetServlet no.350" + cosdetVO);
 			
 //			CosdetService cosdetSvc1 = new CosdetService();
 //			CosdetVO cosdetVO = cosdetSvc1.getAvgCosRateByCosNo(cosNo);
@@ -434,6 +439,65 @@ public class CosdetServlet extends HttpServlet {
 				e.printStackTrace();
 				RequestDispatcher failureView = req
 						.getRequestDispatcher("/front-end/Cos/RateCos.jsp");
+				failureView.forward(req, res);
+			}
+		}
+		
+		if ("getMemsCos_For_Display".equals(action)) {
+
+			List<String> errorMsgs = new LinkedList<String>();
+			req.setAttribute("errorMsgs", errorMsgs);
+
+			try {
+				String str = req.getParameter("memNo");
+				System.out.println("CosdetServlet no.452："+str);
+				if (str == null || (str.trim()).length() == 0) {
+					errorMsgs.add("getMemsCos_For_Display：memNo無法轉成str");
+				}
+				if (!errorMsgs.isEmpty()) {
+					RequestDispatcher failureView = req
+							.getRequestDispatcher("/back-end/Cosdetail/select_cosdetail_page.jsp");
+					failureView.forward(req, res);
+					return;
+				}
+				
+				Integer memNo = null;
+				try {
+					memNo = new Integer(str);
+				} catch (Exception e) {
+					errorMsgs.add("getMemsCos_For_Display：str無法變成包裝型別memNo");
+				}
+				if (!errorMsgs.isEmpty()) {
+					RequestDispatcher failureView = req
+							.getRequestDispatcher("/back-end/Cosdetail/select_cosdetail_page.jsp");
+					failureView.forward(req, res);
+					return;
+				}
+				
+				CosdetService cosdetSvc = new CosdetService();
+				List<CosdetVO> cosdetVO = cosdetSvc.getAllCosByMemNo(memNo);
+				System.out.println("CosdetServlet no.477："+memNo);
+				System.out.println("CosdetServlet no.478："+cosdetVO);
+				if (cosdetVO == null) {
+					errorMsgs.add("getMemsCos_For_Display為null");
+				}
+				if (!errorMsgs.isEmpty()) {
+					RequestDispatcher failureView = req
+							.getRequestDispatcher("/back-end/Cosdetail/select_cosdetail_page.jsp");
+					failureView.forward(req, res);
+					return;
+				}
+
+				req.setAttribute("cosdetVO", cosdetVO);
+				String url = "/back-end/Cosdetail/listOneCosdetail2.jsp";
+				RequestDispatcher successView = req.getRequestDispatcher(url);
+				System.out.println("successView no.492："+ successView);
+				successView.forward(req, res);
+
+			} catch (Exception e) {
+				errorMsgs.add("getMemsCos_For_Display：有errorMsgs發生" + e.getMessage());
+				RequestDispatcher failureView = req
+						.getRequestDispatcher("/back-end/Cosdetail/select_cosdetail_page.jsp");
 				failureView.forward(req, res);
 			}
 		}

@@ -41,7 +41,7 @@ public class CosdetDAO implements CosdetDAO_interface {
 			"INSERT INTO coudet (cosNo, memNo, cosDetailPrice) VALUES (?, ?, ?)";
 	
 	private static final String GET_ALL_MEM_COS_2 = 
-			"SELECT cosNo, cosComment, cosDetailPrice FROM coudet WHERE memNo=?";
+			"SELECT cosNo, memNo, cosComment, cosDetailPrice FROM coudet WHERE memNo=?";
 	
 	private static final String UPDATE_coudet_WITH_COMMENT = 
 			"UPDATE coudet SET cosComment =? where (memNo =? AND cosNo=?)";
@@ -190,8 +190,9 @@ public class CosdetDAO implements CosdetDAO_interface {
 		}
 
 		@Override
-		public CosdetVO findByPrimaryKey(Integer cosNo) {
+		public List<CosdetVO> findByPrimaryKey(Integer cosNo) {
 
+			List<CosdetVO> hashsetforcosno = new ArrayList<CosdetVO>();
 			CosdetVO cosdetVO = null;
 			Connection con = null;
 			PreparedStatement pstmt = null;
@@ -212,6 +213,7 @@ public class CosdetDAO implements CosdetDAO_interface {
 					cosdetVO.setMemNo(rs.getInt("memNo"));
 					cosdetVO.setCosComment(rs.getInt("cosComment"));
 					cosdetVO.setCosDetailPrice(rs.getInt("cosDetailPrice"));
+					hashsetforcosno.add(cosdetVO);
 				}
 
 			} catch (SQLException se) {
@@ -241,7 +243,7 @@ public class CosdetDAO implements CosdetDAO_interface {
 					}
 				}
 			}
-			return cosdetVO;
+			return hashsetforcosno;
 		}
 
 		@Override
@@ -444,6 +446,7 @@ public List<CosdetVO> getAllCosByMemNo(Integer memNo) {
 				while (rs.next()) {
 					cosdetVO = new CosdetVO();
 					cosdetVO.setCosNo(rs.getInt("cosNo"));
+					cosdetVO.setMemNo(rs.getInt("memNo"));
 					cosdetVO.setCosComment(rs.getInt("cosComment"));
 					cosdetVO.setCosDetailPrice(rs.getInt("cosDetailPrice"));
 					
@@ -568,6 +571,61 @@ public List<CosdetVO> getAllCosByMemNo(Integer memNo) {
 			}
 		}
 		
+	}
+	
+	@Override
+	public CosdetVO findOneCosByCosNo(Integer cosNo) {
+
+		CosdetVO cosdetVO = null;
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+
+		try {
+
+			con = ds.getConnection();
+			pstmt = con.prepareStatement(GET_ONE_STMT);
+
+			pstmt.setInt(1, cosNo);
+
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				cosdetVO = new CosdetVO();
+				cosdetVO.setCosNo(rs.getInt("cosNo"));
+				cosdetVO.setMemNo(rs.getInt("memNo"));
+				cosdetVO.setCosComment(rs.getInt("cosComment"));
+				cosdetVO.setCosDetailPrice(rs.getInt("cosDetailPrice"));
+			}
+
+		} catch (SQLException se) {
+			throw new RuntimeException("A database error occured. "
+					+ se.getMessage());
+
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
+		return cosdetVO;
 	}
 }
 	

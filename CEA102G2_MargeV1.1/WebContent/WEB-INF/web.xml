@@ -156,6 +156,14 @@
 		<url-pattern>/cos/cos.do</url-pattern>
 	</servlet-mapping>
 	<servlet>
+		<servlet-name>OrderServlet</servlet-name>
+		<servlet-class>com.cos.controller.OrderServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>OrderServlet</servlet-name>
+		<url-pattern>/cos/order.do</url-pattern>
+	</servlet-mapping>
+	<servlet>
 		<servlet-name>CostypeServlet</servlet-name>
 		<servlet-class>com.coutype.controller.CostypeServlet</servlet-class>
 	</servlet>
@@ -171,6 +179,15 @@
 		<servlet-name>CosdetServlet</servlet-name>
 		<url-pattern>/coudet/coudet.do</url-pattern>
 	</servlet-mapping>
+	<servlet>
+		<servlet-name>QRCodeServlet</servlet-name>
+		<servlet-class>com.QRCode.controller.QRCodeServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>QRCodeServlet</servlet-name>
+		<url-pattern>/QRCode/QRCode.do</url-pattern>
+	</servlet-mapping>
+	
 	
 	 <servlet>  
     <servlet-name>LecturerServlet</servlet-name>

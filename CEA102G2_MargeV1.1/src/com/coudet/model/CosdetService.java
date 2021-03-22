@@ -48,7 +48,7 @@ public class CosdetService {
 			return dao.getAll();
 		}
 
-		public CosdetVO getOneCosDet(Integer cosNo) {
+		public List<CosdetVO> getOneCosDet(Integer cosNo) {
 			return dao.findByPrimaryKey(cosNo);
 		}
 		
@@ -57,7 +57,8 @@ public class CosdetService {
 			CosdetVO cosdetVO = new CosdetVO();
 			
 			cosdetVO.setCosNo(cosNo);
-			cosdetVO.setMemNo(memNo);
+			cosdetVO.setMemNo(1000);
+			System.out.println("cosderService no.61：" + 1000);
 			cosdetVO.setCosDetailPrice(cosDetailPrice);
 			dao.insertNoComment(cosdetVO);
 
@@ -95,6 +96,10 @@ public class CosdetService {
 			dao.updateCosRateForCosTable(cosVO);
 
 			return cosVO;
+		}
+		
+		public CosdetVO findOneCosByCosNo(Integer cosNo) {
+			return dao.findOneCosByCosNo(cosNo);
 		}
 }
 
