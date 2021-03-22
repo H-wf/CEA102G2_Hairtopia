@@ -42,7 +42,7 @@
                                         </ul>
                                     </div>
                                         <div class="input-group">
-                                            <input type="text" class="form-control" placeholder="輸入留言" id="comCon">
+                                            <input type="text" class="form-control" placeholder="輸入留言" id="comCon" data-toggle="popover" data-placement="top" data-content="請輸入留言。">
                                             <button class="btn btn-outline-secondary" id="comButton" type="submit">留言</button>
                                         </div>
                                 </p>

@@ -116,3 +116,35 @@
 .tab-pane{
 margin-bottom:5%;
 }
+#addPostModal label {
+	color: #333333;
+}
+
+#addPostModal .contact-form .form-control {
+	height: 2rem !important;
+}
+
+input[type=file],.tagify.form-control {
+	font-size: .9rem;
+	height: 2.5rem !important;
+}
+.tagify__tag-text{
+    color: #000;
+}
+#addPostModal .form-check-label{
+font-size: .9rem;
+}
+#swal2-content{
+display:inline-block !important;
+text-align:center;
+}
+#swal2-content li{
+text-align:left;
+}
+#addPostTitle{
+text-align:center;
+}
+#addPostTitle h4{
+border-bottom: 1px solid rgba(0,0,0,0.1);
+padding-bottom: 3%;
+}

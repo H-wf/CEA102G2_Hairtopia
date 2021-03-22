@@ -1,4 +1,5 @@
 $(document).ready(function(){
+	$('[data-toggle="popover"]').popover();
 		$('.onePost').on('click',function(){
 			$.ajax({
 				type:"GET",
@@ -25,11 +26,26 @@ $(document).ready(function(){
 		});
 		
 		$('#comButton').on('click',function(){
-			if(userSessionNo === null){
-				window.alert("登入後即可對該貼文留言。");
+			if(typeof userSessionNo === 'undefined'){
+				swal.fire({
+					title:'請先登入',
+					icon:'warning',
+					showCloseButton: true,
+					showCancelButton: true, 
+					confirmButtonText:'登入',
+					cancelButtonText:'取消',
+				});
+				$('.swal2-confirm').click(function(){
+					window.location=contextPath+"/front-end/member/login.jsp";
+				});
+				$('.swal2-cancel').click(function(){
+						console.log("已取消");
+					});
+				
 				return false;
-			}if($('#comCon').val().trim().length === 0 ){
-				window.alert("請輸入留言內容。");
+			}
+			if($('#comCon').val().trim().length === 0 ){
+				$('#comCon').popover('toggle');
 				return false;
 			}
 			$.ajax({
@@ -104,7 +120,7 @@ function showWholePost(commentList, postVo, tagNameList) {
 
         $.each(commentList, function(index,item) {
             if (item.comStatus != false) {
-	            	if(item.memNo != userSessionNo){
+	            	if(typeof userSessionNo ==='undefined' || item.memNo != userSessionNo){
 	                $('#comList').append(`<li class="media">` + `
 	                                                <img src="` + contextPath + `/PicFinder?pic=1&table=member&column=memPic&idname=memNo&id=` + item.memNo + `" class="img-thumbnail" />` +
 	                    `<div class="media-body">
@@ -190,7 +206,7 @@ function emptyModal(){
 }
 function addCom(comVo){
 		if (comVo.comStatus != false) {
-			if(comVo.memNo != userSessionNo){
+			if(typeof userSessionNo ==='undefined' || comVo.memNo != userSessionNo){
 		    $('#comList').append(`<li class="media">` + `
 		                                    <img src="` + contextPath + `/PicFinder?pic=1&table=member&column=memPic&idname=memNo&id=` + comVo.memNo + `" class="img-thumbnail" />` +
 		        `<div class="media-body">

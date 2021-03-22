@@ -19,7 +19,9 @@
         <script src="<%=request.getContextPath()%>/resource/sweetAlert2/dist/sweetalert2.min.js"></script>
         <script src="<%=request.getContextPath()%>/resource/js/SearchBar.js"></script>
 <script>
+<c:if test="${not empty userSession}">
 var userSessionNo = parseInt("${userSession.memNo}");
+</c:if>
 var isDes = false;
 </script>
 <c:if test="${not empty desSession}">

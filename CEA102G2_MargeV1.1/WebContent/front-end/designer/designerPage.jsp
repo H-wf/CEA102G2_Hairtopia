@@ -16,9 +16,9 @@
 <%
 	DesignerVO designerVO = (DesignerVO) request.getAttribute("designerVO");
 	SalonVO salVo = (SalonVO) request.getAttribute("salVo");
-	DesignerService desSvcs = new DesignerService();
-	DesignerVO desSession = desSvcs.getOneDesByDesNo(1);
-	pageContext.setAttribute("desSession", desSession);
+// 	DesignerService desSvcs = new DesignerService();
+// 	DesignerVO desSession = desSvcs.getOneDesByDesNo(1);
+// 	pageContext.setAttribute("desSession", desSession);
 %>
 <html lang="en">
 
@@ -31,31 +31,7 @@
 	<link rel="stylesheet" href="<%=request.getContextPath()%>/resource/tagify/dist/tagify.css">
 </head>
 <style>
-#addPostModal label {
-	color: #333333;
-}
 
-#addPostModal .contact-form .form-control {
-	height: 2rem !important;
-}
-
-input[type=file],.tagify.form-control {
-	font-size: .9rem;
-	height: 2.5rem !important;
-}
-.tagify__tag-text{
-    color: #000;
-}
-#addPostModal .form-check-label{
-font-size: .9rem;
-}
-#swal2-content{
-display:inline-block !important;
-text-align:center;
-}
-#swal2-content li{
-text-align:left;
-}
 </style>
 
 <body>
@@ -69,25 +45,24 @@ text-align:left;
 					<div class="px-4 pt-0 pb-4 cover">
 						<div class="media align-items-end profile-head">
 							<div class="profile mr-3">
-								<img
-									src="<%=request.getContextPath()%>/PicFinder?pic=1&table=Designer&column=desPic&idname=desNo&id=${designerVO.desNo}"
-									alt='沒有圖片' class="rounded mb-2 img-thumbnail" /> <a href="#"
-									class="btn btn-outline-dark btn-sm btn-block">Edit profile</a>
-								<a href="#" class="btn btn-outline-dark btn-sm btn-block"
-									id="addPostBtn" data-toggle="modal" data-target="#addPostModal">Add
-									Post</a>
+									<img src="<%=request.getContextPath()%>/PicFinder?pic=1&table=Designer&column=desPic&idname=desNo&id=${designerVO.desNo}" alt='沒有圖片' class="rounded mb-2 img-thumbnail" />
+								<c:if test="${not empty desSession && desSession.desNo eq designerVO.desNo}">
+									<a href="#"	class="btn btn-outline-dark btn-sm btn-block">Edit profile</a>
+									<a href="#" class="btn btn-outline-dark btn-sm btn-block" id="addPostBtn" data-toggle="modal" data-target="#addPostModal">Add Post</a>
+								</c:if>			
 							</div>
 							<div class="media-body mb-5 text-white myrow">
 								<h4 class="mt-0 mb-0">${designerVO.desName}</h4>
 								<div class="row  justify-content-end">
 									<div class="btn btn-outline-primary profileBtn" id="followBtn" style="margin: 0 2%;">
 									<c:choose>
-										<c:when test="">
+										<c:when test="${empty userSession}">
+											Follow
 										</c:when>
-										<c:otherwise></c:otherwise>
+										<c:otherwise>
+											${followSvc.isfollowing(memVO.memNo,designerVO.desNo) ==true?"Unfollow":"Follow"}
+										</c:otherwise>
 									</c:choose>
-										${not empty userSession == true?:"Follow"}
-										${followSvc.isfollowing(memVO.memNo,designerVO.desNo) ==true?"Unfollow":"Follow"}
 									</div>
 									<div class="btn btn-outline-primary" id="msgBtn">傳送訊息</div>
 								</div>
@@ -197,12 +172,11 @@ text-align:left;
 														<span class="salTitle">Address</span><span class="salCon">${salVo.salAdd}</span>
 													</div>
 													<div class="col-md-12 mb-3">
-														<span class="salTitle">Phone</span> <a
-															href="tel://1234567920"><span class="salCon">${salVo.salPhone}</span></a>
+														<span class="salTitle">Phone</span>
+															<span class="salCon">${salVo.salPhone}</span>
 													</div>
 													<div class="col-md-12 mb-3">
-														<span class="salTitle">Time</span> <a
-															href="mailto:info@yoursite.com"><span class="salCon">${salVo.salTime}</span></a>
+														<span class="salTitle">Time</span> <span class="salCon">${salVo.salTime}</span>
 													</div>
 												</div>
 											</div>
@@ -219,6 +193,7 @@ text-align:left;
 			</div>
 		</div>
 	</div>
+<c:if test="${not empty desSession && desSession.desNo eq designerVO.desNo}">
 	<!-- addPostModal -->
 	<div class="modal fade" id="addPostModal" tabindex="-1" role="dialog"
 		aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
@@ -231,6 +206,7 @@ text-align:left;
 					</button>
 					<form METHOD="POST"	ACTION="<%=request.getContextPath()%>/post/post.do" id="addPostForm" name="form"	enctype="multipart/form-data">
 						<div class="row justify-content-center">
+							<div class="col-md-12" id="addPostTitle"><h4>新增貼文</h4></div>
 							<div class="col-md-12 ftco-animate">
 									<div class="form-group">
 										<label for="tagName">貼文標籤</label> 
@@ -276,6 +252,7 @@ text-align:left;
 		</div>
 	</div>
 	<!-- addPostModal END -->
+</c:if>
 
 	<%@include file="/front-end/Post/postModal"%>
 	<%@include file="/front-end/tempFile/footer"%>
@@ -291,7 +268,7 @@ text-align:left;
 		$('#tagName').tagify();
 		$('#followBtn').on('click',function(){
 			var obj = {
-					memNo:${not empty memVO.memNo?memVO.memNo:"null"},	//userSession
+					memNo:${not empty userSession.memNo?userSession.memNo:"null"},	//userSession
 					desNo:${designerVO.desNo},
 			}
 			
@@ -300,11 +277,16 @@ text-align:left;
 					title:'請先登入',
 					icon:'warning',
 					showCloseButton: true,
+					showCancelButton: true, 
 					confirmButtonText:'登入',
 					cancelButtonText:'取消',
-				}).then(function(){
-					
 				});
+				$('.swal2-confirm').click(function(){
+					window.location=contextPath+"/front-end/member/login.jsp";
+				});
+				$('.swal2-cancel').click(function(){
+						console.log("已取消");
+					});
 				return false;
 			}else if(obj.memNo === ${designerVO.memNo}){
 				swal.fire({
@@ -327,9 +309,6 @@ text-align:left;
 							});
 							$('#followBtn').text("Follow");
 						},
-						error:function(){
-							window.alert("ajax ERROR!")
-						}
 					});
 				
 			}else if($('#followBtn').text() ==="Follow"){
@@ -344,16 +323,13 @@ text-align:left;
 									icon:'success',
 									showCloseButton: true,
 								});
-// 								window.alert("追蹤成功");
 								$('#followBtn').text("Unfollow");
 							},
-							error:function(){
-								window.alert("ajax ERROR!")
-							}
 					});
 				}
 		});
 		$('#addPostSmtBtn').on('click',function(){
+			//判斷欄位空值
 			var isTags = $('tags').attr('class');
 			if(isTags.indexOf('tagify--noTags') != -1 || $('#postCon').val().trim().length === 0 || $('#myFile1').val().trim().length === 0 || $('input[name=postStatus]:checked').val()==null){
 				var errorText=[];
@@ -377,7 +353,6 @@ text-align:left;
 				
 			for(let i=0;i<errorText.length;i++){
 				let oneError = '<li>'+errorText[i]+'</li>';
-				console.log(oneError);
 				AllError=AllError+oneError;
 			}
 				swal.fire({
@@ -386,15 +361,16 @@ text-align:left;
 					icon:'warning',
 					showCloseButton: true,
 				});
+			}else{
+					swal.fire({
+					title:'已送出貼文',
+					icon:'success',
+					showCloseButton: true,
+				}).then(function(){
+					$('#addPostForm').submit();
+					
+				});
 			}
-			swal.fire({
-				title:'已送出貼文',
-				icon:'success',
-				showCloseButton: true,
-			}).then(function(){
-				$('#addPostForm').submit();
-				
-			});
 		});
 	});
 	
