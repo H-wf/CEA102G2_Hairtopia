@@ -490,7 +490,7 @@ System.out.println("postVO設置完成");
 			// send the ErrorPage view.
 			req.setAttribute("errorMsgs", errorMsgs);
 
-//			try {
+			try {
 				/*********************** 1.接收請求參數 - 輸入格式的錯誤處理 *************************/
 				Integer desNo = new Integer(req.getParameter("desNo"));
 				String postCon = req.getParameter("postCon").trim();
@@ -501,12 +501,12 @@ System.out.println("postVO設置完成");
 				}
 
 				Integer postStatus = null;
-//				try {
+				try {
 					postStatus = new Integer(req.getParameter("postStatus").trim());
-//				} catch (NumberFormatException e) {
-//					postStatus = 0;
-//					errorMsgs.add("狀態請填整數");
-//				}
+				} catch (NumberFormatException e) {
+					postStatus = 0;
+					errorMsgs.add("狀態請填整數");
+				}
 				Boolean postPror = new Boolean(req.getParameter("postPror"));
 
 				byte[] postPic1 = null;
@@ -534,16 +534,16 @@ System.out.println("postVO設置完成");
 				}
 
 				byte[] postPic3 = null;
-//				try {
+				try {
 					Part part = req.getPart("upfile3");
 
 					InputStream is = part.getInputStream();
 					postPic3 = new byte[is.available()];
 					is.read(postPic3);
 					is.close();
-//				} catch (Exception e) {
-//					errorMsgs.add("postPic3有問題");
-//				}
+				} catch (Exception e) {
+					errorMsgs.add("postPic3有問題");
+				}
 				if (postPic1.length == 0 && postPic2.length == 0 && postPic3.length == 0) {
 					errorMsgs.add("請至少上傳一張照片");
 				}
@@ -654,19 +654,24 @@ System.out.println("postVO設置完成");
 				list = postSvc.getAll(desNo);
 
 				/*************************** 3.新增完成,準備轉交(Send the Success view) ***********/
-				req.setAttribute("list", list); //
-				String url = "/front-end/Post/listAll_postByDesNo.jsp";
+				req.setAttribute("list", list); 
+//設置轉傳設計師頁面的VO
+				DesignerService desSvc = new DesignerService();
+				DesignerVO desVo = desSvc.getOneDesByDesNo(desNo);
+				req.setAttribute("designerVO", desVo);
+//轉回設計師頁面
+				String url = "/front-end/designer/designerPage.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url); // 新增成功後轉交listAll_lec.jsp
 				successView.forward(req, res);
 
 				/*************************** 其他可能的錯誤處理 **********************************/
-//			} catch (Exception e) {
-//				errorMsgs.add(e.getMessage());
-//
-//				RequestDispatcher failureView = req.getRequestDispatcher("/front-end/Post/insertPost_Page.jsp");
-//				failureView.forward(req, res);
-//
-//			}
+			} catch (Exception e) {
+				errorMsgs.add(e.getMessage());
+
+				RequestDispatcher failureView = req.getRequestDispatcher("/front-end/Post/insertPost_Page.jsp");
+				failureView.forward(req, res);
+
+			}
 
 		}
 

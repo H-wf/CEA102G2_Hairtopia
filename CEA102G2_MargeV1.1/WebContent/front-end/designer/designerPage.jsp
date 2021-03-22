@@ -231,15 +231,15 @@ font-size: .9rem;
 									</div>
 									<div class="form-group">
 										<label for="Picture 1">Picture 1</label> 
-										<input type="file"	name="upfile1" id="myFile" class="form-control"	placeholder="Picture 1">
+										<input type="file"	name="upfile1" id="myFile1" class="form-control"	placeholder="Picture 1">
 									</div>
 									<div class="form-group">
 										<label for="Picture 2">Picture 2</label>
-										<input type="file" name="upfile2" id="myFile" class="form-control" placeholder="Picture 2">
+										<input type="file" name="upfile2" id="myFile2" class="form-control" placeholder="Picture 2">
 									</div>
 									<div class="form-group">
 										<label for="Picture 3">Picture 3</label> 
-										<input type="file" name="upfile3" id="myFile" class="form-control" placeholder="Picture 3">
+										<input type="file" name="upfile3" id="myFile3" class="form-control" placeholder="Picture 3">
 									</div>
 									<label for="">貼文狀態</label>
 									<div class="form-group">
@@ -255,7 +255,7 @@ font-size: .9rem;
 									<input name="action" value="insert" type="hidden">
 									<input name="desNo" value="${desSession.desNo}" type="hidden">
 									<div class="form-group" style="text-align: center;">
-										<input type="submit" value="上傳貼文" class="btn btn-primary py-3 px-5">
+										<input type="submit" value="上傳貼文" class="btn btn-primary py-3 px-5" id="addPostBtn">
 									</div>
 								</form>
 							</div>
@@ -322,6 +322,31 @@ font-size: .9rem;
 					});
 				}
 		});
+// 		$('#addPostBtn').on('click',function(){
+// 			var errorText;
+// 			if($('tags').val().trim().length === 0){
+// 				var tagError ="・請至少輸入一個標籤。";
+// 				errorText.concat(tagError);
+// 			}
+// 			if($('#postCon').val().trim().length === 0){
+// 				var postConError = "請輸入貼文內容。";
+// 				errorText.concat(postConError);
+// 			}
+// 			if($('#myFile1').val().trim().length === 0){
+// 				var fileError = "請至少上傳一張照片。";
+// 				errorText.concat(fileError);
+// 			}
+// 			if($('input[name=postStatus]:checked').val()==null){
+// 				var postStatusError = "請選擇貼文狀態。";
+// 				errorText.concat(postStatusError);
+// 			}
+// 			swal.fire({
+// 				title:'請修正以下錯誤',
+// 				text:,
+// 				type:'warning',
+// 				showCloseButton: true,
+// 			});
+// 		});
 	});
 	
 // MAP

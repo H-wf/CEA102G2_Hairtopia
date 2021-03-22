@@ -439,7 +439,7 @@
         function connect() {
     		// create a websocket
     		<%
-    			System.out.println(1234);
+//     			System.out.println(1234);
     		%>
     		webSocket = new WebSocket(endPointURL);
     		webSocket.binaryType = "arraybuffer";
