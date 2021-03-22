@@ -85,6 +85,31 @@
 
 </ul>
 
+<jsp:useBean id="cosSvc" scope="page" class="com.cos.model.CosService"/>
+
+
+<%-- <h3>多條件查詢：</font></h3>
+<ul>  
+  <li>   
+    <FORM METHOD="get" ACTION="<%=request.getContextPath()%>/coudet/coudet.do" name="form1">
+        <b></b><br>
+        <b>輸入課程編號：</b>
+        <select size="1" name="cosNo" >
+          <option value="">
+         <c:forEach var="cosVO" items="${cosSvc.all}" > 
+          <option value="${cosVO.getCosNo()}">${cosVO.getCosName()}
+         </c:forEach>
+       </select><br>
+           
+       <b>輸入會員編號：</b>
+       <input type="text" name="memNo" value=""><br>
+		        
+        <input type="submit" value="送出">
+        <input type="hidden" name="action" value="listCos_ByCompositeQuery">
+     </FORM>
+  </li>
+</ul>--%>
+
 <h3>課程明細管理：</h3>
 
 <ul>

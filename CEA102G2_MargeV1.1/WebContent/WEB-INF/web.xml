@@ -188,6 +188,15 @@
 		<url-pattern>/QRCode/QRCode.do</url-pattern>
 	</servlet-mapping>
 	
+	<servlet>
+		<servlet-name>ScheServlet2</servlet-name>
+		<servlet-class>com.cossche.controller.ScheServlet2</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>ScheServlet2</servlet-name>
+		<url-pattern>/cossche/cossche.do</url-pattern>
+	</servlet-mapping>
+	
 	
 	 <servlet>  
     <servlet-name>LecturerServlet</servlet-name>

@@ -16,4 +16,5 @@ public interface CosdetDAO_interface {
 		public CosdetVO getAvgCosCommentByCosNo(Integer cosNo);
 		public void updateCosRateForCosTable(CosVO cosVO);//把cosComment算出平均後，送入course表格
 		public CosdetVO findOneCosByCosNo(Integer cosNo);
+		public CosdetVO findQRCodeByCosNoAndCosNo(Integer cosNo, Integer memNo);//找到某堂課QR Code
 }

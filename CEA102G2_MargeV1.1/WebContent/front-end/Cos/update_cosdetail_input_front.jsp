@@ -75,7 +75,14 @@
 	</tr>
 	<tr>
 		<td>課程評價:</td>
-		<td><input type="TEXT" name="cosComment" size="45" value="${cosdetVO.getCosComment()}" /></td>
+		<td><select name="cosComment" value="${cosdetVO.getCosComment()}">
+		 <option value="">請選擇1-5分</option>
+  			<option value="1">1</option>
+  			<option value="2">2</option>
+ 			<option value="3">3</option>
+ 			<option value="4">4</option>
+ 			<option value="5">5</option>
+			</select></td>
 	</tr>
 	<tr>
 		<td>報名課程價格:</td>

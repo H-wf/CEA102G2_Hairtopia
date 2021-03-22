@@ -10,6 +10,8 @@ import javax.sql.DataSource;
 
 import com.cos.model.CosVO;
 
+import CompositeQuery.jdbcUtil_CompositeQuery_Cos;
+
 public class CosdetDAO implements CosdetDAO_interface {
 	
 	private static DataSource ds = null;
@@ -51,6 +53,9 @@ public class CosdetDAO implements CosdetDAO_interface {
 	
 	private static final String UPDATE_course_LET_AVG_COMMENT_AS_RATE_BY_COSNO = 
 			"UPDATE course SET cosRate=? where cosNo = ?";
+	
+	private static final String GET_QRCODE_BY_COSNO_AND_MEMNO = 
+			"SELECT cosNo, memNo, cosComment, cosDetailPrice FROM coudet where cosNo = ? AND memNo=?";
 
 		@Override
 		public void insert(CosdetVO cosdetVO) {
@@ -626,6 +631,118 @@ public List<CosdetVO> getAllCosByMemNo(Integer memNo) {
 			}
 		}
 		return cosdetVO;
+	}
+	
+	public CosdetVO findQRCodeByCosNoAndCosNo(Integer cosNo, Integer memNo) {
+
+		CosdetVO cosdetVO = null;
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+
+		try {
+
+			con = ds.getConnection();
+			pstmt = con.prepareStatement(GET_QRCODE_BY_COSNO_AND_MEMNO);
+
+			pstmt.setInt(1, cosNo);
+			pstmt.setInt(2, memNo);
+
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				cosdetVO = new CosdetVO();
+				cosdetVO.setCosNo(rs.getInt("cosNo"));
+				cosdetVO.setMemNo(rs.getInt("memNo"));
+				cosdetVO.setCosComment(rs.getInt("cosComment"));
+				cosdetVO.setCosDetailPrice(rs.getInt("cosDetailPrice"));
+			}
+
+		} catch (SQLException se) {
+			throw new RuntimeException("A database error occured. "
+					+ se.getMessage());
+
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
+		return cosdetVO;
+	}
+	
+	public List<CosdetVO> getAll(Map<String, String[]> map) {
+		List<CosdetVO> list = new ArrayList<CosdetVO>();
+		CosdetVO cosdetVO = null;
+	
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+	
+		try {
+			
+			con = ds.getConnection();
+			String finalSQL = "select * from coudet "
+		          + jdbcUtil_CompositeQuery_Cos.get_WhereCondition(map)
+		          + "order by cosno";
+			pstmt = con.prepareStatement(finalSQL);
+			System.out.println("●●finalSQL(by DAO) = "+finalSQL);
+			rs = pstmt.executeQuery();
+	
+			while (rs.next()) {
+				cosdetVO = new CosdetVO();
+				cosdetVO.setCosNo(rs.getInt("cosNo"));
+				cosdetVO.setMemNo(rs.getInt("memNo"));
+				cosdetVO.setCosComment(rs.getInt("cosComment"));
+				cosdetVO.setCosDetailPrice(rs.getInt("cosDetailPrice"));
+				list.add(cosdetVO); // Store the row in the List
+			}
+	
+			// Handle any SQL errors
+		} catch (SQLException se) {
+			throw new RuntimeException("A database error occured. "
+					+ se.getMessage());
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
+		return list;
 	}
 }
 	

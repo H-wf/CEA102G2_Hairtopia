@@ -95,7 +95,7 @@
 	</tr>
 	<tr>
 		<td>課程地址:</td>
-		<td><input type="TEXT" name="cosAdd" size="45" value="${cosVO.CosAdd}" /></td>
+		<td><div id = "twzipcode"></div><input type="TEXT" id="cosAdd" name="cosAdd" size="45" value="${cosVO.CosAdd}" /></td>
 	</tr>
 	<tr>
 		<td>報名總人數:</td>
@@ -143,6 +143,8 @@
 <script src="<%=request.getContextPath()%>/resource/datetimepicker/jquery.js"></script>
 <script src="<%=request.getContextPath()%>/resource/datetimepicker/jquery.datetimepicker.full.js"></script>
 
+<script src="https://cdn.jsdelivr.net/npm/jquery-twzipcode@1.7.14/jquery.twzipcode.min.js"></script>
+
 <style>
   .xdsoft_datetimepicker .xdsoft_datepicker {
            width:  300px;   /* width:  300px; */
@@ -187,6 +189,16 @@
   		   value: '${cosVO.cosApplyTo}'
   		   });
 
+        $("#twzipcode").twzipcode({
+        	onDistrictSelect: function() {
+        		var country = $("select[name='county']").val();  // 取縣市的值
+    			var district = $("select[name='district']").val();  // 取鄉鎮市區的值
+    			var zipcode = $("input[name='zipcode']").val();  // 取郵遞區號的值
+    			$("#cosAdd").val(zipcode+country+district);
+
+        	},
+        })
+        
 </script>              
 <!-- Page Content END -->
                 

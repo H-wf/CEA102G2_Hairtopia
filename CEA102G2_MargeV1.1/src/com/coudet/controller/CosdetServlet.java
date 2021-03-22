@@ -8,11 +8,17 @@ import javax.servlet.*;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.*;
 
-import javax.servlet.http.Part;
-
+import com.cos.model.CosService;
 import com.cos.model.CosVO;
 import com.coudet.model.CosdetService;
 import com.coudet.model.CosdetVO;
+import com.google.zxing.BarcodeFormat;
+import com.google.zxing.EncodeHintType;
+import com.google.zxing.MultiFormatWriter;
+import com.google.zxing.WriterException;
+import com.google.zxing.client.j2se.MatrixToImageWriter;
+import com.google.zxing.common.BitMatrix;
+import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
 import com.member.model.MemService;
 import com.member.model.MemVO;
 
@@ -338,6 +344,105 @@ public class CosdetServlet extends HttpServlet {
 			}
 		}
 		
+		if ("ShowQRCodeByCosNoAndMemNo".equals(action)) {
+
+			List<String> errorMsgs = new LinkedList<String>();
+			req.setAttribute("errorMsgs", errorMsgs);
+
+			try {
+				Integer cosNo = null;
+				try {
+					cosNo = new Integer(req.getParameter("cosNo"));
+				} catch (Exception e) {
+					errorMsgs.add("ShowQRCodeByCosNoAndMemNo：str無法變成包裝型別cosNo");
+				}
+				if (!errorMsgs.isEmpty()) {
+					RequestDispatcher failureView = req
+							.getRequestDispatcher("/front-end/Cos/RateCos.jsp");
+					failureView.forward(req, res);
+					return;
+				}
+				System.out.println("CosdetServlet no.358："+cosNo);
+				
+				Integer memNo = null;
+				try {
+					memNo = new Integer(req.getParameter("memNo"));
+				} catch (Exception e) {
+					errorMsgs.add("ShowQRCodeByCosNoAndMemNo：str無法變成包裝型別memNo");
+				}
+				if (!errorMsgs.isEmpty()) {
+					RequestDispatcher failureView = req
+							.getRequestDispatcher("/front-end/Cos/RateCos.jsp");
+					failureView.forward(req, res);
+					return;
+				}
+				
+				System.out.println("CosdetServlet no.373："+memNo);
+				
+				CosdetService cosdetSvc = new CosdetService();
+				CosdetVO cosdetVO = cosdetSvc.findQRCodeByCosNoAndCosNo(cosNo, memNo);
+				if (cosdetVO == null) {
+					errorMsgs.add("getOne_For_Display：cosdetVO為null");
+				}
+				if (!errorMsgs.isEmpty()) {
+					RequestDispatcher failureView = req
+							.getRequestDispatcher("/front-end/Cos/LoginToRateCos.jsp");
+					failureView.forward(req, res);
+					return;
+				}
+				
+				System.out.println("cosdetVO no.387：" + cosdetVO);
+				
+				res.setContentType("image/jpeg");
+				ServletOutputStream out = res.getOutputStream();
+				
+				System.out.println("========== cosdetServlet no.399：");
+				
+//				req.setCharacterEncoding("UTF-8");
+//				String action = req.getParameter("action");
+//				
+//				Integer cosNo = new Integer(req.getParameter("cosNo"));
+//				System.out.println(cosNo);
+				
+//				String url = req.getScheme() + "://" + req.getServerName() + ":" + req.getServerPort() + req.getContextPath() + "/" + req.getServletPath() + "/" + "listOneCosdetail.jsp?";
+				String s1 =  "http://localhost:8081/CEA102G2_Merge/coudet/coudet.do?cosNo=";
+				String s2 = String.valueOf(cosNo);
+				String s3 = "&action=getOne_For_Display";
+				String url = s1 + s2 + s3 ;
+				int width = 200;
+				int height = 200;
+				String format = "jpg";
+				// 設定編碼格式與容錯率
+				Hashtable<EncodeHintType, Object> hints = new Hashtable<>();
+				hints.put(EncodeHintType.CHARACTER_SET, "UTF-8");
+				hints.put(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevel.H);
+				// 開始產生QRCode
+				BitMatrix matrix = null;
+				try {
+					matrix = new MultiFormatWriter().encode(url, BarcodeFormat.QR_CODE, width, height, hints);
+				} catch (WriterException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				MatrixToImageWriter.writeToStream(matrix, format, out);
+				System.out.println(matrix);
+				System.out.println(format);
+				System.out.println(out);
+
+				req.setAttribute("cosdetVO", cosdetVO);
+				String url2 = "/front-end/Cos/QRCodegenerate.jsp";//產生QRcode
+				RequestDispatcher successView = req.getRequestDispatcher(url2);
+				successView.forward(req, res);
+
+			} catch (Exception e) {
+				e.printStackTrace();
+				errorMsgs.add("ShowQRCodeByCosNoAndMemNo：有errorMsgs發生" + e.getMessage());
+				RequestDispatcher failureView = req
+						.getRequestDispatcher("/front-end/Cos/RateCos.jsp");
+				failureView.forward(req, res);
+			}
+		}
+		
 		if ("getOneCos_For_UpdateRate".equals(action)){
 
 		List<String> errorMsgs = new LinkedList<String>();
@@ -501,5 +606,6 @@ public class CosdetServlet extends HttpServlet {
 				failureView.forward(req, res);
 			}
 		}
+		
 	}
 }
