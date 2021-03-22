@@ -3,7 +3,9 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%-- 此頁暫練習採用 Script 的寫法取值 --%>
-
+	<jsp:useBean id="designerSvc" scope="page" class="com.designer.model.DesignerService" />
+	<jsp:useBean id="serviceSvc" scope="page" class="com.service.model.ServiceService" />
+	<jsp:useBean id="memSvc" scope="page" class="com.member.model.MemService" />
 <%
   ResVO resVO = (ResVO) request.getAttribute("resVO"); //ResServlet.java(Concroller), 存入req的serviceVO物件
 %>
@@ -13,8 +15,6 @@
 <title>預約資料 - listOneResOfDes.jsp</title>
 </head>
 <body>
-
-<h4>服務資料 - ListOneResOfDes.jsp</h4>
 <c:if test="${not empty errorMsgs}">
 		<font style="color: red">請修正以下錯誤:</font>
 		<ul>
@@ -23,20 +23,19 @@
 			</c:forEach>
 		</ul>
 	</c:if>
-	<jsp:useBean id="designerSvc" scope="page" class="com.designer.model.DesignerService" />
-	<jsp:useBean id="serviceSvc" scope="page" class="com.service.model.ServiceService" />
+
 <table class="table table-striped">
 	<tr><th>預約編號</th><td>${resVO.resNo}</td></tr>
-	<tr><th>會員編號</th><td>${resVO.memNo}</td></tr>
+	<tr><th>預約會員</th><td>${memSvc.getOneMemName(resVO.memNo)}</td></tr>
 	<tr><th>服務項目</th>
 		<td><c:forEach var="serviceVO" items="${serviceSvc.all}">
 				<c:if test="${serviceVO.serNo==resVO.serNo}">
-	            	${serviceVO.serNo}-${serviceVO.serName}
+	            	${serviceVO.serName}
             	</c:if>
 			</c:forEach>
 		</td></tr>
 	
-	<tr><th>預約產生日</th>
+	<tr><th>下訂時間</th>
 		<td><fmt:formatDate value="${resVO.resProDate}" pattern="yyyy-MM-dd HH:mm:ss"/>
 		</td></tr>	
 	<tr><th>預約時間</th>
@@ -66,7 +65,7 @@
 				</c:choose>
 			</c:forEach>
 			</c:if></td></tr>
-	<tr><th>預約驗證碼</th>
+	<tr><th>驗證碼</th>
 		<td>
 		<c:choose>
 				<c:when test="${resVO.resStatus == 0}">

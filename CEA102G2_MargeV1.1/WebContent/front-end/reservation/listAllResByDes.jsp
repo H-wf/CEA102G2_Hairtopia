@@ -46,10 +46,6 @@
 	.container-fluid{
 		margin:5rem 0;
 	}
-/* 	.space{ */
-/* 		margin:3rem 0; */
-/* 		color:'transparant'; */
-/* 	} */
 </style>
 <body>
 <%@include file="/front-end/tempFile/navBar" %>
@@ -94,7 +90,7 @@
 		<th>服務項目</th>
 		<th>預約時間</th>
 		<th>預約狀態</th>
-		<th>預約操作</th>
+		<th>預約明細</th>
 	</tr>
  
 	<c:forEach var="resVO" items="${resSvc.getAllResByDesNo(desSession.desNo)}" >
@@ -148,22 +144,7 @@
 			</c:choose>
 			</td>
 			<td>
-				<c:if test="${resVO.resStatus == 0}">
-				<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/reservation/res.do" style="font-size:12px;display:inline">
-			    	<input type="submit" value="確認" class="btn btn-primary" >
-			    	<input type="hidden" name="resNo"  value="${resVO.resNo}">
-			    	<input type="hidden" name="action"	value="getOne_For_Update_Confirm"></FORM>
-			    <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/reservation/res.do" style="font-size:12px;display:inline">
-			    	<input type="submit" value="取消" class="btn btn-primary" style="display:inline">
-			    	<input type="hidden" name="resNo"  value="${resVO.resNo}">
-			   		<input type="hidden" name="action" value="cancelByDes"></FORM>
-			   	</c:if>
 			   	<a href="res.do?resNo=${resVO.resNo}&action=getOne_For_Display_Of_Des" class="checkDetail" style="display:inline">查看明細</a>
-			   	
-			   
-			    
-			
-				
 			</td>
 			
 		</tr>

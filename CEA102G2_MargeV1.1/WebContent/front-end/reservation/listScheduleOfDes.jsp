@@ -58,11 +58,14 @@
 	.btn-primary{
 		margin:3px;
 	}
+	.container-fluid{
+		margin:5rem 0;
+	}
 </style>
 <body>
 
 <%@include file="/front-end/tempFile/navBar" %>
-<hr class="space">
+
 <!-- Begin Page Content -->
 <div class="container-fluid">
 	<div class="row">
@@ -88,7 +91,6 @@
 		</div>		
 		<div class="col-8">
 			<div id = listView></div>
-    		<div id="test"></div>
 		</div>
 		<div class="col-1"></div>
 	</div>
@@ -101,9 +103,9 @@
                 <div class="modal-body">   
 					<div id=modalView></div>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                </div>
+<!--                 <div class="modal-footer"> -->
+<!--                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button> -->
+<!--                 </div> -->
 			</div>
 		</div>
 	</div>
@@ -197,7 +199,6 @@
 			table.append(tr);
 			tr = $("<tr>");
 			th = $("<th>");
-			
 			td = $("<td>");
 			let confirmBtn = $("<a>");
 			confirmBtn.attr("href",confirm);
@@ -207,7 +208,9 @@
 			cancelBtn.attr("href",cancel);
 			cancelBtn.attr("class","btn btn-primary");
 			cancelBtn.text("取消");
-			td.append(confirmBtn, cancelBtn);
+			if(data.resStatus==0){
+				td.append(confirmBtn, cancelBtn);
+			}
 			tr.append(th, td);
 			table.append(tr);
 			$("#modalView").append(table);
@@ -240,7 +243,7 @@
   					start : moment(data[i].resDate+" "+starthour+":"+startminute).format('YYYY/MM/DD HH:mm'),
   					end : moment(data[i].resDate+" "+endhour+":"+endminute).format('YYYY/MM/DD HH:mm'),
   					
-  					title : data[i].memName,
+  					title : data[i].memName+data[i].serName,
   					color : colors[data[i].resStatus],
   					content:"<div style=font-size:.9rem;>"
   							+data[i].memName
@@ -248,8 +251,6 @@
   							+"<br>" + starthour + ":" + startminute + "~" + endhour + ":" + endminute
   							+"</div>"
   				});
-            	 
-            	  $("#test").append(data[i].resTime+data[i].serTime);
               }
               GenerateCalendar(events);
             }

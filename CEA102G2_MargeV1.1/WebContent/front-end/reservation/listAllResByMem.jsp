@@ -6,6 +6,7 @@
 
 	<jsp:useBean id="serviceSvc" scope="page" class="com.service.model.ServiceService" />
 	<jsp:useBean id="designerSvc" scope="page" class="com.designer.model.DesignerService" />
+	<jsp:useBean id="resSvc" scope="page" class="com.reservation.model.ResService" />
 
 <!DOCTYPE html>
 <html>
@@ -17,23 +18,23 @@
  
 </head>
 <style>
-	.ftco-navbar-light{
-		position:static;
-	}
-	a{
-		text-decoration:none;
-		font-size:.5rem;
-	}
-	td,th{
-		font-size:1rem;
-	}
-	.space{
-		margin:3rem 0;
-	}
+.container-fluid{
+	margin:5rem 0;
+}
+a{
+	text-decoration:none;
+}
+td,th{
+	font-size:1rem;
+}
+.checkDetail{
+		font-size:.8rem;
+}
 </style>
 <body>
 <%@include file="/front-end/tempFile/navBar" %>
-<hr class="space">
+<div style="height:17vh;"></div>
+
 <!-- Begin Page Content -->
 <div class="container-fluid">
 <div class="row">
@@ -48,20 +49,21 @@
 		</ul>
 	</c:if>
 	
-	<h4>${sessionScope.memVO.memName}</h4>
+	<h4>My Reservation${sessionScope.memVO.memName}</h4>
 	<table class="table table-striped">
 	<tr>
-		<th>單號</th>
+		<th>編號</th>
 		<th>服務項目</th>
 		<th>設計師</th>
 		<th>預約時間</th>
 		<th>預約狀態</th>
-		<th>預約金額</th>
-		<th>預約操作</th>
+		<th>金額</th>
+		<th>預約明細</th>
+		<th></th>
 		
 	</tr>
 	
-	<c:forEach var="resVO" items="${list}" >
+	<c:forEach var="resVO" items="${resSvc.getAllResByMemNo(sessionScope.memVO.memNo)}" >
 		
 		<tr>
 			<td>${resVO.resNo}</td>
@@ -85,7 +87,7 @@
 	            	<c:set var="serPeriod" value="${serviceVO.serTime}"/>
             		</c:if>
 				</c:forEach>
-				<fmt:formatDate value="${resVO.resDate}" pattern="yyyy-MM-dd"/>
+				<fmt:formatDate value="${resVO.resDate}" pattern="yyyy-MM-dd"/><br>
 				<c:set var="startTime" value="${resVO.resTime}"/>
 				<c:set var="endTime" value="${startTime+serPeriod}"/>
 				<fmt:formatNumber type="number" value="${((startTime*30 -(startTime*30%60)))/60}"  var="shour"/>
@@ -120,15 +122,17 @@
 			</td>
 			
 			<td>${resVO.resPrice}</td>
-			<td style="padding:.5rem">
-			
+			<td>
+				<a href="res.do?resNo=${resVO.resNo}&action=getOne_For_Display_Of_Mem" class="checkDetail">查看明細</a>
+				
+			</td>
+			<td style="padding:12px 3px">
 				<c:if test="${resVO.resStatus == 0}">
 					<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/reservation/res.do" style="margin-bottom: 0px;">
 			     	<input type="submit" value="取消預約"  class="btn btn-primary" style="border:0px;padding:.3rem .75rem">
 			    	<input type="hidden" name="resNo"  value="${resVO.resNo}">
 			     	<input type="hidden" name="action"	value="cancelByMem"></FORM>
-				</c:if><br>
-				<a href="res.do?resNo=${resVO.resNo}&action=getOne_For_Display_Of_Mem">查看明細</a>
+				</c:if>
 			</td>
 			
 		</tr>

@@ -326,10 +326,10 @@
         <div class="card-wrapper"></div>
         <div class="form-container active">
             <form action="">
-                <input placeholder="Card number" type="tel" name="number">
-                <input placeholder="Full name" type="text" name="name">
-                <input placeholder="MM/YY" type="tel" name="expiry">
-                <input placeholder="CVC" type="number" name="cvc">
+                <input placeholder="Card number" type="tel" name="number" required>
+                <input placeholder="Full name" type="text" name="name" required>
+                <input placeholder="MM/YY" type="tel" name="expiry" required>
+                <input placeholder="CVC" type="number" name="cvc" required>
             </form>
         </div>
     </div>

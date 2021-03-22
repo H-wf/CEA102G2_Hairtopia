@@ -7,7 +7,6 @@
 <jsp:useBean id="stypeSvc" scope="page" class="com.sertype.model.StypeService" />
 <%
   ServiceVO serviceVO = (ServiceVO) request.getAttribute("serviceVO"); 
-  DesignerVO designerVO = (DesignerVO) request.getAttribute("designerVO"); 
 %>
 <html>
 <head>
@@ -18,10 +17,10 @@
 <body>
 
 <%-- 錯誤表列 --%>
-<c:if test="${not empty errorMsgs}">
+<c:if test="${not empty updateErrorMsgs}">
 	<font style="color:red">請修正以下錯誤:</font>
 	<ul>
-		<c:forEach var="message" items="${errorMsgs}">
+		<c:forEach var="message" items="${updateErrorMsgs}">
 			<li style="color:red">${message}</li>
 		</c:forEach>
 	</ul>

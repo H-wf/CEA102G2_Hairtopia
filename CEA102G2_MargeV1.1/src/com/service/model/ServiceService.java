@@ -15,7 +15,7 @@ public class ServiceService {
 	}
 	
 	public ServiceVO addService(Integer desNo, Integer stypeNo, String serName,
-			Integer serPrice, Integer serTime, String serDesc, Integer serStatus) {
+			Integer serPrice, Integer serTime, String serDesc) {
 
 		ServiceVO serviceVO = new ServiceVO();
 
@@ -25,16 +25,13 @@ public class ServiceService {
 		serviceVO.setSerPrice(serPrice);
 		serviceVO.setSerTime(serTime);
 		serviceVO.setSerDesc(serDesc);
-		serviceVO.setSerStatus(serStatus);
 		dao.insert(serviceVO);
 
 		return serviceVO;
 	}
 	
 	public ServiceVO updateService(Integer serNo, Integer desNo, Integer stypeNo,
-			String serName, Integer serPrice, Integer serTime, String serDesc,
-			Integer serStatus) {
-
+			String serName, Integer serPrice, Integer serTime, String serDesc) {
 		ServiceVO serviceVO = new ServiceVO();
 		
 		serviceVO.setSerNo(serNo);
@@ -44,7 +41,6 @@ public class ServiceService {
 		serviceVO.setSerPrice(serPrice);
 		serviceVO.setSerTime(serTime);
 		serviceVO.setSerDesc(serDesc);
-		serviceVO.setSerStatus(serStatus);
 		dao.update(serviceVO);
 
 		return serviceVO;

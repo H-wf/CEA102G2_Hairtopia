@@ -26,7 +26,9 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" />
 </head>
 <style>
-
+.container-fluid{
+	margin:5rem 0;
+}
 .ftco-navbar-light{
 	position:static;
 }
@@ -169,7 +171,7 @@
 				服務描述:
 				<textarea name="serDesc" class="form-control"><%= (serviceVO==null)? "" : serviceVO.getSerDesc()%></textarea><br>
 			 	</div>
-			 	<input type="hidden" name="desNo" value="${designerVO.desNo}">
+			 	<input type="hidden" name="desNo" value="${desSession.desNo}">
 			 	<input type="hidden" name="action" value="insert">
 				<input type="submit" value="送出新增" class="btn btn-primary">
 	  			
@@ -178,7 +180,7 @@
 		</div>
 		</div>
 		<div class="ServiceCard">
-		<c:forEach  var="serviceVO" items="${serviceSvc.getAllServiceByDesNo(designerVO.desNo)}">
+		<c:forEach  var="serviceVO" items="${serviceSvc.getAllServiceByDesNo(desSession.desNo)}">
 		<div class="callout callout-default">
 			<h4 style="font-size:1.3rem">${serviceVO.serName}
 			<div class="serviceAction">
@@ -203,6 +205,11 @@
 					<input type="hidden" name="action"	value="updateSerStatus">
 				</FORM>
 				</c:if>
+				<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/service/service.do">
+					<input type="submit" value="刪除" class="btn btn-outline-primary bookingBtn">
+					<input type="hidden" name="serNo"  value="${serviceVO.serNo}">
+					<input type="hidden" name="action"	value="delete">
+				</FORM>
 			</div></h4>
 			<span style="font-size:1rem;color:#b9b9b9">${serviceVO.serDesc}</span>
 			<h4>服務時長:　
@@ -252,5 +259,8 @@
 </body>
 <script>
    $("#basicModal").modal({show: true});
+   if(${not empty errorMsgs}){
+   		$("#serviceCollapse").collapse({show:true});
+   };
 </script>
 </html>
