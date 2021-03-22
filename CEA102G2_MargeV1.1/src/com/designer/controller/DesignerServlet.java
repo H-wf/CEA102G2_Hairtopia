@@ -91,9 +91,6 @@ public class DesignerServlet extends HttpServlet {
 /*取得髮廊VO*/
 				SalonVO salVo = new SalonService().getOneSalon(desVO.getSalNo());
 				
-				if (desVO == null) {
-					errorMsgs.add("查無設計師資料");
-				}
 				// Send the use back to the form, if there were errors
 				if (!errorMsgs.isEmpty()) {
 					if ("getOne_For_Display_Back".equals(action)) {
@@ -276,7 +273,7 @@ session.setAttribute("memVO", memVO);
 			// Store this set in the request scope, in case we need to
 			// send the ErrorPage view.
 			req.setAttribute("errorMsgs", errorMsgs);
-			System.out.println(action);
+	
 
 			try {
 				/*************************** 1.接收請求參數 ****************************************/
@@ -429,12 +426,17 @@ session.setAttribute("memVO", memVO);
 			
 			req.setAttribute("errorMsgs", errorMsgs);
 
-			try {
+//			try {
 				/*************************** 1.接收請求參數 ****************************************/
 				Integer desNo = new Integer(req.getParameter("desNo"));	
-				Integer desStatus = new Integer(req.getParameter("desStatus"));	
+				String str = req.getParameter("desStatus");	
+				Integer desStatus = null;
+				try {
+					desStatus = new Integer(str);
+				}catch(Exception e) {
+					desStatus = 0 ;
+				}
 
-			
 
 				/*************************** 2.開始修改資料 *****************************************/
 				DesignerService designerSvc = new DesignerService();
@@ -447,11 +449,11 @@ session.setAttribute("memVO", memVO);
 				RequestDispatcher successView = req.getRequestDispatcher(url); // 修改成功後,轉交listOneEmp.jsp
 				successView.forward(req, res);
 				/*************************** 其他可能的錯誤處理 **********************************/
-			} catch (Exception e) {
-				errorMsgs.add("無法取得要修改的資料:" + e.getMessage());
-				RequestDispatcher failureView = req.getRequestDispatcher("/back-end/designer/listAllDesigner.jsp");
-				failureView.forward(req, res);
-			}
+//			} catch (Exception e) {
+//				errorMsgs.add("無法取得要修改的資料:" + e.getMessage());
+//				RequestDispatcher failureView = req.getRequestDispatcher("/back-end/designer/listAllDesigner.jsp");
+//				failureView.forward(req, res);
+//			}
 		}
 		if ("delete".equals(action)) { // 來自listAll_lec.jsp
 

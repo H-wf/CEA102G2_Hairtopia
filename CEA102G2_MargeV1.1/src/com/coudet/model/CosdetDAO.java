@@ -46,7 +46,7 @@ public class CosdetDAO implements CosdetDAO_interface {
 
 				pstmt.setInt(1, cosdetVO.getCosNo());
 				pstmt.setInt(2, cosdetVO.getMemNo());
-				pstmt.setString(3, cosdetVO.getCosComment());
+				pstmt.setInt(3, cosdetVO.getCosComment());
 				pstmt.setInt(4, cosdetVO.getCosDetailPrice());
 
 				pstmt.executeUpdate("set auto_increment_offset=3;");
@@ -89,7 +89,7 @@ public class CosdetDAO implements CosdetDAO_interface {
 				
 				
 				pstmt.setInt(1, cosdetVO.getMemNo());
-				pstmt.setString(2, cosdetVO.getCosComment());
+				pstmt.setInt(2, cosdetVO.getCosComment());
 				pstmt.setInt(3, cosdetVO.getCosDetailPrice());
 				pstmt.setInt(4, cosdetVO.getCosNo());
 
@@ -171,9 +171,9 @@ public class CosdetDAO implements CosdetDAO_interface {
 
 		}
 
-		@Override
-		public CosdetVO findByPrimaryKey(Integer cosNo) {
+		public List<CosdetVO> findByPrimaryKey(Integer cosNo) {
 
+			List<CosdetVO> hashsetforcosno = new ArrayList<CosdetVO>();
 			CosdetVO cosdetVO = null;
 			Connection con = null;
 			PreparedStatement pstmt = null;
@@ -192,8 +192,9 @@ public class CosdetDAO implements CosdetDAO_interface {
 					cosdetVO = new CosdetVO();
 					cosdetVO.setCosNo(rs.getInt("cosNo"));
 					cosdetVO.setMemNo(rs.getInt("memNo"));
-					cosdetVO.setCosComment(rs.getString("cosComment"));
+					cosdetVO.setCosComment(rs.getInt("cosComment"));
 					cosdetVO.setCosDetailPrice(rs.getInt("cosDetailPrice"));
+					hashsetforcosno.add(cosdetVO);
 				}
 
 			} catch (SQLException se) {
@@ -223,7 +224,7 @@ public class CosdetDAO implements CosdetDAO_interface {
 					}
 				}
 			}
-			return cosdetVO;
+			return hashsetforcosno;
 		}
 
 		@Override
@@ -246,7 +247,7 @@ public class CosdetDAO implements CosdetDAO_interface {
 					cosdetVO = new CosdetVO();
 					cosdetVO.setCosNo(rs.getInt("cosNo"));
 					cosdetVO.setMemNo(rs.getInt("memNo"));
-					cosdetVO.setCosComment(rs.getString("cosComment"));
+					cosdetVO.setCosComment(rs.getInt("cosComment"));
 					cosdetVO.setCosDetailPrice(rs.getInt("cosDetailPrice"));
 					list.add(cosdetVO);
 				}
@@ -279,6 +280,11 @@ public class CosdetDAO implements CosdetDAO_interface {
 			}
 			return list;
 		}
+		
+		
+	
+			
+		
 
 		
 	}

@@ -27,7 +27,7 @@
 	<!-- Begin Page Content -->
 	<div class="container-fluid">
 		<div class="row">
-			<div class="col-6">
+			<div class="col-12">
 			
 				<div class="card mb-3" style="max-width: 540px;">
 					<div class="row no-gutters">

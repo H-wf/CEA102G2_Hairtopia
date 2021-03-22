@@ -1,5 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="com.lecturer.model.*"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page import="java.util.*"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%-- 此頁暫練習採用 Script 的寫法取值 --%>
@@ -36,7 +37,7 @@ img {
 			<c:if test="${cosVO.lecNo == lecVO.lecNo}">
 
 				<div class="col-3 mb-1">
-					<div class="card " style="width: 16rem; height: 30rem;">
+					<div class="card " style="width: 16rem; height: 28rem;">
 						<img
 							src="<%=request.getContextPath()%>/PicFinder?pic=1&table=Course&column=cosPic&idname=cosNo&id=${cosVO.cosNo}"
 							class="card-img-top" alt="...">

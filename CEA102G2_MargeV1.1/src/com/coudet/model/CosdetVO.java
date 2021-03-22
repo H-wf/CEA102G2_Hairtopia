@@ -5,7 +5,7 @@ import java.lang.String;
 public class CosdetVO  implements java.io.Serializable{
 	private Integer cosNo;
 	private Integer memNo;
-	private String cosComment;
+	private Integer cosComment;
 	private Integer cosDetailPrice;
 	/**
 	 * @return the cosNo
@@ -34,20 +34,18 @@ public class CosdetVO  implements java.io.Serializable{
 	/**
 	 * @return the cosComment
 	 */
-	public String getCosComment() {
-		return cosComment;
-	}
-	/**
-	 * @param cosComment the cosComment to set
-	 */
-	public void setCosComment(String cosComment) {
-		this.cosComment = cosComment;
-	}
+
 	/**
 	 * @return the cosDetailPrice
 	 */
 	public Integer getCosDetailPrice() {
 		return cosDetailPrice;
+	}
+	public Integer getCosComment() {
+		return cosComment;
+	}
+	public void setCosComment(Integer cosComment) {
+		this.cosComment = cosComment;
 	}
 	/**
 	 * @param cosDetailPrice the cosDetailPrice to set

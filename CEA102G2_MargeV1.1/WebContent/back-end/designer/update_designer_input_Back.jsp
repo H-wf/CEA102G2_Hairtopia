@@ -7,7 +7,7 @@
 	DesignerVO designerVO = (DesignerVO) request.getAttribute("designerVO");
 	//DesignerServlet.java (Concroller) 存入req的designerVO物件 (包括幫忙取出的designerVO, 也包括輸入資料錯誤時的designerVO物件)
 
-	String weekArray[] = { "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday" };
+	String weekArray[] = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
 	pageContext.setAttribute("weekArray", weekArray);
 %>
 <html>
@@ -29,7 +29,7 @@
 			class="com.salon.model.SalonService" />
 		<div class="row">
 
-			<div class="col-6">
+			<div class="col-12">
 				<h3>服務資料修改:</h3>
 
 				<%-- 錯誤表列 --%>
@@ -71,14 +71,14 @@
 
 									<tr>
 										<th>設計師狀態</th>
-										<td><select name="desStatus">
-												<option value="0"
-													${designerVO.desStatus == 0 ? "selected" : ""}>未審核</option>
-												<option value="1"
-													${designerVO.desStatus == 1 ? "selected" : ""}>正常</option>
-										</select></td>
-									</tr>
+										<td><div class="custom-control custom-switch">
+												<input type="checkbox" class="custom-control-input"
+													name="desStatus" id="customSwitch1" checked><label
+													class="custom-control-label" for="customSwitch1">審核狀態</label>
 
+											</div></td>
+									</tr>
+								
 
 
 									<tr>
@@ -88,7 +88,8 @@
 
 												<tr>
 
-													<td><table class="table table-borderless">
+													<td style="border: 0px"><table
+															class="table table-borderless">
 															<c:forEach var="myData" begin="0" end="27" step="4">
 																<c:set var="i" value="${myData/4}" />
 																<c:set var="desSchedule"
@@ -114,26 +115,78 @@
 																	<td><fmt:formatNumber value="${endHour}"
 																			type="number" maxFractionDigits="0" />: ${(end*30 %60 == 0)? "00" :"30"}</td>
 																</tr>
-
 															</c:forEach>
+
 
 														</table></td>
 												</tr>
 
+
+
 											</table>
 										</td>
+									</tr>
+									<tr>
+
+
+									
+
+									</tr>
+
+
 								</table>
+								
+									<input type="hidden" name="action"
+											value="Update_Status"> <input type="hidden"
+											name="desNo" value="${designerVO.desNo}"> <input
+											id="saveButton" type="submit" value="送出修改"
+											class="btn btn-primary">
 							</div>
 						</div>
 					</div>
 
-					<br> <input type="hidden" name="action" value="Update_Status">
-					<input type="hidden" name="desNo" value="${designerVO.desNo}">
-					<input type="submit" value="送出修改">
+					<br>
 				</FORM>
 
 			</div>
 		</div>
 	</div>
+
+	<%@include file="/back-end/tempFile/footer"%>
+	<%@include file="/back-end/tempFile/srcJs"%>
+	<script
+		src="<%=request.getContextPath()%>/dist/backTemp/vendor/jquery/jquery.min.js"></script>
+	<script
+		src="<%=request.getContextPath()%>/dist/backTemp/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+	<!-- Core plugin JavaScript-->
+	<script
+		src="<%=request.getContextPath()%>/dist/backTemp/vendor/jquery-easing/jquery.easing.min.js"></script>
+	<!-- Custom scripts for all pages-->
+	<script
+		src="<%=request.getContextPath()%>/dist/backTemp/js/sb-admin-2.min.js"></script>
+	<!-- Page level plugins -->
+	<script
+		src="<%=request.getContextPath()%>/dist/backTemp/vendor/datatables/jquery.dataTables.min.js"></script>
+	<script
+		src="<%=request.getContextPath()%>/dist/backTemp/vendor/datatables/dataTables.bootstrap4.min.js"></script>
+	<!-- Page level custom scripts -->
+	<script
+		src="<%=request.getContextPath()%>/dist/backTemp/js/demo/datatables-demo.js"></script>
+
 </body>
+
+<script>
+	$('#saveButton').on('click', function() {
+
+		var $collectedIsVisible = '';
+
+		if ($('#customSwitch1').is(':checked')) {
+
+			$collectedIsVisible = $('#customSwitch1').attr('value', '1');
+		} else {
+			$collectedIsVisible = $('#customSwitch1').attr('value', '0');
+		}
+		console.log($('#customSwitch1').val())
+	})
+</script>
 </html>

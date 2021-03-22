@@ -79,7 +79,7 @@ img {
 													<FORM METHOD="post"
 														ACTION="<%=request.getContextPath()%>/authority/authority.do"
 														style="margin-bottom: 0px;">
-														<input type="submit" value="刪除權限"> <input
+														<input type="submit" value="刪除權限" class="btn btn-primary"> <input
 															type="hidden" name="funcNo" value="${funcVO.funcNo}">
 														<input type="hidden" name="staNo" value="${staVO.staNo}">
 														<input type="hidden" name="action" value="listAll_auth">
@@ -89,7 +89,7 @@ img {
 													<FORM METHOD="post"
 														ACTION="<%=request.getContextPath()%>/authority/authority.do"
 														style="margin-bottom: 0px;">
-														<input type="submit" value="增加權限" disabled> <input
+														<input type="submit" value="增加權限" disabled class="btn btn-primary"> <input
 															type="hidden" name="funcNo" value="${funcVO.funcNo}">
 														<input type="hidden" name="staNo" value="${staVO.staNo}">
 														<input type="hidden" name="action" value="insert">
@@ -101,7 +101,7 @@ img {
 													<FORM METHOD="post"
 														ACTION="<%=request.getContextPath()%>/authority/authority.do"
 														style="margin-bottom: 0px;">
-														<input type="submit" value="刪除權限" disabled> <input
+														<input type="submit" value="刪除權限" disabled class="btn btn-primary"> <input
 															type="hidden" name="funcNo" value="${funcVO.funcNo}">
 														<input type="hidden" name="staNo" value="${staVO.staNo}">
 														<input type="hidden" name="action" value="listAll_auth">
@@ -111,7 +111,7 @@ img {
 													<FORM METHOD="post"
 														ACTION="<%=request.getContextPath()%>/authority/authority.do"
 														style="margin-bottom: 0px;">
-														<input type="submit" value="增加權限"> <input
+														<input type="submit" value="增加權限" class="btn btn-primary"> <input
 															type="hidden" name="funcNo" value="${funcVO.funcNo}">
 														<input type="hidden" name="staNo" value="${staVO.staNo}">
 														<input type="hidden" name="action" value="insert">

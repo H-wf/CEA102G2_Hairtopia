@@ -10,7 +10,7 @@ public class CosdetService {
 			dao = new CosdetDAO();
 		}
 		
-		public CosdetVO insertCosDet(Integer cosNo, Integer memNo, String cosComment, Integer cosDetailPrice) {
+		public CosdetVO insertCosDet(Integer cosNo, Integer memNo, Integer cosComment, Integer cosDetailPrice) {
 
 			CosdetVO cosdetVO = new CosdetVO();
 			
@@ -27,7 +27,7 @@ public class CosdetService {
 			dao.delete(cosNo);
 		}
 		
-		public CosdetVO updateCosDet(Integer cosNo, String cosComment, Integer cosDetailPrice, Integer memNo) {
+		public CosdetVO updateCosDet(Integer cosNo, Integer cosComment, Integer cosDetailPrice, Integer memNo) {
 
 			CosdetVO cosdetVO = new CosdetVO();
 
@@ -45,7 +45,7 @@ public class CosdetService {
 			return dao.getAll();
 		}
 
-		public CosdetVO getOneCosDet(Integer cosNo) {
+		public List<CosdetVO> getOneCosDet(Integer cosNo) {
 			return dao.findByPrimaryKey(cosNo);
 		}
 }
