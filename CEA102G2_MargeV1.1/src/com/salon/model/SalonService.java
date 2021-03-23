@@ -79,21 +79,28 @@ public class SalonService {
 	public List<SalonVO> getSalSearch(String keyword){
 		return dao.getAllSearch(keyword);
 	}
-	public Set<SalonVO> pickup5Salon() {
-		List<SalonVO> allSalon = dao.getAll();
-		Set<SalonVO> reSalon = new HashSet<SalonVO>();
-		Set<Integer> index = new HashSet<Integer>();
-		
-		while(index.size()<5){
-			int x = (int) (Math.random()*allSalon.size())+1;
-			index.add(x);
-		}
-		while(reSalon.size()<5) {
-			for(Integer y:index) {
-				reSalon.add(allSalon.get(y));
+	
+	//增加index需要的方法 0320
+	public Set<SalonVO> pickup5Sal() {
+		Set<SalonVO> reSal = new HashSet<SalonVO>();
+		try {
+			List<SalonVO> allSal = dao.getAll();
+			Set<Integer> index = new HashSet<Integer>();
+
+			while (index.size() < 5) {
+				int x = (int) (Math.random() * allSal.size());
+				index.add(x);
 			}
+			while (reSal.size() < 5) {
+				for (Integer y : index) {
+					reSal.add(allSal.get(y));
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
-		return reSalon;
+		return reSal;
 	}
+
 
 }

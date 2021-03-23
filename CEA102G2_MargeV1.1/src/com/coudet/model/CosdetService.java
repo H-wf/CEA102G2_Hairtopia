@@ -48,7 +48,7 @@ public class CosdetService {
 			return dao.getAll();
 		}
 
-		public CosdetVO getOneCosDet(Integer cosNo) {
+		public List<CosdetVO> getOneCosDet(Integer cosNo) {
 			return dao.findByPrimaryKey(cosNo);
 		}
 		

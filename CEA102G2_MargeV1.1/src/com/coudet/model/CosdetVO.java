@@ -30,6 +30,25 @@ public class CosdetVO  implements java.io.Serializable{
 		result = prime * result + ((memNo == null) ? 0 : memNo.hashCode());
 		return result;
 	}
+	/**
+	 * @return the cosComment
+	 */
+
+	/**
+	 * @return the cosDetailPrice
+	 */
+	public Integer getCosDetailPrice() {
+		return cosDetailPrice;
+	}
+	public Integer getCosComment() {
+		return cosComment;
+	}
+	public void setCosComment(Integer cosComment) {
+		this.cosComment = cosComment;
+	}
+	/**
+	 * @param cosDetailPrice the cosDetailPrice to set
+	 */
 
 	@Override
 	public boolean equals(Object obj) {

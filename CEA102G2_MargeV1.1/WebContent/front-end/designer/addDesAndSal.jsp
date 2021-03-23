@@ -150,7 +150,7 @@ padding:5px;
 		<div class="form-group">
 			<label for="desName">設計師名字</label>
 		
-		<input type="TEXT" name="desName" id="desName"  class="form-control" value="${empty designerVO ? ' ' :designerVO.desName}" />
+		<input type="TEXT" name="desName" id="desName"  required  class="form-control" value="${empty designerVO ? ' ' :designerVO.desName}" />
 		</div>
 		
 		<div class="form-group">
@@ -206,7 +206,7 @@ padding:5px;
 		<div class="form-group ScheduleTime">
 		<label for="desInfor">設計師簡介</label>
 		<textarea id='desInfor' row="10" cols="48" name="desInfor"  class="form-control"  rows ="10"
-						size="45" >${empty designerVO ? ' ' :designerVO.desInfor}</textarea>
+						size="45" required>${empty designerVO ? ' ' :designerVO.desInfor}</textarea>
 			
 		</div>
 		<div class="form-group ScheduleTime">
@@ -220,7 +220,7 @@ padding:5px;
 		<input type="hidden" name="desStatus" value="0">
 		<input type="hidden" name="desSchedule" id="desSchedule" value="1">
 		
-
+<%-- 		<input type="hidden" name="memNo" value="${memVO.memNo}">  --%>
 		<input type="hidden" name="action" value="addDesAndSal"> 
 		<input type="hidden" id="salLat" name="salLat" value="7"> 
 		<input type="hidden" id="salLng" name="salLng" value="8"> 
@@ -247,13 +247,13 @@ var contextPath = "<%=request.getContextPath()%>";
 		$('#addButton').click(function(){
 			if($('#addSalondiv').hasClass("divDisplayNone")){
 
-        $('#addSalondiv').fadeIn(500,function(){
+        $('#addSalondiv').slideDown(400,function(){
 
 					$('#addSalondiv').removeClass("divDisplayNone");	
 				});
 				
 			}else{
-				$('#addSalondiv').fadeOut(500,function(){
+				$('#addSalondiv').slideUp(400,function(){
 
 					$('#addSalondiv').addClass("divDisplayNone");
 				})		
@@ -323,11 +323,12 @@ var contextPath = "<%=request.getContextPath()%>";
 			let str ="";
 			btnF.onclick = function(){
 				if(ckeck() === false){
-					
+				 	
 					return false
 				}else{
-				geocode()	
 				scheduleSum()
+				geocode()	
+				
 				  
 				
 				 
@@ -361,6 +362,16 @@ var contextPath = "<%=request.getContextPath()%>";
 					alert("Saturday時間填寫有誤")
 					return false;
 				}
+				
+				if($("#desName").val().trim().length === 0){
+					alert("請填寫設計師名字")
+					return false;
+				}else if($("#desInfor").val().trim().length === 0){
+					alert("請填寫設計師簡介")
+					return false;
+				}
+			
+				
 					
 			}
 	//串接班表
@@ -408,9 +419,12 @@ var contextPath = "<%=request.getContextPath()%>";
 				})
 				.catch(function(error){
 					alert("請填入地址");
+					return false
  
 				});
 			}
+			 
+			
 			
 			var customFile = document.getElementById("customFile");
 			var preview = document.getElementById('preview');
@@ -457,6 +471,11 @@ var contextPath = "<%=request.getContextPath()%>";
 
 // JS結束
 					console.log(error);
+					
+					
+					$("#submitForm").click(function(){
+						
+					})
 
 
 	})

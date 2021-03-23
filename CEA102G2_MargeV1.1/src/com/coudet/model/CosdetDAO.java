@@ -189,9 +189,9 @@ public class CosdetDAO implements CosdetDAO_interface {
 
 		}
 
-		@Override
-		public CosdetVO findByPrimaryKey(Integer cosNo) {
+		public List<CosdetVO> findByPrimaryKey(Integer cosNo) {
 
+			List<CosdetVO> hashsetforcosno = new ArrayList<CosdetVO>();
 			CosdetVO cosdetVO = null;
 			Connection con = null;
 			PreparedStatement pstmt = null;
@@ -212,6 +212,7 @@ public class CosdetDAO implements CosdetDAO_interface {
 					cosdetVO.setMemNo(rs.getInt("memNo"));
 					cosdetVO.setCosComment(rs.getInt("cosComment"));
 					cosdetVO.setCosDetailPrice(rs.getInt("cosDetailPrice"));
+					hashsetforcosno.add(cosdetVO);
 				}
 
 			} catch (SQLException se) {
@@ -241,7 +242,7 @@ public class CosdetDAO implements CosdetDAO_interface {
 					}
 				}
 			}
-			return cosdetVO;
+			return hashsetforcosno;
 		}
 
 		@Override
@@ -297,6 +298,11 @@ public class CosdetDAO implements CosdetDAO_interface {
 			}
 			return list;
 		}
+		
+		
+	
+			
+		
 
 		public void insertNoComment(CosdetVO cosdetVO) {
 
