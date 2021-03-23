@@ -142,7 +142,7 @@
 											<hr>
 											<div class="price">
 												<h4 style="display: inline; font-size: unset;">優惠價:${serviceVo.serPrice}元</h4>
-												<a class="btn btn-outline-primary bookingBtn" id="resBtn"	href="#">立即預約<i class="bi bi-arrow-right"></i></a>
+												<a class="btn btn-outline-primary bookingBtn" id="resBtn"	href="#">立即預約${empty sessionScope.memVO}<i class="bi bi-arrow-right"></i></a>
 											</div>
 										</div>
 									</c:if>
