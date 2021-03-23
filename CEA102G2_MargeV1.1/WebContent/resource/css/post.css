@@ -1,0 +1,135 @@
+/* postCSS */
+	@media (min-width: 576px) {
+  .card-columns {
+	    column-count: 1;
+	  	}
+	}
+	@media (min-width: 768px) {
+	  .card-columns {
+	    column-count: 2;
+	  }
+	}
+	@media (min-width: 992px) {
+	  .card-columns {
+	    column-count: 3;
+	  }
+	}
+	@media (min-width: 1200px) {
+		.card-columns {
+	    column-count: 4;
+	  }
+	}
+	.post{
+		padding-left: 8em;
+		padding-right: 7em;
+	}
+ 	.card:hover{ 
+      transform: scale(1.05); 
+ 	  box-shadow: 0 10px 20px rgba(0,0,0,.12), 0 4px 8px rgba(0,0,0,.06); 
+ 	}
+ /* postCSS END */
+ 	
+/* Whole post Css */
+#postModal .modal-dialog{
+    max-width: 90%;
+}
+#postModal .close{
+    margin-top: -15px;
+    margin-right: -10px;
+}
+div.comDisplay{
+    overflow-y:auto;
+    height:300px;
+    }
+img {
+    max-width: 100%;
+}
+#tags div{
+	text-transform: uppercase;
+    display: inline-block;
+    padding: 4px 10px;
+    margin-bottom: 7px;
+    margin-right: 4px;
+    border-radius: 4px;
+    color: #000;
+    border: 1px solid #e6e6e6;
+    font-size: 11px;
+}
+li.media img,#desPic{
+width:15%;
+margin-right:2%;
+}
+li.media img.img-thumbnail,#desPic.img-thumbnail{
+padding: 0.15rem;
+}
+.comCon{
+font-size:0.9rem;
+color:#6D6D6D;
+}
+#comList li{
+margin: 2% 0 2% 0;
+}
+#comList .media{
+border-radius: 0.2em;
+}
+#comList .media:hover{
+background-color: rgba(244,244,244,0.8);
+}
+
+p.comCon{
+margin-bottom: 0;
+}
+.comTime{
+float:right;
+}
+#desInfo h5{
+    display: inline;
+    vertical-align: middle;
+}
+#desInfo {
+margin-bottom:5%;
+}
+#postTime{
+    display: block;
+    text-align: end;
+}
+p#postCon{
+	color:#333333;
+	text-indent:1em;
+}
+#tags{
+margin-top:3%;
+}
+#postHr{
+	margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+.media-body h5{
+    display: inline;
+    vertical-align: middle;
+}
+.bi-three-dots-vertical{
+color:#A6A6A6;
+}
+.bi-three-dots-vertical:hover{
+	color:#333333;
+	cursor:pointer;
+}
+#postD{
+    display: inline-block;
+    float: right;
+    top: 1.5%;
+    left: 95%;
+    position: absolute;
+}
+#comD{
+float:right;
+}
+.dropdown-toggle::after{
+content:none;
+}
+.form-control.udComCon{
+    font-size: .9rem;
+    height: 1%!important;
+}
+/* Whole post Css END */

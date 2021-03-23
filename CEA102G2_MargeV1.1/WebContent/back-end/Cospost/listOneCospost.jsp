@@ -46,11 +46,10 @@
 </head>
 <body bgcolor='white'>
 
-<h4>此頁暫練習採用 Script 的寫法取值:</h4>
 <table id="table-1">
 	<tr><td>
 		 <h3>員工資料 - listOneCosPost.jsp</h3>
-		 <h4><a href="<%= request.getContextPath()%>/back-end/Cospost/select_cospost_page.jsp"><img src="<%= request.getContextPath()%>/resource/images/back1.gif" width="100" height="32" border="0">回首頁</a></h4>
+		 <h4><a href="<%=request.getContextPath()%>/back-end/Cos/select_cos_page.jsp"><img src="<%=request.getContextPath()%>/resource/images/back1.gif" width="100" height="32" border="0">回後台主頁</a></h4>
 	</td></tr>
 </table>
 

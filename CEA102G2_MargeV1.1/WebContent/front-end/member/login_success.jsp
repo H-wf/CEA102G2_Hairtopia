@@ -3,6 +3,7 @@
 <html>
 <head>
 <title>login_success.jsp</title>
+ <meta charset="utf-8">
 </head>
 <body>
 

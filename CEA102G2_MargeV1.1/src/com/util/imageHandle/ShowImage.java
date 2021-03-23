@@ -53,7 +53,7 @@ public class ShowImage extends HttpServlet {
 			}
 			rs.close();
 		} catch (Exception e) {
-			InputStream in = getServletContext().getResourceAsStream("/resource/images/unupload.jpg");
+			InputStream in = getServletContext().getResourceAsStream("/resource/images/memIcon.png");
 			byte[] b = new byte[in.available()];
 			in.read(b);
 			out.write(b);
