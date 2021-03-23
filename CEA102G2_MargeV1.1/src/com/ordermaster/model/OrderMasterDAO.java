@@ -37,15 +37,17 @@ public class OrderMasterDAO implements OrderMasterDAO_interface{
 	}
 	
 	private static final String INSERT_STMT =
-			"INSERT INTO OrderMaster (memNo,ordStatus,ordAmt) VALUES (?,?,?)";
+			"INSERT INTO OrderMaster (memNo,ordStatus,ordAmt,ordName,ordEmail,ordPhone,ordAddr) VALUES (?,?,?,?,?,?,?)";
 	private static final String UPDATE = 
 			"UPDATE OrderMaster set memNo=?, ordStatus=?, ordAmt=? where ordNo = ?";
 	private static final String DELETE = 
 			"DELETE FROM OrderMaster where ordNo = ?";
 	private static final String GET_ONE_STMT = 
-			"SELECT ordNo,memNo,ordDate,ordStatus,ordAmt FROM OrderMaster where ordNo = ?";
+			"SELECT ordNo,memNo,ordDate,ordStatus,ordAmt,ordName,ordEmail,ordPhone,ordAddr FROM OrderMaster where ordNo = ?";
 	private static final String GET_ALL_STMT = 
-			"SELECT ordNo,memNo,ordDate,ordStatus,ordAmt FROM OrderMaster order by ordNo";
+			"SELECT ordNo,memNo,ordDate,ordStatus,ordAmt,ordName,ordEmail,ordPhone,ordAddr FROM OrderMaster order by ordNo";
+//	private static final String GET_ALL_ByMemNo_STMT = 
+//			"SELECT ordNo,memNo,ordDate,ordStatus,ordAmt FROM OrderMaster where memNo=? order by ordNo";
 	@Override
 	public void insert(OrderMasterVO ordmVO) {
 		Connection con = null;
@@ -175,6 +177,10 @@ public class OrderMasterDAO implements OrderMasterDAO_interface{
 				ordmVO.setOrdDate(rs.getTimestamp("ordDate"));
 				ordmVO.setOrdStatus(rs.getInt("ordStatus"));
 				ordmVO.setOrdAmt(rs.getInt("ordAmt"));
+				ordmVO.setOrdName(rs.getString("ordName"));
+				ordmVO.setOrdEmail(rs.getString("ordEmail"));
+				ordmVO.setOrdPhone(rs.getString("ordPhone"));
+				ordmVO.setOrdAddr(rs.getString("ordAddr"));
 			}
 		} catch (SQLException se) {
 			throw new RuntimeException("A database error occured." + se.getMessage());
@@ -224,6 +230,10 @@ public class OrderMasterDAO implements OrderMasterDAO_interface{
 				ordmVO.setOrdDate(rs.getTimestamp("ordDate"));
 				ordmVO.setOrdStatus(rs.getInt("ordStatus"));
 				ordmVO.setOrdAmt(rs.getInt("ordAmt"));
+				ordmVO.setOrdName(rs.getString("ordName"));
+				ordmVO.setOrdEmail(rs.getString("ordEmail"));
+				ordmVO.setOrdPhone(rs.getString("ordPhone"));
+				ordmVO.setOrdAddr(rs.getString("ordAddr"));
 				list.add(ordmVO);
 			}
 		} catch (SQLException se) {
@@ -264,12 +274,13 @@ public class OrderMasterDAO implements OrderMasterDAO_interface{
 		
 		try {
 			con = ds.getConnection();			
-			String SQL = "select om.ordNo, om.memNo, ordDate, ordStatus, ordAmt from ordermaster om " 										
+			String SQL = "select om.ordNo, om.memNo, ordDate, ordStatus, ordAmt, ordName, ordEmail, ordPhone, ordAddr from ordermaster om " 										
 				    	+"join member m on om.memNo = m.memNo ";
 			Set<String> keys = map.keySet();
 			int count = 0;
 			for(String key : keys) {
 				String value = map.get(key)[0];
+				System.out.print(key+":");
 				System.out.println(value);
 				if (!"".equals(value) && !"action".equals(key)) {
 					if(count==0) {
@@ -298,6 +309,10 @@ public class OrderMasterDAO implements OrderMasterDAO_interface{
 				ordermasterVO.setOrdDate(rs.getTimestamp("ordDate"));
 				ordermasterVO.setOrdStatus(rs.getInt("ordStatus"));
 				ordermasterVO.setOrdAmt(rs.getInt("ordAmt"));
+				ordermasterVO.setOrdName(rs.getString("ordName"));
+				ordermasterVO.setOrdEmail(rs.getString("ordEmail"));
+				ordermasterVO.setOrdPhone(rs.getString("ordPhone"));
+				ordermasterVO.setOrdAddr(rs.getString("ordAddr"));
 				list.add(ordermasterVO);
 			}
 		} catch (SQLException se) {
@@ -329,7 +344,7 @@ public class OrderMasterDAO implements OrderMasterDAO_interface{
 	}
 
 	@Override
-	public OrderMasterVO insertWithOrderDetails(OrderMasterVO ordermasterVO, Vector<OrderDetailVO> vector) {
+	public OrderMasterVO insertWithOrderDetails(OrderMasterVO ordermasterVO, List<OrderDetailVO> list) {
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		
@@ -345,6 +360,10 @@ public class OrderMasterDAO implements OrderMasterDAO_interface{
 			pstmt.setInt(1, ordermasterVO.getMemNo());
 			pstmt.setInt(2, 0);
 			pstmt.setInt(3, ordermasterVO.getOrdAmt());
+			pstmt.setString(4, ordermasterVO.getOrdName());
+			pstmt.setString(5, ordermasterVO.getOrdEmail());
+			pstmt.setString(6, ordermasterVO.getOrdPhone());
+			pstmt.setString(7, ordermasterVO.getOrdAddr());
 			
 			pstmt.executeUpdate();
 			//掘取對應的自增主鍵值
@@ -361,8 +380,8 @@ public class OrderMasterDAO implements OrderMasterDAO_interface{
 			// 再同時新增訂單明細
 			OrderDetailDAO dao = new OrderDetailDAO();
 			
-			for(int i = 0; i < vector.size(); i++) {
-				OrderDetailVO orderdetailVO = vector.get(i);
+			for(int i = 0; i < list.size(); i++) {
+				OrderDetailVO orderdetailVO = list.get(i);
 				orderdetailVO.setOrdNo(new Integer(next_ordNo)) ;
 				dao.insert2(orderdetailVO,con);
 			}
@@ -370,8 +389,8 @@ public class OrderMasterDAO implements OrderMasterDAO_interface{
 			// 2●設定於 pstm.executeUpdate()之後
 			con.commit();
 			con.setAutoCommit(true);
-			System.out.println("list.size()-B="+vector.size());
-			System.out.println("新增訂單編號" + next_ordNo + "時,共有訂單明細" + vector.size()
+			System.out.println("list.size()-B="+list.size());
+			System.out.println("新增訂單編號" + next_ordNo + "時,共有訂單明細" + list.size()
 					+ "筆同時被新增");
 			
 			OrderMasterService ordermasterSvc = new OrderMasterService();
@@ -411,5 +430,55 @@ public class OrderMasterDAO implements OrderMasterDAO_interface{
 		}
 		return ordermasterVO;
 	}
+
+//	@Override
+//	public List<OrderMasterVO> getAllByMemNo(Integer memNo) {
+//		List<OrderMasterVO> list = new ArrayList<OrderMasterVO>();
+//		OrderMasterVO ordmVO = null;
+//		Connection con = null;
+//		PreparedStatement pstmt = null;
+//		ResultSet rs = null;
+//		
+//		try {
+//			con = ds.getConnection();
+//			pstmt = con.prepareStatement(GET_ALL_ByMemNo_STMT);			
+//			rs = pstmt.executeQuery();
+//			
+//			while(rs.next()) {
+//				ordmVO = new OrderMasterVO();
+//				ordmVO.setOrdNo(rs.getInt("ordNo"));
+//				ordmVO.setMemNo(rs.getInt("memNo"));
+//				ordmVO.setOrdDate(rs.getTimestamp("ordDate"));
+//				ordmVO.setOrdStatus(rs.getInt("ordStatus"));
+//				ordmVO.setOrdAmt(rs.getInt("ordAmt"));
+//				list.add(ordmVO);
+//			}
+//		} catch (SQLException se) {
+//			throw new RuntimeException("A database error occured." + se.getMessage());
+//		}finally{
+//			if(rs != null) {
+//				try {
+//					rs.close();
+//				}catch(SQLException se) {
+//					se.printStackTrace(System.err);
+//				}
+//			}
+//			if(pstmt != null) {
+//				try {
+//					pstmt.close();
+//				}catch(SQLException se) {
+//					se.printStackTrace(System.err);
+//				}
+//			}
+//			if(con != null) {
+//				try {
+//					con.close();
+//				}catch(SQLException se) {
+//					se.printStackTrace(System.err);
+//				}
+//			}
+//		}
+//		return list;
+//	}
 
 }

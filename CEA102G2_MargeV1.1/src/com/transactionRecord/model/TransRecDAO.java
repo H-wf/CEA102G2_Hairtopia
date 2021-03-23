@@ -28,6 +28,7 @@ public class TransRecDAO implements TransRecDAO_interface{
 	private static final String INSERT_STMT = "INSERT INTO TRANSACTION_RECORD (memNo, traDes, traPri, traBal) VALUES ( ?, ?, ?, ?)";
 	private static final String GET_ALL_STMT = "SELECT * FROM TRANSACTION_RECORD";
 	private static final String GET_ONE_STMT = "SELECT * FROM TRANSACTION_RECORD WHERE traNo = ?";
+	private static final String GET_RECORD_BY_MEMBER = "SELECT * FROM TRANSACTION_RECORD WHERE memNO = ?";
 	private static final String DELETE = "DELETE FROM TRANSACTION_RECORD WHERE traNo = ?";
 	private static final String UPDATE = "UPDATE TRANSACTION_RECORD SET memNo=?, traDes=? , traPri=?, traBal=? WHERE traNo = ?";
 
@@ -198,6 +199,63 @@ public class TransRecDAO implements TransRecDAO_interface{
 
 	@Override
 	public List<TransRecVO> getAll() {
+		List<TransRecVO> list = new ArrayList<TransRecVO>();
+		TransRecVO transRecVO = null;
+
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+
+		try {
+
+			con = ds.getConnection();
+			pstmt = con.prepareStatement(GET_ALL_STMT);
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				transRecVO = new TransRecVO();
+				transRecVO.setTraNo(rs.getInt("traNo"));
+				transRecVO.setMemNo(rs.getInt("memNO"));
+				transRecVO.setTraTime(rs.getDate("traTime"));
+				transRecVO.setTraDes(rs.getInt("traDes"));
+				transRecVO.setTraPri(rs.getInt("traPri"));
+				transRecVO.setTraBal(rs.getInt("traBal"));
+
+				list.add(transRecVO);
+			}
+
+			// Handle any driver errors
+		} catch (SQLException se) {
+			throw new RuntimeException("A database error occured. " + se.getMessage());
+			// Clean up JDBC resources
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
+		return list;
+	}
+	
+	@Override
+	public List<TransRecVO> getMemberRecord(Integer traNo) {
 		List<TransRecVO> list = new ArrayList<TransRecVO>();
 		TransRecVO transRecVO = null;
 

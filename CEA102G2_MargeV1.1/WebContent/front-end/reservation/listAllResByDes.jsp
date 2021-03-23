@@ -6,6 +6,8 @@
 
 	<jsp:useBean id="serviceSvc" scope="page" class="com.service.model.ServiceService" />
 	<jsp:useBean id="designerSvc" scope="page" class="com.designer.model.DesignerService" />
+	<jsp:useBean id="resSvc" scope="page" class="com.reservation.model.ResService" />
+	<jsp:useBean id="memSvc" scope="page" class="com.member.model.MemService" />
 
 <!DOCTYPE html>
 <html>
@@ -17,28 +19,59 @@
  
 </head>
 <style>
+	td,th{
+		font-size:1rem;
+	}
 	.ftco-navbar-light{
 		position:static;
 	}
 	a{
-		text-decoration:none
+		text-decoration:none;
+		text-align:center
 	}
-	body{
-		font-size:.9rem;
-		font-weight:400;
+	.checkDetail{
+		font-size:.8rem;
 	}
 	.btn-primary{
 		border:0px;
 		padding:.3rem .5rem;
 	}
+	.list-group-item{
+		font-weight:400;
+	}
+	.list-group-item.active{
+		background-color:#D8CF9E;
+		border:0px;
+	}
+	.container-fluid{
+		margin:5rem 0;
+	}
 </style>
 <body>
 <%@include file="/front-end/tempFile/navBar" %>
-
 <!-- Begin Page Content -->
 <div class="container-fluid">
 <div class="row">
-	<div class="col-2"></div>
+	<div class="col-1"></div>
+	<div class="col-2">
+		<div class="list-group">
+  			<a href="<%=request.getContextPath()%>/service/service.do?action=queryByDesNo&desNo=${desSession.desNo}" class="list-group-item list-group-item-action">
+    			服務項目管理
+  			</a>
+  			<a href="#" class="list-group-item list-group-item-action active">
+  				預約狀態管理
+  			</a>
+  			<a href="<%=request.getContextPath()%>/front-end/reservation/listScheduleOfDes.jsp" class="list-group-item list-group-item-action">
+  				查看預約行程
+  			</a>
+  			<a href="<%=request.getContextPath()%>/designer/designer.do?action=getOne_For_Update&desNo=${desSession.desNo}" class="list-group-item list-group-item-action">
+				個人資訊修改
+			</a>
+			<a href="" class="list-group-item list-group-item-action">
+				貼文狀態管理
+			</a>
+		</div>
+	</div>
 	<div class="col-8">
 	<c:if test="${not empty errorMsgs}">
 		<font style="color: red">請修正以下錯誤:</font>
@@ -49,28 +82,25 @@
 		</ul>
 	</c:if>
 	
-	<h4>設計師名稱:${designerSvc.getOneDesByDesNo(desNo).desName}</h4>
+	<h4>My Reservation</h4>
 	<table class="table table-striped">
 	<tr>
-		<th>預約編號</th>
-		<th>會員編號</th>
+		<th>編號</th>
+		<th>預約會員</th>
 		<th>服務項目</th>
 		<th>預約時間</th>
 		<th>預約狀態</th>
-		<th>預約評價</th>
-		<th>預約金額</th>
-		<th>預約操作</th>
+		<th>預約明細</th>
 	</tr>
  
-	<c:forEach var="resVO" items="${list}" >
+	<c:forEach var="resVO" items="${resSvc.getAllResByDesNo(desSession.desNo)}" >
 		
 		<tr>
-			<td><a href="res.do?resNo=${resVO.resNo}&action=getOne_For_Display_Of_Des">
-				${resVO.resNo}</a></td>
-			<td>${resVO.memNo}改名字</td>
+			<td>${resVO.resNo}</td>
+			<td>${memSvc.getOneMemName(resVO.memNo)}</td>
 			<td><c:forEach var="serviceVO" items="${serviceSvc.all}">
 					<c:if test="${serviceVO.serNo==resVO.serNo}">
-	            	${serviceVO.serNo}-${serviceVO.serName}
+	            	${serviceVO.serName}
             		</c:if>
 				</c:forEach></td>
 			
@@ -113,25 +143,8 @@
 				</c:otherwise>
 			</c:choose>
 			</td>
-			<td>${resVO.resCom}</td> 
-		
-			<td>${resVO.resPrice}</td>
-			<td style="width:8rem">
-				<c:if test="${resVO.resStatus == 0}">
-				<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/reservation/res.do" style="font-size:12px;display:inline">
-			    	<input type="submit" value="確認" class="btn btn-primary" >
-			    	<input type="hidden" name="resNo"  value="${resVO.resNo}">
-			    	<input type="hidden" name="action"	value="getOne_For_Update_Confirm"></FORM>
-			    <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/reservation/res.do" style="font-size:12px;display:inline">
-			    	<input type="submit" value="取消" class="btn btn-primary" style="display:inline">
-			    	<input type="hidden" name="resNo"  value="${resVO.resNo}">
-			   		<input type="hidden" name="action" value="cancelByDes"></FORM>
-			   	</c:if>
-			   	
-			   
-			    
-			
-				
+			<td>
+			   	<a href="res.do?resNo=${resVO.resNo}&action=getOne_For_Display_Of_Des" class="checkDetail" style="display:inline">查看明細</a>
 			</td>
 			
 		</tr>
@@ -161,7 +174,7 @@
 </div>
 </c:if>
 </div>
-<div class="col-2"></div>
+<div class="col-1"></div>
 </div>
 </div>
 

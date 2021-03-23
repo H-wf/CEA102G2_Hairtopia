@@ -9,6 +9,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.designer.model.DesignerService;
 import com.designer.model.DesignerVO;
@@ -52,6 +53,9 @@ public class ServiceServlet extends HttpServlet{
 				Integer serPrice = null;
 				try {
 					serPrice = new Integer(req.getParameter("serPrice").trim());
+					if(serPrice == 0) {
+						errorMsgs.add("服務金額不得為0");
+					}
 				} catch (NumberFormatException e) {
 					serPrice = 0;
 					errorMsgs.add("服務金額請填數字.");
@@ -63,8 +67,6 @@ public class ServiceServlet extends HttpServlet{
 				if (serDesc == null || serDesc.trim().length() == 0) {
 					errorMsgs.add("服務敘述請勿空白");
 				}
-				
-				Integer serStatus = new Integer(1);
 
 				ServiceVO serviceVO = new ServiceVO();
 				
@@ -74,14 +76,15 @@ public class ServiceServlet extends HttpServlet{
 				serviceVO.setSerPrice(serPrice);
 				serviceVO.setSerTime(serTime);
 				serviceVO.setSerDesc(serDesc);
-				serviceVO.setSerStatus(serStatus);
 
 				// Send the use back to the form, if there were errors
 				if (!errorMsgs.isEmpty()) {
 					req.setAttribute("serviceVO", serviceVO); // 含有輸入格式錯誤的serviceVO物件,也存入req(資料輸入錯誤不用全新重寫)
-					DesignerService designerSvc = new DesignerService();
-					DesignerVO designerVO = designerSvc.getOneDesByDesNo(desNo);
-					req.setAttribute("designerVO", designerVO);
+//					DesignerService designerSvc = new DesignerService();
+//					DesignerVO designerVO = designerSvc.getOneDesByDesNo(desNo);
+//					req.setAttribute("designerVO", designerVO);
+					boolean openCollapse=true;
+					req.setAttribute("openCollapse",openCollapse);
 					RequestDispatcher failureView = req
 							.getRequestDispatcher("/front-end/service/listAllSerByDes.jsp");
 					failureView.forward(req, res);
@@ -90,7 +93,7 @@ public class ServiceServlet extends HttpServlet{
 				
 				/***************************2.開始新增資料***************************************/
 				ServiceService serviceSvc = new ServiceService();
-				serviceVO = serviceSvc.addService(desNo, stypeNo, serName, serPrice, serTime, serDesc, serStatus);
+				serviceVO = serviceSvc.addService(desNo, stypeNo, serName, serPrice, serTime, serDesc);
 				
 				DesignerService designerSvc = new DesignerService();
 				DesignerVO designerVO = designerSvc.getOneDesByDesNo(desNo);
@@ -193,9 +196,6 @@ public class ServiceServlet extends HttpServlet{
 								
 				/***************************3.查詢完成,準備轉交(Send the Success view)************/
 				req.setAttribute("serviceVO", serviceVO);         // 資料庫取出的serviceVO物件,存入req
-				DesignerService designerSvc = new DesignerService();
-				DesignerVO designerVO = designerSvc.getOneDesByDesNo(serviceVO.getDesNo());
-				req.setAttribute("designerVO", designerVO);
 				boolean openModal=true;
 				req.setAttribute("openModal",openModal );
 				String url = "/front-end/service/listAllSerByDes.jsp";
@@ -227,7 +227,8 @@ public class ServiceServlet extends HttpServlet{
 				ServiceVO serviceVO = serviceSvc.getOneServiceBySerNo(serNo);
 				
 				/***************************3.查詢完成,準備轉交(Send the Success view)************/
-				req.setAttribute("serviceVO", serviceVO);         // 資料庫取出的salonVO物件,存入req
+				HttpSession session = req.getSession();
+				session.setAttribute("serviceVO", serviceVO);         // 資料庫取出的salonVO物件,存入req
 				String url = "/front-end/reservation/AddResTest.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url);// 成功轉交 AddResTest.jsp
 				successView.forward(req, res);
@@ -242,11 +243,10 @@ public class ServiceServlet extends HttpServlet{
 		}
 		
 		if ("update".equals(action)) { // 來自update_service_input.jsp的請求
-			
-			List<String> errorMsgs = new LinkedList<String>();
+			List<String> updateErrorMsgs = new LinkedList<String>();
 			// Store this set in the request scope, in case we need to
 			// send the ErrorPage view.
-			req.setAttribute("errorMsgs", errorMsgs);
+			req.setAttribute("updateErrorMsgs", updateErrorMsgs);
 		
 			try {
 				/***************************1.接收請求參數 - 輸入格式的錯誤處理**********************/
@@ -257,28 +257,25 @@ public class ServiceServlet extends HttpServlet{
 				String serName = req.getParameter("serName");
 				String serNameReg = "^[(\\u4e00-\\u9fa5)(\\u0020)(a-zA-Z0-9_)]{2,40}$";
 				if (serName == null || serName.trim().length() == 0) {
-					errorMsgs.add("服務名稱請勿空白");
+					updateErrorMsgs.add("服務名稱請勿空白");
 				} else if(!serName.trim().matches(serNameReg)) { //以下練習正則(規)表示式(regular-expression)
-					errorMsgs.add("服務名稱長度必需在2到40之間");
+					updateErrorMsgs.add("服務名稱長度必需在2到40之間");
 	            }
 				
 				Integer serPrice = null;
-						new Integer(req.getParameter("serPrice"));
 				try {
 					serPrice = new Integer(req.getParameter("serPrice").trim());
 				} catch (NumberFormatException e) {
 					serPrice = 0;
-					errorMsgs.add("服務金額請填數字.");
+					updateErrorMsgs.add("服務金額請填數字.");
 				}
 				
 				Integer serTime = new Integer(req.getParameter("serTime"));
 				
 				String serDesc = req.getParameter("serDesc").trim();
 				if (serDesc == null || serDesc.trim().length() == 0) {
-					errorMsgs.add("服務敘述請勿空白");
+					updateErrorMsgs.add("服務敘述請勿空白");
 				}
-				
-				Integer serStatus = new Integer(req.getParameter("serStatus"));
 
 				ServiceVO serviceVO = new ServiceVO();				
 				serviceVO.setSerNo(serNo);
@@ -288,13 +285,14 @@ public class ServiceServlet extends HttpServlet{
 				serviceVO.setSerPrice(serPrice);
 				serviceVO.setSerTime(serTime);
 				serviceVO.setSerDesc(serDesc);
-				serviceVO.setSerStatus(serStatus);
 
 				// Send the use back to the form, if there were errors
-				if (!errorMsgs.isEmpty()) {
+				if (!updateErrorMsgs.isEmpty()) {
 					req.setAttribute("serviceVO", serviceVO); // 含有輸入格式錯誤的serviceVO物件,也存入req
+					boolean openModal=true;
+					req.setAttribute("openModal",openModal );
 					RequestDispatcher failureView = req
-							.getRequestDispatcher("/front-end/service/update_service_input.jsp");
+							.getRequestDispatcher("/front-end/service/listAllSerByDes.jsp");
 					failureView.forward(req, res);
 					return; //程式中斷
 				}
@@ -302,9 +300,9 @@ public class ServiceServlet extends HttpServlet{
 				/***************************2.開始修改資料*****************************************/
 				ServiceService serviceSvc = new ServiceService();
 				serviceVO = serviceSvc.updateService(serNo, desNo, stypeNo, serName, serPrice, 
-						serTime, serDesc, serStatus);
-//				List<ServiceVO> list = serviceSvc.getAllServiceByDesNo(serviceVO.getDesNo());
-//				req.setAttribute("list", list);
+						serTime, serDesc);
+				List<ServiceVO> list = serviceSvc.getAllServiceByDesNo(serviceVO.getDesNo());
+				req.setAttribute("list", list);
 				
 				/***************************3.修改完成,準備轉交(Send the Success view)*************/
 				DesignerService designerSvc = new DesignerService();
@@ -316,37 +314,38 @@ public class ServiceServlet extends HttpServlet{
 
 				/***************************其他可能的錯誤處理*************************************/
 			} catch (Exception e) {
-				errorMsgs.add("修改資料失敗:"+e.getMessage());
+				updateErrorMsgs.add("修改資料失敗:"+e.getMessage());
+				
 				RequestDispatcher failureView = req
-						.getRequestDispatcher("/front-end/service/update_service_input.jsp");
+						.getRequestDispatcher("/front-end/service/listAllSerByDes.jsp");
 				failureView.forward(req, res);
 			}
 		}
 		
 		if ("updateSerStatus".equals(action)) { // 來自update_service_input.jsp的請求
 			
-			List<String> errorMsgs = new LinkedList<String>();
+			List<String> updateErrorMsgs = new LinkedList<String>();
 			// Store this set in the request scope, in case we need to
 			// send the ErrorPage view.
-			req.setAttribute("errorMsgs", errorMsgs);
+			req.setAttribute("updateErrorMsgs", updateErrorMsgs);
 			
 			try {
 				/***************************1.接收請求參數 - 輸入格式的錯誤處理**********************/
 				Integer serNo = new Integer(req.getParameter("serNo"));
 				Integer serStatus = new Integer(req.getParameter("serStatus"));
+				
 				if(serStatus == 1) {
 					serStatus = 0;
 				}else {
 					serStatus = 1;
 				}
-				Integer desNo = new Integer(req.getParameter("desNo"));
 				
 				ServiceVO serviceVO = new ServiceVO();				
 				serviceVO.setSerNo(serNo);
 				serviceVO.setSerStatus(serStatus);
 				
 				// Send the use back to the form, if there were errors
-				if (!errorMsgs.isEmpty()) {
+				if (!updateErrorMsgs.isEmpty()) {
 					req.setAttribute("serviceVO", serviceVO); // 含有輸入格式錯誤的serviceVO物件,也存入req
 					RequestDispatcher failureView = req
 							.getRequestDispatcher("/front-end/service/update_service_input.jsp");
@@ -360,6 +359,8 @@ public class ServiceServlet extends HttpServlet{
 				
 				/***************************3.修改完成,準備轉交(Send the Success view)*************/
 //				req.setAttribute("serviceVO", serviceVO); // 資料庫update成功後,正確的的serviceVO物件,存入req
+				DesignerVO designerVO=new DesignerService().getOneDesByDesNo(serviceVO.getDesNo());
+				req.setAttribute("designerVO", designerVO);
 				List<ServiceVO> list = serviceSvc.getAllServiceByDesNo(serviceVO.getDesNo());
 				req.setAttribute("list", list);
 				String url = "/front-end/service/listAllSerByDes.jsp";
@@ -368,7 +369,7 @@ public class ServiceServlet extends HttpServlet{
 				
 				/***************************其他可能的錯誤處理*************************************/
 			} catch (Exception e) {
-				errorMsgs.add("修改資料失敗:"+e.getMessage());
+				updateErrorMsgs.add("修改資料失敗:"+e.getMessage());
 				RequestDispatcher failureView = req
 						.getRequestDispatcher("/front-end/service/update_service_input.jsp");
 				failureView.forward(req, res);
@@ -386,13 +387,12 @@ public class ServiceServlet extends HttpServlet{
 			try {
 				/***************************1.接收請求參數***************************************/
 				Integer serNo = new Integer(req.getParameter("serNo"));
-				Integer desNo = new Integer(req.getParameter("desNo"));
 				
 				/***************************2.開始刪除資料***************************************/
 				ServiceService serviceSvc = new ServiceService();
 				serviceSvc.deleteService(serNo);
-				List<ServiceVO> list = serviceSvc.getAllServiceByDesNo(desNo);
-				req.setAttribute("list", list);
+//				List<ServiceVO> list = serviceSvc.getAllServiceByDesNo(desNo);
+//				req.setAttribute("list", list);
 				/***************************3.刪除完成,準備轉交(Send the Success view)***********/								
 				String url = "/front-end/service/listAllSerByDes.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url);// 刪除成功後,轉交回送出刪除的來源網頁
@@ -402,7 +402,7 @@ public class ServiceServlet extends HttpServlet{
 			} catch (Exception e) {
 				errorMsgs.add("刪除資料失敗:"+e.getMessage());
 				RequestDispatcher failureView = req
-						.getRequestDispatcher("/front-end/service/listAllService.jsp");
+						.getRequestDispatcher("/front-end/service/listAllSerByDes.jsp");
 				failureView.forward(req, res);
 			}
 		}
@@ -436,34 +436,7 @@ public class ServiceServlet extends HttpServlet{
 			}
 		}
 		
-		if ("delete".equals(action)) { // 來自listAllEmp.jsp
-
-			List<String> errorMsgs = new LinkedList<String>();
-			// Store this set in the request scope, in case we need to
-			// send the ErrorPage view.
-			req.setAttribute("errorMsgs", errorMsgs);
-	
-			try {
-				/***************************1.接收請求參數***************************************/
-				Integer serNo = new Integer(req.getParameter("serNo"));
-				
-				/***************************2.開始刪除資料***************************************/
-				ServiceService serviceSvc = new ServiceService();
-				serviceSvc.deleteService(serNo);
-				
-				/***************************3.刪除完成,準備轉交(Send the Success view)***********/								
-				String url = "/front-end/service/listAllService.jsp";
-				RequestDispatcher successView = req.getRequestDispatcher(url);// 刪除成功後,轉交回送出刪除的來源網頁
-				successView.forward(req, res);
-				
-				/***************************其他可能的錯誤處理**********************************/
-			} catch (Exception e) {
-				errorMsgs.add("刪除資料失敗:"+e.getMessage());
-				RequestDispatcher failureView = req
-						.getRequestDispatcher("/front-end/service/listAllService.jsp");
-				failureView.forward(req, res);
-			}
-		}
+		
 	}
 
 }

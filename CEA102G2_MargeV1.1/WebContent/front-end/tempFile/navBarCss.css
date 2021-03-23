@@ -52,11 +52,12 @@
 	    display: none;
 	}
 	
-#navbar-search{
+#navbar-search,#navbar-bell{
     font-size: 2em;
     cursor: pointer;
+    margin:0 1rem;
 }
-#navbar-search:hover{
+#navbar-search:hover,#navbar-bell:hover{
     color: #333333;
 }
 
@@ -87,6 +88,7 @@
 	background:#F8F7F1;
 	color:#333333;
 }
+
 /* 	navBarCSS END */
 
 /* footerCSS */

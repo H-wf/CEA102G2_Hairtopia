@@ -47,11 +47,11 @@ public class DesignerService {
 		return dao.findByDesNo(desNo);
 	}
 	
-	public DesignerVO updateOneStatus( Integer desStatus, Integer desNo) {
+	public DesignerVO updateOneStatus(Date desEndDate, Integer desStatus, Integer desNo) {
 		
 		DesignerVO designerVO = new DesignerVO();
 		
-		
+		designerVO.setDesEndDate(desEndDate);
 		designerVO.setDesStatus(desStatus);
 		designerVO.setDesNo(desNo);
 		
@@ -113,9 +113,7 @@ public class DesignerService {
 		dao.updateScore(designerVO);
 		
 		return dao.findByDesNo(desNo);
-
 	}
-
 	public List<String> getNameAJAX(String keyword){
 		return dao.getNameByAJAX(keyword);
 	}
@@ -124,23 +122,19 @@ public class DesignerService {
 		return dao.searchDes(keyword);
 	}
 	
-	public Set<DesignerVO> pickup5Des(){
+	public Set<DesignerVO> pickup5Des() {
+		List<DesignerVO> allDes = dao.getAll();
 		Set<DesignerVO> reDes = new HashSet<DesignerVO>();
-		try {
-			List<DesignerVO> allDes = dao.getAll();
-			Set<Integer> index = new HashSet<Integer>();
-
-			while (index.size() < 5) {
-				int x = (int) (Math.random() * allDes.size());
-				index.add(x);
+		Set<Integer> index = new HashSet<Integer>();
+		
+		while(index.size()<5){
+			int x = (int) (Math.random()*allDes.size());
+			index.add(x);
+		}
+		while(reDes.size()<5) {
+			for(Integer y:index) {
+				reDes.add(allDes.get(y));
 			}
-			while (reDes.size() < 5) {
-				for (Integer y : index) {
-					reDes.add(allDes.get(y));
-				}
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
 		}
 		return reDes;
 	}

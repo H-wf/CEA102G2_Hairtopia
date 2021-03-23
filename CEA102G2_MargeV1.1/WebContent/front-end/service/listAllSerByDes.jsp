@@ -26,26 +26,36 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" />
 </head>
 <style>
+.container-fluid{
+	margin:5rem 0;
+}
 .ftco-navbar-light{
 	position:static;
 }
 .btn{
+	display:inline-block;
+}
+.btn-primary{
 	font-size: 1rem;
 }
-.collapse{
-	margin:10px auto;
-}
+#serviceCollapse{
+ 	margin:10px auto; 
+} 
 .form-control{
 	height:2.2rem !important;
 	font-size:1rem;
 }
-input{
-	font-size:1rem;
-}
-body{
-	font-size:1rem;
-	color:#777;
+.list-group-item{
 	font-weight:400;
+}
+.list-group-item.active{
+	background-color:#D8CF9E;
+	border:0px;
+}
+.serviceAction{
+	position:absolute;
+	top:6px;
+	right:6px;
 }
 		
 /* callOutCSS */
@@ -59,9 +69,10 @@ body{
   margin-top:1rem;
 }
 .callout h4 {
-  font-size: 1.3125rem;
+  font-size: 1rem;
   margin-top: 0;
-  margin-bottom: .8rem
+  margin-bottom: 0;
+  line-height:1.8;
 }
 .callout p:last-child {
   margin-bottom: 0;
@@ -86,13 +97,35 @@ body{
 <!-- Begin Page Content -->
 <div class="container-fluid">
 <div class="row">
-	<div class="col-3"></div>
+
+	<div class="col-1"></div>
+	<div class="col-2">
+		<div class="list-group">
+  			<a href="#" class="list-group-item list-group-item-action active">
+    			服務項目管理
+  			</a>
+  			<a href="<%=request.getContextPath()%>/reservation/res.do?action=queryByDesNo&desNo=${desSession.desNo}" class="list-group-item list-group-item-action">
+  				預約狀態管理
+  			</a>
+  			<a href="<%=request.getContextPath()%>/front-end/reservation/listScheduleOfDes.jsp" class="list-group-item list-group-item-action">
+  				查看預約行程
+  			</a>
+  			<a href="<%=request.getContextPath()%>/designer/designer.do?action=getOne_For_Update&desNo=${desSession.desNo}" class="list-group-item list-group-item-action">
+				個人資訊修改
+			</a>
+			<a href="" class="list-group-item list-group-item-action">
+				貼文狀態管理
+			</a>
+		</div>
+		
+	</div>
+	<div class="col-1"></div>
 	<div class="col-6">
 		<div class="addService">
-			<a class="btn btn-primary btn-block" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+			<a class="btn btn-primary btn-block" data-toggle="collapse" href="#serviceCollapse" role="button" aria-expanded="false" aria-controls="collapseExample">
 			<i class="fas fa-plus"></i>新增服務
 			</a>
-			<div class="collapse" id="collapseExample">
+			<div class="collapse" id="serviceCollapse">
   			<div class="card card-body">
   			<%-- 錯誤表列 --%>
 				<c:if test="${not empty errorMsgs}">
@@ -138,7 +171,7 @@ body{
 				服務描述:
 				<textarea name="serDesc" class="form-control"><%= (serviceVO==null)? "" : serviceVO.getSerDesc()%></textarea><br>
 			 	</div>
-			 	<input type="hidden" name="desNo" value="${designerVO.desNo}">
+			 	<input type="hidden" name="desNo" value="${desSession.desNo}">
 			 	<input type="hidden" name="action" value="insert">
 				<input type="submit" value="送出新增" class="btn btn-primary">
 	  			
@@ -147,25 +180,46 @@ body{
 		</div>
 		</div>
 		<div class="ServiceCard">
-		<c:forEach  var="serviceVO" items="${serviceSvc.getAllServiceByDesNo(designerVO.desNo)}">
+		<c:forEach  var="serviceVO" items="${serviceSvc.getAllServiceByDesNo(desSession.desNo)}">
 		<div class="callout callout-default">
-		<h4>${serviceVO.serName}<br><h4 style="font-size:1rem;">服務時間:　
-			<c:set var="serTime" value="${serviceVO.serTime}"/>
-			<fmt:formatNumber type="number" value="${((serTime*30 -(serTime*30%60)))/60}"  var="hour"/>
-			<c:if test="${hour>0}">${hour}小時</c:if>${(serTime*30 %60 == 0)? "" :"30分" }</h4></h4>
-										  	
-		<span style="font-size:1rem;">${serviceVO.serDesc}</span>
-		<hr>
-		<div class="price">
-		<h4 style="display:inline;font-size: unset;">優惠價:　${serviceVO.serPrice}元</h4>
-		<div class="serviceAction">
-		<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/service/service.do">
-			<input type="submit" value="修改" class="btn btn-outline-primary bookingBtn">
-			<input type="hidden" name="serNo"  value="${serviceVO.serNo}">
-			<input type="hidden" name="action"	value="getOne_For_Update">
-		</FORM>
-		</div>
-		</div>
+			<h4 style="font-size:1.3rem">${serviceVO.serName}
+			<div class="serviceAction">
+				<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/service/service.do">
+					<input type="submit" value="修改" class="btn btn-outline-primary bookingBtn">
+					<input type="hidden" name="serNo"  value="${serviceVO.serNo}">
+					<input type="hidden" name="action"	value="getOne_For_Update">
+				</FORM>
+				<c:if test="${serviceVO.serStatus==1}">
+				<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/service/service.do">
+					<input type="submit" value="下架" class="btn btn-outline-primary bookingBtn">
+					<input type="hidden" name="serNo"  value="${serviceVO.serNo}">
+					<input type="hidden" name="serStatus"  value="${serviceVO.serStatus}">
+					<input type="hidden" name="action"	value="updateSerStatus">
+				</FORM>
+				</c:if>
+				<c:if test="${serviceVO.serStatus==0}">
+				<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/service/service.do">
+					<input type="submit" value="上架" class="btn btn-outline-primary bookingBtn">
+					<input type="hidden" name="serNo"  value="${serviceVO.serNo}">
+					<input type="hidden" name="serStatus"  value="${serviceVO.serStatus}">
+					<input type="hidden" name="action"	value="updateSerStatus">
+				</FORM>
+				</c:if>
+				<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/service/service.do">
+					<input type="submit" value="刪除" class="btn btn-outline-primary bookingBtn">
+					<input type="hidden" name="serNo"  value="${serviceVO.serNo}">
+					<input type="hidden" name="action"	value="delete">
+				</FORM>
+			</div></h4>
+			<span style="font-size:1rem;color:#b9b9b9">${serviceVO.serDesc}</span>
+			<h4>服務時長:　
+				<c:set var="serTime" value="${serviceVO.serTime}"/>
+				<fmt:formatNumber type="number" value="${((serTime*30 -(serTime*30%60)))/60}"  var="hour"/>
+				<c:if test="${hour>0}">${hour}小時</c:if>${(serTime*30 %60 == 0)? "" :"30分" }
+			</h4>
+			<h4>金額:　${serviceVO.serPrice}元</h4>
+		
+		
 		</div>
 		</c:forEach>
 <c:if test="${openModal!=null}">
@@ -194,7 +248,7 @@ body{
 </c:if>
 		<br><br><br><br><br><br><br><br><br><br></div>
 		</div>
-	<div class="col-3"></div>
+	<div class="col-2"></div>
 		
 
 </div>
@@ -205,5 +259,8 @@ body{
 </body>
 <script>
    $("#basicModal").modal({show: true});
+   if(${not empty errorMsgs}){
+   		$("#serviceCollapse").collapse({show:true});
+   };
 </script>
 </html>

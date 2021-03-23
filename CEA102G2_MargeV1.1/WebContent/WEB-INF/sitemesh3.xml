@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<sitemesh>
-     <!-- 指明滿足“/*”的頁面，將被“/WEB-INF/views/decorators/decorator.html”所裝飾 -->
-     <mapping path="/front-end/Post/*" decorator="/front-end/decorator/front-end_Postnavbar.jsp" />
-     <mapping path="/front-end/index.jsp" decorator="/front-end/decorator/front-end_Postnavbar.jsp" />
- 
-<!-- 指明滿足“/exclude.jsp*”的頁面，將被排除，不被裝飾 -->
-<!--     <mapping path="/front-end/Comment/*" exclue="true" /> -->
- </sitemesh>

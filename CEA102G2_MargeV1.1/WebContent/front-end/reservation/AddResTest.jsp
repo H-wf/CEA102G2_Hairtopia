@@ -7,7 +7,6 @@
 
 <%
 	ResVO resVO = (ResVO)request.getAttribute("resVO");
-	ServiceVO serviceVO = (ServiceVO)request.getAttribute("serviceVO");
 %>
 <!DOCTYPE html>
 <html>
@@ -140,6 +139,13 @@
 			background-color:#d9bf77;
 			color: #fff;
 		}
+		#lastPage{
+			float:left;
+		}
+		a{
+			text-decoration:none;
+			text-align:center
+		}
 		.callout {
 			width:15%;
 			vertical-align:top;
@@ -156,7 +162,6 @@
 		}
 		.callout h4 {
   			margin:.5rem ;
-  			
   			font-size:1rem;
 		}
 		.callout-default h4 {
@@ -175,6 +180,27 @@
     			padding: .75rem 1.25rem;
     			color: inherit;
 		}
+/*	about credit card	*/
+		.demo-container {
+            width: 100%;
+            max-width: 350px;
+            margin: 50px auto;
+        }
+
+        form {
+            margin: 30px;
+        }
+        input {
+            width: 200px;
+            margin: 10px auto;
+            display: block;
+        }
+        input::-webkit-outer-spin-button,input::-webkit-inner-spin-button {
+  			-webkit-appearance: none;
+		}
+		input[type="number"]{
+  			-moz-appearance: textfield;
+		}
     </style>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" />
 </head>
@@ -183,13 +209,9 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
    	<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/reservation/res.do"
 	  name="form1">
-	  <%-- 	之後用session取得會員:<%session.getAttribute(); %> --%>
-	<div>
-	會員編號:<input type="TEXT" name="memNo" size="3"
-			 value="<%= (resVO==null)? "" : resVO.getMemNo()%>" />
-	</div>
-<div id="stepOne">	
-	<div id="stepTitle"><span class="stepIcon"><i class="far fa-calendar-alt"></i></span>STEP1 : 選擇日期</div>
+<a href="<%=request.getContextPath()%>/designer/designer.do?action=getOne_For_Display_Back&desNo=${serviceVO.desNo}" class="bookingBtn" id="lastPage"><i class="fas fa-arrow-left"></i>回到上頁</a>	
+<div id="stepOne">
+	<div id="stepTitle"><span class="stepIcon"><i class="far fa-calendar-alt"></i></span>STEP1 : 選擇日期&emsp;&emsp;&emsp;&emsp;&emsp;</div>
 	<br><hr>
 	<div class="callout callout-default">
 		<h4>${serviceVO.serName}</h4>
@@ -299,17 +321,33 @@
 <br>
 <br>
     <div id="resDetail">
+    <div id="stepTitle"><span class="stepIcon"><i class="far fa-credit-card"></i></span>STEP3 : 輸入付款資訊</div>
+	<br><hr>
+    <!--	about credit card	-->
+	<div class="demo-container">
+        <div class="card-wrapper"></div>
+        <div class="form-container active">
+            <form action="">
+                <input placeholder="Card number" type="tel" name="number" required>
+                <input placeholder="Full name" type="text" name="name" required>
+                <input placeholder="MM/YY" type="tel" name="expiry" required>
+                <input placeholder="CVC" type="number" name="cvc" required>
+            </form>
+        </div>
+    </div>
+	<!--	about credit card	-->
 	<input type="hidden" name="action" value="insert">
-	<input type="submit" value="確定預約" class="bookingBtn">
+	<input type="submit" value="確定預約" class="bookingBtn" id="confirmRes">
 	<input type="hidden" name="serNo" value="${serviceVO.serNo}">
 	<input type="hidden" name="resDate" id="resDate">
     <input type="hidden" name="resTime" id="resTime">
+    <input type="hidden" name="memNo" value="${sessionScope.memVO.memNo}">
     </div>
    
     </FORM>
     <script>
         $(document).ready(function() {
-
+			var schStatus;
             let current = new Date();
             let thisYear = current.getFullYear();
             let thisMonth = current.getMonth();
@@ -317,7 +355,7 @@
             let todayStr = thisYear + "-" + (thisMonth + 1) + "-" + todayDate
             console.log(todayStr);
             createCalendar(thisYear, thisMonth);
-
+			
         })
         //點選date即會改變其value，將value取出並切割成年月日陣列
         function createCalendar(year, month) {
@@ -398,7 +436,7 @@
             	let selectDate = $(this).attr("data-date")
             	let week = new Date(year,month,selectDate).getDay();
             	console.log(week);
-            	let desNo = <%=serviceVO.getDesNo()%>;
+            	let desNo = ${serviceVO.desNo};
                 $.ajax({
                 	url : "<%=request.getContextPath()%>/schedule/schedule.do",
                 	data : {
@@ -413,12 +451,13 @@
         			dataType : "json",
         			success : function(data) {
         				console.log(data.schStatus);
+        				schStatus=data.schStatus;
         				for(let i=0 ; i<48 ; i++){
         					if(data.schStatus.charAt(i)==1){
         						document.getElementById(i).style.display='inline-block';
         					}
         				}
-        				document.getElementById("stepTwo").style.display='block'
+        				document.getElementById("stepTwo").style.display='block';
                 		window.scrollTo({top:document.documentElement.clientHeight, behavior:"smooth"});
         			}
                 })
@@ -427,6 +466,7 @@
         $(".pickTime").click(function(){
         	$(".timeText").remove();
         	console.log($(this).attr("id"));
+        	
         	let hourText = parseInt($(this).attr("id")/2);
         	let minuteText = ($(this).attr("id")%2==0)? "00" : "30";
         	//在callout中填入選取資料
@@ -437,11 +477,35 @@
         	//form表單存入時間資料
         	let resTime = document.getElementById("resTime");
         	resTime.value=$(this).attr("id");
+        	//用以判斷設計師是否有空
+        	let period = ${serviceVO.serTime};
+        	let start = parseInt($(this).attr("id"));
+        	for(let i=0 ; i<period ; i++){
+        		if(schStatus.charAt(i+start)==2){	
+        			Swal.fire({
+        				  icon: 'error',
+        				  title: 'Oops...',
+        				  text: '請重新選擇時間',
+        				  confirmButtonColor:'rgba(216,207,158,0.8)'
+        				})
+        			break;
+        		}
+        	}
+        	if(schStatus.substr(start,period)==('1'.repeat(period))){
         	document.getElementById("resDetail").style.display='block';
-        	window.scrollTo({top:document.documentElement.clientHeight, behavior:"smooth"});
+        	window.scrollTo({top:1500, behavior:"smooth"});
+        	}
         })
         }
 
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+    <script src="<%= request.getContextPath()%>/resource/card-master/dist/card.js"></script>
+    <script>
+        new Card({
+            form: document.querySelector('form'),
+            container: '.card-wrapper'
+        });
     </script>
 </body>
 

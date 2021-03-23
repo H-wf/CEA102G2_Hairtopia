@@ -37,6 +37,9 @@ padding:5px;
 	background-color:#D8CF9E;
 	border:0px;
 }
+.container-fluid{
+		margin:5rem 0;
+}
 
  </style>
 
@@ -54,7 +57,7 @@ padding:5px;
 	<div class="col-2">
 		<div class="list-group">
 <!-- 這邊要填超連結跟class		 -->
-  			<a href="" class="list-group-item list-group-item-action">
+  			<a href="<%=request.getContextPath()%>/service/service.do?action=queryByDesNo&desNo=${desSession.desNo}" class="list-group-item list-group-item-action">
     			服務項目管理
   			</a>
   			<a href="<%=request.getContextPath()%>/reservation/res.do?action=queryByDesNo&desNo=${desSession.desNo}" class="list-group-item list-group-item-action">
@@ -72,6 +75,7 @@ padding:5px;
 		</div>
 		
 	</div>
+	<div class="col-1"></div>
 	<div class="col-md-6">
 			
 			<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/designer/designer.do" name="form1"

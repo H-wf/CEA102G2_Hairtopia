@@ -32,4 +32,24 @@ public class JedisHandleMessage {
 		jedis.close();
 	}
 
+	public static void saveAuthenticationCode(String memEmail, String VerificationCode) {
+		String key = new StringBuilder(memEmail).append(":").append("AuthenticationCode").toString();
+		Jedis jedis = pool.getResource();
+		jedis.auth("123456");
+		
+		jedis.select(1);
+		jedis.set(key, VerificationCode);
+		jedis.expire(key, 1800);
+		
+		jedis.close();		
+	}
+	public static String verifyAuthenticationCode(String memEmail) {
+		String key = new StringBuilder(memEmail).append(":").append("AuthenticationCode").toString();
+		String AuthenticationCode = null;
+		Jedis jedis = pool.getResource();
+		jedis.auth("123456");
+		jedis.select(1);
+		AuthenticationCode = jedis.get(key);
+		return AuthenticationCode;
+	}
 }

@@ -13,7 +13,8 @@ public interface OrderMasterDAO_interface {
 	public void delete(Integer ordNo);
 	public OrderMasterVO findByPrimaryKey(Integer ordNo);
 	public List<OrderMasterVO> getAll();
+//	public List<OrderMasterVO> getAllByMemNo(Integer memNo);
 	public List<OrderMasterVO> getAll(Map<String, String[]> map);
-	public OrderMasterVO insertWithOrderDetails(OrderMasterVO ordermasterVO, Vector<OrderDetailVO> vector);
+	public OrderMasterVO insertWithOrderDetails(OrderMasterVO ordermasterVO, List<OrderDetailVO> list);
 }
  

@@ -108,10 +108,11 @@
 	</tr>
 	<tr>
 		<td>課程狀態:</td>
-		<td><input type="TEXT" name="cosStatus" size="45" value="<%=cosVO.getCosStatus()%>" /></td>
-	</tr>
-	
-	
+		<td>
+		<label><input type="radio" name="cosStatus" value="true"  ${cosVO.cosStatus==true?'checked':''}/>上架</label>					
+		<label><input type="radio" name="cosStatus" value="false" ${!cosVO.cosStatus==true?'checked':''}/>下架</label>					
+		</td>
+	</tr>	
 	<tr>
 		<td>最低人數:</td>
 		<td><input type="TEXT" name="cosMinCount" size="45" value="<%=cosVO.getCosMinCount()%>" /></td>
@@ -139,6 +140,7 @@
 
 </table>
 <br>
+<input type="hidden" name="requestURL" value="/back-end/Cos/listOneCos.jsp">
 <input type="hidden" name="action" value="update">
 <input type="hidden" name="cosNo" value="<%=cosVO.getCosNo()%>"> <%-- 真正送出修改處 --%>
 <input type="submit" value="送出修改"></FORM>
