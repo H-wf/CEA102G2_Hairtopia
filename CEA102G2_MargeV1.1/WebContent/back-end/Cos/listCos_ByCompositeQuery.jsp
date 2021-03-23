@@ -57,7 +57,6 @@
 	</td></tr>
 </table>
 
-
 <table>
 	<tr>
 		<th>½Òµ{½s¸¹</th>
@@ -79,8 +78,8 @@
                     </c:if>
                 </c:forEach>
 			</td>
-			<td><fmt:formatDate value="${cosVO.cosFrom}" pattern="yyyy-MM-dd HH:mm:ss.SSSZ"/></td>
-			<td><fmt:formatDate value="${cosVO.cosApplyFrom}" pattern="yyyy-MM-dd HH:mm:ss.SSSZ"/></td>
+			<td><fmt:formatDate value="${cosVO.cosFrom}" type="both"/></td>
+			<td><fmt:formatDate value="${cosVO.cosApplyFrom}" type="both"/></td>
 						
 			<td>
 			  <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/cos/cos.do" style="margin-bottom: 0px;">

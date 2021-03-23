@@ -8,6 +8,7 @@ public interface MemDAO_interface {
 	public void signUp(MemVO memVO);
 	public void update(MemVO memVO);
 	public void updatePassword(String memEmail, String memPswd);
+	public void updateStatus(String memEmail, Integer memStatus);
 	public void delete(Integer memno);
     public MemVO findByPrimaryKey(Integer memno);
     public String validateEmail(String memEmail);

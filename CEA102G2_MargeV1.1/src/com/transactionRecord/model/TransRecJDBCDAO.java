@@ -13,6 +13,7 @@ public class TransRecJDBCDAO implements TransRecDAO_interface {
 	private static final String INSERT_STMT = "INSERT INTO TRANSACTION_RECORD (memNo, traDes, traPri, traBal) VALUES ( ?, ?, ?, ?)";
 	private static final String GET_ALL_STMT = "SELECT * FROM TRANSACTION_RECORD";
 	private static final String GET_ONE_STMT = "SELECT * FROM TRANSACTION_RECORD WHERE traNo = ?";
+	private static final String GET_RECORD_BY_MEMBER = "SELECT * FROM TRANSACTION_RECORD WHERE memNO = ?";
 	private static final String DELETE = "DELETE FROM TRANSACTION_RECORD WHERE traNo = ?";
 	private static final String UPDATE = "UPDATE TRANSACTION_RECORD SET memNo=?, traDes=? , traPri=?, traBal=? WHERE traNo = ?";
 
@@ -254,9 +255,72 @@ public class TransRecJDBCDAO implements TransRecDAO_interface {
 		}
 		return list;
 	}
+	
+	public List<TransRecVO> getMemberRecord(Integer traNo){
+		List<TransRecVO> list = new ArrayList<TransRecVO>();
+		TransRecVO transRecVO = null;
+
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+
+		try {
+
+			Class.forName(driver);
+			con = DriverManager.getConnection(url, userid, passwd);
+			pstmt = con.prepareStatement(GET_RECORD_BY_MEMBER);
+			
+			pstmt.setInt(1, traNo);
+			
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				transRecVO = new TransRecVO();
+				transRecVO.setTraNo(rs.getInt("traNo"));
+				transRecVO.setMemNo(rs.getInt("memNO"));
+				transRecVO.setTraTime(rs.getDate("traTime"));
+				transRecVO.setTraDes(rs.getInt("traDes"));
+				transRecVO.setTraPri(rs.getInt("traPri"));
+				transRecVO.setTraBal(rs.getInt("traBal"));
+
+				list.add(transRecVO);
+			}
+
+			// Handle any driver errors
+		} catch (ClassNotFoundException e) {
+			throw new RuntimeException("Couldn't load database driver. " + e.getMessage());
+			// Handle any SQL errors
+		} catch (SQLException se) {
+			throw new RuntimeException("A database error occured. " + se.getMessage());
+			// Clean up JDBC resources
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
+		return list;
+	}
 
 	public static void main(String[] args) {
-//		TransRecJDBCDAO dao = new TransRecJDBCDAO();
+		TransRecJDBCDAO dao = new TransRecJDBCDAO();
 
 		// insert test
 //		TransRecVO transRecVO = new TransRecVO();
@@ -302,6 +366,19 @@ public class TransRecJDBCDAO implements TransRecDAO_interface {
 //		}
 		// delete
 //		dao.delete(6);
+		//getMemberRecord
+		List<TransRecVO> list = dao.getMemberRecord(1);
+		for (TransRecVO transRecVO : list) {
+			System.out.print(transRecVO.getTraNo() + ", ");
+			System.out.print(transRecVO.getMemNo() + ", ");
+			System.out.print(transRecVO.getTraTime() + ", ");
+			System.out.print(transRecVO.getTraDes() + ", ");
+			System.out.print(transRecVO.getTraPri() + ", ");
+			System.out.println(transRecVO.getTraBal());
+			System.out
+					.println("--------------------------------------------------------------------------------------");
+		}
+		
 	}
 
 }

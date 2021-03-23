@@ -10,6 +10,7 @@ public class PostVO implements java.io.Serializable{
 	private java.sql.Timestamp postTime;
 	private Integer postStatus;	//
 	private boolean postPror;
+	private String desName;
 	
 	public Integer getPostNo() {
 		return postNo;
@@ -64,6 +65,12 @@ public class PostVO implements java.io.Serializable{
 	}
 	public void setPostPror(boolean postPror) {
 		this.postPror = postPror;
+	}
+	public String getDesName() {
+		return desName;
+	}
+	public void setDesName(String desName) {
+		this.desName = desName;
 	}
 	
 	

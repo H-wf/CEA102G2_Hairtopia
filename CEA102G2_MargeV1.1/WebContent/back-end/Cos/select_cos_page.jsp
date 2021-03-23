@@ -1,45 +1,29 @@
-<%@ page contentType="text/html; charset=UTF-8" pageEncoding="Big5"%>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<!DOCTYPE html>
+<html lang="en">
 
-<html>
 <head>
-<title>IBM Cos: Home</title>
-
-<style>
-  table#table-1 {
-	width: 450px;
-	background-color: #CCCCFF;
-	margin-top: 5px;
-	margin-bottom: 10px;
-    border: 3px ridge Gray;
-    height: 80px;
-    text-align: center;
-  }
-  table#table-1 h4 {
-    color: red;
-    display: block;
-    margin-bottom: 1px;
-  }
-  h4 {
-    color: blue;
-    display: inline;
-  }
-</style>
-
+    <title>後台主頁：課程、講師相關管理</title>
+    <meta charset="utf-8">
+<%@include file="/back-end/tempFile/head" %>
 </head>
-<body bgcolor='white'>
+
+<body id="page-top">
+<%@include file="/back-end/tempFile/navBar_sideBar" %>
+
+<!-- Begin Page Content -->
+	<div class="container-fluid">
 
 <table id="table-1">
-   <tr><td><h3>IBM Cos: Home</h3><h4>( MVC )</h4></td></tr>
+   <tr><td><h3>後台主頁：課程、講師相關管理</h3><h4></h4></td></tr>
 </table>
 
-<p>This is the Home page for IBM Cos: Home</p>
-
-<h3>�ҵ{�d��:</h3>
+<h3>課程查詢：</h3>
 	
-<%-- ���~���C --%>
+<%-- 錯誤表列 --%>
 <c:if test="${not empty errorMsgs}">
-	<font style="color:red">�Эץ��H�U���~:</font>
+	<font style="color:red">請修正以下錯誤:</font>
 	<ul>
 	    <c:forEach var="message" items="${errorMsgs}">
 			<li style="color:red">${message}</li>
@@ -47,111 +31,201 @@
 	</ul>
 </c:if>
 
-<ul>
-  <li><a href="<%=request.getContextPath()%>/back-end/Cos/listAllCos.jsp">List</a> all Cos.  <br><br></li>
+<table>
+<tr>
+<td>課程設定</td>
+<td>講師設定</td>
+<tr>
+<tr>
+<td><li><a href="<%=request.getContextPath()%>/back-end/Cos/listAllCos.jsp">列出所有課程</a><br><br></li>
 
-<li><a href="<%=request.getContextPath()%>/back-end/Cos/listAllCosApplyFrom.jsp">List</a> all CosApplyFrom.  <br><br></li>
-  
+<li><a href="<%=request.getContextPath()%>/back-end/Cos/listAllCosApplyFrom.jsp">列出所有報名中課程</a><br><br></li>
+
+<li><a href="<%=request.getContextPath()%>/back-end/Cos/listAllCosFrom.jsp">列出所有開課中課程</a><br><br></li>
+
+<li><a href="<%=request.getContextPath()%>/back-end/Cosdetail/listAllCosdetail.jsp">列出所有修課明細</a><br><br></li>
+
+<li><a href="<%=request.getContextPath()%>/back-end/Cospost/listAllCospost.jsp">列出所有課程公告</a><br><br></li>
+
+<li><a href="<%=request.getContextPath()%>/back-end/Costype/listAllCostype.jsp">列出所有課程型態</a><br><br></li></td>
+
+<td valign="top"><li><a href="<%=request.getContextPath()%>/back-end/Lecturer/listAll_lec.jsp">列出所有講師</a><br><br></li></td>
+</tr>
+</table>
+</table>
   <li>
-    <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/cos/cos.do" >
-        <b>��J�ҵ{�s��(�p1):</b>
+    <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/cos/cos.do">
+        <b>輸入課程編號(如1)：</b>
         <input type="text" name="cosNo">
         <input type="hidden" name="action" value="getOne_For_Display">
-        <input type="submit" value="�e�X">
+        <input type="submit" value="送出">
     </FORM>
   </li>
 
-  <jsp:useBean id="dao" scope="page" class="com.cos.model.CosService" />
-   
+<jsp:useBean id="cosSvc" scope="page" class="com.cos.model.CosService"/>
+<ul>   
   <li>
-     <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/cos/cos.do" >
-       <b>��ܽҵ{�s��:</b>
+     <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/cos/cos.do">
+       <b>選擇課程編號：</b>
        <select size="1" name="cosNo">
-         <c:forEach var="cosVO" items="${dao.all}" > 
+         <c:forEach var="cosVO" items="${cosSvc.all}" > 
           <option value="${cosVO.cosNo}">${cosVO.cosNo}
          </c:forEach>   
        </select>
        <input type="hidden" name="action" value="getOne_For_Display">
-       <input type="submit" value="�e�X">
+       <input type="submit" value="送出">
     </FORM>
   </li>
   
   <li>
-     <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/cos/cos.do" >
-       <b>��ܽҵ{�W��:</b>
-       <select size="1" name="cosName">
+     <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/cos/cos.do">
+       <b>查詢課程名稱：</b>
+       <select size="1" name="cosNo">
          <c:forEach var="cosVO" items="${dao.all}" > 
           <option value="${cosVO.cosNo}">${cosVO.cosName}
          </c:forEach>   
        </select>
        <input type="hidden" name="action" value="getOne_For_Display">
-       <input type="submit" value="�e�X">
+       <input type="submit" value="送出">
      </FORM>
   </li>
   
-  <jsp:useBean id="costypeSvc" scope="page" class="com.coutype.model.CostypeService" />
+  <jsp:useBean id="cosdetSvc" scope="page" class="com.coudet.model.CosdetService"/>
   
   <li>
-     <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/coutype/coutype.do" >
-       <b><font color=orange>��ܽҵ{���O:</font></b>
+     <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/coudet/coudet.do" >
+       <b><font color=orange>查詢課程明細：</font></b>
+       <select size="1" name="cosNo">
+         <c:forEach var="cosVO" items="${cosdetSvc.all}" > 
+          <option value="${cosVO.cosNo}">${cosVO.cosNo}
+         </c:forEach>   
+       </select>
+       <input type="submit" value="送出">
+       <input type="hidden" name="action" value="getOne_For_Display">
+     </FORM>
+  </li>
+  
+  <jsp:useBean id="lecSvc" scope="page" class="com.lecturer.model.LecturerService" />
+  
+  <li>
+     <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/lecturer/lecturer.do" >
+       <b><font color=orange>查詢講師名稱：</font></b>
+       <select size="1" name="lecNo">
+         <c:forEach var="lecVO" items="${lecSvc.all}" > 
+          <option value="${lecVO.lecNo}">${lecVO.lecName}
+         </c:forEach>   
+       </select>
+       <input type="submit" value="送出">
+       <input type="hidden" name="action" value="getOne_For_Display">
+     </FORM>
+  </li>
+  
+  <jsp:useBean id="cospostSvc" scope="page" class="com.cospost.model.CospostService" />
+  
+  <li>
+     <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/cospost/cospost.do" >
+       <b><font color=orange>查詢課程公告內容：</font></b>
+       <select size="1" name="cosPubNo">
+         <c:forEach var="cospostVO" items="${cospostSvc.all}" > 
+          <option value="${cospostVO.cosPubNo}">${cospostVO.cosPubCon}
+         </c:forEach>   
+       </select>
+       <input type="submit" value="送出">
+       <input type="hidden" name="action" value="getOne_For_Display">
+     </FORM>
+  </li>
+
+<jsp:useBean id="costypeSvc" scope="page" class="com.coutype.model.CostypeService"/>
+  
+  <li>
+     <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/coutype/coutype.do">
+       <b><font color=orange>查詢課程類別名稱：</font></b>
        <select size="1" name="cosTypeNo">
          <c:forEach var="costypeVO" items="${costypeSvc.all}" > 
           <option value="${costypeVO.cosTypeNo}">${costypeVO.cosTypeName}
          </c:forEach>   
        </select>
-       <input type="submit" value="�e�X">
+       <input type="submit" value="送出">
        <input type="hidden" name="action" value="listCos_ByCosTypeNo_A">
      </FORM>
   </li>
 
-</ul>
+</ul>	
 
-<%-- �U�νƦX�d��-�H�U���-�i�H�N�W�� --%>
+<%-- 萬用複合查詢-以下欄位-可隨意增減 --%>
+<h3><font color=blue>萬用複合查詢:</font></h3>
 <ul>  
   <li>   
     <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/cos/cos.do" name="form1">
-        <b><font color=blue>�U�νƦX�d��:</font></b> <br>
-        <b>��J�ҵ{�s��:</b>
+        <b></b><br>
+        <b>輸入課程編號:</b>
         <input type="text" name="cosNo" value="1"><br>
            
-       <b>��J�ҵ{�W��:</b>
-       <input type="text" name="cosName" value="�ƨg�z�v�v"><br>
+       <b>輸入課程名稱:</b>
+       <input type="text" name="cosName" value="瘋狂理髮師"><br>
        
-       <b>��ܽҵ{���O:</b>
+       <b>選擇課程類別:</b>
        <select size="1" name="cosTypeNo" >
           <option value="">
          <c:forEach var="costypeVO" items="${costypeSvc.all}" > 
           <option value="${costypeVO.getCosTypeNo()}">${costypeVO.getCosTypeName()}
          </c:forEach>
        </select><br>
+       
+       <b>選擇課程公告:</b>
+       <select size="1" name="cosPubNo" >
+          <option value="">
+         <c:forEach var="costypeVO" items="${costypeSvc.all}" > 
+          <option value="${costypeVO.getCosTypeNo()}">${costypeVO.getCosTypeName()}
+         </c:forEach>
+       </select><br>
+       
+       <b>選擇講師:</b>
+       <select size="1" name="lecNo" >
+          <option value="">
+         <c:forEach var="LecturerVO" items="${lecSvc.all}" > 
+          <option value="${LecturerVO.getLecNo()}">${LecturerVO.getLecName()}
+         </c:forEach>
+       </select><br>
            
-       <b>�}�Ҥ��:</b>
+       <b>開課日期:</b>
 	   <input name="cosFrom" id="f_date1" type="text">
 	   <br>
-	   <b>���W���:</b>
+	   <b>報名日期:</b>
 	   <input name="cosApplyFrom" id="f_date2" type="text">
 		        
-        <input type="submit" value="�e�X">
+        <input type="submit" value="送出">
         <input type="hidden" name="action" value="listCos_ByCompositeQuery">
      </FORM>
   </li>
 </ul>
 
-<h3>�s�W�ҵ{���ӡG</h3>
+<h3>新增課程：</h3>
 <ul>
   <li><a href="<%=request.getContextPath()%>/back-end/Cos/addCos.jsp">Add</a> a new Cos.</li>
 </ul>
 
-<h3><font color=orange>�ҵ{�����޲z</font></h3>
+<h3><font color=orange>新增課程類型管理</font></h3>
 
 <ul>
-  <li><a href='<%=request.getContextPath()%>/back-end/Costype/listAllCostype.jsp'>List</a> all Costype. </li>
+  <li><a href='<%=request.getContextPath()%>/back-end/Costype/addCostype.jsp'>Add</a> a Costype. </li>
+</ul>
+
+<h3><font color=orange>新增課程公告管理</font></h3>
+
+<ul>
+  <li><a href='<%=request.getContextPath()%>/back-end/Cospost/addCospost.jsp'>Add</a> a Cospost. </li>
+</ul>
+
+<h3><font color=orange>新增講師管理</font></h3>
+
+<ul>
+  <li><a href='<%=request.getContextPath()%>/back-end/Lecturer/addLec.jsp'>Add</a> a Lec. </li>
 </ul>
 
 
-
 </body>
-<!-- =========================================�H�U�� datetimepicker �������]�w========================================== -->
+<!-- =========================================以下為 datetimepicker 之相關設定========================================== -->
 
 <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/datetimepicker/jquery.datetimepicker.css" />
 <script src="<%=request.getContextPath()%>/datetimepicker/jquery.js"></script>
@@ -191,6 +265,13 @@ $('#f_date2').datetimepicker({
            return [true, ""];
    }});
 
-</script>   
+</script>
+</div>
+<!-- Page Content END -->
+                
+<%@include file="/back-end/tempFile/footer" %>
+<%@include file="/back-end/tempFile/srcJs" %>
+</body>
+
 </html>
 

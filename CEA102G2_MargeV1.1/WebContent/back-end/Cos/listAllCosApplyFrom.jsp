@@ -1,9 +1,8 @@
-<%@ page contentType="text/html; charset=UTF-8" pageEncoding="Big5"%>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ page import="java.util.*"%>
 <%@ page import="com.cos.model.*"%>
-<%-- ¦¹­¶½m²ß±Ä¥Î EL ªº¼gªk¨ú­È --%>
 
 <%
     CosService cosSvc = new CosService();
@@ -14,7 +13,7 @@
 
 <html>
 <head>
-<title>©Ò¦³²{¦s½Òµ{¸ê®Æ - listAllCosApplyFrom.jsp</title>
+<title>æ‰€æœ‰å¯å ±åèª²ç¨‹è³‡æ–™ - listAllCosApplyFrom.jsp</title>
 
 <style>
   table#table-1 {
@@ -52,17 +51,16 @@
 </head>
 <body bgcolor='white'>
 
-<h4>¦¹­¶½m²ß±Ä¥Î EL ªº¼gªk¨ú­È:</h4>
 <table id="table-1">
 	<tr><td>
-		 <h3>©Ò¦³²{¦s½Òµ{¸ê®Æ - listAllCosApplyFrom.jsp</h3>
-		 <h4><a href="<%=request.getContextPath()%>/back-end/Cos/select_cos_page.jsp"><img src="<%=request.getContextPath()%>/resource/images/back1.gif" width="100" height="32" border="0">¦^­º­¶</a></h4>
+		 <h3>æ‰€æœ‰å¯å ±åèª²ç¨‹è³‡æ–™ - listAllCosApplyFrom.jsp</h3>
+		 <h4><a href="<%=request.getContextPath()%>/back-end/Cos/select_cos_page.jsp"><img src="<%=request.getContextPath()%>/resource/images/back1.gif" width="100" height="32" border="0">å›žå¾Œå°ä¸»é </a></h4>
 	</td></tr>
 </table>
 
-<%-- ¿ù»~ªí¦C --%>
+<%-- éŒ¯èª¤è¡¨åˆ— --%>
 <c:if test="${not empty errorMsgs}">
-	<font style="color:red">½Ð­×¥¿¥H¤U¿ù»~:</font>
+	<font style="color:red">è«‹ä¿®æ­£ä»¥ä¸‹éŒ¯èª¤:</font>
 	<ul>
 		<c:forEach var="message" items="${errorMsgs}">
 			<li style="color:red">${message}</li>
@@ -70,25 +68,25 @@
 	</ul>
 </c:if>
 
-<table>
+<table style="width: 100%">
 	<tr>
-		<th>½Òµ{½s¸¹</th>
-		<th>Á¿®v½s¸¹</th>
-		<th>½Òµ{Ãþ§O½s¸¹</th>
-		<th>¤W½Ò°_</th>
-		<th>¤W½Ò¨´</th>
-		<th>½Òµ{¤¶²Ð</th>
-		<th>½Òµ{¹Ï¤ù</th>
-		<th>½Òµ{¦a§}</th>
-		<th>³ø¦WÁ`¤H¼Æ</th>
-		<th>µû»ùÁ`¤À¼Æ</th>
-		<th>½Òµ{ª¬ºA</th>
-		<th>³Ì§C¤H¼Æ</th>
-		<th>³Ì°ª¤H¼Æ</th>
-		<th>½Òµ{»ù®æ</th>
-		<th>³ø¦W¶}©l¤é</th>
-		<th>³ø¦WºI¤î¤é</th>
-		<th>½Òµ{¦WºÙ</th>
+		<th>èª²ç¨‹ç·¨è™Ÿ</th>
+		<th>è¬›å¸«ç·¨è™Ÿ</th>
+		<th>èª²ç¨‹é¡žåˆ¥ç·¨è™Ÿ</th>
+		<th>ä¸Šèª²èµ·</th>
+		<th>ä¸Šèª²è¿„</th>
+		<th>èª²ç¨‹ä»‹ç´¹</th>
+		<th>èª²ç¨‹åœ–ç‰‡</th>
+		<th>èª²ç¨‹åœ°å€</th>
+		<th>å ±åç¸½äººæ•¸</th>
+		<th>è©•åƒ¹ç¸½åˆ†æ•¸</th>
+		<th>èª²ç¨‹ç‹€æ…‹</th>
+		<th>æœ€ä½Žäººæ•¸</th>
+		<th>æœ€é«˜äººæ•¸</th>
+		<th>èª²ç¨‹åƒ¹æ ¼</th>
+		<th>å ±åé–‹å§‹æ—¥</th>
+		<th>å ±åæˆªæ­¢æ—¥</th>
+		<th>èª²ç¨‹åç¨±</th>
 	</tr>
 	
 	<%
@@ -110,33 +108,33 @@
 	<c:forEach var="cosVO" items="${list}" begin="<%=pageIndex%>" end="<%=pageIndex+rowsPerPage-1%>">
 		
 		<tr>
-			<td>${cosVO.getCosNo()}</td>
-			<td>${cosVO.getLecNo()}</td>
-			<td>${cosVO.getCosTypeNo()}</td>
-			<td><fmt:formatDate value="${cosVO.getCosFrom()}" pattern="yyyy-MM-dd HH:mm:ss.SSSZ"/></td>
-			<td><fmt:formatDate value="${cosVO.getCosTo()}" pattern="yyyy-MM-dd HH:mm:ss.SSSZ"/></td>
-			<td>${cosVO.getCosIntro()}</td>
-			<td><img src="<%=request.getContextPath()%>/PicFinder?pic=1&table=course&column=cosPic&idname=cosNo&id=${cosVO.cosNo}" alt='¨S¦³¹Ï¤ù' /></td>
-			<td>${cosVO.getCosAdd()}</td>
-			<td>${cosVO.getCosCount()}</td>
-			<td>${cosVO.getCosRate()}</td>
-			<td>${cosVO.getCosStatus()}</td>
-			<td>${cosVO.getCosMinCount()}</td>
-			<td>${cosVO.getCosMaxCount()}</td>
-			<td>${cosVO.getCosPrice()}</td>
-			<td><fmt:formatDate value="${cosVO.getCosApplyFrom()}" pattern="yyyy-MM-dd HH:mm:ss.SSSZ"/></td>
-			<td><fmt:formatDate value="${cosVO.getCosApplyTo()}" pattern="yyyy-MM-dd HH:mm:ss.SSSZ"/></td>
-			<td>${cosVO.getCosName()}</td>
+			<td>${cosVO.cosNo}</td>
+			<td>${cosVO.lecNo}</td>
+			<td>${cosVO.cosTypeNo}</td>
+			<td><fmt:formatDate value="${cosVO.cosFrom}" type="both"/></td>
+			<td><fmt:formatDate value="${cosVO.cosTo}" type="both"/></td>
+			<td>${cosVO.cosIntro}</td>
+			<td><img width="100" src="<%=request.getContextPath()%>/PicFinder?pic=1&table=course&column=cosPic&idname=cosNo&id=${cosVO.cosNo}" alt='æ²’æœ‰åœ–ç‰‡' /></td>
+			<td>${cosVO.cosAdd}</td>
+			<td>${cosVO.cosCount}</td>
+			<td>${cosVO.cosRate}</td>
+			<td>${cosVO.cosStatus==true?"ä¸Šæž¶":"ä¸‹æž¶"}</td>
+			<td>${cosVO.cosMinCount}</td>
+			<td>${cosVO.cosMaxCount}</td>
+			<td>${cosVO.cosPrice}</td>
+			<td><fmt:formatDate value="${cosVO.cosApplyFrom}" type="both"/></td>
+			<td><fmt:formatDate value="${cosVO.cosApplyTo}" type="both"/></td>
+			<td>${cosVO.cosName}</td>
 			<td>
 			  <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/cos/cos.do" style="margin-bottom: 0px;" >
-			     <input type="submit" value="³ø¦W">
-			     <input type="hidden" name="cosNo"  value="${cosVO.getCosNo()}">
+			     <input type="submit" value="ä¿®æ”¹">
+			     <input type="hidden" name="cosNo"  value="${cosVO.cosNo}">
 			     <input type="hidden" name="action"	value="getOne_For_Update"></FORM>
 			</td>
 			<td>
 			  <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/cos/cos.do" style="margin-bottom: 0px;">
-			     <input type="submit" value="§R°£">
-			     <input type="hidden" name="cosNo"  value="${cosVO.getCosNo()}">
+			     <input type="submit" value="åˆªé™¤">
+			     <input type="hidden" name="cosNo"  value="${cosVO.cosNo}">
 			     <input type="hidden" name="action" value="delete"></FORM>
 			</td>
 		</tr>

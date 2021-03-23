@@ -344,14 +344,7 @@ input {
 				</form>
 			 </div>
 			 <input type="submit" class="btn btn-primary alert" value="送出" style="float: right;">			 
-<%-- 			 <form class="order" action="<%=request.getContextPath()%>/ordermaster/ordermaster.do" method="POST"> --%>
-<%-- 					<input type="hidden" name="memNo" value="${sessionScope.memVO.memNo}">				  --%>
-<%-- 					<input type="hidden" name="ordAmt" class="ordAmt" value="${sessionScope.ordAmt}"> --%>
-<!-- 					<input type="hidden" name="action" value="PAY">  -->
-<!-- 			</form> -->
-				
 			</div>
-			
 		</div>
 	</div>
 	<!-- Page Content END -->

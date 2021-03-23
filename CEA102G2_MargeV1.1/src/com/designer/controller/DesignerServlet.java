@@ -113,10 +113,10 @@ public class DesignerServlet extends HttpServlet {
 				req.setAttribute("designerVO", desVO); // 資料庫取出的lecVO物件,存入req
 				req.setAttribute("salVo", salVo);
 				String url="";
-MemDAO mamdao = new MemDAO();
-MemVO memVO = mamdao.findByPrimaryKey(2);
-HttpSession session = req.getSession(); 
-session.setAttribute("memVO", memVO);
+//MemDAO mamdao = new MemDAO();
+//MemVO memVO = mamdao.findByPrimaryKey(2);
+//HttpSession session = req.getSession(); 
+//session.setAttribute("memVO", memVO);
 				if("getOne_For_Display_Back".equals(action)) {
 //				 url = "/back-end/designer/listOneDesignerBack.jsp";
 				 url = "/front-end/designer/designerPage.jsp";

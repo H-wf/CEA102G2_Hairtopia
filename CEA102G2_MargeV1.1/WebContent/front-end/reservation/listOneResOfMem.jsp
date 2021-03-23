@@ -67,8 +67,6 @@
     </style>
 </head>
 <body>
-
-<h5>服務資料 - ListOneResOfMem.jsp</h5>
 <jsp:useBean id="designerSvc" scope="page" class="com.designer.model.DesignerService" />
 <jsp:useBean id="serviceSvc" scope="page" class="com.service.model.ServiceService" />
 <jsp:useBean id="salonSvc" scope="page" class="com.salon.model.SalonService" />
@@ -77,14 +75,14 @@
 	<tr><th>服務項目</th>
 		<td><c:forEach var="serviceVO" items="${serviceSvc.all}">
 				<c:if test="${serviceVO.serNo==resVO.serNo}">
-	            	${serviceVO.serNo}-${serviceVO.serName}
+	            	${serviceVO.serName}
             	</c:if>
 			</c:forEach>
 		</td></tr>
 	<tr><th>設計師</th>
 		<td><c:forEach var="designerVO" items="${designerSvc.all}">
 					<c:if test="${designerVO.desNo==resVO.desNo}">
-	            	${designerVO.desNo}-${designerVO.desName}
+	            	${designerVO.desName}
             		</c:if>
 			</c:forEach>
 		</td></tr>
