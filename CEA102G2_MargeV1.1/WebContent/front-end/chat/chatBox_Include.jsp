@@ -318,7 +318,7 @@
 		<!--第一區塊 -->
 		<!--第一區塊 -->
 		<!--第一區塊 -->
-        <div class="chatbox firstChatbox" style="z-index: 1000;">
+        <div class="chatbox firstChatbox" style="z-index: 1000;display:none;">
             <div class="chatbox-top">
                 <div class="chatbox-avatar">
                     <img
