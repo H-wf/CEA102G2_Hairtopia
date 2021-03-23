@@ -17,13 +17,10 @@
 
 <body>
 <%@include file="/front-end/tempFile/navBar" %>
-<div style="height:17vh;"></div>
+<div style="height:12vh;"></div>
 	<div class="container-fluid px-0">
 		<div class="card card-container">
-			<img id="profile-img" class="profile-img-card"
-				src="<%=request.getContextPath()%>/resource/images/HairtopiaLogo/HairtopiaLogoLogin.png" />
-<!-- 			<h2 align="center"	>登入</h2> -->
-			<!--             <p id="profile-name" class="profile-name-card"></p> -->
+			<img id="profile-img" class="profile-img-card" src="<%=request.getContextPath()%>/resource/images/HairtopiaLogo/HairtopiaLogoLogin.png" />
 			<form method="post" class="form-signin"
 				action="<%=request.getContextPath()%>/member/mem.do">
 				<span id="reauth-email" class="reauth-email"></span> 

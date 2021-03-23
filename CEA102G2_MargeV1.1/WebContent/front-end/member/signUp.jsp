@@ -6,43 +6,18 @@
 
 <head>
 <title>Signup</title>
-<meta name="viewport"
-	content="width=device-width, initial-scale=1, maximum-scale=1">
-<link
-	href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css"
-	rel="stylesheet"
-	integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1"
-	crossorigin="anonymous">
-<script
-	src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"
-	integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW"
-	crossorigin="anonymous"></script>
-<script src="https://code.jquery.com/jquery-3.5.1.min.js"
-	integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0="
-	crossorigin="anonymous"></script>
-<script src="http://jqueryvalidation.org/files/dist/jquery.validate.min.js"></script>
-<script src="http://jqueryvalidation.org/files/dist/additional-methods.min.js"></script>
+<%@include file="/front-end/tempFile/head" %>
 
-<link rel="stylesheet" href="<%=request.getContextPath()%>/dist/css/member_signup.css">
+<link rel="stylesheet" href="<%=request.getContextPath()%>/resource/css/login.css">
 </head>
 
 <body>
-
-<%-- <%-- 錯誤表列 --%>
-<%-- <c:if test="${not empty errorMsgs}"> --%>
-<!-- 	<font style="color:red">請修正以下錯誤:</font> -->
-<!-- 	<ul> -->
-<%-- 		<c:forEach var="message" items="${errorMsgs.entrySet()}"> --%>
-<%-- 			<li style="color:red">${message.value}</li> --%>
-<%-- 		</c:forEach> --%>
-<!-- 	</ul> -->
-<%-- </c:if> --%>
-
+<%@include file="/front-end/tempFile/navBar" %>
+<div style="height:10vh;"></div>
 	<div class="container">
 		<div class="card card-container">
 			<img id="profile-img" class="profile-img-card"
-				src="<%=request.getContextPath()%>/resource/images/HairtopiaLogo/HairtopiaLogo1.png" />
-			<h2 align="center">加入會員</h2>
+				src="<%=request.getContextPath()%>/resource/images/HairtopiaLogo/HairtopiaLogoSignUp.png" />
 			<form id="myform" method="post" class="form-signin" action="<%=request.getContextPath()%>/member/mem.do">
 				<span id="reauth-email" class="reauth-email"></span> 
 				<input type="text" id="memName" class="form-control" placeholder="姓名" required autofocus autocomplete="off" name="memName" value="${param.memName}">
@@ -66,6 +41,12 @@
 		</div>
 
 	</div>
+<%@include file="/front-end/tempFile/footer" %>
+<%@include file="/front-end/tempFile/tempJs" %>
+<script src="<%=request.getContextPath()%>/dist/js/jquery-3.5.1.min.js"></script>
+<script src="<%=request.getContextPath()%>/dist/js/jquery.validate.min.js"></script>
+<script src="<%=request.getContextPath()%>/dist/js/additional-methods.min.js"></script>
+</body>
 	<script>
 	jQuery.validator.setDefaults({
 		  debug: false,
@@ -112,6 +93,5 @@
 	
 		
 	</script>
-</body>
 
 </html>
