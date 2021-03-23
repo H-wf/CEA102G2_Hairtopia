@@ -144,7 +144,7 @@
                                 <p class="mb-4">潮・無需等待。<br>Hairtopia髮品商城，下訂前到貨，<br>均一價8888。</p>
                             </div>
                             <div id="infoBtn">
-                                <a href="#" class="btn btn-primary d-block px-2 py-4"> 前往商城 </a>
+                                <a href="<%=request.getContextPath()%>/front-end/product/EShop2.jsp" class="btn btn-primary d-block px-2 py-4"> 前往商城 </a>
                             </div>
                         </div>
                     </div>
