@@ -6,18 +6,18 @@
 <%-- 此頁暫練習採用 Script 的寫法取值 --%>
 
 <%
-	LecturerVO lecVO = (LecturerVO) request.getAttribute("lecVO"); //EmpServlet.java(Concroller), 存入req的empVO物件
+	LecturerVO lecVO = (LecturerVO) request.getAttribute("lecVO"); 
 %>
 <html>
 <head>
 
 <style>
-img {
-	width: 150px;
+#lecimg {
+	width: 16rem;
 }
 </style>
 
-<title>所有開課-講師專區</title>
+<title>講師專區</title>
 <meta charset="utf-8">
 <%@include file="/back-end/tempFile/head"%>
 </head>
@@ -26,11 +26,11 @@ img {
 	<div class="container-fluid">
 
 
-		<h3>所有開課-講師專區</h3>
+		<h3>講師專區</h3>
 
 
 
-
+	<div class="row">
 
 		<jsp:useBean id="cosSvc" scope="page" class="com.cos.model.CosService" />
 		<c:forEach var="cosVO" items="${cosSvc.all}">
@@ -38,7 +38,7 @@ img {
 
 				<div class="col-3 mb-1">
 					<div class="card " style="width: 16rem; height: 28rem;">
-						<img
+						<img id="lecimg"
 							src="<%=request.getContextPath()%>/PicFinder?pic=1&table=Course&column=cosPic&idname=cosNo&id=${cosVO.cosNo}"
 							class="card-img-top" alt="...">
 						<div class="card-body">
@@ -56,6 +56,7 @@ img {
 
 
 		</c:forEach>
+		</div>
 	</div>
 	<%@include file="/back-end/tempFile/footer"%>
 	<%@include file="/back-end/tempFile/srcJs"%>

@@ -52,6 +52,10 @@ public class LecturerService {
 		return dao.findByPrimaryKey(lecNo);
 	}
 	
+	public LecturerVO getOneLecturer2(Integer staNo) {
+		return dao.findByStaNo(staNo);
+	}
+	
 
 	public List<LecturerVO> getAll() {
 		

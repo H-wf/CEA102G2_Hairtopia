@@ -24,12 +24,12 @@ public class LecturerDAO implements LecturerDAO_interface {
 	}
 
 	private static final String INSERT_STMT = "INSERT INTO lecturer (lecName,lecPic,lecIntro,lecStatus,staNo) VALUES (?, ?, ?, ?,?)";
-	private static final String GET_ALL_STMT = "SELECT lecNo,lecName,lecPic,lecIntro,lecStatus FROM lecturer order by lecNo";
-	private static final String GET_ONE_STMT = "SELECT lecNo,lecName,lecPic,lecIntro,lecStatus FROM lecturer where lecNo= ?";
+	private static final String GET_ALL_STMT = "SELECT lecNo,lecName,lecIntro,lecStatus FROM lecturer order by lecNo";
+	private static final String GET_ONE_STMT = "SELECT lecNo,lecName,lecIntro,lecStatus FROM lecturer where lecNo= ?";
 	private static final String DELETE = "DELETE FROM lecturer where lecNo = ?";
 	private static final String UPDATE = "UPDATE lecturer set lecName=?, lecPic=?, lecIntro=?, lecStatus=? where lecNo = ?";
 	private static final String UPDATE2 = "UPDATE lecturer set lecName=?,  lecIntro=?, lecStatus=? where lecNo = ?";
-
+	private static final String GET_ONE_UQ = "SELECT lecNo,lecName,lecIntro,lecStatus FROM lecturer where staNo= ?";
 	public void insert(LecturerVO lecVO) {
 		Connection con = null;
 		PreparedStatement pstmt = null;
@@ -146,6 +146,62 @@ public class LecturerDAO implements LecturerDAO_interface {
 		}
 
 	}
+	
+	public LecturerVO findByStaNo(Integer staNo) {
+
+		LecturerVO lecVO = null;
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+
+		try {
+
+			con = ds.getConnection();
+			pstmt = con.prepareStatement(GET_ONE_UQ);
+
+			pstmt.setInt(1, staNo);
+
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				// empVo 也稱為 Domain objects
+				lecVO = new LecturerVO();
+				lecVO.setLecNo(rs.getInt("lecno"));
+				lecVO.setLecName(rs.getString("lecname"));
+				lecVO.setLecIntro(rs.getString("lecintro"));
+				lecVO.setLecStatus(rs.getInt("lecstatus"));
+
+			}
+
+			// Handle any driver errors
+		} catch (SQLException se) {
+			throw new RuntimeException("A database error occured. " + se.getMessage());
+			// Clean up JDBC resources
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
+		return lecVO;
+	}
 
 	public LecturerVO findByPrimaryKey(Integer lecNo) {
 
@@ -168,9 +224,6 @@ public class LecturerDAO implements LecturerDAO_interface {
 				lecVO = new LecturerVO();
 				lecVO.setLecNo(rs.getInt("lecno"));
 				lecVO.setLecName(rs.getString("lecname"));
-
-				lecVO.setLecPic(rs.getBytes("lecpic"));
-
 				lecVO.setLecIntro(rs.getString("lecintro"));
 				lecVO.setLecStatus(rs.getInt("lecstatus"));
 
@@ -228,9 +281,6 @@ public class LecturerDAO implements LecturerDAO_interface {
 				lecVO.setLecNo(rs.getInt("lecno"));
 				lecVO.setLecName(rs.getString("lecname"));
 				lecVO.setLecIntro(rs.getString("lecintro"));
-
-				// lecVO.setLec_pic
-				lecVO.setLecPic(rs.getBytes("lecpic"));
 				lecVO.setLecStatus(rs.getInt("lecStatus"));
 
 				list.add(lecVO); // Store the row in the list

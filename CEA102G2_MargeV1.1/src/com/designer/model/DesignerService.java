@@ -47,11 +47,11 @@ public class DesignerService {
 		return dao.findByDesNo(desNo);
 	}
 	
-	public DesignerVO updateOneStatus(Date desEndDate, Integer desStatus, Integer desNo) {
+	public DesignerVO updateOneStatus( Integer desStatus, Integer desNo) {
 		
 		DesignerVO designerVO = new DesignerVO();
 		
-		designerVO.setDesEndDate(desEndDate);
+
 		designerVO.setDesStatus(desStatus);
 		designerVO.setDesNo(desNo);
 		
