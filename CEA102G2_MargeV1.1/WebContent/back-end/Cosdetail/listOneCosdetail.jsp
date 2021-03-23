@@ -1,6 +1,5 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="com.coudet.model.*"%>
-<%-- 此頁暫練習採用 Script 的寫法取值 --%>
 
 <%
   CosdetVO cosdetVO = (CosdetVO) request.getAttribute("cosdetVO");
@@ -46,28 +45,24 @@
 </head>
 <body bgcolor='white'>
 
-<h4>此頁暫練習採用 Script 的寫法取值:</h4>
 <table id="table-1">
 	<tr><td>
 		 <h3>課程明細資料 - listOneCosdetail.jsp</h3>
-		 <h4><a href="<%= request.getContextPath()%>/back-end/Cosdetail/select_cosdetail_page.jsp"><img src="<%= request.getContextPath()%>/resource/images/back1.gif" width="100" height="32" border="0">回首頁</a></h4>
+		 <h4><a href="<%=request.getContextPath()%>/back-end/Cos/select_cos_page.jsp"><img src="<%=request.getContextPath()%>/resource/images/back1.gif" width="100" height="32" border="0">回後台主頁</a></h4>
 	</td></tr>
 </table>
 
-<table>
+<table style="width: 100%">
 	<tr>
 		<th>課程編號</th>
-		<th>會員編號</th>
 		<th>課程評價</th>
 		<th>報名課程價格</th>
 	</tr>
 	
 	<tr>
-		<td>${cosdetVO.getCosNo()}</td>
-			<td>${cosdetVO.getMemNo()}</td>
-			<td>${cosdetVO.getCosComment()}</td>
-			<td>${cosdetVO.getCosDetailPrice()}</td>
-		
+		<td>${cosdetVO.cosNo}</td>
+			<td>${cosdetVO.cosComment}</td>
+			<td>${cosdetVO.cosDetailPrice}</td>
 	</tr>
 </table>
 

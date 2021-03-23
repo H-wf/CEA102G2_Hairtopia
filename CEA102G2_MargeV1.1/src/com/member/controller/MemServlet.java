@@ -7,6 +7,8 @@ import javax.servlet.*;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.*;
 
+import com.designer.model.DesignerService;
+import com.designer.model.DesignerVO;
 import com.member.model.*;
 import com.util.mail.*;
 import com.util.imageHandle.*;
@@ -92,6 +94,12 @@ public class MemServlet extends HttpServlet {
 				
 			}else{
 				HttpSession session = req.getSession();
+				//設計師session
+				DesignerService designerSvc = new DesignerService();
+				DesignerVO desSession = designerSvc.getOneDesByMemNo(memVO.getMemNo());
+				if(desSession!=null) {
+					session.setAttribute("desSession", desSession);
+				}
 				session.setAttribute("account", memEmail);
 				session.setAttribute("userSession", memVO);
 				try {
