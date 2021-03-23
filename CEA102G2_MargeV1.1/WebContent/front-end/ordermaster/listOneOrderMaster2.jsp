@@ -1,37 +1,44 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
-<%@ page import="com.ordermaster.model.*"%>
+<%@ page import="com.member.model.*,com.ordermaster.model.*, java.util.*"%>
 
 <jsp:useBean id="orddSvc" scope="page" class="com.orderdetail.model.OrderDetailService" />
 <jsp:useBean id="proSvc" scope="page" class="com.product.model.ProductService" />
 <jsp:useBean id="ptypeSvc" scope="page" class="com.ptype.model.PtypeService" />
 <jsp:useBean id="brandSvc" scope="page" class="com.brand.model.BrandService" />
-<jsp:useBean id="memSvc" scope="page" class="com.member.model.MemService" />
-
+<!DOCTYPE html>
 <html>
-<head><title>訂單明細</title>
-
+<head>
+<!-- 網頁標題要改記得改! -->
+ <title>Hairtopia</title>
+ <meta charset="utf-8">
+<%@include file="/front-end/tempFile/head" %>
+ 
 </head>
 <style>
-
+.ftco-navbar-light{
+	position:static;
+	z-index:100;
+}
 .paper{
- 	border:0.1px solid #969592;
- 	box-shadow: 12px 12px 7px rgba(150, 149, 146, 0.6);
- } 
- .line{ 
- 	border-bottom:solid #BDB58C; 
- 	font-size:22px; 
- 	color:#333333;
- } 
+	border:0.1px solid #969592;
+	box-shadow: 12px 12px 7px rgba(150, 149, 146, 0.6);
+}
+.line{
+	border-bottom:solid #BDB58C;
+	font-size:22px;
+	color:#333333;
+}
 </style>
 <body>
+<%@include file="/front-end/tempFile/navBar" %>
+
 <!-- Begin Page Content -->
-<div class="container-fluid p-1 ">
-	
-		
-		<c:forEach var="ordermasterVO" items="${list}">
-		
+<div class="container-fluid px-0">
+	<div class="row">
+		<div class="col-2"></div>
+		<div class="col-12 col-md-8 col-lg-8 paper my-5">
 			<div class="line">訂單資訊</div>
 			<div class="row">
 				<div class="col-6">
@@ -111,10 +118,10 @@
 					<div class="col-6">
 					<div class="line">訂購人資訊</div>
 						<ul>
-							<li>訂購人姓名:&emsp;${memSvc.getOneMem(ordermasterVO.memNo).memName}
-							<li>訂購人信箱:&emsp;${memSvc.getOneMem(ordermasterVO.memNo).memEmail}
-							<li>訂購人手機:&emsp;${memSvc.getOneMem(ordermasterVO.memNo).memPhone}
-							<li>訂購人地址:&emsp;${memSvc.getOneMem(ordermasterVO.memNo).memAddr}
+							<li>訂購人姓名:&emsp;${sessionScope.memVO.memName}
+							<li>訂購人信箱:&emsp;${sessionScope.memVO.memEmail}
+							<li>訂購人手機:&emsp;${sessionScope.memVO.memPhone}
+							<li>訂購人地址:&emsp;${sessionScope.memVO.memAddr}
 						</ul>
 					</div>
 					<div class="col-6" >
@@ -127,70 +134,14 @@
 						</ul>
 					</div>
 				</div>	
-		
-		</c:forEach>
+		</div>
 	</div>
 
 
-
-
+</div>
 <!-- Page Content END -->
-<!-- <h4> -->
-<!-- ☆萬用複合查詢  - 可由客戶端 select_page.jsp 隨意增減任何想查詢的欄位<br> -->
-<!-- ☆此頁只作為複合查詢時之結果練習，可視需要再增加分頁、送出修改、刪除之功能</h4> -->
-<!-- <table id="table-1"> -->
-<!-- 	<tr><td> -->
-<!-- 		 <h3>所有商品資料 - listAllOrderMaster.jsp</h3> -->
-<%-- 		 <h4><a href="<%=request.getContextPath()%>/back-end/ordermaster/select_page.jsp">>回首頁</a></h4> --%>
-<!-- 	</td></tr> -->
-<!-- </table> -->
-
-
-<!-- <table> -->
-<!-- 	<tr> -->
-<!-- 		<th>訂單編號</th> -->
-<!-- 		<th>會員</th> -->
-<!-- 		<th>訂購日期</th> -->
-<!-- 		<th>訂單狀態</th> -->
-<!-- 		<th>訂單金額</th> -->
-<!-- 	</tr> -->
-<%-- 	<c:forEach var="ordermasterVO" items="${listOrderMasters_ByCompositeQuery}"> --%>
-<!-- 		<tr> -->
-<%-- 			<td>${ordermasterVO.ordNo}</td> --%>
-<!-- 			<td> -->
-<%-- 				<c:forEach var="memVO" items="${memSvc.all}"> --%>
-<%--                     <c:if test="${ordermasterVO.memNo==memVO.memNo}"> --%>
-<%-- 	                    ${memVO.memNo}【${memVO.memName}】 --%>
-<%--                     </c:if> --%>
-<%--                 </c:forEach> --%>
-<!--             </td> -->
-<%-- 			<td>${ordermasterVO.ordDate}</td> --%>
-<!-- 			<td> -->
-<%-- 				<c:if test="${ordermasterVO.ordStatus==0}">未出貨</c:if> --%>
-<%-- 				<c:if test="${ordermasterVO.ordStatus==1}">已出貨</c:if> --%>
-<%-- 				<c:if test="${ordermasterVO.ordStatus==2}">已結案</c:if> --%>
-<%-- 				<c:if test="${ordermasterVO.ordStatus==3}">訂單取消</c:if> --%>
-<%-- 				<c:if test="${ordermasterVO.ordStatus==9}">退貨</c:if> --%>
-<!-- 			</td>				 -->
-<%-- 			<td>${ordermasterVO.ordAmt}</td>	 --%>
-			
-<!-- 			<td> -->
-<%-- 				<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/ordermaster/ordermaster.do" style="margin-bottom: 0px;"> --%>
-<!-- 					<input type="submit" value="修改">  -->
-<%-- 					<input type="hidden" name="ordNo" value="${ordermasterVO.ordNo}"> --%>
-<!-- 					<input type="hidden" name="action" value="getOne_For_Update"> -->
-<!-- 				</FORM> -->
-<!-- 			</td> -->
-<!-- 			<td> -->
-<%-- 				<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/ordermaster/ordermaster.do" style="margin-bottom: 0px;"> --%>
-<!-- 					<input type="submit" value="刪除">  -->
-<%-- 					<input type="hidden" name="ordNo" value="${ordermasterVO.ordNo}"> --%>
-<!-- 					<input type="hidden" name="action" value="delete"> -->
-<!-- 				</FORM> -->
-<!-- 			</td> -->
-<!-- 		</tr> -->
-<%-- 	</c:forEach> --%>
-<!-- </table> -->
-
+<%@include file="/front-end/tempFile/footer" %>
+<%@include file="/front-end/tempFile/tempJs" %>
 </body>
+
 </html>

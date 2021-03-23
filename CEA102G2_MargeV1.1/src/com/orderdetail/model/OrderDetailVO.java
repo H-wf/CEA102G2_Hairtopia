@@ -31,33 +31,33 @@ public class OrderDetailVO {
 		this.ordDetPrice = ordDetPrice;
 	}
 	
-	@Override
-	public String toString() {
-		return "BOOK [proNo=" + proNo + ", ordDetAmt=" + ordDetAmt + ", ordDetPrice=" + ordDetPrice + "]";
-	}
-
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((proNo == null) ? 0 : proNo.hashCode());
-		return result;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		OrderDetailVO other = (OrderDetailVO) obj;
-		if (proNo == null) {
-			if (other.proNo != null)
-				return false;
-		} else if (!proNo.equals(other.proNo))
-			return false;
-		return true;
-	}
+//	@Override
+//	public String toString() {
+//		return "BOOK [proNo=" + proNo + ", ordDetAmt=" + ordDetAmt + ", ordDetPrice=" + ordDetPrice + "]";
+//	}
+//
+//	@Override
+//	public int hashCode() {
+//		final int prime = 31;
+//		int result = 1;
+//		result = prime * result + ((proNo == null) ? 0 : proNo.hashCode());
+//		return result;
+//	}
+//
+//	@Override
+//	public boolean equals(Object obj) {
+//		if (this == obj)
+//			return true;
+//		if (obj == null)
+//			return false;
+//		if (getClass() != obj.getClass())
+//			return false;
+//		OrderDetailVO other = (OrderDetailVO) obj;
+//		if (proNo == null) {
+//			if (other.proNo != null)
+//				return false;
+//		} else if (!proNo.equals(other.proNo))
+//			return false;
+//		return true;
+//	}
 }
