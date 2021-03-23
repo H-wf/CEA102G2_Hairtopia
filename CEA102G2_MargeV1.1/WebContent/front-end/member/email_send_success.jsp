@@ -153,12 +153,14 @@ body, html {
 <body>
 	<div class="container">
 		<div class="card card-container">
-			<img id="profile-img" class="profile-img-card" src="<%=request.getContextPath()%>/frontEnd/member/HairtopiaLogo/HairtopiaLogo1.png" />
+		<a href='<%=request.getContextPath()%>/front-end/index.jsp'>
+			<img id="profile-img" class="profile-img-card" src="<%=request.getContextPath()%>/resource/images/HairtopiaLogo/HairtopiaLogo1.png" />
+		</a>	
 			<h2 align="center">忘記密碼</h2>
 			<br>
 			<h4 align="center">請儘速到信箱取信</h4>
 			<br>
-			<form method="post" class="form-signin" action="<%=request.getContextPath()%>/frontEnd/member/login.jsp">
+			<form method="post" class="form-signin" action="<%=request.getContextPath()%>/front-end/member/login.jsp">
 <!-- 				<span id="reauth-email" class="reauth-email"></span>  -->
 <!-- 				<input type="email" id="inputEmail" class="form-control" placeholder="電子郵件地址" required autofocus autocomplete="off" name="account">  -->
 <!-- 				<input type="hidden" name="action" value="forgetPassword">  -->

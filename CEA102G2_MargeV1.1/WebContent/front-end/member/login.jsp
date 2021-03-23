@@ -7,18 +7,18 @@
 <head>
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, maximum-scale=1">
-<!-- <link -->
-<!-- 	href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" -->
-<!-- 	rel="stylesheet" -->
-<!-- 	integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" -->
-<!-- 	crossorigin="anonymous"> -->
-<!-- <script -->
-<!-- 	src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" -->
-<!-- 	integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" -->
-<!-- 	crossorigin="anonymous"></script> -->
-<!-- <script src="https://code.jquery.com/jquery-3.5.1.min.js" -->
-<!-- 	integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" -->
-<!-- 	crossorigin="anonymous"></script> -->
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css"
+	rel="stylesheet"
+	integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1"
+	crossorigin="anonymous">
+<script
+	src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"
+	integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW"
+	crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"
+	integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0="
+	crossorigin="anonymous"></script>
 
 <!-- <script -->
 <!-- 	src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/10.15.5/sweetalert2.min.js"></script> -->
@@ -203,26 +203,27 @@ body, html {
     -->
 	<div class="container">
 		<div class="card card-container">
+		<a href='<%=request.getContextPath()%>/front-end/index.jsp'>
 			<img id="profile-img" class="profile-img-card"
 				src="<%=request.getContextPath()%>/resource/images/HairtopiaLogo/HairtopiaLogo1.png" />
+			</a>
 			<h2 align="center"	>登入</h2>
 			<!--             <p id="profile-name" class="profile-name-card"></p> -->
 			<form method="post" class="form-signin"
 				action="<%=request.getContextPath()%>/member/mem.do">
 				<span id="reauth-email" class="reauth-email"></span> 
 				<input type="email" id="inputEmail" class="form-control" placeholder="電子郵件地址" required autofocus autocomplete="off"
-					name="account"> 
-				<span id="memEmailMessage" style="color:red">&nbsp;${errorMsgs.memEmail}${errorMsgs.emailExist}</span> 
+					name="memEmail">
 				<input type="password" id="inputPassword" class="form-control" placeholder="密碼" required autocomplete="off"
 					name="password"> 
-				<span id="memPswdMessage" style="color:red"> &nbsp;${errorMsgs.memPswd}</span> 	
+				<span id="memPswdMessage" style="color:red"> &nbsp;${errorMsgs}</span> 	
 					
-				<c:if test="${not empty errorMsgs}">
-						<c:forEach var="message" items="${errorMsgs}">
-							<script>$(".form-control").css("border-color","red")</script>
-							<span style="color:red">${message}</span>
-						</c:forEach>
-				</c:if>
+<%-- 				<c:if test="${not empty errorMsgs}"> --%>
+<%-- 						<c:forEach var="message" items="${errorMsgs}"> --%>
+<!-- 							<script>$(".form-control").css("border-color","red")</script> -->
+<%-- 							<span style="color:red">${message}</span> --%>
+<%-- 						</c:forEach> --%>
+<%-- 				</c:if> --%>
 				
 				
 				
