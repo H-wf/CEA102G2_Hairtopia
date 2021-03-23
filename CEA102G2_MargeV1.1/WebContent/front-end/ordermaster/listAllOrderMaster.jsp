@@ -259,7 +259,7 @@ $(".cancel").click(function(){
 		}).then((result) => {
 		  if (result.isConfirmed) {
 			 
-			 if(difference<10){ 			   
+			 if(difference<4){ 			   
 			    Swal.fire(
 			      '成功取消!',
 			      '',

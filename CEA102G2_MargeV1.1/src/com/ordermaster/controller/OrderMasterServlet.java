@@ -55,21 +55,22 @@ public class OrderMasterServlet extends HttpServlet {
 				//採用Map<String,String[]> getParameterMap()的方法 
 				//注意:an immutable java.util.Map 
 				Map<String, String[]> map = req.getParameterMap();
-System.out.println(map); 
 				/***************************2.開始複合查詢***************************************/
 				OrderMasterService ordermasterSvc = new OrderMasterService();
 				List<OrderMasterVO> list  = ordermasterSvc.getAll(map);
 				
 				/***************************3.查詢完成,準備轉交(Send the Success view)************/
-				req.setAttribute("listOrderMasters_ByCompositeQuery", list); // 資料庫取出的list物件,存入request
-				RequestDispatcher successView = req.getRequestDispatcher("/back-end/ordermaster/listOrderMasters_ByCompositeQuery.jsp"); // 成功轉交listOrderMasters_ByCompositeQuery.jsp
+				req.setAttribute("list", list); // 資料庫取出的list物件,存入request
+				boolean openModal=true;
+				req.setAttribute("openModal",openModal );
+				RequestDispatcher successView = req.getRequestDispatcher("/back-end/ordermaster/listAllOrderMaster.jsp"); // 成功轉交listOrderMasters_ByCompositeQuery.jsp
 				successView.forward(req, res);
 				
 				/***************************其他可能的錯誤處理**********************************/
 			} catch (Exception e) {
 				errorMsgs.add(e.getMessage());
 				RequestDispatcher failureView = req
-						.getRequestDispatcher("/back-end/ordermaster/select_page.jsp");
+						.getRequestDispatcher("/back-end/ordermaster/listAllOrderMaster.jsp");
 				failureView.forward(req, res);
 			}
 		}	

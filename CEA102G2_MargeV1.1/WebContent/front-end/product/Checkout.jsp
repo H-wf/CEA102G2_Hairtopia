@@ -160,6 +160,7 @@ input {
 							<th scope="col">商品圖</th>
 							<th scope="col">數量</th>
 							<th scope="col">小計</th>
+							<th></th>
 						</tr>
 					</thead>
 					<tbody>
@@ -167,7 +168,7 @@ input {
 						<c:forEach var="productVO" items="${sessionScope.shoppingcart}"
 							varStatus="i">
 						<c:set var="total" value="${total+(productVO.proPrice)*(productVO.quantity)}"/>
-							<tr>
+							<tr class="content">
 								<th scope="row" style="padding-left: 10px; padding-right: 10px;">${i.index+1}</th>
 								<td>${ptypeSvc.getOnePtype(productVO.ptypeNo).ptypeName}</td>
 								<td>${brandSvc.getOneBrand(productVO.braNo).braName}</td>
@@ -191,6 +192,8 @@ input {
 											d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z" />
 				  </svg></td>	
 								<td class="subtotal">${(productVO.proPrice)*(productVO.quantity)}</td>
+								<td><button type="button" class="btn btn-primary btn-sm delete">刪除</button></td>
+								<input type="hidden" class="del" value="${i.index}">
 								<input type="hidden" class="proNo" value="${productVO.proNo}">
 							</tr>
 						</c:forEach>
@@ -199,9 +202,10 @@ input {
 							<td colspan="5">TOTAL</td>
 							<td style="text-align:right;">NT$</td>
 							<td class="total">${total}</td>
+							<td></td>
 						</tr>
 						<tr>
-							<td scope="col" colspan="8">
+							<td scope="col" colspan="9">
 								
 								
 								<input type="submit" class="btn btn-primary go2 section2" value="NEXT→" style="float: right;">
@@ -316,25 +320,25 @@ input {
 				  <div class="form-group row">
 				    <label for="inputEmail3" class="col-sm-2 col-form-label">卡號</label>
 				    <div class="col-sm-10 a">
-				      <input type="tel" class="form-control" id="inputEmail3" placeholder="Card number" name="number">
+				      <input required type="tel" class="form-control" id="inputEmail3" placeholder="Card number" name="number">
 				    </div>
 				  </div>
 				  <div class="form-group row">
 				    <label for="inputPassword3" class="col-sm-2 col-form-label">姓名</label>
 				    <div class="col-sm-10 a">
-				      <input type="text" class="form-control" id="inputPassword3" placeholder="Full name" name="name">
+				      <input required type="text" class="form-control" id="inputPassword3" placeholder="Full name" name="name">
 				    </div>
 				  </div>
 				  <div class="form-group row">
 				    <label for="inputPassword3" class="col-sm-2 col-form-label">到期日</label>
 				    <div class="col-sm-10 a">
-				      <input type="tel" class="form-control" id="inputPassword3" placeholder="MM/YY" name="expiry">
+				      <input required type="tel" class="form-control" id="inputPassword3" placeholder="MM/YY" name="expiry">
 				    </div>
 				  </div>
 				  <div class="form-group row">
 				    <label for="inputPassword3" class="col-sm-2 col-form-label">CVC</label>
 				    <div class="col-sm-10 a">
-				      <input type="number" class="form-control" id="inputPassword3" placeholder="CVC" name="cvc">
+				      <input required type="number" class="form-control" id="inputPassword3" placeholder="CVC" name="cvc">
 				    </div>
 				  </div>
 				</form>
@@ -350,7 +354,6 @@ input {
 			
 		</div>
 	</div>
-
 	<!-- Page Content END -->
 <%-- 	<%@include file="/front-end/tempFile/footer"%> --%>
 	<%@include file="/front-end/tempFile/tempJs"%>
@@ -413,7 +416,26 @@ function change(proNo,beforequantity,afterquantity){
 				  $(".ordAmt").attr("value", total);
 		}
 	});
-}	
+}
+$(".delete").click(function(){
+	var index = $(this).parent().parent("tr").find(".del").val()
+	var subtotal = $(this).parent().parent("tr").find(".subtotal").text();
+	$.ajax({
+		url:"<%=request.getContextPath()%>/product/product.do",
+		type : "POST",
+		data : {
+			action : "DELETE",
+			del : index,
+		},
+		success : function(data){
+			$(".content").eq(index).remove();
+			$(".total").html(parseInt($(".total").text())-subtotal);
+			if(parseInt(data)==0){
+				window.location = "<%=request.getContextPath()%>/front-end/product/EShop2.jsp";
+			}
+		}
+	});
+});
 //帶入3+2郵遞區號
 $(document).ready(function() {	 
 	$("#twzipcode").twzipcode({
@@ -457,7 +479,7 @@ $(".form-check-input").click(function() {
 
 //信用卡
 $('#form11').card({ 			
-	container : '.card-wrapper', 
+	container : '.card-wrapper',
 });
 //按送出後alert付款,按確認後,3秒後送出表單	ordermaster的servlet,action=PAY		
 $(".alert").click(function(){
@@ -479,6 +501,23 @@ $(".alert").click(function(){
 		if($(".address").val().trim()==""){			
 			$(".address").after("<span style='color:red'> *地址不得為空</span>");
 		}
+	}else if($(".form-control").val().trim()==""){
+		$("input[name='number']").next().remove();
+		$("input[name='name']").next().remove();
+		$("input[name='expiry']").next().remove();
+		$("input[name='cvc']").next().remove();
+		if($("input[name='number']").val().trim()==""){
+			$("input[name='number']").after("<span style='color:red'> *請填寫</span>");
+		}
+		if($("input[name='name']").val().trim()==""){
+			$("input[name='name']").after("<span style='color:red'> *請填寫</span>");
+		}
+		if($("input[name='expiry']").val().trim()==""){
+			$("input[name='expiry']").after("<span style='color:red'> *請填寫</span>");
+		}
+		if($("input[name='cvc']").val().trim()==""){
+			$("input[name='cvc']").after("<span style='color:red'> *請填寫</span>");
+		}
 	}else{
 		Swal.fire({
 			title: '確定付款?',
@@ -488,7 +527,7 @@ $(".alert").click(function(){
 		}).then((result) => {
 			if (result.isConfirmed) {
 				Swal.fire('Saved!', '', 'success');
-				setTimeout(function(){ $(".order").submit()}, 2000);
+				setTimeout(function(){ $(".order").submit();}, 2000);
 			}			  
 		})
 	}	

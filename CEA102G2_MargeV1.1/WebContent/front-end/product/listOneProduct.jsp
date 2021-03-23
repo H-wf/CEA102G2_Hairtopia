@@ -248,7 +248,7 @@
             	<div class="col-8 name">${productVO.proName}<br>Qty:<i>${productVO.quantity}</i></div>
             </c:forEach>
             <hr color="white" style="margin-bottom:0;">
-            <div class="checkout"><a href="<%=request.getContextPath()%>/product/product.do?action=CHECKOUT&from=EShop2.jsp">CHECKOUT</a></div>
+            <div class="checkout"><a href="<%=request.getContextPath()%>/product/product.do?action=CHECKOUT">CHECKOUT</a></div>
     	</div>   
     </div>
 	<div class="row">
@@ -341,6 +341,13 @@
 
 <script type="text/javascript" src="<%=request.getContextPath()%>/dist/slick/slick.min.js"></script>
 <script>
+		$(document).ready(function(){
+			if(${empty sessionScope.shoppingcart}){
+				$(".checkout a").attr("href","##");
+			}
+		})
+	</script>
+<script>
 
 //數量減少
 $(".minus").click(function(){
@@ -396,7 +403,7 @@ $(".btn-secondary").click(function(){
  			});	
 		}
 	});
-	
+	$(".checkout a").attr("href","${pageContext.request.contextPath}"+"/product/product.do?action=CHECKOUT");
 });
 
 </script>

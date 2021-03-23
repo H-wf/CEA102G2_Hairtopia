@@ -3,39 +3,24 @@
 <%@ page import="java.util.*"%>
 <%@ page import="com.ordermaster.model.*"%>
 
-
-<%-- 此頁練習採用 EL 的寫法取值 --%>
-
-
 <jsp:useBean id="ordermasterSvc" scope="page" class="com.ordermaster.model.OrderMasterService" />
 <jsp:useBean id="memSvc" scope="page" class="com.member.model.MemService" />
-
 
 <!DOCTYPE html>
 <html>
 <head>
-	<title>所有品牌資料 - listAllOrderMaster.jsp<a href="<%=request.getContextPath()%>/back-end/ordermaster/select_page.jsp">回首頁</a></title>
-	<meta charset="UTF-8">
+<title>所有訂單資料</title>
+<meta charset="utf-8">
 <%@include file="/back-end/tempFile/head" %>
-<link href="<%=request.getContextPath()%>/dist/backTemp/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
 </head>
 <body id="page-top">
 <%@include file="/back-end/tempFile/navBar_sideBar" %>
 	<!-- Begin Page Content -->	
-	<div class="container-fluid">
+<!-- 	<div class="container-fluid"> -->
 		<!-- Page Heading -->
-		<h1 class="h3 mb-2 text-gray-800">所有品牌資料 - listAllBrand.jsp</h1>
-        <p class="mb-4">	
-        	<%-- 錯誤表列 --%>
-			<c:if test="${not empty errorMsgs}">
-				<font style="color: red">請修正以下錯誤:</font>
-				<ul>
-				<c:forEach var="message" items="${errorMsgs}">
-					<li style="color: red">${message}</li>
-				</c:forEach>
-				</ul>
-			</c:if>
-		</p>
+		<div class="h3 mb-2 text-gray-800">
+			訂單管理
+		</div>
 		<!-- DataTales Example -->
 		<div class="card shadow mb-4">
 			<div class="card-header py-3">
@@ -50,7 +35,7 @@
 								<th>會員編號</th>
 								<th>訂單狀態</th>
 								<th>總金額</th>
-								<th>修改</th>
+								<th>明細</th>
                             </tr>
                         </thead>
 						<tfoot>
@@ -59,7 +44,7 @@
 								<th>會員編號</th>
 								<th>訂單狀態</th>
 								<th>總金額</th>
-								<th>修改</th>
+								<th>明細</th>
                             </tr>
 						</tfoot>
 						<tbody>	
@@ -81,33 +66,45 @@
 								 </td>
 								 <td>${ordermasterVO.ordAmt}</td>
 								 <td>
-									<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/ordermaster/ordermaster.do" style="margin-bottom: 0px;">
-										<input type="submit" value="修改"> <input type="hidden" name="ordNo" value="${ordermasterVO.ordNo}"> <input type="hidden" name="action" value="getOne_For_Update">
-									</FORM>
+									<a href="<%=request.getContextPath()%>/ordermaster/ordermaster.do?ordNo=${ordermasterVO.ordNo}&action=listOrderMasters_ByCompositeQuery" type="button" class="btn btn-primary btn-sm" >
+										查看明細
+									</a>
 								 </td>
 								 </tr>
 							</c:forEach>
+							</tbody>
 						</table>
-					</div>
+					<!-- Modal GET_ONE-->
+					<c:if test="${openModal!=null}">
+						<div class="modal fade bd-example-modal-lg" id="basicModal" tabindex="-1" role="dialog" aria-labelledby="basicModal myLargeModalLabel" aria-hidden="true">
+							<div class="modal-dialog modal-lg">
+								<div class="modal-content">
+									<div class="modal-header">
+						                <h4 class="modal-title" id="myModalLabel">訂單明細</h4>
+						                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+						            </div>
+									
+									<div class="modal-body pb-0">
+										<jsp:include page="listOrderMasters_ByCompositeQuery.jsp" />
+									</div>
+								</div>
+							</div>
+						</div>
+					</c:if>	
+					<!-- Modal GET_ONE End-->
+				</div>
 			</div>
 		</div>
-	</div>
+<!-- 	</div> -->
 <!-- Page Content END -->
                 
 <%@include file="/back-end/tempFile/footer" %>
 <%@include file="/back-end/tempFile/srcJs" %>
-<script src="<%=request.getContextPath()%>/dist/backTemp/vendor/jquery/jquery.min.js"></script>
-<script src="<%=request.getContextPath()%>/dist/backTemp/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-<!-- Core plugin JavaScript-->
-<script src="<%=request.getContextPath()%>/dist/backTemp/vendor/jquery-easing/jquery.easing.min.js"></script>
-<!-- Custom scripts for all pages-->
-<script src="<%=request.getContextPath()%>/dist/backTemp/js/sb-admin-2.min.js"></script>
-<!-- Page level plugins -->
-<script src="<%=request.getContextPath()%>/dist/backTemp/vendor/datatables/jquery.dataTables.min.js"></script>
-<script src="<%=request.getContextPath()%>/dist/backTemp/vendor/datatables/dataTables.bootstrap4.min.js"></script>
-<!-- Page level custom scripts -->
-<script src="<%=request.getContextPath()%>/dist/backTemp/js/demo/datatables-demo.js"></script>
 
+<script>
+$("#basicModal").modal({show: true});
+
+</script>
 
 </body>
 

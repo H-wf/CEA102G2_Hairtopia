@@ -274,7 +274,7 @@ public class OrderMasterDAO implements OrderMasterDAO_interface{
 		
 		try {
 			con = ds.getConnection();			
-			String SQL = "select om.ordNo, om.memNo, ordDate, ordStatus, ordAmt from ordermaster om " 										
+			String SQL = "select om.ordNo, om.memNo, ordDate, ordStatus, ordAmt, ordName, ordEmail, ordPhone, ordAddr from ordermaster om " 										
 				    	+"join member m on om.memNo = m.memNo ";
 			Set<String> keys = map.keySet();
 			int count = 0;
@@ -309,6 +309,10 @@ public class OrderMasterDAO implements OrderMasterDAO_interface{
 				ordermasterVO.setOrdDate(rs.getTimestamp("ordDate"));
 				ordermasterVO.setOrdStatus(rs.getInt("ordStatus"));
 				ordermasterVO.setOrdAmt(rs.getInt("ordAmt"));
+				ordermasterVO.setOrdName(rs.getString("ordName"));
+				ordermasterVO.setOrdEmail(rs.getString("ordEmail"));
+				ordermasterVO.setOrdPhone(rs.getString("ordPhone"));
+				ordermasterVO.setOrdAddr(rs.getString("ordAddr"));
 				list.add(ordermasterVO);
 			}
 		} catch (SQLException se) {

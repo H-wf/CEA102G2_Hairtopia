@@ -44,6 +44,9 @@
 		  right:-9px;
 		  top:10px;
 		}
+		.carousel{
+			z-index:0;
+		}
         .carousel-inner { 
             height: 90vh;
         }
@@ -255,12 +258,12 @@
             </c:if>            
         </button>
         <div class="bag_div">
-            <c:forEach var="productVO" items="${sessionScope.shoppingcart}">
+            <c:forEach var="productVO" items="${sessionScope.shoppingcart}">           	
             	<div class="col-3 picture"><img src="<%=request.getContextPath()%>/PicFinder?pic=1&table=product&column=proMpic&idname=proNo&id=${productVO.proNo}" alt='沒有圖片' width="40" height="50"></div>
-            	<div class="col-8 name">${productVO.proName}<br>Qty:<i>${productVO.quantity}</i></div>
+            	<div class="col-8 name">${productVO.proName}<br>Qty:<i>${productVO.quantity}</i></div>            	
             </c:forEach>
             <hr color="white" style="margin-bottom:0;">
-            <div class="checkout"><a href="<%=request.getContextPath()%>/product/product.do?action=CHECKOUT&from=EShop2.jsp">CHECKOUT</a></div>
+            <div class="checkout"><a href="<%=request.getContextPath()%>/product/product.do?action=CHECKOUT">CHECKOUT</a></div>
     	</div>        
     </div>
     
@@ -345,7 +348,8 @@
     <!-- display products-->
     <div class="container procontainer">
         <div class="row">
-        	<c:forEach var="productVO" items="${productSvc.all}"> 
+        	<c:forEach var="productVO" items="${productSvc.all}">
+        		<c:if test="${productVO.proStatus==true}"> 
 	            <div class="col-12 col-sm-6 col-md-3 products">
 	                <img src="<%=request.getContextPath()%>/PicFinder?pic=1&table=product&column=proMpic&idname=proNo&id=${productVO.proNo}">
 	                <a href="<%=request.getContextPath()%>/product/product.do?action=getOne_For_Display&from=front-end&proNo=${productVO.proNo}">
@@ -363,6 +367,7 @@
                		</a>
 	                <p>${productVO.proName}</p>
 	            </div>
+	            </c:if>
             </c:forEach> 
         </div>
     </div>
@@ -372,6 +377,16 @@
     <input class="PageContext" type="hidden" value="<%=request.getContextPath()%>" />
 <%@include file="/front-end/tempFile/footer" %>
 <%@include file="/front-end/tempFile/tempJs" %>
+	<script>
+		$(document).ready(function(){
+			if(${empty sessionScope.shoppingcart}){
+				$(".checkout a").attr("href","##");
+			}
+		})
+	</script>
+	
+	
+	
 	<script>
 
 		var myKey = [];
