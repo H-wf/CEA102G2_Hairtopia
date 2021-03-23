@@ -16,8 +16,9 @@
 <div style="height:10vh;"></div>
 	<div class="container">
 		<div class="card card-container">
-			<img id="profile-img" class="profile-img-card"
-				src="<%=request.getContextPath()%>/resource/images/HairtopiaLogo/HairtopiaLogoSignUp.png" />
+		<a href='<%=request.getContextPath()%>/front-end/index.jsp'>
+			<img id="profile-img" class="profile-img-card" src="<%=request.getContextPath()%>/resource/images/HairtopiaLogo/HairtopiaLogoSignUp.png" />
+			</a>
 			<form id="myform" method="post" class="form-signin" action="<%=request.getContextPath()%>/member/mem.do">
 				<span id="reauth-email" class="reauth-email"></span> 
 				<input type="text" id="memName" class="form-control" placeholder="姓名" required autofocus autocomplete="off" name="memName" value="${param.memName}">

@@ -17,7 +17,9 @@
 <div style="height:12vh;"></div>
 	<div class="container">
 		<div class="card card-container">
+		<a href='<%=request.getContextPath()%>/front-end/index.jsp'>
 			<img id="profile-img" class="profile-img-card" src="<%=request.getContextPath()%>/resource/images/HairtopiaLogo/HairtopiaLogoLogin.png" />
+			</a>
 			<h2 align="center">忘記密碼</h2>
 			<br>
 			<form method="post" class="form-signin" action="<%=request.getContextPath()%>/member/mem.do">

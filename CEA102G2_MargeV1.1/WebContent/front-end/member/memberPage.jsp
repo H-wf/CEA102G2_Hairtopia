@@ -21,10 +21,10 @@
 	class="com.service.model.ServiceService" />
 
 <%
-	MemVO memVO = memSvc.getOneMem(1);
+	MemVO memVO = memSvc.getOneMem(2);
 	request.setAttribute("memVO", memVO);
-	// 	DesignerVO designerVO = (DesignerVO) request.getAttribute("designerVO");
-	// 	SalonVO salVo = (SalonVO) request.getAttribute("salVo");
+	DesignerVO designerVO = (DesignerVO) request.getAttribute("designerVO");
+// 		SalonVO salVo = (SalonVO) request.getAttribute("salVo");
 	SalonVO salVo = salonSvc.getOneSalon(1);
 	request.setAttribute("salVo", salVo);
 %>
@@ -281,6 +281,16 @@ img {
 .price {
 	overflow: auto;
 }
+
+.TransRecord-table{
+	border:1px solid ;
+	margin:0px auto;
+	
+}
+.ServiceCard{
+	width:90%;
+	margin:20px auto  0;
+}
 </style>
 
 <style>
@@ -317,26 +327,12 @@ img {
 							</div>
 							<div class="media-body mb-5 text-white myrow">
 								<h4 class="mt-0 mb-0">${memVO.memName}</h4>
-								<div class="row  justify-content-end"">
+								<div class="row  justify-content-end">
 									<%-- 	                            <div class="btn btn-outline-primary profileBtn" id="followBtn">${followSvc.isfollowing(memVO.memNo,designerVO.desNo) ==true?"Unfollow":"Follow"}</div> --%>
 								</div>
 							</div>
 						</div>
 					</div>
-
-					<!-- 	                <div class="bg-light p-4 d-flex justify-content-end text-center"> -->
-					<!-- 	                    <ul class="list-inline mb-0"> -->
-					<!-- 	                        <li class="list-inline-item"> -->
-					<!-- 	                            <h5 class="font-weight-bold mb-0 d-block">215</h5><small class="text-muted"> <i class="fas fa-image mr-1"></i>Post</small> -->
-					<!-- 	                        </li> -->
-					<!-- 	                        <li class="list-inline-item"> -->
-					<!-- 	                            <h5 class="font-weight-bold mb-0 d-block">745</h5><small class="text-muted"> <i class="fas fa-user mr-1"></i>Followers</small> -->
-					<!-- 	                        </li> -->
-					<!-- 	                        <li class="list-inline-item"> -->
-					<!-- 	                            <h5 class="font-weight-bold mb-0 d-block">340</h5><small class="text-muted"> <i class="fas fa-user mr-1"></i>Following</small> -->
-					<!-- 	                        </li> -->
-					<!-- 	                    </ul> -->
-					<!-- 	                </div> -->
 					<div class="px-4 py-3">
 						<!-- 	                    <h5 class="mb-0">About</h5> -->
 						<div class="p-4 rounded shadow-sm bg-light">
@@ -344,58 +340,52 @@ img {
 						</div>
 					</div>
 					<ul class="nav nav-tabs" id="myTab" role="tablist">
-						<li class="nav-item"><a class="nav-link active" id="Post-tab"
-							data-toggle="tab" href="#Post" role="tab" aria-controls="Post"
-							aria-selected="true">預約</a></li>
-						<li class="nav-item"><a class="nav-link" id="Service-tab"
-							data-toggle="tab" href="#Service" role="tab"
-							aria-controls="Service" aria-selected="false">訂單</a></li>
-						<li class="nav-item"><a class="nav-link" id="Info-tab"
-							data-toggle="tab" href="#Info" role="tab" aria-controls="Info"
-							aria-selected="false">課程</a></li>
-						<li class="nav-item"><a class="nav-link" id="Info-tab"
-							data-toggle="tab" href="#Info" role="tab" aria-controls="Info"
-							aria-selected="false">交易明細</a></li>
+						<li class="nav-item">
+							<a class="nav-link active" id="Reservation-tab" data-toggle="tab" 
+								href="#Reservation" role="tab" aria-controls="Reservation" aria-selected="true">預約
+							</a>
+						</li>
+						
+						<li class="nav-item">
+							<a class="nav-link" id="Order-tab" data-toggle="tab" 
+								href="#Order" role="tab" aria-controls="Order" aria-selected="false">訂單
+							</a>
+						</li>
+						
+						<li class="nav-item">
+							<a class="nav-link" id="Course-tab" data-toggle="tab" 
+								href="#Course" role="tab" aria-controls="Course" aria-selected="false">課程
+							</a>
+						</li>
+						
+						<li class="nav-item">
+							<a class="nav-link" id="TransRecord-tab" data-toggle="tab" 
+								href="#TransRecord" role="tab" aria-controls="TransRecord" aria-selected="false">交易明細
+							</a>
+						</li>
 					</ul>
 					<div class="tab-content" id="myTabContent">
 
-						<div class="tab-pane fade show active" id="Post" role="tabpanel"
-							aria-labelledby="Post-tab">
+						<div class="tab-pane fade show active" id="Reservation" role="tabpanel"
+							aria-labelledby="Reservation-tab">
+						
+							<div class="callout callout-default">
+									<h4>Default Callout</h4>
+									This is a default callout11111111. <a
+										class="btn btn-outline-primary bookingBtn">查看明細<i
+										class="bi bi-arrow-right"></i></a>
+								</div>
 
 							<div class="container post">
 								<div class="card-columns ">
-									Post Card
-	                                <c:forEach  var="postVO" items="${postSvc.getAll(designerVO.desNo)}">
-	                                	<c:if test="${postVO.postStatus eq 0}">
-											<a href="<%=request.getContextPath()%>/front-end/post/post.do?postNo=${postVO.postNo}&action=Display_fromDesPage" >
-												<div class="card">
-													<img src="<%=request.getContextPath()%>/PicFinder?pic=1&table=post&column=postPic1&idname=postNo&id=${postVO.postNo}"
-													 class="card-img-top post-img" data-toggle="modal" data-target="#postModal" />
-												</div>
-											</a>
-										</c:if>
-									</c:forEach>
+
 								</div>
 							</div>
 						</div>
 
-						<div class="tab-pane fade" id="Service" role="tabpanel"
-							aria-labelledby="Service-tab">
+						<div class="tab-pane fade" id="Order" role="tabpanel"
+							aria-labelledby="Order-tab">
 							<div class="ServiceCard">
-								<%-- 								<c:forEach  var="serviceVo" items="${serviceSvc.getAllServiceByDesNo(designerVO.desNo)}"> --%>
-								<%-- 									<c:if test="${serviceVo.serStatus eq 1}"> --%>
-								<!-- 										<div class="callout callout-default"> -->
-								<%-- 										  <h4>${serviceVo.serName}<br><h4 style="font-size:1rem;">服務時間:　${serviceVo.serTime}小時</h4></h4> --%>
-
-								<%-- 										  	<span style="font-size:1rem;">${serviceVo.serDesc}</span> --%>
-								<!-- 										  	<hr> -->
-								<!-- 										  	<div class="price"> -->
-								<%-- 										  		<h4 style="display:inline;font-size: unset;">優惠價:　${serviceVo.serPrice}元</h4> --%>
-								<!-- 										  		<a class="btn btn-outline-primary bookingBtn" href="" >立即預約<i class="bi bi-arrow-right"></i></a> -->
-								<!-- 											</div> -->
-								<!-- 										</div> -->
-								<%-- 									</c:if> --%>
-								<%-- 								</c:forEach> --%>
 								<div class="callout callout-default">
 									<h4>Default Callout</h4>
 									This is a default callout. <a
@@ -406,40 +396,98 @@ img {
 								<!-- 							<br><br><br><br><br><br><br><br><br><br> -->
 							</div>
 						</div>
-						<div class="tab-pane fade" id="Info" role="tabpanel"
+						
+						//
+						<div class="tab-pane fade" id="Course" role="tabpanel"
 							aria-labelledby="Info-tab">
 							<div class="InfoCard">
 								<section class="ftco-section contact-section">
 									<div class="container">
-										<div class="row block-9">
-											<div
-												class="col-md-6 contact-info ftco-animate bg-light mt-3 shadow">
-												<div class="row">
-													<div class="col-md-12">
-														<h2 class="h4 salName">${salVo.salName}</h2>
-														<hr>
-													</div>
-													<div class="col-md-12 mb-3">
-														<span class="salTitle">Address</span><span class="salCon">${salVo.salAdd}</span>
-													</div>
-													<div class="col-md-12 mb-3">
-														<span class="salTitle">Phone</span> <a
-															href="tel://1234567920"><span class="salCon">${salVo.salPhone}</span></a>
-													</div>
-													<div class="col-md-12 mb-3">
-														<span class="salTitle">Time</span> <a
-															href="mailto:info@yoursite.com"><span class="salCon">${salVo.salTime}</span></a>
-													</div>
-												</div>
-											</div>
-											<div class="col-md-6 ftco-animate">
-												<div id="map"></div>
-											</div>
-										</div>
+									
+									<div class="callout callout-default">
+									<h4>Default Callout</h4>
+									This is a default callout. <a
+										class="btn btn-outline-primary bookingBtn">查看明細<i
+										class="bi bi-arrow-right"></i></a>
+								</div>
+
 									</div>
 								</section>
 							</div>
 						</div>
+						<% %>
+						
+						<div class="tab-pane fade" id="TransRecord" role="tabpanel"
+							aria-labelledby="TransRecord-tab">
+							<div class="ServiceCard">
+								<div class="card shadow mb-4" width="80%">
+<!--                         			<div class="card-header py-3"> -->
+<!--                             			<h6 class="m-0 font-weight-bold text-primary">會員管理</h6> -->
+<!--                         			</div> -->
+                        			<div class="card-body">
+                            			<div class="table-responsive">
+                                			<table class="table" id="dataTable">
+                                    			<thead>
+                                        			<tr>
+			                                            <th>交易時間</th>
+			                                            <th>項目</th>
+			                                            <th>金額</th>
+			                                            <th>餘額</th>
+                                        			</tr>
+                                    			</thead>
+			                                    <tfoot>
+												<!--foreach取資料-->
+			                                        <tr>
+			                                            <th>交易時間</th>
+			                                            <th>項目</th>
+			                                            <th>金額</th>
+			                                            <th>餘額</th>
+			                                        </tr>
+			                                    </tfoot>
+                                   		 		<tbody>
+			                                        <tr>
+			                                            <td>Edinburgh</td>
+			                                            <td>61</td>
+			                                            <td>2011/04/25</td>
+			                                            <td>$320,800</td>
+			                                        </tr>
+			                                        <tr>
+			                                            <td>Edinburgh</td>
+			                                            <td>61</td>
+			                                            <td>2011/04/25</td>
+			                                            <td>$320,800</td>
+			
+			                                        </tr>
+			                                        <tr>
+			                                            <td>Edinburgh</td>
+			                                            <td>61</td>
+			                                            <td>2011/04/25</td>
+			                                            <td>$320,800</td>
+			
+			                                        </tr>
+			                                        <tr>
+			                                            <td>Edinburgh</td>
+			                                            <td>61</td>
+			                                            <td>2011/04/25</td>
+			                                            <td>$320,800</td>
+			
+			                                        </tr>
+			                                        <tr>
+			                                            <td>Edinburgh</td>
+			                                            <td>61</td>
+			                                            <td>2011/04/25</td>
+			                                            <td>$320,800</td>
+			
+			                                        </tr>
+
+                                   				 </tbody>
+                                			</table>
+			                            </div>
+			                        </div>
+			                    </div>						
+							</div>
+						</div>
+						
 					</div>
 				</div>
 			</div>
