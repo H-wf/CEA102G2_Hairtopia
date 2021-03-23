@@ -132,23 +132,17 @@
 									items="${serviceSvc.getAllServiceByDesNo(designerVO.desNo)}">
 									<c:if test="${serviceVo.serStatus eq 1}">
 										<div class="callout callout-default">
-											<h4>${serviceVo.serName}<br>
-												<h4 style="font-size: 1rem;">
-													服務時間:
+											<h4>${serviceVo.serName}<br><h4 style="font-size: 1rem;">服務時間:
 													<c:set var="serTime" value="${serviceVo.serTime}" />
-													<fmt:formatNumber type="number"
-														value="${((serTime*30 -(serTime*30%60)))/60}" var="hour" />
+													<fmt:formatNumber type="number"	value="${((serTime*30 -(serTime*30%60)))/60}" var="hour" />
 													<c:if test="${hour>0}">${hour}小時</c:if>${(serTime*30 %60 == 0)? "" :"30分" }</h4>
 											</h4>
 
 											<span style="font-size: 1rem;">${serviceVo.serDesc}</span>
 											<hr>
 											<div class="price">
-												<h4 style="display: inline; font-size: unset;">優惠價:
-													${serviceVo.serPrice}元</h4>
-												<a class="btn btn-outline-primary bookingBtn"
-													href="<%=request.getContextPath()%>/service/service.do?serNo=${serviceVo.serNo}&action=getOne_For_AddRes">立即預約<i
-													class="bi bi-arrow-right"></i></a>
+												<h4 style="display: inline; font-size: unset;">優惠價:${serviceVo.serPrice}元</h4>
+												<a class="btn btn-outline-primary bookingBtn" id="resBtn"	href="#">立即預約<i class="bi bi-arrow-right"></i></a>
 											</div>
 										</div>
 									</c:if>
@@ -328,6 +322,40 @@
 					});
 				}
 		});
+		
+		$('#resBtn').on('click',function(){
+			if(${empty sessionScope.memVO}){
+				
+				swal.fire({
+					title:'請先登入',
+					icon:'warning',
+					showCloseButton: true,
+					showCancelButton: true, 
+					confirmButtonText:'登入',
+					cancelButtonText:'取消',
+				});
+				$('.swal2-confirm').click(function(){
+					window.location=contextPath+"/front-end/member/login.jsp";
+				});
+				$('.swal2-cancel').click(function(){
+					console.log("已取消");
+				});
+				return false;
+			}else if(${not empty desSession}){
+				if(${desSession.desNo==serviceVO.desNo}){
+					Swal.fire({
+  				  		icon: 'warning',
+  				  		title: 'Oops...',
+  				  		text: '自己不能預約自己',
+  				  		confirmButtonColor:'rgba(216,207,158,0.8)'
+					})
+					
+					alert("5678")
+					return false;
+  				}
+			}
+		})
+		
 		$('#addPostSmtBtn').on('click',function(){
 			//判斷欄位空值
 			var isTags = $('tags').attr('class');
