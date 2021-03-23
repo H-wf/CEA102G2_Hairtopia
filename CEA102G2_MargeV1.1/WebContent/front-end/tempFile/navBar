@@ -19,14 +19,14 @@
                     <a class="nav-link" href="#">髮品商城</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">風格誌</a>
+                    <a class="nav-link" href="#">風格誌</a>
                 </li>
-                <li>
+                <li class="nav-item">
                     <div id="navbar-bell">
                         <i class="bi bi-bell"></i>
                     </div>
                 </li>
-                <li>
+                <li class="nav-item">
                     <div id="navbar-search">
                         <i class="bi bi-search"></i>
                     </div>
@@ -39,7 +39,7 @@
                     <div class="dropdown-menu" aria-labelledby="userDropdown">
                         <a class="dropdown-item" href="#">
                             <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
-                           	 個人資料
+                           	 會員中心
                         </a>
                         <a class="dropdown-item" href="#">
                             <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>

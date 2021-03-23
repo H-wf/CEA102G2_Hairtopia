@@ -7,6 +7,7 @@ public class CommentVO implements java.io.Serializable{
 	private String comCon;
 	private java.sql.Date comTime;
 	private boolean comStatus;
+	private String memName;
 	
 	
 	public Integer getComNo() {
@@ -44,6 +45,12 @@ public class CommentVO implements java.io.Serializable{
 	}
 	public void setComStatus(boolean comStatus) {
 		this.comStatus = comStatus;
+	}
+	public String getMemName() {
+		return memName;
+	}
+	public void setMemName(String memName) {
+		this.memName = memName;
 	}
 	
 	

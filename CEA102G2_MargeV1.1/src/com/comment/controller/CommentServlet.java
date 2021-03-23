@@ -1,6 +1,7 @@
 package com.comment.controller;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -15,9 +16,12 @@ import com.comment.model.CommentVO;
 import com.post.model.PostService;
 import com.post.model.PostVO;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 
 public class CommentServlet extends HttpServlet {
-       
+	Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd hh:mm:ss").create();
 	public void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 		doPost(req,res);
 	}
@@ -143,6 +147,53 @@ public class CommentServlet extends HttpServlet {
 			RequestDispatcher successView = req.getRequestDispatcher(url);
 			successView.forward(req, res);
 			
+		}
+		
+		if("addComByAJAX".equals(action)) {
+			Integer postNo = new Integer(req.getParameter("postNo"));
+			
+			Integer memNo = new Integer(req.getParameter("userSessionNo"));
+			
+			String comCon = req.getParameter("comCon");
+			
+			CommentVO commentVo = new CommentVO();
+			commentVo.setPostNo(postNo);
+			commentVo.setMemNo(memNo);
+			commentVo.setComCon(comCon);
+			
+			CommentService commentSvc = new CommentService();
+			CommentVO comVoAJAX = commentSvc.addComment(postNo,memNo,comCon);
+			String jsonStr = gson.toJson(comVoAJAX);
+
+			res.setContentType("text/plain");
+			res.setCharacterEncoding("UTF-8");
+			PrintWriter out = res.getWriter();
+			out.print(jsonStr);
+			out.flush();
+			out.close();
+			return;
+		}
+		
+		if("updateComByAJAX".equals(action)) {
+			String comCon = req.getParameter("comCon");
+				
+			Integer comNo = new Integer(req.getParameter("comNo"));
+			
+			CommentVO commentVo = new CommentVO();
+			commentVo.setPostNo(comNo);
+			commentVo.setComCon(comCon);
+			
+			CommentService commentSvc = new CommentService();
+			commentVo = commentSvc.updateComment(comNo, comCon);
+			
+			String jsonStr = gson.toJson(commentVo);
+			res.setContentType("text/plain");
+			res.setCharacterEncoding("UTF-8");
+			PrintWriter out = res.getWriter();
+			out.print(jsonStr);
+			out.flush();
+			out.close();
+			return;
 		}
 		
 	}
