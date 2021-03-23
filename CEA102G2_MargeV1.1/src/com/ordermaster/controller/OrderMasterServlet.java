@@ -162,6 +162,41 @@ public class OrderMasterServlet extends HttpServlet {
 //				failureView.forward(req, res);
 //			}
 		}
+		
+		if ("update".equals(action)) {
+			try {
+				/*************************** 1.接收請求參數 - 輸入格式的錯誤處理 **********************/
+				
+				Integer ordNo = new Integer(req.getParameter("ordNo").trim());
+				
+				Integer memNo = new Integer(req.getParameter("memNo").trim());
+				
+				Integer ordStatus = new Integer(req.getParameter("ordStatus").trim());
+				
+				Integer ordAmt = new Integer(req.getParameter("ordAmt").trim());
+								
+				OrderMasterVO ordmVO = new OrderMasterVO();								
+				
+				ordmVO.setOrdNo(ordNo);
+				ordmVO.setMemNo(memNo);
+				ordmVO.setOrdStatus(ordStatus);
+				ordmVO.setOrdAmt(ordAmt);
+								
+				/*************************** 2.開始修改資料 *****************************************/
+				OrderMasterService ordmSvc = new OrderMasterService();
+				ordmSvc.updateOrderMaster(ordNo,memNo,ordStatus,ordAmt);
+			
+				/*************************** 3.修改完成,準備轉交(Send the Success view) *************/
+				req.setAttribute("ordermasterVO", ordmVO); 
+				String url = "/back-end/ordermaster/listAllOrderMaster.jsp";
+				RequestDispatcher successView = req.getRequestDispatcher(url); 
+				successView.forward(req, res);
+				/*************************** 其他可能的錯誤處理 *************************************/
+			} catch (Exception e) {
+				RequestDispatcher failureView = req.getRequestDispatcher("/back-end/ordermaster/listAllOrderMaster.jsp");
+				failureView.forward(req, res);
+			}
+		}
 	}
 
 }

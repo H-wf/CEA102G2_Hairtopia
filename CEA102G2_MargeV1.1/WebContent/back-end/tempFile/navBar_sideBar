@@ -13,12 +13,23 @@
 .btn-primary, .btn-primary:hover, .btn-primary.focus, .btn-primary:focus{
 	background-color:#d8cf9e;
 	border-style:none;
-	box-shadow:0 0 0 0rem rgb(216 207 158 / 50%)
+	box-shadow:0 0 0 0rem rgb(216 207 158 / 50%);
+	border-radius:0 0 0 0;
 }
 .btn-primary:not(:disabled):not(.disabled).active, .btn-primary:not(:disabled):not(.disabled):active, .show>.btn-primary.dropdown-toggle{
 	background-color:#d8cf9e;
 	border-style:none;
 	box-shadow:0 0 0 0rem rgb(216 207 158 / 50%);
+}
+.page-item.active .page-link {
+	background-color:#D8CF9E;
+	border-color:#D8CF9E;
+}
+.text-primary{
+	color:#969592 !important;
+}
+.page-link{
+	color:#969592;
 }
 </style>
 <!-- Page Wrapper -->

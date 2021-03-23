@@ -27,7 +27,7 @@
 </style>
 <body>
 <!-- Begin Page Content -->
-<div class="container-fluid px-0">
+<div class="container-fluid p-1 ">
 	
 		
 		<c:forEach var="ordermasterVO" items="${list}">
@@ -132,7 +132,7 @@
 	</div>
 
 
-</div>
+
 
 <!-- Page Content END -->
 <!-- <h4> -->
