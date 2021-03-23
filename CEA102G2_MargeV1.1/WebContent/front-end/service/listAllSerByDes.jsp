@@ -32,6 +32,9 @@
 .ftco-navbar-light{
 	position:static;
 }
+.btn{
+	display:inline-block;
+}
 .btn-primary{
 	font-size: 1rem;
 }
@@ -53,9 +56,6 @@
 	position:absolute;
 	top:6px;
 	right:6px;
-}
-.btn{
-	display:inline-block;
 }
 		
 /* callOutCSS */

@@ -139,6 +139,13 @@
 			background-color:#d9bf77;
 			color: #fff;
 		}
+		#lastPage{
+			float:left;
+		}
+		a{
+			text-decoration:none;
+			text-align:center
+		}
 		.callout {
 			width:15%;
 			vertical-align:top;
@@ -155,7 +162,6 @@
 		}
 		.callout h4 {
   			margin:.5rem ;
-  			
   			font-size:1rem;
 		}
 		.callout-default h4 {
@@ -203,13 +209,9 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
    	<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/reservation/res.do"
 	  name="form1">
-	  <%-- 	之後用session取得會員:<%session.getAttribute(); %> --%>
-<!-- 	<div> -->
-<!-- 	會員編號:<input type="TEXT" name="memNo" size="3" -->
-<%-- 			 value="<%= (resVO==null)? "" : resVO.getMemNo()%>" /> --%>
-<!-- 	</div> -->
-<div id="stepOne">	
-	<div id="stepTitle"><span class="stepIcon"><i class="far fa-calendar-alt"></i></span>STEP1 : 選擇日期</div>
+<a href="<%=request.getContextPath()%>/designer/designer.do?action=getOne_For_Display_Back&desNo=${serviceVO.desNo}" class="bookingBtn" id="lastPage"><i class="fas fa-arrow-left"></i>回到上頁</a>	
+<div id="stepOne">
+	<div id="stepTitle"><span class="stepIcon"><i class="far fa-calendar-alt"></i></span>STEP1 : 選擇日期&emsp;&emsp;&emsp;&emsp;&emsp;</div>
 	<br><hr>
 	<div class="callout callout-default">
 		<h4>${serviceVO.serName}</h4>

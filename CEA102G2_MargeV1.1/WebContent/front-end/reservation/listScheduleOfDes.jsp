@@ -231,7 +231,6 @@
             success: function(data) {
               
               for(let i=0 ; i<data.length ; i++){
-            	  
             	  let starthour = parseInt(data[i].resTime/2);
             	  let startminute = (data[i].resTime%2==0)? "00" : "30" ;
             	  let endtime = data[i].resTime+data[i].serTime;
@@ -289,10 +288,10 @@
 					events : events,
 					timeFormat:'H:mm',
 					eventBackgroundColor: '#272727',
-					dayClick : function(date, jsEvent, view, resourceObj) {
-						let nowDate = date.format();
-						toAdd(nowDate);
-					},
+// 					dayClick : function(date, jsEvent, view, resourceObj) {
+// 						let nowDate = date.format();
+// 						toAdd(nowDate);
+// 					},
 					eventMouseover : function(calEvent, jsEvent, view) {
 						$(this).css('border', '1px solid #272727');
 					},
