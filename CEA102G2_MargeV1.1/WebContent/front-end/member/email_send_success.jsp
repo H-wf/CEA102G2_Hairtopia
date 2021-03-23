@@ -156,12 +156,14 @@
 <div style="height:12vh;"></div>
 	<div class="container">
 		<div class="card card-container">
+		<a href='<%=request.getContextPath()%>/front-end/index.jsp'>
 			<img id="profile-img" class="profile-img-card" src="<%=request.getContextPath()%>/resource/images/HairtopiaLogo/HairtopiaLogoLogin.png" />
+		</a>	
 			<h2 align="center">忘記密碼</h2>
 			<br>
 			<h4 align="center">請儘速到信箱取信</h4>
 			<br>
-			<form method="post" class="form-signin" action="<%=request.getContextPath()%>/frontEnd/member/login.jsp">
+			<form method="post" class="form-signin" action="<%=request.getContextPath()%>/front-end/member/login.jsp">
 				<button class="btn btn-lg btn-primary btn-block btn-signin" type="submit">回登入畫面</button>
 			</form>
 		</div>

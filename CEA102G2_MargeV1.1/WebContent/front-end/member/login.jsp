@@ -20,23 +20,24 @@
 <div style="height:12vh;"></div>
 	<div class="container-fluid px-0">
 		<div class="card card-container">
+		<a href='<%=request.getContextPath()%>/front-end/index.jsp'>
 			<img id="profile-img" class="profile-img-card" src="<%=request.getContextPath()%>/resource/images/HairtopiaLogo/HairtopiaLogoLogin.png" />
+			</a>
 			<form method="post" class="form-signin"
 				action="<%=request.getContextPath()%>/member/mem.do">
 				<span id="reauth-email" class="reauth-email"></span> 
 				<input type="email" id="inputEmail" class="form-control" placeholder="電子郵件地址" required autofocus autocomplete="off"
-					name="account"> 
-				<span id="memEmailMessage" style="color:red">&nbsp;${errorMsgs.memEmail}${errorMsgs.emailExist}</span> 
+					name="memEmail">
 				<input type="password" id="inputPassword" class="form-control" placeholder="密碼" required autocomplete="off"
 					name="password"> 
-				<span id="memPswdMessage" style="color:red"> &nbsp;${errorMsgs.memPswd}</span> 	
+				<span id="memPswdMessage" style="color:red"> &nbsp;${errorMsgs}</span> 	
 					
-				<c:if test="${not empty errorMsgs}">
-						<c:forEach var="message" items="${errorMsgs}">
-							<script>$(".form-control").css("border-color","red")</script>
-							<span style="color:red">${message}</span>
-						</c:forEach>
-				</c:if>
+<%-- 				<c:if test="${not empty errorMsgs}"> --%>
+<%-- 						<c:forEach var="message" items="${errorMsgs}"> --%>
+<!-- 							<script>$(".form-control").css("border-color","red")</script> -->
+<%-- 							<span style="color:red">${message}</span> --%>
+<%-- 						</c:forEach> --%>
+<%-- 				</c:if> --%>
 				
 				
 				

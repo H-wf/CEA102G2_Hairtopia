@@ -73,7 +73,7 @@ label.btn {
 
 .account-settings-fileinput {
     position: absolute;
-    visibility: hidden;
+/*     visibility: hidden; */
     width: 1px;
     height: 1px;
     opacity: 0;
@@ -120,4 +120,8 @@ html:not(.dark-style) .account-settings-links .list-group-item.active {
     font-size: 16px;
     padding: 3em 0;
     border-top: 0px solid rgba(0, 0, 0, 0.05);
+}
+
+.errorMessage{
+	color:red;
 }
