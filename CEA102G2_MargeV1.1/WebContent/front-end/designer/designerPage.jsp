@@ -16,9 +16,9 @@
 <%
 	DesignerVO designerVO = (DesignerVO) request.getAttribute("designerVO");
 	SalonVO salVo = (SalonVO) request.getAttribute("salVo");
-// 	DesignerService desSvcs = new DesignerService();
-// 	DesignerVO desSession = desSvcs.getOneDesByDesNo(1);
-// 	pageContext.setAttribute("desSession", desSession);
+	DesignerService desSvcs = new DesignerService();
+	DesignerVO desSession = desSvcs.getOneDesByDesNo(1);
+	pageContext.setAttribute("desSession", desSession);
 %>
 <html lang="en">
 
@@ -118,7 +118,6 @@
 													src="<%=request.getContextPath()%>/PicFinder?pic=1&table=post&column=postPic1&idname=postNo&id=${postVO.postNo}"
 													class="card-img-top post-img" />
 											</div>
-											</a>
 										</c:if>
 									</c:forEach>
 								</div>
