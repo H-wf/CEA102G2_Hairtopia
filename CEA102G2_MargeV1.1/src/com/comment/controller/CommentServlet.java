@@ -34,8 +34,6 @@ public class CommentServlet extends HttpServlet {
 	public void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 		req.setCharacterEncoding("UTF-8");
 		String action = req.getParameter("action");
-		System.out.println("action==="+action);
-System.out.println("111111111111");
 		
 		if("insert".equals(action) || "insert_Front".equals(action)) {
 			List<String> errorMsgs = new LinkedList<String>();
@@ -174,17 +172,11 @@ System.out.println("開始設定modal資料");
 //整個post的JSON字串
 			String jsonStr = gson.toJson(wholePostMap);
 //設在req上
-			req.setAttribute("wholePostMap", wholePostMap);
+			req.setAttribute("wholePostMap", jsonStr);
 			
 			
 			String url =URI;
 			System.out.println(url);
-//			if("delete_Comment".equals(action)) {
-//				url = "/back-end/Post/listPostWithComments.jsp";
-//			}else if("delete_Comment_Front".equals(action)) {
-//				url = "/front-end/Post/listPostWithComments_front.jsp";
-//			}
-//			res.sendRedirect(url);
 			RequestDispatcher successView = req.getRequestDispatcher(url);
 			successView.forward(req, res);
 			

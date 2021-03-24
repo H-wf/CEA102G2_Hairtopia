@@ -66,25 +66,7 @@
 </body>
 <c:if test="${not empty wholePostMap}">
 	<script>
-	$(document).ready(function(){
-		
-		var wholePostMap = "${wholePostMap}";
-		if(typeof wholePostMap != 'undefined'){
-			if(wholePostMap !=null){
-				function reopenPostModal(wholePostMap){
-					emptyModal();
-					var jData = JSON.parse(wholePostMap);
-					
-					var commentList = jData.commentList;
-					var postVo = jData.postVo;
-					var tagNameList = jData.tagNameList;
-					
-					showWholePost(commentList, postVo, tagNameList);
-					$('#postModal').modal('show');
-				}
-			}
-		}
-	});
+			var wholePostMap = '${wholePostMap}';
 	</script>
 </c:if>
 </html>
