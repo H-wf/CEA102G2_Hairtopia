@@ -1,53 +1,63 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page import="com.coudet.model.*"%>
+<%@ page import="com.cos.model.*"%>
+<%@ page import="com.member.model.*"%>
 
 <html>
 <head>
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
 <title>課程評分 - update_cosdetail_input_front.jsp</title>
+<!--關於評分星星的內容 -->
+	<style type="text/css">
+        /* body {
+            background-color: #eee
+        } */
 
-<style>
-  table#table-1 {
-	background-color: #CCCCFF;
-    border: 2px solid black;
-    text-align: center;
-  }
-  table#table-1 h4 {
-    color: red;
-    display: block;
-    margin-bottom: 1px;
-  }
-  h4 {
-    color: blue;
-    display: inline;
-  }
-</style>
+        div.stars {
+            display: inline-block
+        }
 
-<style>
-  table {
-	width: 450px;
-	background-color: white;
-	margin-top: 1px;
-	margin-bottom: 1px;
-  }
-  table, th, td {
-    border: 0px solid #CCCCFF;
-  }
-  th, td {
-    padding: 1px;
-  }
-</style>
+        .mt-200 {
+            margin-top: 200px
+        }
 
+        input.star {
+            display: none
+        }
+
+        label.star {
+            float: right;
+            font-size: 30px;
+            color: #4A148C;
+            transition: all .2s
+        }
+
+        input.star:checked~label.star:before {
+            content: "\2605";
+            color: #FD4;
+            transition: all .25s
+        }
+
+        input.star-5:checked~label.star:before {
+            color: #FE7;
+            text-shadow: 0 0 20px #952
+        }
+
+        input.star-1:checked~label.star:before {
+            color: #F62
+        }
+
+        label.star:hover {
+            transform: rotate(-15deg) scale(1.3)
+        }
+
+        label.star:before {
+            content: '\2606';
+            font-family: FontAwesome
+        }
+    </style>
 </head>
-<body bgcolor='white'>
-
-<table id="table-1">
-	<tr><td>
-		 <h3>課程類型修改 - update_cosdetail_input.jsp</h3>
-</table>
-
-<h3>資料修改:</h3>
 
 <%-- 錯誤表列 --%>
 <c:if test="${not empty errorMsgs}">
@@ -59,29 +69,43 @@
 	</ul>
 </c:if>
  <jsp:useBean id="cosdetSvc" scope="page" class="com.coudet.model.CosdetService"/>
+ <jsp:useBean id="cosSvc" scope="page" class="com.cos.model.CosService"/>
+ <jsp:useBean id="memSvc" scope="page" class="com.member.model.MemService"/>
 <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/coudet/coudet.do" name="form1" enctype="multipart/form-data">
-<table>
+<table class="table table-striped">
 	<tr>
-		<td>課程編號:<font color=red><b>*</b></font></td>
-		<td>${cosdetVO.getCosNo()}</td>
+		<td>課程名稱:</td>
+		<td><c:forEach var="cosVO" items="${cosSvc.all}">
+				<c:if test="${cosdetVO.cosNo==cosVO.cosNo}">
+	            	${cosVO.cosName}
+            	</c:if>
+			</c:forEach></td>
 	</tr>
 	<tr>
-		<td>會員編號:</td>
-		<td>${cosdetVO.getMemNo()}</td>
+		<td>會員姓名:</td>
+		<td><c:forEach var="memVO" items="${memSvc.all}">
+				<c:if test="${cosdetVO.memNo==memVO.memNo}">
+	            	${memVO.memName}
+            	</c:if>
+			</c:forEach></td>
 	</tr>
 	<tr>
 		<td>課程評價:</td>
-		<td><select name="cosComment" value="${cosdetVO.getCosComment()}">
-		 <option value="">請選擇1-5分</option>
-  			<option value="1">1</option>
-  			<option value="2">2</option>
- 			<option value="3">3</option>
- 			<option value="4">4</option>
- 			<option value="5">5</option>
-			</select></td>
+		<td><div class="stars">
+        		<input class="star star-5" id="star-5" type="radio" name="cosComment" value=5 /> 
+        		<label class="star star-5" for="star-5"></label> 
+        		<input class="star star-4" id="star-4" type="radio" name="cosComment" value=4 /> 
+        		<label class="star star-4" for="star-4"></label> 
+        		<input class="star star-3" id="star-3" type="radio" name="cosComment" value=3 /> 
+        		<label class="star star-3" for="star-3"></label> 
+        		<input class="star star-2" id="star-2" type="radio" name="cosComment" value=2 /> 
+        		<label class="star star-2" for="star-2"></label> 
+        		<input class="star star-1" id="star-1" type="radio" name="cosComment" value=1 /> 
+        		<label class="star star-1" for="star-1"></label>
+    			</div></td>
 	</tr>
 	<tr>
-		<td>報名課程價格:</td>
+		<td>課程價格:</td>
 		<td>${cosdetVO.getCosDetailPrice()}</td>
 	</tr>
 	
@@ -91,7 +115,7 @@
 <input type="hidden" name="memNo" value="${cosdetVO.getMemNo()}"> <%-- 真正送出修改處 --%>
 <input type="hidden" name="cosNo" value="${cosdetVO.getCosNo()}">
 <input type="hidden" name="cosComment" value="${cosdetVO.getCosComment()}">
-<input type="submit" value="送出修改">
+<input type="submit" value="送出評分" class="btn btn-primary">
 </FORM>
 </body>
 </html>       

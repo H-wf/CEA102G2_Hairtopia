@@ -74,7 +74,7 @@
 				<c:when test="${resVO.resStatus == 1}">
 					<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/reservation/res.do" style="margin-bottom: 0px;">
 			    		<input type="text" name="resCode"  placeholder="輸入驗證碼" size="5">
-			    		<input type="submit" value="驗證">
+			    		<input type="submit" value="驗證" class="btn btn-primary">
 			    		<input type="hidden" name="resNo"  value="${resVO.resNo}">
 			    		<input type="hidden" name="action" value="resCodeVerify"></FORM>
 				</c:when>

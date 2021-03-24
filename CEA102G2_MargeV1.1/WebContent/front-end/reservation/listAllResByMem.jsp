@@ -49,7 +49,7 @@ td,th{
 		</ul>
 	</c:if>
 	
-	<h4>My Reservation${sessionScope.memVO.memName}</h4>
+	<h4>My Reservation${sessionScope.userSession.memName}</h4>
 	<table class="table table-striped">
 	<tr>
 		<th>編號</th>
@@ -63,7 +63,7 @@ td,th{
 		
 	</tr>
 	
-	<c:forEach var="resVO" items="${resSvc.getAllResByMemNo(sessionScope.memVO.memNo)}" >
+	<c:forEach var="resVO" items="${resSvc.getAllResByMemNo(sessionScope.userSession.memNo)}" >
 		
 		<tr>
 			<td>${resVO.resNo}</td>
