@@ -7,8 +7,8 @@
 
 <jsp:useBean id="cosSvc" scope="page" class="com.cos.model.CosService" />
 <jsp:useBean id="lecSvc" scope="page" class="com.lecturer.model.LecturerService" />
-<jsp:useBean id="costypeSvc" scope="page" class="com.coutype.model.CostypeService" />
-
+<jsp:useBean id="cosdetSvc" scope="page" class="com.coudet.model.CosdetService" />
+<jsp:useBean id="memSvc" scope="page" class="com.member.model.MemService" />
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -103,6 +103,11 @@
 										    <div>最低人數:${cosVO.cosMinCount}</div>
 										    <div>最高人數:${cosVO.cosMaxCount}</div>
 										    <div>課程價格:${cosVO.cosPrice}</div>
+										    <div>報名會員:</div>
+										    <c:forEach var="coudetVO" items="${cosdetSvc.getOneCosDet(cosVO.cosNo)}">
+												${memSvc.getOneMem(coudetVO.memNo).memName}&emsp;
+
+											</c:forEach>
 									    </div>
 									  </div>
 									</div>
@@ -115,6 +120,7 @@
                             </tr>
 						</c:forEach>       
 					</table>
+
 					<!-- Modal GET_ONE-->
 					<c:if test="${openModal!=null}">
 						<div class="modal fade" id="basicModal" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
@@ -123,8 +129,7 @@
 									<div class="modal-header">
 						                <h4 class="modal-title" id="myModalLabel">課程修改</h4>
 						                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-						            </div>
-									
+						            </div>									
 									<div class="modal-body pb-0">
 										<jsp:include page="update_cos_input2.jsp" />
 									</div>
@@ -143,7 +148,9 @@
 <%@include file="/back-end/tempFile/srcJs" %>
 
 <script>
+
 $("#basicModal").modal({show: true});
+
 
 </script>
 

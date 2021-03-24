@@ -115,9 +115,9 @@
                 </a>
                 <div id="coursemanagement" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <a class="collapse-item" href="##">課程管理</a>
-                        <a class="collapse-item" href="##">報名管理</a>
-                        <a class="collapse-item" href="##">課程訊息公告</a>
+                        <a class="collapse-item" href="<%=request.getContextPath()%>/back-end/Cos/listAllCos2.jsp">課程管理</a>
+                        <a class="collapse-item" href="<%=request.getContextPath()%>/back-end/Cospost/listAllCospost.jsp">課程訊息公告</a>
+                        <a class="collapse-item" href="<%=request.getContextPath()%>/back-end/Costype/listAllCostype.jsp">課程類別管理</a>
                         <a class="collapse-item" href="<%=request.getContextPath()%>/back-end/Lecturer/listAll_lec.jsp">講師名單管理</a>
                         <a class="collapse-item" href="<%=request.getContextPath()%>/back-end/Lecturer/addLec.jsp">新增講師</a>
                     </div>
@@ -157,7 +157,7 @@
             </li>
             </c:if>
             <!-- Nav Item - Pages Collapse Menu -->
-             <c:if test='${authList.contains("條款異動")}' >
+             <c:if test='${authList.contains("條款異動XXXX")}' >
             <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#rulemanagement" aria-expanded="true" aria-controls="rulemanagement">
                     <i class="fas fa-fw fa-cog"></i>
@@ -204,9 +204,9 @@
                                     <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Settings
                                 </a>
-                                <a class="dropdown-item" href="#">
+                                <a class="dropdown-item" href="<%=request.getContextPath()%>/staff/staff.do?action=getOne_For_Update&staNo=${sessionSta.staNo}">
                                     <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Activity Log
+                                    	變更密碼
                                 </a>
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href="<%=request.getContextPath()%>/staff/staff.do?action=logout" >

@@ -196,7 +196,7 @@ public class StaffServlet extends HttpServlet {
 				/*************************** 其他可能的錯誤處理 **********************************/
 			} catch (Exception e) {
 				errorMsgs.add("無法取得要修改的資料:" + e.getMessage());
-				RequestDispatcher failureView = req.getRequestDispatcher("/back-end/Staff/listAll_sta.jsp");
+				RequestDispatcher failureView = req.getRequestDispatcher("/back-end/indexBack.jsp");
 				failureView.forward(req, res);
 			}
 		}
@@ -326,8 +326,8 @@ public class StaffServlet extends HttpServlet {
 				
 
 				/*************************** 3.修改完成,準備轉交(Send the Success view) *************/
-				req.setAttribute("staVO", staVO); // 資料庫update成功後,正確的的lecVO物件,存入req
-				String url = "/back-end/Staff/listOneSta.jsp";
+				req.setAttribute("changePswd", staVO); // 資料庫update成功後,正確的的lecVO物件,存入req
+				String url = "/back-end/indexBack.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url); // 修改成功後,轉交listOneLec.jsp
 				successView.forward(req, res);
 
