@@ -21,7 +21,9 @@
 <%@include file="/front-end/tempFile/head"%>
 <link rel="stylesheet"
 	href="<%=request.getContextPath()%>/dist/css/memberSetting.css">
+
 </head>
+
 <style>
 .ftco-navbar-light .navbar-nav>.nav-item .dropdown-menu .dropdown-item {
 	font-weight: bold;
@@ -30,7 +32,7 @@
 
 <body>
 	<%@include file="/front-end/tempFile/navBar"%>
-
+	
 	<!-- <hr class="nar"> -->
 
 	<!-- Begin Page Content -->
@@ -50,18 +52,20 @@
 						</div>
 					</div>
 					<div class="col-md-9">
+					
+					<form method="POST" action="<%=request.getContextPath()%>/member/mem.do" name="settingForm" id="settingForm" enctype="multipart/form-data">
 						<div class="tab-content">
 								<div class="tab-pane fade active show" id="account-general">
 	
 									<div class="card-body media align-items-center">
 										<div class="img-block">
 											<img id="output"
-												src="<%=request.getContextPath()%>/showImges.do?tableName=member&picColumn=memPic&pkColumn=memNo&memNo=${memVO.memNo}"
+												src="<%=request.getContextPath()%>/showImges.do?tableName=member&picColumn=memPic&pkColumn=memNo&memNo=${userSession.memNo}"
 												alt="" class="d-block ui-w-80">
 										</div>
 										<div class="media-body ml-4">
 											<label class="btn btn-outline-primary"> 上傳照片 
-												<input name="memPic" type="file" class="account-settings-fileinput" onchange="loadFile(event)" accept="image/*">
+												<input id="uploadSettingPhoto" name="memPic" type="file" class="account-settings-fileinput" onchange="loadFile(event)" accept="image/*">
 											</label> &nbsp;
 											<div class="text-light small mt-1">JPG, GIF or PNG</div>
 										</div>
@@ -70,12 +74,15 @@
 	
 									<div class="card-body">
 										<div class="form-group">
-											<label class="form-label">姓名</label> 
-											<input name="memName" type="text" class="form-control" value="${memVO.memName}">
+											<label class="form-label">顯示名稱</label> 
+											<input id="memName" name="memName" type="text" class="form-control" value="${userSession.memName}">
+											<span id="memNameMessage" style="color:red">${errorMsgs.memName}
+											${errorMsgs.exception}</span>
 										</div>
 										<div class="form-group">
-											<label class="form-label">Email</label> 
-											<input name="memEmail" type="text" class="form-control mb-1" value="${memVO.memEmail}">
+											<label class="form-label">電子信箱</label> 
+											<input id="memEmail" name="memEmail" type="text"  class="form-control mb-1" value="${userSession.memEmail}">
+											<span id="memEmailMessage" style="color:red">${errorMsgs.memEmail}</span> 
 										</div>
 									</div>
 	
@@ -85,17 +92,19 @@
 	
 										<div class="form-group">
 											<label class="form-label">現在密碼</label> 
-											<input name="" type="password" class="form-control">
+											<input id="memPswd" name="memPswd" type="password" class="form-control">
+											<span id="memNameMessage" style="color:red">${errorMsgs.memPswd}</span> 
 										</div>
 	
 										<div class="form-group">
 											<label class="form-label">新密碼</label> 
-											<input type="password" class="form-control">
+											<input id="newMemPswd" name="newMemPswd" type="password" class="form-control">
+											<span id="newMemPswdMessage" style="color:red">${errorMsgs.newMemPswd}</span> 
 										</div>
 	
 										<div class="form-group">
 											<label class="form-label">再次輸入密碼</label> 
-											<input type="password" class="form-control">
+											<input id="comfirmPswd" name="comfirmPswd" type="password" class="form-control">
 										</div>
 	
 									</div>
@@ -105,9 +114,7 @@
 	
 										<div class="form-group">
 											<label class="form-label">關於我</label>
-											<textarea class="form-control" rows="5" form="settingForm">
-	                  							${memVO.memInform}
-	                  						</textarea>
+											<textarea id="memInform" name="memInform"class="form-control" rows="5" form="settingForm">${userSession.memInform}</textarea>
 										</div>
 									</div>
 									<hr class="border-light m-0">
@@ -115,69 +122,122 @@
 	
 										<div class="form-group">
 											<label class="form-label">性別</label> 
-											<select size="1" name="memNo" class="form-control">
-												<option value="null" ${memVO.memGender == 0 ? "selected": ""}>請選擇
-	
-												
-												<option value="male" ${memVO.memGender == 1 ? "selected": ""}>男
-	
-												
-												<option value="female"
-													${memVO.memGender == 2 ? "selected": ""}>女
+											<select  id="memGender" size="1" name="memGender" class="form-control">
+												<option value="null" ${userSession.memGender == 0 ? "selected": ""}>請選擇</option>
+												<option value="male" ${userSession.memGender == 1 ? "selected": ""}>男</option>
+												<option value="female" ${userSession.memGender == 2 ? "selected": ""}>女</option>
 											</select>
+											<span id="memGenderMessage" style="color:red">${errorMsgs.memGender}</span> 
 										</div>
 										<div class="form-group">
-											<label class="form-label">電話</label> <input type="text"
-												class="form-control" value="${memVO.memPhone}">
+											<label class="form-label">電話</label> 
+											<input id="memPhone" name="memPhone" type="text" class="form-control" value="${userSession.memPhone}">
 										</div>
 										<div class="form-group">
-											<label class="form-label">地址</label> <input type="text"
-												class="form-control" value="${memVO.memAddr}">
+											<label class="form-label">地址</label> 
+											<input id="memAddr" name="memAddr" type="text" class="form-control" value="${userSession.memAddr}">
 										</div>
 									</div>
 								</div>
 							</div>
+							
+							<div class="text-right mt-3">
+								<button id="settingBtn" type="submit" class="btn btn-primary">儲存變更</button>
+								&nbsp;
+							</div>
+							<input type="hidden" name="action" value="updateSetting"> 
+							<input type="hidden" name="memNo" value="${userSession.memNo}"> 
+							<input type="hidden" name="requestURL" value="<%=request.getServletPath()%>"> <!--接收原送出修改的來源網頁路徑後,再送給Controller準備轉交之用-->
+					</form>
+						
 						</div>
 						
 					</div>
 				</div>
 
 
-				<div class="text-right mt-3">
-					<button id="post" type="button" class="btn btn-primary">儲存變更</button>
-					&nbsp;
-				</div>
+				
 				<div id="demo"></div>
 			</div>
 		</div>
 		<!-- Page Content END -->
 		<%@include file="/front-end/tempFile/footer"%>
 		<%@include file="/front-end/tempFile/tempJs"%>
+		<script src="http://jqueryvalidation.org/files/dist/jquery.validate.min.js"></script>
+		<script src="http://jqueryvalidation.org/files/dist/additional-methods.min.js"></script>
 
 		<script>
 		//預覽圖片
 		var loadFile = function(event) {
-			var output = document.getElementById('output');
+			var output = document.getElementById("output");
 			output.src = URL.createObjectURL(event.target.files[0]);
 			output.onload = function() {
 				URL.revokeObjectURL(output.src) // free memory
 			}
 		};
 		
-		$("#post").click(function(){
-			let memPic = $()
-			$.ajax({
-					url:"<%=request.getContextPath()%>/member/mem.do",
-					type : "POST",
-					data : {
-						action : "test",
-						city : "Taiwan"
-					},
-					success : function(data) {
-						$("#demo").html(data);
-					}
-				})
+// 		$("#settingBtn").click(function(){
+			
+// 			var formData = new FormData();
+//             formData.append("memPic",$('#uploadSettingPhoto')[0].files[0]);
+//             formData.append("action", "test");
+// //             formData.append("memEmail", $('#memEmail').val());
+// 	        console.log($('#uploadSettingPhoto')[0].files[0]);
+            
+// 			$.ajax({
+<%-- 					url:"<%=request.getContextPath()%>/member/mem.do", --%>
+// 					type : "POST",
+// 					contentType: "application/json",
+// 					data : formData ,
+// 					processData: false ,
+//                     contentType: false ,
+//                     mimeType: "multipart/form-data",
+// 					success : function(data) {
+// 						console.log(data);
+// 					}
+// 				})
+// 			});
+		</script>
+		<script>
+		jQuery.validator.setDefaults({
+			debug: false,
+			success: "valid"
+		});
+		
+		jQuery.extend(jQuery.validator.messages, {
+			required: "必填欄位",
+			remote: "請修正該欄位",
+			email: "請輸入正確格式的電子郵件",
+			url: "請輸入合法的網址",
+			date: "請輸入合法的日期",
+			dateISO: "請輸入合法的日期 (ISO).",
+			number: "請輸入合法的數字",
+			digits: "只能輸入整數",
+			creditcard: "請輸入合法的信用卡號",
+			equalTo: "請再次輸入相同的值",
+			accept: "請輸入擁有合法字尾名的字串",
+			maxlength: jQuery.validator.format("請輸入一個 長度最多是 {0} 的字串"),
+			minlength: jQuery.validator.format("請輸入一個 長度最少是 {0} 的字串"),
+			rangelength: jQuery.validator.format("請輸入 一個長度介於 {0} 和 {1} 之間的字串"),
+			range: jQuery.validator.format("請輸入一個介於 {0} 和 {1} 之間的值"),
+			max: jQuery.validator.format("請輸入一個最大為{0} 的值"),
+			min: jQuery.validator.format("請輸入一個最小為{0} 的值")
 			});
+		
+		$(function(){		
+			$( "#settingForm" ).validate({
+				errorClass: "errorMessage",
+				errorElement: "span",
+				rules: {
+// 					newMemPswd: "required",
+					comfirmPswd: {
+				    	equalTo: "#newMemPswd"
+				    }
+				  }
+				
+			});
+		});
+			
 		</script>
 </body>
 </html>

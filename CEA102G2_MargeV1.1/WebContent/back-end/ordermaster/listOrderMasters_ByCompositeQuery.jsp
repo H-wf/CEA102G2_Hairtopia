@@ -1,79 +1,196 @@
-<%@ page contentType="text/html; charset=UTF-8" pageEncoding="Big5"%>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ page import="com.ordermaster.model.*"%>
 
-
-<%-- ¸U¥Î½Æ¦X¬d¸ß-¥i¥Ñ«È¤áºİselect_page.jspÀH·N¼W´î¥ô¦ó·Q¬d¸ßªºÄæ¦ì --%>
-<%-- ¦¹­¶¥u§@¬°½Æ¦X¬d¸ß®É¤§µ²ªG½m²ß¡A¥iµø»İ­n¦A¼W¥[¤À­¶¡B°e¥X­×§ï¡B§R°£¤§¥\¯à--%>
-
-<jsp:useBean id="listOrderMasters_ByCompositeQuery" scope="request" type="java.util.List<OrderMasterVO>" />
+<jsp:useBean id="orddSvc" scope="page" class="com.orderdetail.model.OrderDetailService" />
+<jsp:useBean id="proSvc" scope="page" class="com.product.model.ProductService" />
+<jsp:useBean id="ptypeSvc" scope="page" class="com.ptype.model.PtypeService" />
+<jsp:useBean id="brandSvc" scope="page" class="com.brand.model.BrandService" />
 <jsp:useBean id="memSvc" scope="page" class="com.member.model.MemService" />
 
-
 <html>
-<head><title>½Æ¦X¬d¸ß - listOrderMasters_ByCompositeQuery.jsp</title>
-
-
+<head><title>è¨‚å–®æ˜ç´°</title>
 
 </head>
-<body bgcolor='white'>
+<style>
 
-<h4>
-¡¸¸U¥Î½Æ¦X¬d¸ß  - ¥i¥Ñ«È¤áºİ select_page.jsp ÀH·N¼W´î¥ô¦ó·Q¬d¸ßªºÄæ¦ì<br>
-¡¸¦¹­¶¥u§@¬°½Æ¦X¬d¸ß®É¤§µ²ªG½m²ß¡A¥iµø»İ­n¦A¼W¥[¤À­¶¡B°e¥X­×§ï¡B§R°£¤§¥\¯à</h4>
-<table id="table-1">
-	<tr><td>
-		 <h3>©Ò¦³°Ó«~¸ê®Æ - listAllOrderMaster.jsp</h3>
-		 <h4><a href="<%=request.getContextPath()%>/back-end/ordermaster/select_page.jsp">>¦^­º­¶</a></h4>
-	</td></tr>
-</table>
+.paper{
+ 	border:0.1px solid #969592;
+ 	box-shadow: 12px 12px 7px rgba(150, 149, 146, 0.6);
+ } 
+ .line{ 
+ 	border-bottom:solid #BDB58C; 
+ 	font-size:22px; 
+ 	color:#333333;
+ } 
+</style>
+<body>
+<!-- Begin Page Content -->
+<div class="container-fluid p-1 ">
+	
+		
+		<c:forEach var="ordermasterVO" items="${list}">
+		
+			<div class="line">è¨‚å–®è³‡è¨Š</div>
+			<div class="row">
+				<div class="col-6">
+					<ul>
+						<li>è¨‚å–®ç·¨è™Ÿ:&emsp;${ordermasterVO.ordNo}
+						<li>è¨‚å–®ç‹€æ…‹:&emsp;
+							<c:choose>
+								<c:when test="${ordermasterVO.ordStatus == 0}">
+								æœªå‡ºè²¨
+								</c:when>
+								<c:when test="${ordermasterVO.ordStatus == 1}">
+								å·²å‡ºè²¨
+								</c:when>
+								<c:when test="${ordermasterVO.ordStatus == 2}">
+								å·²çµæ¡ˆ
+								</c:when>
+								<c:when test="${ordermasterVO.ordStatus == 3}">
+								è¨‚å–®å–æ¶ˆ
+								</c:when>
+								<c:otherwise>
+								é€€è²¨
+								</c:otherwise>
+							</c:choose>
+					</ul>
+				</div>
+				<div class="col-6">
+					<ul>
+						<li>è¨‚è³¼æ—¥æœŸ:&emsp;<fmt:formatDate pattern="yyyy-MM-dd" value="${ordermasterVO.ordDate}" />
+						<li>ä»˜æ¬¾æ–¹å¼:&emsp;ä¿¡ç”¨å¡
+					</ul>
+				</div>						
+			</div>
+			<div class="line">è³¼è²·æ¸…å–®</div>	
+			<table class="table table-2">
+				<thead>
+					<tr>
+						<th scope="col">#</th>
+						<th scope="col">å•†å“åœ–ç‰‡</th>
+						<th scope="col">å•†å“åç¨±</th>
+						<th scope="col">å•†å“é¡åˆ¥</th>
+						<th scope="col">å“ç‰Œåç¨±</th>
+						<th scope="col">åƒ¹æ ¼</th>
+						<th scope="col">æ•¸é‡</th>
+						<th scope="col">å°è¨ˆ</th>
+					</tr>
+				</thead>
+				<tbody>
+					<c:set var="i" value="0" />
+			        <c:forEach var="orddVO" items="${orddSvc.all}">			      				      		
+			      	<c:if test="${orddVO.ordNo == ordermasterVO.ordNo}">
+			      	<c:set var="i" value="${i+1}" />
+					<tr>
+						<th scope="row">${i}</th>
+						<td><img src="<%=request.getContextPath()%>/PicFinder?pic=1&table=product&column=proMpic&idname=proNo&id=${orddVO.proNo}"alt='æ²’æœ‰åœ–ç‰‡' width="50" height="40"></td>
+						<td>${proSvc.getOneProduct(orddVO.proNo).proName}</td>
+						<td>${ptypeSvc.getOnePtype(proSvc.getOneProduct(orddVO.proNo).ptypeNo).ptypeName}</td>
+						<td>${brandSvc.getOneBrand(proSvc.getOneProduct(orddVO.proNo).braNo).braName}</td>
+						<td>${proSvc.getOneProduct(orddVO.proNo).proPrice}</td>
+						<td>${orddVO.ordDetAmt}</td>
+						<td>${orddVO.ordDetPrice}</td>
+					</tr>
+					</c:if>						   
+			      	</c:forEach>
+			      	<tr>
+					    <th scope="row"></th>
+					    <td></td>
+					    <td></td>
+					    <td></td>
+					    <td></td>
+					    <td></td>
+						<td>TOTAL</td>
+						<td>NT$${ordermasterVO.ordAmt}</td>
+					</tr>					      		  
+				</tbody>
+			</table>
+				<div class="row">
+					<div class="col-6">
+					<div class="line">è¨‚è³¼äººè³‡è¨Š</div>
+						<ul>
+							<li>è¨‚è³¼äººå§“å:&emsp;${memSvc.getOneMem(ordermasterVO.memNo).memName}
+							<li>è¨‚è³¼äººä¿¡ç®±:&emsp;${memSvc.getOneMem(ordermasterVO.memNo).memEmail}
+							<li>è¨‚è³¼äººæ‰‹æ©Ÿ:&emsp;${memSvc.getOneMem(ordermasterVO.memNo).memPhone}
+							<li>è¨‚è³¼äººåœ°å€:&emsp;${memSvc.getOneMem(ordermasterVO.memNo).memAddr}
+						</ul>
+					</div>
+					<div class="col-6" >
+					<div class="line">æ”¶ä»¶äººè³‡è¨Š</div>
+						<ul>
+							<li>æ”¶ä»¶äººå§“å:&emsp;${ordermasterVO.ordName}
+							<li>æ”¶ä»¶äººä¿¡ç®±:&emsp;${ordermasterVO.ordEmail}
+							<li>æ”¶ä»¶äººæ‰‹æ©Ÿ:&emsp;${ordermasterVO.ordPhone}
+							<li>æ”¶ä»¶äººåœ°å€:&emsp;${ordermasterVO.ordAddr}
+						</ul>
+					</div>
+				</div>	
+		
+		</c:forEach>
+	</div>
 
 
-<table>
-	<tr>
-		<th>­q³æ½s¸¹</th>
-		<th>·|­û</th>
-		<th>­qÁÊ¤é´Á</th>
-		<th>­q³æª¬ºA</th>
-		<th>­q³æª÷ÃB</th>
-	</tr>
-	<c:forEach var="ordermasterVO" items="${listOrderMasters_ByCompositeQuery}">
-		<tr>
-			<td>${ordermasterVO.ordNo}</td>
-			<td>
-				<c:forEach var="memVO" items="${memSvc.all}">
-                    <c:if test="${ordermasterVO.memNo==memVO.memNo}">
-	                    ${memVO.memNo}¡i${memVO.memName}¡j
-                    </c:if>
-                </c:forEach>
-            </td>
-			<td>${ordermasterVO.ordDate}</td>
-			<td>
-				<c:if test="${ordermasterVO.ordStatus==0}">¥¼¥X³f</c:if>
-				<c:if test="${ordermasterVO.ordStatus==1}">¤w¥X³f</c:if>
-				<c:if test="${ordermasterVO.ordStatus==2}">¤wµ²®×</c:if>
-				<c:if test="${ordermasterVO.ordStatus==3}">­q³æ¨ú®ø</c:if>
-				<c:if test="${ordermasterVO.ordStatus==9}">°h³f</c:if>
-			</td>				
-			<td>${ordermasterVO.ordAmt}</td>	
+
+
+<!-- Page Content END -->
+<!-- <h4> -->
+<!-- â˜†è¬ç”¨è¤‡åˆæŸ¥è©¢  - å¯ç”±å®¢æˆ¶ç«¯ select_page.jsp éš¨æ„å¢æ¸›ä»»ä½•æƒ³æŸ¥è©¢çš„æ¬„ä½<br> -->
+<!-- â˜†æ­¤é åªä½œç‚ºè¤‡åˆæŸ¥è©¢æ™‚ä¹‹çµæœç·´ç¿’ï¼Œå¯è¦–éœ€è¦å†å¢åŠ åˆ†é ã€é€å‡ºä¿®æ”¹ã€åˆªé™¤ä¹‹åŠŸèƒ½</h4> -->
+<!-- <table id="table-1"> -->
+<!-- 	<tr><td> -->
+<!-- 		 <h3>æ‰€æœ‰å•†å“è³‡æ–™ - listAllOrderMaster.jsp</h3> -->
+<%-- 		 <h4><a href="<%=request.getContextPath()%>/back-end/ordermaster/select_page.jsp">>å›é¦–é </a></h4> --%>
+<!-- 	</td></tr> -->
+<!-- </table> -->
+
+
+<!-- <table> -->
+<!-- 	<tr> -->
+<!-- 		<th>è¨‚å–®ç·¨è™Ÿ</th> -->
+<!-- 		<th>æœƒå“¡</th> -->
+<!-- 		<th>è¨‚è³¼æ—¥æœŸ</th> -->
+<!-- 		<th>è¨‚å–®ç‹€æ…‹</th> -->
+<!-- 		<th>è¨‚å–®é‡‘é¡</th> -->
+<!-- 	</tr> -->
+<%-- 	<c:forEach var="ordermasterVO" items="${listOrderMasters_ByCompositeQuery}"> --%>
+<!-- 		<tr> -->
+<%-- 			<td>${ordermasterVO.ordNo}</td> --%>
+<!-- 			<td> -->
+<%-- 				<c:forEach var="memVO" items="${memSvc.all}"> --%>
+<%--                     <c:if test="${ordermasterVO.memNo==memVO.memNo}"> --%>
+<%-- 	                    ${memVO.memNo}ã€${memVO.memName}ã€‘ --%>
+<%--                     </c:if> --%>
+<%--                 </c:forEach> --%>
+<!--             </td> -->
+<%-- 			<td>${ordermasterVO.ordDate}</td> --%>
+<!-- 			<td> -->
+<%-- 				<c:if test="${ordermasterVO.ordStatus==0}">æœªå‡ºè²¨</c:if> --%>
+<%-- 				<c:if test="${ordermasterVO.ordStatus==1}">å·²å‡ºè²¨</c:if> --%>
+<%-- 				<c:if test="${ordermasterVO.ordStatus==2}">å·²çµæ¡ˆ</c:if> --%>
+<%-- 				<c:if test="${ordermasterVO.ordStatus==3}">è¨‚å–®å–æ¶ˆ</c:if> --%>
+<%-- 				<c:if test="${ordermasterVO.ordStatus==9}">é€€è²¨</c:if> --%>
+<!-- 			</td>				 -->
+<%-- 			<td>${ordermasterVO.ordAmt}</td>	 --%>
 			
-			<td>
-				<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/ordermaster/ordermaster.do" style="margin-bottom: 0px;">
-					<input type="submit" value="­×§ï"> 
-					<input type="hidden" name="ordNo" value="${ordermasterVO.ordNo}">
-					<input type="hidden" name="action" value="getOne_For_Update">
-				</FORM>
-			</td>
-			<td>
-				<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/ordermaster/ordermaster.do" style="margin-bottom: 0px;">
-					<input type="submit" value="§R°£"> 
-					<input type="hidden" name="ordNo" value="${ordermasterVO.ordNo}">
-					<input type="hidden" name="action" value="delete">
-				</FORM>
-			</td>
-		</tr>
-	</c:forEach>
-</table>
+<!-- 			<td> -->
+<%-- 				<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/ordermaster/ordermaster.do" style="margin-bottom: 0px;"> --%>
+<!-- 					<input type="submit" value="ä¿®æ”¹">  -->
+<%-- 					<input type="hidden" name="ordNo" value="${ordermasterVO.ordNo}"> --%>
+<!-- 					<input type="hidden" name="action" value="getOne_For_Update"> -->
+<!-- 				</FORM> -->
+<!-- 			</td> -->
+<!-- 			<td> -->
+<%-- 				<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/ordermaster/ordermaster.do" style="margin-bottom: 0px;"> --%>
+<!-- 					<input type="submit" value="åˆªé™¤">  -->
+<%-- 					<input type="hidden" name="ordNo" value="${ordermasterVO.ordNo}"> --%>
+<!-- 					<input type="hidden" name="action" value="delete"> -->
+<!-- 				</FORM> -->
+<!-- 			</td> -->
+<!-- 		</tr> -->
+<%-- 	</c:forEach> --%>
+<!-- </table> -->
 
 </body>
 </html>

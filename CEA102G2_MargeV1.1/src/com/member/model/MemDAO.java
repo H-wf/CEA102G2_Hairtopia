@@ -37,6 +37,7 @@ public class MemDAO implements MemDAO_interface{
 	private static final String DELETE = "DELETE FROM MEMBER WHERE memNO = ?";
 	private static final String UPDATE_WITH_PIC = "UPDATE MEMBER set memName=?, memGender=?, memInform=?, memEmail=?, memPswd= ?, memPhone=?, memAddr=?, memPic=? WHERE memNO = ?";
 	private static final String UPDATE_PASSWORD_BY_EMAIL = "UPDATE MEMBER set memPswd= ? WHERE memEmail = ?";
+	private static final String UPDATE_STATUS_BY_EMAIL = "UPDATE MEMBER set memStatus= ? WHERE memEmail = ?";
 	private static final String UPDATE_NOPIC_STMT = "UPDATE MEMBER set memName=?, memGender=?, memInform=?, memEmail=?, memPswd= ?, memPhone=?, memAddr=? WHERE memNO = ?";
 	private static final String GET_IMG = "SELECT memPic FROM MEMBER WHERE memNO = ?";
 
@@ -168,6 +169,40 @@ public class MemDAO implements MemDAO_interface{
 			pstmt = con.prepareStatement(UPDATE_PASSWORD_BY_EMAIL);
 
 			pstmt.setString(1, memPswd);
+			pstmt.setString(2, memEmail);
+			
+
+			int a = pstmt.executeUpdate();
+
+		} catch (SQLException se) {
+			throw new RuntimeException("A database error occured. " + se.getMessage());
+		} finally {
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
+		
+	}
+	
+	@Override
+	public void updateStatus(String memEmail, Integer memStatus) {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		try {
+			con = ds.getConnection();
+			pstmt = con.prepareStatement(UPDATE_STATUS_BY_EMAIL);
+			pstmt.setInt(1, memStatus);
 			pstmt.setString(2, memEmail);
 			
 

@@ -2,6 +2,8 @@ package com.post.model;
 
 import java.util.*;
 
+import com.designer.model.*;
+
 public class PostService {
 	private PostDAO_Interface dao;
 
@@ -10,7 +12,7 @@ public class PostService {
 	}
 
 	public PostVO addPost(Integer desNo, String postCon, byte[] postPic1, byte[] postPic2, byte[] postPic3,
-			Integer postStatus, Boolean postPror) {
+			Integer postStatus) {
 		PostVO postVO = new PostVO();
 
 		postVO.setDesNo(desNo);
@@ -19,15 +21,13 @@ public class PostService {
 		postVO.setPostPic2(postPic2);
 		postVO.setPostPic3(postPic3);
 		postVO.setPostStatus(postStatus);
-		postVO.setPostPror(postPror);
 
 		postVO = dao.insert(postVO);
 
 		return postVO;
 	}
 
-	public PostVO addPost(Integer desNo, String postCon, byte[] postPic1, byte[] postPic2, Integer postStatus,
-			Boolean postPror) {
+	public PostVO addPost(Integer desNo, String postCon, byte[] postPic1, byte[] postPic2, Integer postStatus) {
 		PostVO postVO = new PostVO();
 
 		postVO.setDesNo(desNo);
@@ -35,23 +35,21 @@ public class PostService {
 		postVO.setPostPic1(postPic1);
 		postVO.setPostPic2(postPic2);
 		postVO.setPostStatus(postStatus);
-		postVO.setPostPror(postPror);
 
 		postVO = dao.insert2(postVO);
 
 		return postVO;
 	}
 
-	public PostVO addPost(Integer desNo, String postCon, byte[] postPic1, Integer postStatus, Boolean postPror) {
+	public PostVO addPost(Integer desNo, String postCon, byte[] postPic1, Integer postStatus) {
 		PostVO postVO = new PostVO();
 
 		postVO.setDesNo(desNo);
 		postVO.setPostCon(postCon);
 		postVO.setPostPic1(postPic1);
 		postVO.setPostStatus(postStatus);
-		postVO.setPostPror(postPror);
 
-		postVO = dao.insert3(postVO);
+    postVO = dao.insert3(postVO);
 
 		return postVO;
 	}
@@ -122,7 +120,10 @@ public class PostService {
 	}
 
 	public PostVO getOnePost(Integer postNo) {
-		return dao.findByPrimaryKey(postNo);
+		PostVO postVo = dao.findByPrimaryKey(postNo);
+		String desName = new DesignerService().getOneDesByDesNo(postVo.getDesNo()).getDesName();
+		postVo.setDesName(desName);
+		return postVo;
 	}
 
 	public List<PostVO> getAll() {

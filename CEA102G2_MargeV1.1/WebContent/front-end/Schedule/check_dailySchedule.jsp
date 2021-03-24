@@ -76,11 +76,6 @@
 
 
 </body>
-
-<%--  <%   --%>
-
-<%-- %> --%>
-
 <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/resource/datetimepicker/jquery.datetimepicker.css" />
 <script src="<%=request.getContextPath()%>/resource/datetimepicker/jquery.js"></script>
 <script src="<%=request.getContextPath()%>/resource/datetimepicker/jquery.datetimepicker.full.js"></script>

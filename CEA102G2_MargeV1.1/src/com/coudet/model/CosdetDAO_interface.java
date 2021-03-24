@@ -9,7 +9,6 @@ public interface CosdetDAO_interface {
 		public void update(CosdetVO cosdetVO);
 		public void delete(Integer cosNo);
 		public List<CosdetVO> findByPrimaryKey(Integer cosNo);
-		
 		public List<CosdetVO> getAll();
 		public void insertNoComment(CosdetVO cosdetVO);
 		public List<CosdetVO> getAllCosByMemNo(Integer memNo);

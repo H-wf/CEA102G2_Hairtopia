@@ -10,9 +10,6 @@
  
 </head>
 	<style>
-		.ftco-navbar-light{
-			position:static;
-		}
         .cart{
         	right:15px;
         	bottom:78.5%;
@@ -21,8 +18,7 @@
         }
 
         .cart-btn {
-            background: rgba(255, 255, 255, 0.3); 
-            border-radius: 4em;			
+            background: rgba(255, 255, 255, 0);
             border: 0px;
             cursor: pointer;
         }
@@ -39,8 +35,8 @@
 		  background:#D9BF77;
 		  color:black;
  		  position:absolute; 
-		  width: 25px;
-		  height: 25px;
+		  width: 20px;
+		  height: 20px;
 		  border-radius:50%;
 		  display: flex;
 		  justify-content: center;
@@ -48,12 +44,15 @@
 		  right:-9px;
 		  top:10px;
 		}
+		.carousel{
+			z-index:0;
+		}
         .carousel-inner { 
-            height: 80vh;
+            height: 90vh;
         }
 
         .carousel-inner .carousel-item img {
-        	height: 80vh;
+        	height: 90vh;
         	object-fit: cover;
         }
         .btn-danger.focus, .btn-danger:focus{
@@ -240,26 +239,28 @@
 		}
 
     </style>
-</head>
 <body>
 <%@include file="/front-end/tempFile/navBar" %>
 
-<div class="container-fluid">
+<div class="container-fluid" style="padding-left:0;padding-right:0;">
 	<jsp:useBean id="productSvc" scope="page" class="com.product.model.ProductService"/>
 	<jsp:useBean id="ptypeSvc" scope="page" class="com.ptype.model.PtypeService"/>
 	<jsp:useBean id="brandSvc" scope="page" class="com.brand.model.BrandService"/>
 	<!-- cart -->
     <div class="cart">
         <button class="cart-btn">
-            <img src="<%=request.getContextPath()%>/dist/images/cart.jpg">
+        	<svg style="color:#D8CF9E;" xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-bag" viewBox="0 0 16 16">
+        		<path d="M8 1a2.5 2.5 0 0 1 2.5 2.5V4h-5v-.5A2.5 2.5 0 0 1 8 1zm3.5 3v-.5a3.5 3.5 0 1 0-7 0V4H1v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V4h-3.5zM2 5h12v9a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V5z" />
+    		</svg>
+<%--             <img src="<%=request.getContextPath()%>/dist/images/cart.jpg"> --%>
             <c:if test="${not empty sessionScope.shoppingcart}">
             	<span class="sum">${sessionScope.sum}</span>
             </c:if>            
         </button>
         <div class="bag_div">
-            <c:forEach var="productVO" items="${sessionScope.shoppingcart}">
+            <c:forEach var="productVO" items="${sessionScope.shoppingcart}">           	
             	<div class="col-3 picture"><img src="<%=request.getContextPath()%>/PicFinder?pic=1&table=product&column=proMpic&idname=proNo&id=${productVO.proNo}" alt='沒有圖片' width="40" height="50"></div>
-            	<div class="col-8 name">${productVO.proName}<br>Qty:<i>${productVO.quantity}</i></div>
+            	<div class="col-8 name">${productVO.proName}<br>Qty:<i>${productVO.quantity}</i></div>            	
             </c:forEach>
             <hr color="white" style="margin-bottom:0;">
             <div class="checkout"><a href="<%=request.getContextPath()%>/product/product.do?action=CHECKOUT">CHECKOUT</a></div>
@@ -276,13 +277,13 @@
         </ol>
         <div class="carousel-inner">
             <div class="carousel-item active">
-                <img class="d-block w-100" src="https://picsum.photos/1200/800?random=1">
+                <img class="d-block w-100" src="<%=request.getContextPath()%>/dist/images/shop1.jpg">
             </div>
             <div class="carousel-item">
-                <img class="d-block w-100 " src="https://picsum.photos/1200/800?random=2">
+                <img class="d-block w-100 " src="<%=request.getContextPath()%>/dist/images/shop2.jpg">
             </div>
             <div class="carousel-item">
-                <img class="d-block w-100 " src="https://picsum.photos/1200/800?random=3">
+                <img class="d-block w-100 " src="<%=request.getContextPath()%>/dist/images/shop3.jpg">
             </div>
         </div>
         <a class="carousel-control-prev" href="#carouselPics" data-slide="prev">
@@ -322,7 +323,7 @@
                	 金額
             </button>
             <div class="dropdown-menu price">
-                <a class="dropdown-item" href="##">100</a>
+                <a class="dropdown-item" href="##">100以下</a>
                 <a class="dropdown-item" href="##">100~500</a>
                 <a class="dropdown-item" href="##">500以上</a>
             </div>
@@ -347,7 +348,8 @@
     <!-- display products-->
     <div class="container procontainer">
         <div class="row">
-        	<c:forEach var="productVO" items="${productSvc.all}"> 
+        	<c:forEach var="productVO" items="${productSvc.all}">
+        		<c:if test="${productVO.proStatus==true}"> 
 	            <div class="col-12 col-sm-6 col-md-3 products">
 	                <img src="<%=request.getContextPath()%>/PicFinder?pic=1&table=product&column=proMpic&idname=proNo&id=${productVO.proNo}">
 	                <a href="<%=request.getContextPath()%>/product/product.do?action=getOne_For_Display&from=front-end&proNo=${productVO.proNo}">
@@ -365,6 +367,7 @@
                		</a>
 	                <p>${productVO.proName}</p>
 	            </div>
+	            </c:if>
             </c:forEach> 
         </div>
     </div>
@@ -375,6 +378,16 @@
 <%@include file="/front-end/tempFile/footer" %>
 <%@include file="/front-end/tempFile/tempJs" %>
 	<script>
+		$(document).ready(function(){
+			if(${empty sessionScope.shoppingcart}){
+				$(".checkout a").attr("href","##");
+			}
+		})
+	</script>
+	
+	
+	
+	<script>
 
 		var myKey = [];
 		var myValue = [];
@@ -383,11 +396,8 @@
         	myKey.splice(index,1);
         	myValue.splice(index,1);
         	filter();
-            $(this).parent(".label-primary").remove();
-            
-        });
-        
-       
+            $(this).parent(".label-primary").remove();                        
+        });       
         $(document).on("click", ".btn-outline-success", function() {
             if ($(".form-control").val() !== "") {
                 var text = "<lable class='label-primary search'>" + $(".form-control").val() + "&nbsp;<a><img src='"+$(".PageContext").val()+"/dist/images/x.png'></a></lable>";
@@ -399,58 +409,58 @@
        		
         });
         $(".brand").on("click", ".dropdown-item", function() {
-            var text = "<lable class='label-primary'>" + $(this).text() + "&nbsp;<a><img src='"+$(".PageContext").val()+"/dist/images/x.png'></a></lable>";
-            var str = $(this).text();
+            var text = "<lable class='label-primary'>" + $(this).text() + "&nbsp;<a><img src='"+$(".PageContext").val()+"/dist/images/x.png'></a></lable>";         
 			var i = myKey.indexOf("brand")
 			if(i==-1){
 				myKey.push("brand");
-             	myValue.push(str);
+				myValue.push($(this).text());
                 $(".searchbar").before("\n" + text);
 			}else{		
 				myKey.splice(i,1,"brand");
-        		myValue.splice(i,1,str);      		
+				myValue.splice(i,1,$(this).text());
         		$(".label-primary").eq(i).html($(this).text() + "&nbsp;<a><img src='"+$(".PageContext").val()+"/dist/images/x.png'></a>");        		
 			}
           	filter();
-				
         }); 
         $(".ptype").on("click", ".dropdown-item", function() {
         	var text = "<lable class='label-primary'>" + $(this).text() + "&nbsp;<a><img src='"+$(".PageContext").val()+"/dist/images/x.png'></a></lable>";
-            var str = $(this).text();
 			var i = myKey.indexOf("ptype")
 			if(i==-1){
 				myKey.push("ptype");
-             	myValue.push(str);
+				myValue.push($(this).text());
                 $(".searchbar").before("\n" + text);
 			}else{		
-				myKey.splice(i,1,"ptype");
-        		myValue.splice(i,1,str);      		
+				myKey.splice(i,1,"ptype");  
+				myValue.splice(i,1,$(this).text())
         		$(".label-primary").eq(i).html($(this).text() + "&nbsp;<a><img src='"+$(".PageContext").val()+"/dist/images/x.png'></a>");        		
 			}
            	filter();
-           		
         });
         $(".price").on("click", ".dropdown-item", function() {
-            var text = "<lable class='label-primary fromprice'>" + $(this).text() + "&nbsp;<a><img src='"+$(".PageContext").val()+"/dist/images/x.png'></a></lable>";
-            $(".searchbar").before("\n" + text);
-            
+            var text = "<lable class='label-primary'>" + $(this).text() + "&nbsp;<a><img src='"+$(".PageContext").val()+"/dist/images/x.png'></a></lable>";
+            var i = myKey.indexOf("price")
+			if(i==-1){
+				myKey.push("price");
+				myValue.push($(this).text());
+                $(".searchbar").before("\n" + text);
+			}else{		
+				myKey.splice(i,1,"price");  
+				myValue.splice(i,1,$(this).text())
+        		$(".label-primary").eq(i).html($(this).text() + "&nbsp;<a><img src='"+$(".PageContext").val()+"/dist/images/x.png'></a>");        		
+			}
+           	filter();            
         });
         
 
-        function filter(){
-        	if(myKey.length==0){
-        		$(".products").each(function(){        			
-       				$(this).show();       				
-       			});       				
-        	}
-        	for(let i=0;i<myKey.length;i++){
-
+        function filter(){       	
+        	$(".products").each(function(){        			
+       			$(this).show();       				
+       		});       				            	
+        	for(let i=0;i<myKey.length;i++){        		       		
 	        	if(myKey[i]=="brand"){
 	        		$(".products").each(function(){
 	        			if($(this).find(".braName").val()!=myValue[i]){
 	       					$(this).hide();
-	       				}else{
-	       					$(this).show();
 	       				}
 	       			});       				
 	        	}        		
@@ -458,29 +468,46 @@
 	       			$(".products").each(function(){
 	       				if($(this).find(".ptypeName").val()!=myValue[i]){
 	       					$(this).hide();
-	       				}else{
-	       					$(this).show();
 	       				}
 	       			});       				
 	       		}
+	        	if(myKey[i]=="price"){
+	        		if(myValue[i]=="100以下"){
+	        			$(".products").each(function(){
+		       				if(parseInt($(this).find(".proPrice").val())>100){
+		       					$(this).hide();
+		       				}
+		       			}); 
+	        		}
+	        		if(myValue[i]=="100~500"){
+	        			$(".products").each(function(){
+		       				if(parseInt($(this).find(".proPrice").val())<100||parseInt($(this).find(".proPrice").val())>500){
+		       					$(this).hide();
+		       				}
+		       			}); 
+	        		}
+	        		if(myValue[i]=="500以上"){
+	        			$(".products").each(function(){
+		       				if(parseInt($(this).find(".proPrice").val())<500){
+		       					$(this).hide();
+		       				}
+		       			}); 
+	        		}
+	        	}
 	        	if(myKey[i]=="search"){
-	        		console.log(myValue[i]);
 	       			$(".products").each(function(){
-	       				var ptypName =$(this).find(".ptypeName").val();
+	       				var ptypeName =$(this).find(".ptypeName").val();	       				
 	       				var braName =$(this).find(".braName").val();
 	       				var proName =$(this).find(".proName").val();
-	       				var proPrice = $(this).find(".proPrice").val();        			
-	       				if(myValue[i]!=ptypName&&braName&&proName&&proPrice){
+	       				var proPrice = $(this).find(".proPrice").val();
+	       				var re = new RegExp(myValue[i], "g" );
+	       				if(re.exec(ptypeName)==null&&re.exec(braName)==null&&re.exec(proName)==null&&re.exec(proPrice)==null){
 	       					$(this).hide();
-	       				}else{
-	       					$(this).show();
 	       				}
         			});       				
 	        	}
-        	}
-       	
-       }
-        
+        	}      	
+      }
     </script>
 
 </body>

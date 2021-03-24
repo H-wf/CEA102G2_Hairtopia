@@ -4,6 +4,72 @@ import java.io.Serializable;
 
 public class SalonVO implements Serializable{
 	
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((salAdd == null) ? 0 : salAdd.hashCode());
+		result = prime * result + ((salLat == null) ? 0 : salLat.hashCode());
+		result = prime * result + ((salLng == null) ? 0 : salLng.hashCode());
+		result = prime * result + ((salName == null) ? 0 : salName.hashCode());
+		result = prime * result + ((salNo == null) ? 0 : salNo.hashCode());
+		result = prime * result + ((salPhone == null) ? 0 : salPhone.hashCode());
+		result = prime * result + ((salStatus == null) ? 0 : salStatus.hashCode());
+		result = prime * result + ((salTime == null) ? 0 : salTime.hashCode());
+		return result;
+	}
+	//index需要複寫 0320
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		SalonVO other = (SalonVO) obj;
+		if (salAdd == null) {
+			if (other.salAdd != null)
+				return false;
+		} else if (!salAdd.equals(other.salAdd))
+			return false;
+		if (salLat == null) {
+			if (other.salLat != null)
+				return false;
+		} else if (!salLat.equals(other.salLat))
+			return false;
+		if (salLng == null) {
+			if (other.salLng != null)
+				return false;
+		} else if (!salLng.equals(other.salLng))
+			return false;
+		if (salName == null) {
+			if (other.salName != null)
+				return false;
+		} else if (!salName.equals(other.salName))
+			return false;
+		if (salNo == null) {
+			if (other.salNo != null)
+				return false;
+		} else if (!salNo.equals(other.salNo))
+			return false;
+		if (salPhone == null) {
+			if (other.salPhone != null)
+				return false;
+		} else if (!salPhone.equals(other.salPhone))
+			return false;
+		if (salStatus == null) {
+			if (other.salStatus != null)
+				return false;
+		} else if (!salStatus.equals(other.salStatus))
+			return false;
+		if (salTime == null) {
+			if (other.salTime != null)
+				return false;
+		} else if (!salTime.equals(other.salTime))
+			return false;
+		return true;
+	}
 	private Integer salNo;
 	private String salName;
 	private String salAdd;

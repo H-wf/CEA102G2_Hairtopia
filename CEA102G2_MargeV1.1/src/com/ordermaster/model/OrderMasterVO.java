@@ -8,7 +8,11 @@ public class OrderMasterVO {
 	private Timestamp ordDate;
 	private Integer ordStatus;
 	private Integer ordAmt;
-	
+	private String ordName;
+	private String ordEmail;
+	private String ordPhone;
+	private String ordAddr;
+		
 	public Integer getOrdNo() {
 		return ordNo;
 	}
@@ -39,5 +43,28 @@ public class OrderMasterVO {
 	public void setOrdAmt(Integer ordAmt) {
 		this.ordAmt = ordAmt;
 	}
-	
+	public String getOrdName() {
+		return ordName;
+	}
+	public void setOrdName(String ordName) {
+		this.ordName = ordName;
+	}
+	public String getOrdEmail() {
+		return ordEmail;
+	}
+	public void setOrdEmail(String ordEmail) {
+		this.ordEmail = ordEmail;
+	}
+	public String getOrdPhone() {
+		return ordPhone;
+	}
+	public void setOrdPhone(String ordPhone) {
+		this.ordPhone = ordPhone;
+	}
+	public String getOrdAddr() {
+		return ordAddr;
+	}
+	public void setOrdAddr(String ordAddr) {
+		this.ordAddr = ordAddr;
+	}
 }

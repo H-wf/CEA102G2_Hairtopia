@@ -17,11 +17,9 @@
 <style>
 	.ftco-navbar-light{
 		position:static;
+		z-index:100;
 	}
  	.right{
-/* 		text-align:center; */
-/* 		height:120vh; */
-/* 		top:60vh; */
  		padding-left:20vh;
  	}
 	.cart{
@@ -40,8 +38,7 @@
 		}
 	}
     .cart-btn {
-        background: rgba(255, 255, 255, 0.3); 
-        border-radius: 4em;			
+        background: rgba(255, 255, 255, 0);
         border: 0px;
         cursor: pointer;
     }
@@ -57,8 +54,8 @@
 		background:#D9BF77;
 		color:black;
  		position:absolute; 
-		width: 25px;
-		height: 25px;
+		width: 20px;
+		height: 20px;
 		border-radius:50%;
 		display: flex;
 		justify-content: center;
@@ -79,75 +76,6 @@
 	.protable th{
 		width:40%;
 	}
-
-/* 	.slick-prev:before, .slick-next:before{ */
-/* 		color:#BDB58C; */
-/* 		margin: 0; */
-/*   		padding: 0; */
-/* 	} */
-/*  	.slick-next{  */
-/*  		z-index: 2;  */
-/* 	} */
-
-/* 	.wrap:focus{ */
-/* 		outline:0; */
-/* 	} */
-/* 	.slick-slide:focus{ */
-/* 		outline:0; */
-/* 	} */
-
-/* 	.left{	   */
-/* 	    padding: 0; */
-/* 	    height:70%; */
-/* 	} */
-/* 	.parent{ */
-/*  	 	width: 100%; */
-/*  		margin: 0 auto; */
-/*   		position:relative; */
-/* 	} */
-/* 	.parent img{ */
-/* 		position:absolute; */
-/*  		max-width: 100%;  */
-/*  		height:auto; */
-/* 		top:50%; */
-/* 		left:50%; */
-/* 		transform:translate(-50%,-50%); */
-/* 		object-fit:cover; */
-/* 	} */
-/* 	.button{ */
-/* 	    margin: 0; */
-/* 	  	padding: 0; */
-/* 	 	background: none; */
-/* 	  	border: none; */
-/* 	  	border-radius: 0; */
-/* 	  	outline: none; */
-/* 	  	-webkit-appearance: none; */
-/* 	  	-moz-appearance: none; */
-/* 	  	appearance: none; */
-/* 	} */
-/* 	.slide-arrow{ */
-/* 	  	position: absolute; */
-/* 	  	top: 50%; */
-/* 	  	margin-top: -15px; */
-/* 	} */
-/* 	.prev-arrow{ */
-/* 	  	left: -40px; */
-/* 	  	width: 0; */
-/* 	  	height: 0; */
-/* 	  	border-left: 0 solid transparent; */
-/* 	  	border-right: 15px solid #113463; */
-/* 	  	border-top: 10px solid transparent; */
-/* 	  	border-bottom: 10px solid transparent; */
-/* 	} */
-/* 	.next-arrow{ */
-/* 	  	right: -40px; */
-/* 	  	width: 0; */
-/* 	  	height: 0; */
-/* 	  	border-right: 0 solid transparent; */
-/* 	  	border-left: 15px solid #113463; */
-/* 	  	border-top: 10px solid transparent; */
-/* 	  	border-bottom: 10px solid transparent; */
-/* 	} */
 	.add{
 		color:#D9BF77;
 		background-color:white;
@@ -270,7 +198,7 @@
  	} 
         .carousel-indicators {
             position: absolute;
-            bottom: -20%;
+            bottom: -15%;
         }
 
         .carousel-indicators .active {
@@ -307,7 +235,9 @@
 <div class="container-fluid" style="margin-bottom:30px;">
 	 <div class="cart">
         <button class="cart-btn">
-            <img src="<%=request.getContextPath()%>/dist/images/cart.jpg">
+            <svg style="color:#D8CF9E;" xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-bag" viewBox="0 0 16 16">
+        		<path d="M8 1a2.5 2.5 0 0 1 2.5 2.5V4h-5v-.5A2.5 2.5 0 0 1 8 1zm3.5 3v-.5a3.5 3.5 0 1 0-7 0V4H1v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V4h-3.5zM2 5h12v9a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V5z" />
+    		</svg>
             <c:if test="${not empty sessionScope.shoppingcart}">
             	<span class="sum">${sessionScope.sum}</span>
             </c:if>
@@ -324,19 +254,8 @@
 	<div class="row">
 		<div class="col-md-1 col-lg-1"></div>
 		<div class="col-12 col-md-5 col-lg-5">
-<!-- 			<div class="left"> -->
-<!-- 			<div class="parent"> -->
-<!-- 				<div class="images"> -->
-<%-- 					<img src="<%=request.getContextPath()%>/PicFinder?pic=1&table=product&column=proMpic&idname=proNo&id=${productVO.proNo}" alt='沒有圖片' class="proPic" /> --%>
-<!-- 				</div> -->
-			
-<!-- 				<div class="images"> -->
-<%-- 					<img src="<%=request.getContextPath()%>/PicFinder?pic=1&table=product&column=proPic&idname=proNo&id=${productVO.proNo}" alt='沒有圖片' class="proPic"/> --%>
-<!-- 				</div> -->
-<!-- 			</div> -->
-<!-- 			</div> -->
 			<div id="carouselExampleIndicators" class="carousel slide">
-                <ol class="carousel-indicators">
+                <ol class="carousel-indicators" style="margin-bottom:35px;">
                     <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active dot"></li>
                     <li data-target="#carouselExampleIndicators" data-slide-to="1" class="dot"></li>
                 </ol>
@@ -422,6 +341,13 @@
 
 <script type="text/javascript" src="<%=request.getContextPath()%>/dist/slick/slick.min.js"></script>
 <script>
+		$(document).ready(function(){
+			if(${empty sessionScope.shoppingcart}){
+				$(".checkout a").attr("href","##");
+			}
+		})
+	</script>
+<script>
 
 //數量減少
 $(".minus").click(function(){
@@ -477,7 +403,7 @@ $(".btn-secondary").click(function(){
  			});	
 		}
 	});
-	
+	$(".checkout a").attr("href","${pageContext.request.contextPath}"+"/product/product.do?action=CHECKOUT");
 });
 
 </script>

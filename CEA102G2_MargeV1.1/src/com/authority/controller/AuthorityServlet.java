@@ -76,6 +76,10 @@ public class AuthorityServlet extends HttpServlet {
 				authSvc.deleteAuthority(staNo, funcNo);
 				authVO = authSvc.addAuthority(staNo, funcNo);
 				List<AuthorityVO> list=authSvc.getAllByStaNo(staNo);
+				StaffService staSvc = new StaffService();
+				StaffVO staVO = staSvc.getOneStaff(staNo);
+				
+				req.setAttribute("staVO", staVO);
 				req.setAttribute("list", list);
 				/*************************** 3.新增完成,準備轉交(Send the Success view) ***********/
 				String url = "/back-end/Authority/listAll_auth.jsp";
@@ -108,8 +112,12 @@ public class AuthorityServlet extends HttpServlet {
 	            }
 				
 				String staAcct = req.getParameter("staAcct");
-
 				
+				StaffService staSvc = new StaffService();
+				StaffVO staVO2 = staSvc.getOneStaff(staAcct);
+				if(staVO2 != null) {
+					errorMsgs.add("此信箱已被使用");
+				}
 
 				StaffVO staVO = new StaffVO();
 				staVO.setStaName(staName);
@@ -129,7 +137,7 @@ public class AuthorityServlet extends HttpServlet {
 					return;
 				}
 					
-				StaffService staSvc = new StaffService();
+				
 				MailServiceStaff ms = new MailServiceStaff();
 	
 				String subject = "密碼通知";
@@ -139,8 +147,8 @@ public class AuthorityServlet extends HttpServlet {
 							+ "------------------------\r\n" + "Username: " + staName + "\r\n" + "Password: " + staPswd
 							+ "\r\n" + "------------------------\r\n" + "  \r\n";
 				ms.sendMail(staAcct, subject, messageText);
-
-				staVO = staSvc.addStaff(staAcct, staPswd,staName);
+				Integer staStasus = new Integer("1");
+				staVO = staSvc.addStaff(staAcct, staPswd,staName,staStasus);
 				
 				
 				
@@ -156,13 +164,13 @@ public class AuthorityServlet extends HttpServlet {
 				AuthorityService authSvc = new AuthorityService();
 				
 				authSvc.deleteAuthority(staNo);
-System.out.println(staNo.getClass());
+
 				Integer funcNo = null;
 				if (str2 != null) {
 					for (int i = 0; i < str2.length; i++) {
 						try {
 							funcNo = new Integer(str2[i]);
-System.out.println(funcNo);
+
 						} catch (Exception e) {
 							errorMsgs.add("功能代碼不正確");
 						}
@@ -209,7 +217,10 @@ System.out.println(funcNo);
 				AuthorityService authSvc = new AuthorityService();
 				authSvc.deleteAuthority(staNo,funcNo);
 				List<AuthorityVO> list=authSvc.getAllByStaNo(staNo);
+				StaffService staSvc = new StaffService();
+				StaffVO staVO = staSvc.getOneStaff(staNo);
 				req.setAttribute("list", list);
+				req.setAttribute("staVO", staVO);
 
 				/*************************** 3.刪除完成,準備轉交(Send the Success view) ***********/
 				String url = null;
@@ -241,8 +252,12 @@ System.out.println(funcNo);
 				
 				/*************************** 2.開始查詢資料 ***************************************/
 				AuthorityService authSvc = new AuthorityService();
+				StaffService staSvc = new StaffService();
+				StaffVO staVO = staSvc.getOneStaff(staNo);
+				
 				List<AuthorityVO> list=authSvc.getAllByStaNo(staNo);
 				req.setAttribute("list", list);
+				req.setAttribute("staVO", staVO);
 
 				/*************************** 3.刪除完成,準備轉交(Send the Success view) ***********/
 				String url = "/back-end/Authority/listAll_auth.jsp";
