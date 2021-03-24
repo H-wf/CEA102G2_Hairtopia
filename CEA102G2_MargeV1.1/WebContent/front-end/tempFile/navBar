@@ -45,6 +45,10 @@
                             <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
                             	設定
                         </a>
+                        <a class="dropdown-item" href="<%=request.getContextPath()%>/front-end/designer/addDesAndSal.jsp">
+                            <i class="fas fa-cut mr-2"></i>
+                            	成為設計師
+                        </a>
                         <a class="dropdown-item" href="#">
                             <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
                             Activity Log
