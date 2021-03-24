@@ -51,10 +51,19 @@
   <li><a href="<%=request.getContextPath()%>/back-end/Cosdetail/listAllCosdetail.jsp">List</a> all Cosdetail.  <br><br></li>
   
   <li>
-    <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/coudet/coudet.do" >
+    <FORM METHOD="get" ACTION="<%=request.getContextPath()%>/coudet/coudet.do" >
         <b>輸入課程編號(如1):</b>
         <input type="text" name="cosNo">
         <input type="hidden" name="action" value="getOne_For_Display">
+        <input type="submit" value="送出">
+    </FORM>
+  </li>
+  
+  <li>
+    <FORM METHOD="get" ACTION="<%=request.getContextPath()%>/coudet/coudet.do" >
+        <b>輸入會員編號(如1):</b>
+        <input type="text" name="memNo">
+        <input type="hidden" name="action" value="getMemsCos_For_Display">
         <input type="submit" value="送出">
     </FORM>
   </li>
@@ -75,6 +84,31 @@
   </li>
 
 </ul>
+
+<jsp:useBean id="cosSvc" scope="page" class="com.cos.model.CosService"/>
+
+
+<%-- <h3>多條件查詢：</font></h3>
+<ul>  
+  <li>   
+    <FORM METHOD="get" ACTION="<%=request.getContextPath()%>/coudet/coudet.do" name="form1">
+        <b></b><br>
+        <b>輸入課程編號：</b>
+        <select size="1" name="cosNo" >
+          <option value="">
+         <c:forEach var="cosVO" items="${cosSvc.all}" > 
+          <option value="${cosVO.getCosNo()}">${cosVO.getCosName()}
+         </c:forEach>
+       </select><br>
+           
+       <b>輸入會員編號：</b>
+       <input type="text" name="memNo" value=""><br>
+		        
+        <input type="submit" value="送出">
+        <input type="hidden" name="action" value="listCos_ByCompositeQuery">
+     </FORM>
+  </li>
+</ul>--%>
 
 <h3>課程明細管理：</h3>
 

@@ -49,7 +49,7 @@ public class PostService {
 		postVO.setPostPic1(postPic1);
 		postVO.setPostStatus(postStatus);
 
-		postVO = dao.insert3(postVO);
+    postVO = dao.insert3(postVO);
 
 		return postVO;
 	}

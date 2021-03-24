@@ -2,6 +2,7 @@ package com.coudet.model;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 
 import com.cos.model.CosVO;
 
@@ -48,7 +49,7 @@ public class CosdetService {
 			return dao.getAll();
 		}
 
-		public CosdetVO getOneCosDet(Integer cosNo) {
+		public List<CosdetVO> getOneCosDet(Integer cosNo) {
 			return dao.findByPrimaryKey(cosNo);
 		}
 		
@@ -57,7 +58,8 @@ public class CosdetService {
 			CosdetVO cosdetVO = new CosdetVO();
 			
 			cosdetVO.setCosNo(cosNo);
-			cosdetVO.setMemNo(memNo);
+			cosdetVO.setMemNo(1000);
+			System.out.println("cosdetService no.61 先設死：" + 1000);
 			cosdetVO.setCosDetailPrice(cosDetailPrice);
 			dao.insertNoComment(cosdetVO);
 
@@ -96,5 +98,14 @@ public class CosdetService {
 
 			return cosVO;
 		}
+		
+//		public CosdetVO findOneCosByCosNo(Integer cosNo) {
+//			return dao.findOneCosByCosNo(cosNo);
+//		}
+		
+		public CosdetVO findQRCodeByCosNoAndCosNo(Integer cosNo, Integer memNo) {
+			return dao.findQRCodeByCosNoAndCosNo(cosNo, memNo);
+		}
+		
 }
 

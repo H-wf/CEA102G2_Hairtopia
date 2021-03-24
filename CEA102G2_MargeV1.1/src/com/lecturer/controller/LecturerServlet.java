@@ -40,7 +40,7 @@ public class LecturerServlet extends HttpServlet {
 		String action = req.getParameter("action");
 		
 
-		if ("getOne_For_Display".equals(action)) { // 來自select_lec_page.jsp的請求
+		if ("getOne_For_Display".equals(action) || "getOne_For_Display_front".equals(action)) { // 來自select_lec_page.jsp的請求
 
 			List<String> errorMsgs = new LinkedList<String>();
 			// Store this set in the request scope, in case we need to
@@ -87,7 +87,12 @@ public class LecturerServlet extends HttpServlet {
 
 				/*************************** 3.查詢完成,準備轉交(Send the Success view) *************/
 				req.setAttribute("lecVO", lecVO); // 資料庫取出的lecVO物件,存入req
-				String url = "/back-end/Lecturer/listOneLec.jsp";
+				String url ="" ;
+				if("getOne_For_Display".equals(action)) {
+					url ="/back-end/Lecturer/listOneLec.jsp";
+				}else if("getOne_For_Display_front".equals(action)) {
+					url ="/front-end/Lecturer/lecturerPage.jsp";
+				}
 				RequestDispatcher successView = req.getRequestDispatcher(url); // 成功轉交 listOneLec.jsp
 				successView.forward(req, res);
 
@@ -218,7 +223,7 @@ public class LecturerServlet extends HttpServlet {
 
 				/*************************** 3.修改完成,準備轉交(Send the Success view) *************/
 				req.setAttribute("lecVO", lecVO); // 資料庫update成功後,正確的的lecVO物件,存入req
-				String url = "/back-end/Lecturer/listOneLec.jsp";
+				String url = "/back-end/Lecturer/listAll_lec.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url); // 修改成功後,轉交listOneLec.jsp
 				successView.forward(req, res);
 
@@ -273,7 +278,10 @@ public class LecturerServlet extends HttpServlet {
 				byte[] lecPic = null;
 				try {
 					Part part = req.getPart("upfile1");
-				
+					
+					if(part.getSize() == 0) {
+						errorMsgs.add("請上傳照片");
+					}
 					InputStream is = part.getInputStream();
 					lecPic = new byte[is.available()];
 					is.read(lecPic);
@@ -281,8 +289,7 @@ public class LecturerServlet extends HttpServlet {
 					}catch (Exception e) {
 						errorMsgs.add("有問題");
 					}
-					if(lecPic.length == 0)
-					lecPic = null;	
+					
 					LecturerVO lecVO = new LecturerVO();
 					lecVO.setLecName(lecName);
 					lecVO.setLecPic(lecPic);

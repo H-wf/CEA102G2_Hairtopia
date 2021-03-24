@@ -37,6 +37,7 @@ img {
 			<th>員工編號</th>
 			<th>員工姓名</th>
 			<th>員工帳號</th>
+			<th>狀態</th>
 	
 			
 				
@@ -44,8 +45,24 @@ img {
 		<tr> 
 			<td>${staVO.staNo}</td>
 			<td>${staVO.staName}</td>
-			<td>${staVO.staAcct}</td>
-			
+			<td>${staVO.staAcct}</td>		
+			<td>${staVO.staStatus== 0 ? "離職" : "在職"}</td>	
+		</tr>
+		<tr>
+			<td>
+					<FORM METHOD="post"
+						ACTION="<%=request.getContextPath()%>/staff/staff.do"
+						style="margin-bottom: 0px;">
+						<input type="submit" value="離職"> <input type="hidden"
+							name="staNo" value="${staVO.staNo}"> 
+						<input
+							type="hidden" name="action" value="updateForResign">
+						<input
+							type="hidden" name="staStatus" value="0">
+					</FORM>
+				</td>
+		
+		
 		</tr>
 
 

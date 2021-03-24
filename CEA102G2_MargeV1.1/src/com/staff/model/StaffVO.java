@@ -27,7 +27,18 @@ public class StaffVO implements java.io.Serializable{
 	private String  staAcct;
 	private String  staPswd;
 	private String  staName;
+	private Integer staStatus;
+	
+	
 
+	@Column(name = "staStatus")
+	public Integer getStaStatus() {
+		return staStatus;
+	}
+
+	public void setStaStatus(Integer staStatus) {
+		this.staStatus = staStatus;
+	}
 
 	public StaffVO () {}
 	

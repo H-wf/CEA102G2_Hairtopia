@@ -14,12 +14,12 @@
 <html lang="en">
 
 <head>
-    <title>Hairtopia</title>
-    <meta charset="utf-8">
-	<%@include file="/front-end/tempFile/head" %>
+<title>Hairtopia</title>
+<meta charset="utf-8">
+<%@include file="/front-end/tempFile/head"%>
 </head>
 <style>
-.slick-prev:before, .slick-next:before{
+.slick-prev:before, .slick-next:before {
 	color: #D8CF9E;
 	font-size: 25px;
 }
@@ -35,7 +35,79 @@
 	width: 100%;
 }
 </style>
+<style>
+.ftco-navbar-light {
+	position: static;
+}
 
+/* postCSS */
+@media ( min-width : 576px) {
+	.card-columns {
+		column-count: 2;
+	}
+}
+
+@media ( min-width : 768px) {
+	.card-columns {
+		column-count: 4;
+	}
+}
+
+@media ( min-width : 992px) {
+	.card-columns {
+		column-count: 4;
+	}
+}
+
+@media ( min-width : 1200px) {
+	.card-columns {
+		column-count: 4;
+	}
+}
+
+.post {
+	padding-left: 8em;
+	padding-right: 7em;
+}
+
+.card:hover {
+	transform: scale(1.05);
+	box-shadow: 0 10px 20px rgba(0, 0, 0, .12), 0 4px 8px rgba(0, 0, 0, .06);
+}
+/* postCSS END */
+
+/* Whole post Css */
+#postModal .modal-dialog {
+	max-width: 70%;
+}
+
+#postModal .close {
+	margin-top: -15px;
+	margin-right: -10px;
+}
+
+div.comDisplay {
+	overflow-y: auto;
+	height: 300px;
+}
+
+img {
+	max-width: 100%;
+}
+
+#tags div {
+	text-transform: uppercase;
+	display: inline-block;
+	padding: 4px 10px;
+	margin-bottom: 7px;
+	margin-right: 4px;
+	border-radius: 4px;
+	color: #000;
+	border: 1px solid #e6e6e6;
+	font-size: 11px;
+}
+/* Whole post Css END */
+</style>
 <body>
 <%@include file="/front-end/tempFile/navBar" %>
 
@@ -144,7 +216,7 @@
                                 <p class="mb-4">潮・無需等待。<br>Hairtopia髮品商城，下訂前到貨，<br>均一價8888。</p>
                             </div>
                             <div id="infoBtn">
-                                <a href="#" class="btn btn-primary d-block px-2 py-4"> 前往商城 </a>
+                                <a href="<%=request.getContextPath()%>/front-end/product/EShop2.jsp" class="btn btn-primary d-block px-2 py-4"> 前往商城 </a>
                             </div>
                         </div>
                     </div>
@@ -333,8 +405,8 @@
 <!-- end Hot Trand -->
 </div>
 <!-- Page Content END -->
-<%@include file="/front-end/tempFile/footer" %>
-<%@include file="/front-end/tempFile/tempJs" %>
+<%@include file="/front-end/tempFile/footer"%>
+<%@include file="/front-end/tempFile/tempJs"%>
 
 </body>
 <script>
@@ -345,6 +417,9 @@ $('.slidemove').slick({
 	  autoplay: true,
 	  autoplaySpeed: 2000,
 	});
-</script>
+	
+	
+	
 
+</script>
 </html>

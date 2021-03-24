@@ -540,6 +540,7 @@ public class CosDAO implements CosDAO_interface{
 				cosVO = new CosVO();
 				cosVO.setCosNo(rs.getInt("cosNo"));
 				System.out.println(rs.getInt("cosNo"));
+				System.out.println("cosDAO NO.543 ===============");
 				cosVO.setLecNo(rs.getInt("lecNo"));
 				cosVO.setCosTypeNo(rs.getInt("cosTypeNo"));
 				cosVO.setCosFrom(rs.getTimestamp("cosFrom"));

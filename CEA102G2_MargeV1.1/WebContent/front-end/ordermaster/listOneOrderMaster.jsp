@@ -9,10 +9,12 @@
 <html>
 <head>
 <title>訂單資料 - listOneOrderMaster.jsp</title>
-
+<%@include file="/front-end/tempFile/head" %>
 </head>
 <body bgcolor='white'>
-
+<%@include file="/front-end/tempFile/navBar" %>
+<!-- Begin Page Content -->
+<div class="container-fluid px-0">
 <h4>此頁暫練習採用 Script 的寫法取值:</h4>
 <table id="table-1">
 	<tr><td>
@@ -28,6 +30,10 @@
 		<th>訂購日期</th>
 		<th>訂單狀態</th>
 		<th>總金額</th>
+		<th>收件人姓名</th>
+		<th>收件人信箱</th>
+		<th>收件人手機</th>
+		<th>收件人地址</th>
 	</tr>
 	<tr>
 		<td>${ordermasterVO.ordNo}</td>
@@ -35,9 +41,16 @@
 		<td>${ordermasterVO.ordDate}</td>
 		<td>${ordermasterVO.ordStatus}</td>
 		<td>${ordermasterVO.ordAmt}</td>
+		<td>${ordermasterVO.ordName}</td>
+		<td>${ordermasterVO.ordEmail}</td>
+		<td>${ordermasterVO.ordPhone}</td>
+		<td>${ordermasterVO.ordAddr}</td>
 	</tr>
 
 </table>
-
+</div>
+<!-- Page Content END -->
+<%@include file="/front-end/tempFile/footer" %>
+<%@include file="/front-end/tempFile/tempJs" %>
 </body>
 </html>

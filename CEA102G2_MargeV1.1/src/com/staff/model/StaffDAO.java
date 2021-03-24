@@ -30,15 +30,11 @@ public class StaffDAO implements StaffDAO_interface {
 			e.printStackTrace();
 		}
 	}
-	private static final String INSERT_STMT = "INSERT INTO Staff (staAcct,staPswd,staName) VALUES (?, ?,?)";
-	private static final String DELETE = "DELETE FROM staff where staNo = ?";
-	private static final String UPDATE = "UPDATE staff set staAcct=?, staPswd=?,staName=? where staNo = ?";
-	private static final String VALIDATE_STMT = "SELECT * FROM staff WHERE staAcct=? AND staPswd=?";
 
 
 	private static final String GET_ALL_STMT = " FROM StaffVO order by staNo";
 	private static final String GET_ONE_STMT = "SELECT staNo,staName,staAcct,staPswd FROM staff where staAcct=? and staPswd=?";
-
+	private static final String GET_ONE_STMT_Acct = "SELECT staNo,staName,staAcct,staPswd FROM staff where staAcct=?";
 
 	@Override
 	public Object insert(StaffVO staVO) {
@@ -108,6 +104,8 @@ public class StaffDAO implements StaffDAO_interface {
 		}
 		return staffVO;
 	}
+	
+
 
 
 
@@ -135,17 +133,22 @@ public List<StaffVO> getAll() {
 	public static void main(String[] args) {
 		StaffDAO dao = new StaffDAO();
 		
-		List<StaffVO> list2 = dao.getAll();
-		for (StaffVO aDept : list2) {
-			System.out.print(aDept.getStaNo() + ",");
-			System.out.print(aDept.getStaName() + ",");
-			System.out.print(aDept.getStaAcct());
-			System.out.print(aDept.getStaPswd());
-			System.out.println("\n-----------------");
-			
-			
-			}
-			System.out.println();
+//		List<StaffVO> list2 = dao.getAll();
+//		for (StaffVO aDept : list2) {
+//			System.out.print(aDept.getStaNo() + ",");
+//			System.out.print(aDept.getStaName() + ",");
+//			System.out.print(aDept.getStaAcct());
+//			System.out.print(aDept.getStaPswd());
+//			System.out.println("\n-----------------");
+//			
+//			
+//			}
+//			System.out.println();
+		//修改 狀態 先查再改
+		StaffVO staVo= dao.findByPrimaryKey(1);
+		staVo.setStaNo(1);
+		staVo.setStaStatus(0);
+		dao.update(staVo);
 		}
 
 
@@ -207,36 +210,41 @@ public List<StaffVO> getAll() {
 		}
 		return staVO;
 	}
-		
-	
 
 
 
-	
 	@Override
-	public StaffVO validate(String staAcct, String staPswd) {
-		StaffVO staffVO = null;
+	public StaffVO findByPrimaryKey(String staAcct) {
+		StaffVO staVO = null;
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 
 		try {
+
 			con = ds.getConnection();
-			pstmt = con.prepareStatement(VALIDATE_STMT);
-			
+			pstmt = con.prepareStatement(GET_ONE_STMT_Acct);
+
 			pstmt.setString(1, staAcct);
-			pstmt.setString(2, staPswd);
+		
 
 			rs = pstmt.executeQuery();
-			
-			while(rs.next()) {
-				staffVO = new StaffVO();
-				staffVO.setStaNo(rs.getInt("staNo"));
-				staffVO.setStaAcct(rs.getString("staPswd"));
-				staffVO.setStaName(rs.getString("staName"));
+
+			while (rs.next()) {
+				// empVo 也稱為 Domain objects
+				staVO = new StaffVO();
+				staVO.setStaNo(rs.getInt("staNo"));
+				staVO.setStaName(rs.getString("staName"));
+				staVO.setStaAcct(rs.getString("staAcct"));
+				staVO.setStaPswd(rs.getString("staPswd"));
+				
+
 			}
-		}catch (SQLException se) {
+
+			// Handle any driver errors
+		} catch (SQLException se) {
 			throw new RuntimeException("A database error occured. " + se.getMessage());
+			// Clean up JDBC resources
 		} finally {
 			if (rs != null) {
 				try {
@@ -260,6 +268,17 @@ public List<StaffVO> getAll() {
 				}
 			}
 		}
-		return staffVO;
+		return staVO;
 	}
+		
+	
+
+
+
+//	@Override
+//	public Set<AuthorityVO> getAuthorByStaNo(Integer staNo) {
+//		// TODO Auto-generated method stub
+//		return null;
+//	}
+
 }
