@@ -60,7 +60,7 @@
 											Follow
 										</c:when>
 										<c:otherwise>
-											${followSvc.isfollowing(memVO.memNo,designerVO.desNo) ==true?"Unfollow":"Follow"}
+											${followSvc.isfollowing(userSession.memNo,designerVO.desNo) ==true?"Unfollow":"Follow"}
 										</c:otherwise>
 									</c:choose>
 									</div>

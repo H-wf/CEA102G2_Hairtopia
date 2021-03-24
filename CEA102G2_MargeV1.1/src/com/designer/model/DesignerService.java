@@ -47,11 +47,11 @@ public class DesignerService {
 		return dao.findByDesNo(desNo);
 	}
 	
-	public DesignerVO updateOneStatus(Date desEndDate, Integer desStatus, Integer desNo) {
+	public DesignerVO updateOneStatus( Integer desStatus, Integer desNo) {
 		
 		DesignerVO designerVO = new DesignerVO();
 		
-		designerVO.setDesEndDate(desEndDate);
+	
 		designerVO.setDesStatus(desStatus);
 		designerVO.setDesNo(desNo);
 		
@@ -128,7 +128,7 @@ public class DesignerService {
 		Set<Integer> index = new HashSet<Integer>();
 		
 		while(index.size()<5){
-			int x = (int) (Math.random()*allDes.size())+1;
+			int x = (int) (Math.random()*allDes.size());
 			index.add(x);
 		}
 		while(reDes.size()<5) {
@@ -138,6 +138,4 @@ public class DesignerService {
 		}
 		return reDes;
 	}
-	
-
 }

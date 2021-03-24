@@ -34,12 +34,19 @@
 		<td>${cosdetVO.cosDetailPrice}</td>
 		<td>
 			  <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/coudet/coudet.do" style="margin-bottom: 0px;" >
-			     <input type="submit" value="修改分數">
+			     <input type="submit" value="評分">
 			     <input type="hidden" name="cosNo"  value="${cosdetVO.getCosNo()}">
 			     <input type="hidden" name="memNo"  value="${cosdetVO.getMemNo()}">
 			     <input type="hidden" name="cosComment"  value="${cosdetVO.getCosComment()}">
 			     <input type="hidden" name="action"	value="getOneCos_For_UpdateRate"></FORM>
-			</td>
+		</td>
+		<td>
+			  <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/coudet/coudet.do" style="margin-bottom: 0px;" >
+			     <input type="submit" value="查詢QRCode">
+			     <input type="hidden" name="cosNo"  value="${cosdetVO.getCosNo()}">
+			     <input type="hidden" name="memNo"  value="${cosdetVO.getMemNo()}">
+			     <input type="hidden" name="action"	value="ShowQRCodeByCosNoAndMemNo"></FORM>
+		</td>
 		</tr>
 	</tr>
 	</c:forEach>

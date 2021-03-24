@@ -45,7 +45,7 @@
 	    <th style="width: 10rem" valign="middle">報名課程價格</th>
 	</tr></table>
 	
-<form action="<%=request.getContextPath()%>/cos/orderdetail.do" method="POST">		
+<form action="<%=request.getContextPath()%>/cos/order.do" method="POST">		
 
 <table id="mytb"style="width: 77.5rem">
 	<% @SuppressWarnings("unchecked")
@@ -81,9 +81,10 @@
                 <input placeholder="Full name" type="text" name="name">
                 <input placeholder="MM/YY" type="tel" name="expiry">
                 <input placeholder="CVC" type="number" name="cvc">
-                <input type="hidden" name="memNo" value="${memVO.memNo}"> 
-				<input type="hidden" name="action" value="SENDMAIL">
-				<input type="submit" value="送出結帳" id="checkoutbtn">
+                <input type="hidden" name="memNo" value="${cosVO.cosNo}">
+                <input type="hidden" name="memNo" value="${1000}"> 
+				<input type="hidden" name="action" value="SENDCOSDETAIL">
+				<input type="submit" value="送出結帳" class="button">
             </form>
         </div>
 </div>
@@ -95,7 +96,7 @@
 
 </div>
 <!-- Page Content END -->
-<%@include file="/front-end/tempFile/footer" %>
+
 <%@include file="/front-end/tempFile/tempJs" %>
 <script src="<%=request.getContextPath()%>/resource/card-master/dist/jquery.card.js"></script>
 <script>
