@@ -5,64 +5,55 @@
 <%
   CosVO cosVO = (CosVO) request.getAttribute("cosVO"); 
 %>
-<html>
+<!DOCTYPE html>
+<html lang="en">
+
 <head>
-<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
-<title>課程資料修改 - update_cos_input.jsp</title>
-
-<style>
-  table#table-1 {
-	background-color: #CCCCFF;
-    border: 2px solid black;
-    text-align: center;
-  }
-  table#table-1 h4 {
-    color: red;
-    display: block;
-    margin-bottom: 1px;
-  }
-  h4 {
-    color: blue;
-    display: inline;
-  }
-</style>
-
-<style>
-  table {
-	width: 450px;
-	background-color: white;
-	margin-top: 1px;
-	margin-bottom: 1px;
-  }
-  table, th, td {
-    border: 0px solid #CCCCFF;
-  }
-  th, td {
-    padding: 1px;
-  }
-</style>
-
+    <title>課程資料修改</title>
+    <meta charset="utf-8">
+<%@include file="/back-end/tempFile/head" %>
 </head>
-<body bgcolor='white'>
+
+<style>
+
+#mytb{
+	font-size:0.6rem;
+}
+
+#mytb td{
+	height:30%;
+}
+#table-1 h4{
+	color:black; font-family: "Open Sans", Arial, sans-serif;
+}
+
+</style>
+
+<body id="page-top">
+<%@include file="/back-end/tempFile/navBar_sideBar" %>
+
+<!-- Begin Page Content -->
+<div class="container-fluid">
 
 <table id="table-1">
-	<tr><td>
-		 <h3>課程資料修改 - update_cos_input.jsp</h3>
-		 <h4><a href="<%= request.getContextPath()%>/back-end/Cos/select_cos_page.jsp"><img src="<%= request.getContextPath()%>/resource/images/back1.gif" width="100" height="32" border="0">回首頁</a></h4>
-	</td></tr>
+	<tr>
+	<td><h3>所有報名中課程</h3></td>
+	<td><h5><a href="<%=request.getContextPath()%>/back-end/Cos/select_cos_page.jsp">回後台主頁</a></h5></td>
+	</tr>
 </table>
-
-<h3>資料修改:</h3>
 
 <%-- 錯誤表列 --%>
 <c:if test="${not empty errorMsgs}">
-	<font style="color:red">請修正~~以下錯誤:</font>
+	<font style="color:red">請修正以下錯誤:</font>
 	<ul>
 		<c:forEach var="message" items="${errorMsgs}">
 			<li style="color:red">${message}</li>
 		</c:forEach>
 	</ul>
 </c:if>
+
+<jsp:useBean id="lecSvc" scope="page" class="com.lecturer.model.LecturerService" />
+<jsp:useBean id="costypeSvc" scope="page" class="com.coutype.model.CostypeService"/>
 
 <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/cos/cos.do" name="form1" enctype="multipart/form-data">
 <table>
@@ -72,11 +63,21 @@
 	</tr>
 	<tr>
 		<td>講師編號:</td>
-		<td><input type="TEXT" name="lecNo" size="45" value="<%=cosVO.getLecNo()%>" /></td>
+		<td><select size="1" name="lecNo" >
+          <option value="">
+         <c:forEach var="LecturerVO" items="${lecSvc.all}" > 
+          <option value="${LecturerVO.getLecNo()}">${LecturerVO.getLecName()}
+         </c:forEach>
+       </select><br></td>
 	</tr>
 	<tr>
 		<td>課程類別編號:</td>
-		<td><input type="TEXT" name="cosTypeNo" size="45" value="<%=cosVO.getCosTypeNo()%>" /></td>
+		<td><select size="1" name="cosTypeNo" >
+          <option value="">
+         <c:forEach var="costypeVO" items="${costypeSvc.all}" > 
+          <option value="${costypeVO.getCosTypeNo()}">${costypeVO.getCosTypeName()}
+         </c:forEach>
+       </select><br></td>
 	</tr>
 	<tr>
 		<td>上課起:</td>
@@ -149,9 +150,9 @@
 
 <!-- =========================================以下為 datetimepicker 之相關設定========================================== -->
 
-<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/datetimepicker/jquery.datetimepicker.css" />
-<script src="<%=request.getContextPath()%>/datetimepicker/jquery.js"></script>
-<script src="<%=request.getContextPath()%>/datetimepicker/jquery.datetimepicker.full.js"></script>
+<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/resource/datetimepicker/jquery.datetimepicker.css" />
+<script src="<%=request.getContextPath()%>/resource/datetimepicker/jquery.js"></script>
+<script src="<%=request.getContextPath()%>/resource/datetimepicker/jquery.datetimepicker.full.js"></script>
 
 <style>
   .xdsoft_datetimepicker .xdsoft_datepicker {
@@ -198,4 +199,11 @@
   		   });
 
 </script>   
+
+<!-- Page Content END -->
+                
+<%@include file="/back-end/tempFile/footer" %>
+<%@include file="/back-end/tempFile/srcJs" %>
+</body>
+
 </html>       
