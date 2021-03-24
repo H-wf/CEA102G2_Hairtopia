@@ -130,9 +130,15 @@ public class CostypeServlet extends HttpServlet {
 					CostypeVO costypeVO = costypeSvc.getOneCosType(cosTypeNo);
 
 					req.setAttribute("costypeVO", costypeVO);
-					String url = "/back-end/Costype/update_costype_input.jsp";
+					
+					boolean openModal=true;
+					req.setAttribute("openModal",openModal );
+					
+					
+					String url = "/back-end/Costype/listAllCostype.jsp";
 					RequestDispatcher successView = req.getRequestDispatcher(url);
 					successView.forward(req, res);
+					return;
 				} catch (Exception e) {
 					errorMsgs.add("getOne_For_Update：有errorMsgs發生" + e.getMessage());
 					RequestDispatcher failureView = req
@@ -153,11 +159,15 @@ public class CostypeServlet extends HttpServlet {
 					String cosTypeName = req.getParameter("cosTypeName");
 					if (cosTypeName == null || cosTypeName.trim().length() == 0) {
 						errorMsgs.add("update：cosTypeName出現null");
-					}			
+					}else if(cosTypeName.length() >= 18) {
+						errorMsgs.add("update：cosTypeName長度超過限制");
+					}
 					
 					String cosTypeIntro = req.getParameter("cosTypeIntro");
 					if (cosTypeIntro == null || cosTypeIntro.trim().length() == 0) {
 						errorMsgs.add("update：cosTypeIntro出現null");
+					}else if(cosTypeName.length() >= 180) {
+						errorMsgs.add("update：cosTypeIntro長度超過限制");
 					}					
 					
 					CostypeVO costypeVO = new CostypeVO();
@@ -169,7 +179,9 @@ public class CostypeServlet extends HttpServlet {
 					if (!errorMsgs.isEmpty()) {
 						req.setAttribute("costypeVO", costypeVO);
 						RequestDispatcher failureView = req
-								.getRequestDispatcher("/back-end/Costype/update_costype_input.jsp");
+								.getRequestDispatcher("/back-end/Costype/listAllCostype.jsp");
+						boolean openModal=true;
+						req.setAttribute("openModal",openModal);
 						failureView.forward(req, res);
 						return;
 					}
@@ -179,14 +191,14 @@ public class CostypeServlet extends HttpServlet {
 					costypeVO = costypeSvc.updateCosType(cosTypeNo, cosTypeName, cosTypeIntro);
 							
 					req.setAttribute("costypeVO", costypeVO);
-					String url = "/back-end/Costype/listOneCostype.jsp";
+					String url = "/back-end/Costype/listAllCostype.jsp";
 					RequestDispatcher successView = req.getRequestDispatcher(url);
 					successView.forward(req, res);
 
 				} catch (Exception e) {
 					errorMsgs.add("update：有errorMsgs發生"+e.getMessage());
 					RequestDispatcher failureView = req
-							.getRequestDispatcher("/back-end/Costype/update_costype_input.jsp");
+							.getRequestDispatcher("/back-end/Costype/listAllCostype.jsp");
 					failureView.forward(req, res);
 				}
 			}
@@ -201,11 +213,15 @@ public class CostypeServlet extends HttpServlet {
 					String cosTypeName = req.getParameter("cosTypeName");
 					if (cosTypeName == null || cosTypeName.trim().length() == 0) {
 						errorMsgs.add("insert：cosTypeName出現null");
-					}			
+					}else if(cosTypeName.length() >= 18) {
+						errorMsgs.add("insert：cosTypeName長度超過限制");
+					}
 					
 					String cosTypeIntro = req.getParameter("cosTypeIntro");
 					if (cosTypeIntro == null || cosTypeIntro.trim().length() == 0) {
 						errorMsgs.add("insert：cosTypeIntro出現null");
+					}else if(cosTypeIntro.length() >= 180) {
+						errorMsgs.add("insert：cosTypeIntro長度超過限制");
 					}					
 					
 					CostypeVO costypeVO = new CostypeVO();
@@ -215,7 +231,9 @@ public class CostypeServlet extends HttpServlet {
 					if (!errorMsgs.isEmpty()) {
 						req.setAttribute("costypeVO", costypeVO);
 						RequestDispatcher failureView = req
-								.getRequestDispatcher("/back-end/Costype/addCostype.jsp");
+								.getRequestDispatcher("/back-end/Costype/listAllCostype.jsp");
+						boolean openModal=true;
+						req.setAttribute("openModal",openModal);
 						failureView.forward(req, res);
 						return;
 					}
@@ -229,7 +247,7 @@ public class CostypeServlet extends HttpServlet {
 				} catch (Exception e) {
 					errorMsgs.add(e.getMessage());
 					RequestDispatcher failureView = req
-							.getRequestDispatcher("/back-end/Costype/addCostype.jsp");
+							.getRequestDispatcher("/back-end/Costype/listAllCostype.jsp");
 					failureView.forward(req, res);
 				}
 			}
