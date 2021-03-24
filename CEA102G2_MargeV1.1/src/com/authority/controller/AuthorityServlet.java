@@ -189,11 +189,11 @@ public class AuthorityServlet extends HttpServlet {
 					}
 
 					List<AuthorityVO> list=authSvc.getAllByStaNo(staNo);
-					req.setAttribute("list", list);
-					req.setAttribute("staVO", staVO);
+//					req.setAttribute("list", list);
+//					req.setAttribute("staVO", staVO);
 				}
 				/*************************** 3.新增完成,準備轉交(Send the Success view) ***********/
-				String url = "/back-end/Authority/listAll_auth.jsp";
+				String url = "/back-end/Staff/listAll_sta.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url); // 新增成功後轉交listAll_lec.jsp
 				successView.forward(req, res);
 				/*************************** 其他可能的錯誤處理 **********************************/

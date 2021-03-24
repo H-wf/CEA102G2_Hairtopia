@@ -123,7 +123,7 @@ public class CommentDAO implements CommentDAO_Interface{
 			con = ds.getConnection();
 			
 			pstmt = con.prepareStatement(DELETE);
-			pstmt.setBoolean(1, commentVo.isComStatus());
+			pstmt.setBoolean(1, false);
 			pstmt.setInt(2, commentVo.getComNo());
 			
 			pstmt.executeUpdate();

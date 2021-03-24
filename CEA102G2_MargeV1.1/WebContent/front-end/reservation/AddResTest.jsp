@@ -341,7 +341,7 @@
 	<input type="hidden" name="serNo" value="${serviceVO.serNo}">
 	<input type="hidden" name="resDate" id="resDate">
     <input type="hidden" name="resTime" id="resTime">
-    <input type="hidden" name="memNo" value="${sessionScope.memVO.memNo}">
+    <input type="hidden" name="memNo" value="${sessionScope.userSession.memNo}">
     </div>
    
     </FORM>

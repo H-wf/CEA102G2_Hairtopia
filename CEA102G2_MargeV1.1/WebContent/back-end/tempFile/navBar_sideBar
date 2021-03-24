@@ -1,4 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+
+
 <style>
 .fas{
 	color: #d8cf9e !important;
@@ -65,7 +67,7 @@
         <!-- Sidebar -->
         <ul class="navbar-nav sidebar sidebar-light accordion" id="accordionSidebar">
             <!-- Sidebar - Brand -->
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="<%=request.getContextPath()%>/back-end/indexBack.jsp">
                 <div class="sidebar-brand-icon">
                     <img src="<%=request.getContextPath()%>/dist/images/HairtopiaLogoBackEnd.png" height="50" alt="" align="left">
                 </div>
@@ -73,6 +75,7 @@
             <!-- Divider -->
             <hr class="sidebar-divider my-0">
             <!-- Nav Item - frontendmanagement Menu -->
+           <c:if test='${authList.contains("前台管理")}' >
             <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#frontendmanagement" aria-expanded="true" aria-controls="frontendmanagement">
                     <i class="fas fa-users"></i>
@@ -81,11 +84,13 @@
                 <div id="frontendmanagement" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <a class="collapse-item" href="##">會員管理</a>
-                        <a class="collapse-item" href="##">設計師管理</a>
+                        <a class="collapse-item" href="<%=request.getContextPath()%>/back-end/designer/listAllDesigner.jsp">設計師管理</a>
                     </div>
                 </div>
             </li>
+          	</c:if>
             <!-- Nav Item - shopmanagement Menu -->
+            <c:if test='${authList.contains("商城管理")}' >
             <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#shopmanagement" aria-expanded="true" aria-controls="shopmanagement">
                     <i class="fas fa-shopping-cart"></i>
@@ -100,7 +105,9 @@
                     </div>
                 </div>
             </li>
+            </c:if>
             <!-- Nav Item - coursemanagement Menu -->
+            <c:if test='${authList.contains("課程管理")}' >
             <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#coursemanagement" aria-expanded="true" aria-controls="coursemanagement">
                     <i class="fas fa-cut"></i>
@@ -110,11 +117,16 @@
                     <div class="bg-white py-2 collapse-inner rounded">
                         <a class="collapse-item" href="##">課程管理</a>
                         <a class="collapse-item" href="##">報名管理</a>
-                        <a class="collapse-item" href="##">講師名管理</a>
+                        <a class="collapse-item" href="##">課程訊息公告</a>
+                        <a class="collapse-item" href="<%=request.getContextPath()%>/back-end/Lecturer/listAll_lec.jsp">講師名單管理</a>
+                        <a class="collapse-item" href="<%=request.getContextPath()%>/back-end/Lecturer/addLec.jsp">新增講師</a>
                     </div>
                 </div>
             </li>
+            </c:if>
             <!-- Nav Item - teachermanagement Menu -->
+            <c:if test='${authList.contains("講師")}' >
+            <jsp:useBean id="lecSvcSB" scope="page" class="com.lecturer.model.LecturerService" />
             <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#teachermanagement" aria-expanded="true" aria-controls="teachermanagement">
                     <i class="fas fa-chalkboard-teacher"></i>
@@ -122,12 +134,14 @@
                 </a>
                 <div id="teachermanagement" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <a class="collapse-item" href="##">講師課程管理</a>
-                        <a class="collapse-item" href="##">課程訊息公告</a>
+                        <a class="collapse-item"href="<%=request.getContextPath()%>/lecturer/lecturer.do?action=getOne_For_Display&lecNo=${lecSvcSB.getOneLecturer2(sessionSta.staNo).lecNo}">查看課程清單</a>
+                       
                     </div>
                 </div>
             </li>
+            </c:if>
             <!-- Nav Item - staffmanagement Menu -->
+            <c:if test='${authList.contains("員工管理")}' >
             <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#staffmanagement" aria-expanded="true" aria-controls="staffmanagement">
                     <i class="fas fa-user-lock"></i>
@@ -135,12 +149,15 @@
                 </a>
                 <div id="staffmanagement" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <a class="collapse-item" href="##">員工資料管理</a>
-                        <a class="collapse-item" href="##">員工權限管理</a>
+                        <a class="collapse-item" href="<%=request.getContextPath()%>/back-end/Authority/addAuthMuti.jsp">新增員工</a>
+                        <a class="collapse-item" href="<%=request.getContextPath()%>/back-end/Staff/listAll_sta.jsp">員工資料管理</a>
+                        <a class="collapse-item" href="<%=request.getContextPath()%>/back-end/Staff/listAlltoResign.jsp">離職管理</a>
                     </div>
                 </div>
             </li>
+            </c:if>
             <!-- Nav Item - Pages Collapse Menu -->
+             <c:if test='${authList.contains("條款異動")}' >
             <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#rulemanagement" aria-expanded="true" aria-controls="rulemanagement">
                     <i class="fas fa-fw fa-cog"></i>
@@ -152,6 +169,7 @@
                     </div>
                 </div>
             </li>
+            </c:if>
             <!-- Sidebar Toggler (Sidebar) -->
             <div class="text-center d-none d-md-inline">
                 <button class="rounded-circle border-0" id="sidebarToggle"></button>
@@ -173,7 +191,7 @@
                         <!-- Nav Item - User Information -->
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">員工姓名</span>
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">${sessionSta.staName}</span>
                                 <img class="img-profile rounded-circle" src="<%=request.getContextPath()%>/dist/backTemp/img/undraw_profile.svg">
                             </a>
                             <!-- Dropdown - User Information -->
@@ -191,7 +209,7 @@
                                     Activity Log
                                 </a>
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
+                                <a class="dropdown-item" href="<%=request.getContextPath()%>/staff/staff.do?action=logout" >
                                     <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Logout
                                 </a>

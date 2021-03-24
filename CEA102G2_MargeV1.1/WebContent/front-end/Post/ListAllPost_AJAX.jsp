@@ -64,5 +64,9 @@
 <%@include file="/front-end/tempFile/tempJs" %>
 <script src="<%=request.getContextPath()%>/resource/js/postModal.js"></script>
 </body>
-
+<c:if test="${not empty wholePostMap}">
+	<script>
+			var wholePostMap = '${wholePostMap}';
+	</script>
+</c:if>
 </html>

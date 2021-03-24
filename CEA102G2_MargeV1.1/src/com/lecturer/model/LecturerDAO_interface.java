@@ -7,10 +7,10 @@ public interface LecturerDAO_interface {
 
 	public void update(LecturerVO lecVO);
 
-	public void delete(Integer lecno);
+	public void delete(Integer lecNo);
 
-	public LecturerVO findByPrimaryKey(Integer lecno);
-
+	public LecturerVO findByPrimaryKey(Integer lecNo);
+	public LecturerVO findByStaNo(Integer staNo);
 	public List<LecturerVO> getAll();
 	
 	public void update2(LecturerVO lecVO);
