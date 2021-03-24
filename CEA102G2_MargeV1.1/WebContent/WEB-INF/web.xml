@@ -25,7 +25,10 @@
 		<url-pattern>/front-end/Cos/Checkout.jsp</url-pattern>
 		<url-pattern>/front-end/Cos/LoginToRateCos.jsp</url-pattern>
 		<url-pattern>/front-end/Cos/RateCos.jsp</url-pattern>		
-		<dispatcher>REQUEST</dispatcher>
+		<url-pattern>/front-end/ordermaster/listAllOrderMaster.jsp</url-pattern>
+		<url-pattern>/front-end/reservation/AddResTest.jsp</url-pattern>		
+
+    <dispatcher>REQUEST</dispatcher>
 		<dispatcher>FORWARD</dispatcher>
 		<dispatcher>INCLUDE</dispatcher>
 		<dispatcher>ERROR</dispatcher>

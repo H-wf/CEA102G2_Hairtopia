@@ -33,7 +33,13 @@ margin-top:10px;
 .Weekday{
 padding:5px;
 }
- 
+ .list-group-item.active{
+	background-color:#D8CF9E;
+	border:0px;
+}
+.container-fluid{
+		margin:5rem 0;
+}
 
  </style>
 
@@ -47,19 +53,31 @@ padding:5px;
 
 <div class="row">
 
-<%-- 錯誤表列 --%>
-	<div class="col-md-3">
-	<c:if test="${not empty errorMsgs}">
-		<font style="color:red">請修正以下錯誤:</font>
-		<ul>
-			<c:forEach var="message" items="${errorMsgs}">
-				<li style="color:red">${message}</li>
-			</c:forEach>
-		</ul>
-	</c:if>
+	<div class="col-1"></div>
+	<div class="col-2">
+		<div class="list-group">
+<!-- 這邊要填超連結跟class		 -->
+  			<a href="<%=request.getContextPath()%>/service/service.do?action=queryByDesNo&desNo=${desSession.desNo}" class="list-group-item list-group-item-action">
+    			服務項目管理
+  			</a>
+  			<a href="<%=request.getContextPath()%>/reservation/res.do?action=queryByDesNo&desNo=${desSession.desNo}" class="list-group-item list-group-item-action">
+  				預約狀態管理
+  			</a>
+  			<a href="<%=request.getContextPath()%>/front-end/reservation/listScheduleOfDes.jsp" class="list-group-item list-group-item-action">
+  				查看預約行程
+  			</a>
+  			<a href="#" class="list-group-item list-group-item-action active">
+				個人資訊修改
+			</a>
+			<a href="" class="list-group-item list-group-item-action">
+				貼文狀態管理
+			</a>
+		</div>
+		
 	</div>
+	<div class="col-1"></div>
 	<div class="col-md-6">
-			<h3>設計師資料修改:</h3>
+			
 			<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/designer/designer.do" name="form1"
 				enctype="multipart/form-data">
 		<div class="card card-body">

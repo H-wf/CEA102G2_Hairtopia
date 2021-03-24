@@ -64,15 +64,15 @@
 			</tr>
 			<tr>
 				<td>貼文照片1</td>
-				<td><input type="file" name="upfile1" id="myFile"></td>
+				<td><input type="file" name="upfile1" id="myFile1"></td>
 			</tr>
 			<tr>
 				<td>貼文照片2</td>
-				<td><input type="file" name="upfile2" id="myFile"></td>
+				<td><input type="file" name="upfile2" id="myFile2"></td>
 			</tr>
 			<tr>
 				<td>貼文照片3</td>
-				<td><input type="file" name="upfile3" id="myFile"></td>
+				<td><input type="file" name="upfile3" id="myFile3"></td>
 			</tr>
 			<tr>
 				<td>是否隱藏</td>

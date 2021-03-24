@@ -26,7 +26,11 @@
 		position:static;
 	}
 	a{
-		text-decoration:none
+		text-decoration:none;
+		text-align:center
+	}
+	.checkDetail{
+		font-size:.8rem;
 	}
 	.btn-primary{
 		border:0px;
@@ -39,17 +43,19 @@
 		background-color:#D8CF9E;
 		border:0px;
 	}
+	.container-fluid{
+		margin:5rem 0;
+	}
 </style>
 <body>
 <%@include file="/front-end/tempFile/navBar" %>
-
 <!-- Begin Page Content -->
 <div class="container-fluid">
 <div class="row">
 	<div class="col-1"></div>
 	<div class="col-2">
 		<div class="list-group">
-  			<a href="<%=request.getContextPath()%>/service/service.do?action=queryByDesNo&desNo=${designerVO.desNo}" class="list-group-item list-group-item-action">
+  			<a href="<%=request.getContextPath()%>/service/service.do?action=queryByDesNo&desNo=${desSession.desNo}" class="list-group-item list-group-item-action">
     			服務項目管理
   			</a>
   			<a href="#" class="list-group-item list-group-item-action active">
@@ -58,11 +64,11 @@
   			<a href="<%=request.getContextPath()%>/front-end/reservation/listScheduleOfDes.jsp" class="list-group-item list-group-item-action">
   				查看預約行程
   			</a>
-  			<a href="#" class="list-group-item list-group-item-action">
-  				貼文狀態管理
-  			</a>
-  			<a href="#" class="list-group-item list-group-item-action disabled" tabindex="-1" aria-disabled="true">
+  			<a href="<%=request.getContextPath()%>/designer/designer.do?action=getOne_For_Update&desNo=${desSession.desNo}" class="list-group-item list-group-item-action">
 				個人資訊修改
+			</a>
+			<a href="" class="list-group-item list-group-item-action">
+				貼文狀態管理
 			</a>
 		</div>
 	</div>
@@ -76,24 +82,21 @@
 		</ul>
 	</c:if>
 	
-	<h4>設計師名稱:${designerSvc.getOneDesByDesNo(desNo).desName}</h4>
+	<h4>My Reservation</h4>
 	<table class="table table-striped">
 	<tr>
-		<th>預約編號</th>
+		<th>編號</th>
 		<th>預約會員</th>
 		<th>服務項目</th>
 		<th>預約時間</th>
 		<th>預約狀態</th>
-		<th>預約評價</th>
-		<th>預約金額</th>
-		<th>預約操作</th>
+		<th>預約明細</th>
 	</tr>
  
-	<c:forEach var="resVO" items="${resSvc.getAllResByDesNo(desNo)}" >
+	<c:forEach var="resVO" items="${resSvc.getAllResByDesNo(desSession.desNo)}" >
 		
 		<tr>
-			<td><a href="res.do?resNo=${resVO.resNo}&action=getOne_For_Display_Of_Des">
-				${resVO.resNo}</a></td>
+			<td>${resVO.resNo}</td>
 			<td>${memSvc.getOneMemName(resVO.memNo)}</td>
 			<td><c:forEach var="serviceVO" items="${serviceSvc.all}">
 					<c:if test="${serviceVO.serNo==resVO.serNo}">
@@ -107,7 +110,7 @@
 	            	<c:set var="serPeriod" value="${serviceVO.serTime}"/>
             		</c:if>
 				</c:forEach>
-				<fmt:formatDate value="${resVO.resDate}" pattern="yyyy-MM-dd"/><br>
+				<fmt:formatDate value="${resVO.resDate}" pattern="yyyy-MM-dd"/>
 				<c:set var="startTime" value="${resVO.resTime}"/>
 				<c:set var="endTime" value="${startTime+serPeriod}"/>
 				<fmt:formatNumber type="number" value="${((startTime*30 -(startTime*30%60)))/60}"  var="shour"/>
@@ -140,25 +143,8 @@
 				</c:otherwise>
 			</c:choose>
 			</td>
-			<td>${resVO.resCom}</td> 
-		
-			<td>${resVO.resPrice}</td>
-			<td style="width:8rem">
-				<c:if test="${resVO.resStatus == 0}">
-				<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/reservation/res.do" style="font-size:12px;display:inline">
-			    	<input type="submit" value="確認" class="btn btn-primary" >
-			    	<input type="hidden" name="resNo"  value="${resVO.resNo}">
-			    	<input type="hidden" name="action"	value="getOne_For_Update_Confirm"></FORM>
-			    <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/reservation/res.do" style="font-size:12px;display:inline">
-			    	<input type="submit" value="取消" class="btn btn-primary" style="display:inline">
-			    	<input type="hidden" name="resNo"  value="${resVO.resNo}">
-			   		<input type="hidden" name="action" value="cancelByDes"></FORM>
-			   	</c:if>
-			   	
-			   
-			    
-			
-				
+			<td>
+			   	<a href="res.do?resNo=${resVO.resNo}&action=getOne_For_Display_Of_Des" class="checkDetail" style="display:inline">查看明細</a>
 			</td>
 			
 		</tr>

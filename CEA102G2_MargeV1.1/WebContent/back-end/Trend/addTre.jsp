@@ -10,14 +10,7 @@
 <head>
 <script src="<%=request.getContextPath()%>/resource/ckeditor/ckeditor.js"></script>
 
-<script type="text/javascript">
-	window.onload=function () {
 
-		CKEDITOR.replace('content');
-		
-	}
-	
-</script>
 
 <title>風格誌新增 - addTre.jsp</title>
 </head>
@@ -76,7 +69,7 @@
 			</tr>
 		</table>
 		<br> <input name="action" value="insert" type="hidden">
-		<input type="submit" value="新增" onclick="processData()">
+		<input type="submit" value="新增" >
 
 	</form>
 
@@ -103,11 +96,11 @@
 }
 </style>
 <script>
-	function processData() {
-	// getting data
-		var data = CKEDITOR.instances.content.getData()
-		form.submit();
-		}
+	
+$( document ).ready(function(){
+	
+	
+	
 	
 	$.datetimepicker.setLocale('zh');
     $('#f_date1').datetimepicker({
@@ -121,5 +114,7 @@
 	//minDate:               '-1970-01-01', // 去除今日(不含)之前
 	//maxDate:               '+1970-01-01'  // 去除今日(不含)之後
 	});
+    
+})	
 </script>
 </html>

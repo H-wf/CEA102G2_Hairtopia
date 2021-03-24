@@ -28,7 +28,7 @@ public class ServiceDAO implements ServiceDAO_interface{
 		}
 		
 			private static final String INSERT_STMT = 
-				"INSERT INTO service (desNo,stypeNo,serName,serPrice,serTime,serDesc,serStatus) VALUES (?, ?, ?, ?, ?, ?, ?)";
+				"INSERT INTO service (desNo,stypeNo,serName,serPrice,serTime,serDesc) VALUES (?, ?, ?, ?, ?, ?)";
 			
 			private static final String GET_ALL_STMT = 
 				"SELECT serNo,desNo,stypeNo,serName,serPrice,serTime,serDesc,serStatus FROM service order by serNo";
@@ -37,15 +37,15 @@ public class ServiceDAO implements ServiceDAO_interface{
 			private static final String GET_ALL_BY_DESNO = 
 				"SELECT serNo,desNo,stypeNo,serName,serPrice,serTime,serDesc,serStatus FROM service where desNo = ?";
 			private static final String GET_ALL_BY_STYPENO = 
-					"SELECT serNo,desNo,stypeNo,serName,serPrice,serTime,serDesc,serStatus FROM service where stypeNo = ?";
+				"SELECT serNo,desNo,stypeNo,serName,serPrice,serTime,serDesc,serStatus FROM service where stypeNo = ?";
 			
 			private static final String DELETE = 
 				"DELETE FROM service where serNo = ?";
 			
 			private static final String UPDATE = 
-				"UPDATE service set desNo=?, stypeNo=?, serName=?, serPrice=?, serTime=?, serDesc=?, serStatus=? where serNo = ?";
+				"UPDATE service set desNo=?, stypeNo=?, serName=?, serPrice=?, serTime=?, serDesc=? where serNo = ?";
 			private static final String UPDATE_ONE_BY_SERNO = 
-					"UPDATE service set serStatus=? where serNo = ?";
+				"UPDATE service set serStatus=? where serNo = ?";
 
 	@Override
 	public void insert(ServiceVO serviceVO) {
@@ -64,7 +64,6 @@ public class ServiceDAO implements ServiceDAO_interface{
 			pstmt.setInt(4, serviceVO.getSerPrice());
 			pstmt.setInt(5, serviceVO.getSerTime());
 			pstmt.setString(6, serviceVO.getSerDesc());
-			pstmt.setInt(7, serviceVO.getSerStatus());
 
 			pstmt.executeUpdate();
 
@@ -109,8 +108,7 @@ public class ServiceDAO implements ServiceDAO_interface{
 			pstmt.setInt(4, serviceVO.getSerPrice());
 			pstmt.setInt(5, serviceVO.getSerTime());
 			pstmt.setString(6, serviceVO.getSerDesc());
-			pstmt.setInt(7, serviceVO.getSerStatus());
-			pstmt.setInt(8, serviceVO.getSerNo());
+			pstmt.setInt(7, serviceVO.getSerNo());
 
 			pstmt.executeUpdate();
 

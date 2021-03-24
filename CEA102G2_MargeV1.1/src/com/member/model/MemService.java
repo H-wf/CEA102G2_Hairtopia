@@ -47,6 +47,7 @@ public class MemService {
 		memVO.setMemInform(memInform);
 		memVO.setMemEmail(memEmail);
 		memVO.setMemPswd(memPswd);
+		System.out.println(memPswd);
 		memVO.setMemPhone(memPhone);
 		memVO.setMemAddr(memAddr);
 		memVO.setMemPic(memPic);
@@ -82,5 +83,9 @@ public class MemService {
 	
 	public String getOneMemName(Integer memNo) {
 		return dao.findByPrimaryKey(memNo).getMemName();
+	}
+	
+	public void updateStatus(String memEmail, Integer memStatus) {
+		dao.updateStatus(memEmail, memStatus);
 	}
 }

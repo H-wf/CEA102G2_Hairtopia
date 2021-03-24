@@ -61,11 +61,11 @@ public class DesignerDAO implements DesignerDAO_interface{
 				"UPDATE designer set salNo=?, desName=?, desInfor=?, desSchedule=? where desNo = ?";
 		//用於設計師前台申請後，後台人員用來驗證資訊與檢舉後停權處理
 		private static final String UPDATE_DES_STATUS = 
-			"UPDATE designer set desEndDate=?, desStatus=? where desNo=?";
+			"UPDATE designer set desStatus=? where desNo=?";
 		private static final String UPDATE_DES_SCORE = 
 				"UPDATE designer set desCount=?, desTolScore=? where desNo=?";
 		private static final String GET_DES_NAME =	"SELECT desName from designer where desName like ?;";
-		private static final String GET_DES_SEARCH = "SELECT salNo, desName, desInfor, desCount, desTolScore,desSchedule,"
+		private static final String GET_DES_SEARCH = "SELECT salNo,desNo, desName, desInfor, desCount, desTolScore,desSchedule,"
 		              +"desPic FROM designer where desName like ?;";
 	
 	public void insert(DesignerVO designerVO) {
@@ -257,9 +257,9 @@ public void insert2(DesignerVO designerVO,Connection con) {
 			con = ds.getConnection();
 			pstmt = con.prepareStatement(UPDATE_DES_STATUS);
 
-			pstmt.setDate(1, designerVO.getDesEndDate());
-			pstmt.setInt(2, designerVO.getDesStatus());
-			pstmt.setInt(3, designerVO.getDesNo());
+	
+			pstmt.setInt(1, designerVO.getDesStatus());
+			pstmt.setInt(2, designerVO.getDesNo());
 			
 			pstmt.executeUpdate();
 
@@ -632,6 +632,7 @@ public void insert2(DesignerVO designerVO,Connection con) {
 				// empVo 也稱為 Domain objects
 				designerVO = new DesignerVO();
 				designerVO.setSalNo(rs.getInt("salNo"));
+				designerVO.setDesNo(rs.getInt("desNo"));
 				designerVO.setDesName(rs.getString("desName"));
 				designerVO.setDesInfor(rs.getString("desInfor"));
 				designerVO.setDesCount(rs.getInt("desCount"));

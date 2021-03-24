@@ -306,6 +306,11 @@ public class CosdetDAO implements CosdetDAO_interface {
 			}
 			return list;
 		}
+		
+		
+	
+			
+		
 
 		public void insertNoComment(CosdetVO cosdetVO) {
 

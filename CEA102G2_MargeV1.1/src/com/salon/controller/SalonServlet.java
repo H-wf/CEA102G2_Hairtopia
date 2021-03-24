@@ -383,6 +383,9 @@ public class SalonServlet extends HttpServlet{
 				Integer salStatus = new Integer(1);
 				String salLat = req.getParameter("salLat");
 				String salLng = req.getParameter("salLng");
+				
+				
+			
 
 				
 
@@ -397,6 +400,16 @@ public class SalonServlet extends HttpServlet{
 				salonVO.setSalLng(salLng);
 				salonVO.setSalStatus(salStatus);
 				salonVO.setSalNo(salNo);
+				
+				if (!errorMsgs.isEmpty()) {
+
+					req.setAttribute("salonVO", salonVO); 
+
+					RequestDispatcher failureView = req
+							.getRequestDispatcher("/front-end/designer/addDesAndSal.jsp");
+					failureView.forward(req, res);
+					return;
+				}
 			
 				
 			//===============================接受設計師資料包裝VO====================
@@ -453,12 +466,7 @@ public class SalonServlet extends HttpServlet{
 				designerVO.setMemNo(memNo);
 				designerVO.setDesName(desName);
 				
-				
-			
-				
-				
-				
-		
+
 				
 				if (!errorMsgs.isEmpty()) {
 

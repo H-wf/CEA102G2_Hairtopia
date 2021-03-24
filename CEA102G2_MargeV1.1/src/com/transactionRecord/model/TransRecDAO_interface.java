@@ -12,4 +12,6 @@ public interface TransRecDAO_interface {
 	public TransRecVO findByPrimaryKey(Integer traNo);
 
 	public List<TransRecVO> getAll();
+	
+	public List<TransRecVO> getMemberRecord(Integer traNo);
 }
