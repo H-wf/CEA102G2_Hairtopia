@@ -1,5 +1,5 @@
-<%@ page contentType="text/html; charset=UTF-8" pageEncoding="Big5"%>
-<%  int rowsPerPage = 3;  //每頁的筆數    
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%  int rowsPerPage = 5;  //每頁的筆數    
     int rowNumber=0;      //總筆數
     int pageNumber=0;     //總頁數      
     int whichPage=1;      //第幾頁
@@ -33,7 +33,7 @@
 %>
 
 <%if (pageNumber>0){%>
-  <b><font color=red>Page(s) <%=whichPage%>/<%=pageNumber%></font></b>
+  <b><font color=D8CF9E>Page <%=whichPage%>/<%=pageNumber%></font></b>
 <%}%>
 
-<b> The search reault(s) totally <font color=red><%=rowNumber%></font></b>
+<b>Total results are: <font color=D8CF9E><%=rowNumber%></font></b>

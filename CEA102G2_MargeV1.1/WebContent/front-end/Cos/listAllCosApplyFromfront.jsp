@@ -11,8 +11,6 @@
     pageContext.setAttribute("list",list);
 %>
 
-
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -38,7 +36,7 @@
 
 .submitToWhite {
         color:gray;
-   }
+}
 
 </style>
 <body>
@@ -49,14 +47,12 @@
 
 <table id="table-1">
 	<tr><td>
-		 <h4>回課程前台</h4>
 		 <li><a href="<%=request.getContextPath()%>/front-end/Cos/Course_Lec_1st.jsp">回課程前台</a></li>
 	</td></tr>
 </table>
 
 <table id="table-1">
 	<tr><td>
-		 <h4>所有可報名課程資料 - listAllCosApplyFromfront.jsp</h4>
 		 <li><a href="<%=request.getContextPath()%>/front-end/Cos/listAllCosfront.jsp">回所有課程資料</a></li>
 	</td></tr>
 </table>
@@ -132,11 +128,9 @@
 			<td><fmt:formatDate value="${cosVO.cosApplyTo}" type="both"/></td>
 			<td>${cosVO.cosName}</td>
 			<td>
-                 <input type="submit" value="報名" id="myBtn" onclick="this.disabled=true;this.form.submit();"/>
                  <input class="test" type="submit" value="報名" id="myBtn" onclick="this.disabled=true;this.form.submit();"/>
-			     <input type="button" class="test" value="測試報名" />
 			     <input type="hidden" name="cosNo"  value="${cosVO.cosNo}">
-			     <input type="hidden" name="memNo"  value="${1000}">
+			     <input type="hidden" name="memNo"  value="${userSession.memNo}">
 			     <input type="hidden" name="cosDetailPrice"  value="${cosVO.cosPrice}">
 			     <input type="hidden" name="cosCount"  value="${cosVO.cosCount}">
 			     <input type="hidden" name="action"	value="ADD">
@@ -164,7 +158,7 @@ $( ".test" ).click(function() {
   $( this ).addClass( "submitToWhite" );
 });
 
-var cosCount = document.getElementById('cosCount');
+<%--var cosCount = document.getElementById('cosCount');
 var cosMinCount = document.getElementById('cosMinCount');
 var cosMaxCount = document.getElementById('cosMaxCount');
 var a = cosCount.innerText;
@@ -178,13 +172,13 @@ function changeState(a){
 	console.log("-----");
 	if(a<c){
 		console.log("enter if");
-		document.getElementById('myBtn').disabled=false;
+		document.getElementById('myBtn').disabled=true;
 		console.log(myBtn);
 	}else{
-		document.getElementById('myBtn').disabled=true;
+		document.getElementById('myBtn').disabled=false;
 		console.log("enter else");
 	}
-}
+}-->
 
 <%--var table=document.getElementById('mytb');
 var rows = document.getElementById('listAllCosApplyFrom').rows.length;

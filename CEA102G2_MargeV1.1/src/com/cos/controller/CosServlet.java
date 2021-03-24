@@ -573,9 +573,15 @@ public class CosServlet extends HttpServlet {
 					List<CosVO> list  = cosSvc.getAll(map);					
 					
 					/***************************3.查詢完成,準備轉交(Send the Success view)************/
-					req.setAttribute("listCos_ByCompositeQuery", list); // 資料庫取出的list物件,存入request
-					RequestDispatcher successView = req.getRequestDispatcher("/front-end/Cos/listCos_ByCompositeQueryfront.jsp"); // 成功轉交listEmps_ByCompositeQuery.jsp
+					if (list != null) {
+						req.setAttribute("listCos_ByCompositeQuery", list); // 資料庫取出的list物件,存入request
+						RequestDispatcher successView = req.getRequestDispatcher("/front-end/Cos/listCos_ByCompositeQueryfront.jsp"); // 成功轉交listEmps_ByCompositeQuery.jsp
 					successView.forward(req, res);
+					}else {
+						RequestDispatcher successView = req.getRequestDispatcher("/front-end/Cos/Course_Lec_1st.jsp"); // 成功轉交listEmps_ByCompositeQuery.jsp
+						successView.forward(req, res);
+					}
+					
 					
 					/***************************其他可能的錯誤處理**********************************/
 				} catch (Exception e) {

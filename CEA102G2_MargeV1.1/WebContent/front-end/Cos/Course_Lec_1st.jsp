@@ -54,9 +54,11 @@
     <div class="col-6" style="background-image: url()">
         <input value="公告課程" class="btn btn-primary" onclick="location.href='<%=request.getContextPath()%>/front-end/Cos/listAllCospostfront.jsp';" type="button">
         <input value="所有課程" class="btn btn-primary" onclick="location.href='<%=request.getContextPath()%>/front-end/Cos/listAllCosfront.jsp';" type="button">
-        <input value="報名中課程" class="btn btn-primary" onclick="location.href='<%=request.getContextPath()%>/front-end/Cos/listAllCosApplyFromfront.jsp';" type="button">
         <input value="查詢課程" class="btn btn-primary" onclick="location.href='<%=request.getContextPath()%>/front-end/Cos/select_cos_pagefront.jsp';" type="button">
-    	<input value="查詢修課紀錄及評分" class="btn btn-primary" onclick="location.href='<%=request.getContextPath()%>/front-end/Cos/LoginToRateCos.jsp';" type="button">
+        <input value="報名中課程" class="btn btn-primary" onclick="location.href='<%=request.getContextPath()%>/front-end/Cos/listAllCosApplyFromfront.jsp';" type="button">
+        <c:if test="${not empty userSession}">
+	    	<input value="查詢修課紀錄及評分" class="btn btn-primary" onclick="location.href='<%=request.getContextPath()%>/front-end/Cos/LoginToRateCos.jsp';" type="button">
+        </c:if>
         </div>
         <div class="col-6" style="background-image: url()">	
     	

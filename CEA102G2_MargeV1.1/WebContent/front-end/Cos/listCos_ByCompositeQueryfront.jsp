@@ -63,7 +63,7 @@
 			<td>${cosVO.cosName}</td>	
 			<td><c:forEach var="costypeVO" items="${costypeSvc.all}">
                     <c:if test="${cosVO.cosTypeNo==costypeVO.cosTypeNo}">
-	                    ${costypeVO.cosTypeNo}¡i${costypeVO.cosTypeName} - ${costypeVO.cosTypeIntro}¡j
+	                    ¡i${costypeVO.cosTypeName} - ${costypeVO.cosTypeIntro}¡j
                     </c:if>
                 </c:forEach>
 			</td>

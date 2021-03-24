@@ -34,7 +34,7 @@
 <!-- Begin Page Content -->
 <div class="container-fluid">
 
-<h4>結帳：（Checkout.jsp）</h4>
+<h5>結帳</h5>
 <hr><p>
  
 <table id="mytb"style="width: 77.5rem" class="table table-striped" >
@@ -81,8 +81,8 @@
                 <input placeholder="Full name" type="text" name="name">
                 <input placeholder="MM/YY" type="tel" name="expiry">
                 <input placeholder="CVC" type="number" name="cvc">
-                <input type="hidden" name="memNo" value="${cosVO.cosNo}">
-                <input type="hidden" name="memNo" value="${1000}"> 
+                <input type="hidden" name="cosNo" value="${cosVO.cosNo}">
+                <input type="hidden" name="memNo" value="${memNo}"> 
 				<input type="hidden" name="action" value="SENDCOSDETAIL">
 				<input type="submit" value="送出結帳" class="button">
             </form>
