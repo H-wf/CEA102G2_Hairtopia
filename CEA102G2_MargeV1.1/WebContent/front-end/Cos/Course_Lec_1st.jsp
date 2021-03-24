@@ -8,15 +8,15 @@
 <html>
 <head>
 <!-- 網頁標題要改記得改! -->
- <title>課程前台首頁</title>
+ <title>課程首頁</title>
  <meta charset="utf-8">
 <%@include file="/front-end/tempFile/head" %>
  
 </head>
 <style>
 .ftco-navbar-light{
-		position:static;
-	}
+	position:static;
+}
 #mytb{
 	font-size:0.8rem;
 }
@@ -29,7 +29,7 @@
 
 .submitToWhite {
         color:gray;
-   }
+}
 
 </style>
 <body>
@@ -48,88 +48,87 @@
 	</ul>
 </c:if>
 
-<table id="table-1">
-	<tr><td>
-		 <h4>回課程前台</h4>
-		 <li><a href="<%=request.getContextPath()%>/front-end/Cos/Course_Lec_1st.jsp">回課程前台</a></li>
-	</td></tr>
-</table>
-
 <div class="container">
   <div class="row">
-    <div class="col-6" style="background-image: url(https://tpc.googlesyndication.com/daca_images/simgad/9369106744739753097?w=400&h=209)">
+    <div class="col-6" style="background-image: url()">
+        <input value="公告課程" class="btn btn-primary" onclick="location.href='<%=request.getContextPath()%>/front-end/Cos/listAllCospostfront.jsp';" type="button">
         <input value="所有課程" class="btn btn-primary" onclick="location.href='<%=request.getContextPath()%>/front-end/Cos/listAllCosfront.jsp';" type="button">
-        <input value="可報名課程" class="btn btn-primary" onclick="location.href='<%=request.getContextPath()%>/front-end/Cos/listAllCosApplyFromfront.jsp';" type="button">
-        <input value="課程查詢" class="btn btn-primary" onclick="location.href='<%=request.getContextPath()%>/front-end/Cos/select_cos_pagefront.jsp';" type="button">
+        <input value="報名中課程" class="btn btn-primary" onclick="location.href='<%=request.getContextPath()%>/front-end/Cos/listAllCosApplyFromfront.jsp';" type="button">
+        <input value="查詢課程" class="btn btn-primary" onclick="location.href='<%=request.getContextPath()%>/front-end/Cos/select_cos_pagefront.jsp';" type="button">
+    	<input value="查詢修課紀錄及評分" class="btn btn-primary" onclick="location.href='<%=request.getContextPath()%>/front-end/Cos/LoginToRateCos.jsp';" type="button">
         </div>
-        <div class="col-6" style="background-image: url(https://tpc.googlesyndication.com/daca_images/simgad/9369106744739753097?w=400&h=209)">	
-    	<input value="課程公告" class="btn btn-primary" onclick="location.href='<%=request.getContextPath()%>/front-end/Cos/listAllCospostfront.jsp';" type="button">
-    	<input value="修課紀錄及評分" class="btn btn-primary" onclick="location.href='<%=request.getContextPath()%>/front-end/Cos/LoginToRateCos.jsp';" type="button">
+        <div class="col-6" style="background-image: url()">	
+    	
     </div>
 
   </div>
   <hr/>
   <div class="row">
       	<div class="col-4" align="center"> 
-      	 <div class="card" style="width: 18rem;">
-  <image style= "height:200px; background-image: url(https://tpc.googlesyndication.com/daca_images/simgad/9369106744739753097?w=400&h=209)">
-
+      	<div class="card" style="width: 18rem;">
+<img style="height: 250px;width: auto;object-fit:cover;background-position: 45% 15%;background-image: url(/CEA102G2_Merge/resource/images/hotGirl.jpg);">  <div class="card-body">
   <div class="card-body">
     <h5 class="card-title">所有課程</h5>
-    <p class="card-text">列出所有課程，包括開課中、報名中、歷史課程</p>
+    <p class="card-text">列出所有課程，包括報名中、開課中及歷史課程</p>
     <a onclick="location.href='<%=request.getContextPath()%>/front-end/Cos/listAllCosfront.jsp';" class="btn btn-primary">點擊前往</a>
   </div>
+</div>
 </div>
   		</div>
   
   		<div class="col-4" align="center">  
 <div class="card" style="width: 18rem;">
-  <image style= "height:200px; background-image: url(https://tpc.googlesyndication.com/daca_images/simgad/9369106744739753097?w=400&h=209)">
-  <div class="card-body">
-    <h5 class="card-title">可報名課程</h5>
+<img style="height: 250px;width: auto;object-fit:cover;background-position: 55% 30%;background-image: url(/CEA102G2_Merge/resource/images/hotGuy3.jpg);">  <div class="card-body">
+      <div class="card-body">
+    <h5 class="card-title">報名中課程</h5>
     <p class="card-text">列出報名中課程</p>
     <a onclick="location.href='<%=request.getContextPath()%>/front-end/Cos/listAllCosApplyFromfront.jsp';" class="btn btn-primary">點擊前往</a>
   </div>
 </div>
-  		</div>
-  		
-  		<div class="col-4" align="center">  
-<div class="card" style="width: 18rem;">
-  <image style= "height:200px; background-image: url(https://tpc.googlesyndication.com/daca_images/simgad/9369106744739753097?w=400&h=209)">
-  <div class="card-body">
-    <h5 class="card-title">課程查詢</h5>
-    <p class="card-text">複合查詢想要的課程</p>
-    <a onclick="location.href='<%=request.getContextPath()%>/front-end/Cos/select_cos_pagefront.jsp';" class="btn btn-primary">點擊前往</a>
-  </div>
 </div>
   		</div>
   		
   		<div class="col-4" align="center">  
 <div class="card" style="width: 18rem;">
-  <image style= "height:200px; background-image: url(https://tpc.googlesyndication.com/daca_images/simgad/9369106744739753097?w=400&h=209)">
+<img style="height: 250px;width: auto;object-fit:cover;background-position: 55% 55%;background-image: url(/CEA102G2_Merge/resource/images/hotGirl2.jpg);">  <div class="card-body">
+      <div class="card-body">
+    <h5 class="card-title">查詢課程</h5>
+    <p class="card-text">查詢課程關鍵字</p>
+    <a onclick="location.href='<%=request.getContextPath()%>/front-end/Cos/select_cos_pagefront.jsp';" class="btn btn-primary">點擊前往</a>
+  </div>
+</div>
+</div>
+  		</div>
+  		
+  		<div class="col-4" align="center">  
+<div class="card" style="width: 18rem;">
+<img style="height: 250px;width: auto;object-fit:cover;background-position: 55% 55%;background-image: url(/CEA102G2_Merge/resource/images/hotGuy4.jpg);">  <div class="card-body">
   <div class="card-body">
-    <h5 class="card-title">課程公告</h5>
+    <h5 class="card-title">公告課程</h5>
     <p class="card-text">查詢課程公告</p>
     <a onclick="location.href='<%=request.getContextPath()%>/front-end/Cos/listAllCospostfront.jsp';" class="btn btn-primary">點擊前往</a>
   </div>
 </div>
+</div>
   		</div>
   		
   		<div class="col-4" align="center">  
 <div class="card" style="width: 18rem;">
-  <image style= "height:200px; background-image: url(https://tpc.googlesyndication.com/daca_images/simgad/9369106744739753097?w=400&h=209)">
-  <div class="card-body">
-    <h5 class="card-title">修課紀錄及評分</h5>
-    <p class="card-text">查詢歷史修課紀錄並評分</p>
+<img style="height: 250px;width: auto;object-fit:cover;background-position: 90% 45%;background-image: url(/CEA102G2_Merge/resource/images/hotGirl4.jpg);">  <div class="card-body">
+      <div class="card-body">
+    <h5 class="card-title">查詢修課紀錄及評分</h5>
+    <p class="card-text">查詢歷史修課紀錄及課後評分</p>
     <a onclick="location.href='<%=request.getContextPath()%>/front-end/Cos/LoginToRateCos.jsp';" class="btn btn-primary">點擊前往</a>
   </div>
+</div>
 </div>
   		</div>
   
   </div>
   
 </div>
-  
+
+</div>
 <!-- Page Content END -->
 <%@include file="/front-end/tempFile/footer" %>
 <%@include file="/front-end/tempFile/tempJs" %>

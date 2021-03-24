@@ -24,6 +24,7 @@
 		<url-pattern>/front-end/product/Checkout.jsp</url-pattern>
 		<url-pattern>/front-end/Cos/Checkout.jsp</url-pattern>
 		<url-pattern>/front-end/Cos/LoginToRateCos.jsp</url-pattern>
+		<url-pattern>/front-end/Cos/RateCos.jsp</url-pattern>		
 		<dispatcher>REQUEST</dispatcher>
 		<dispatcher>FORWARD</dispatcher>
 		<dispatcher>INCLUDE</dispatcher>
