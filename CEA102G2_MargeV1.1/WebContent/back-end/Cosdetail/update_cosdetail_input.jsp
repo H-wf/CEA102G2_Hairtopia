@@ -3,7 +3,8 @@
 <%@ page import="com.coudet.model.*"%>
 
 <%
-  CosdetVO cosdetVO = (CosdetVO) request.getAttribute("cosdetVO"); 
+  CosdetVO cosdetVO = (CosdetVO) request.getAttribute("cosdetVO");
+System.out.println("back-end/update_cosdetail_input.jsp no.7" + cosdetVO);
 %>
 <html>
 <head>

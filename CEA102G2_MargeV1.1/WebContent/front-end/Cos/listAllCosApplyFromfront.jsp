@@ -7,8 +7,11 @@
 <%
     CosService cosSvc = new CosService();
     List<CosVO> list = cosSvc.getAllCosApplyFrom();
+    
     pageContext.setAttribute("list",list);
 %>
+
+
 
 <!DOCTYPE html>
 <html>
@@ -33,12 +36,23 @@
 	color:black; font-family: "Open Sans", Arial, sans-serif;
 }
 
+.submitToWhite {
+        color:gray;
+   }
+
 </style>
 <body>
 <%@include file="/front-end/tempFile/navBar" %>
 
 <!-- Begin Page Content -->
 <div class="container-fluid">
+
+<table id="table-1">
+	<tr><td>
+		 <h4>回課程前台</h4>
+		 <li><a href="<%=request.getContextPath()%>/front-end/Cos/Course_Lec_1st.jsp">回課程前台</a></li>
+	</td></tr>
+</table>
 
 <table id="table-1">
 	<tr><td>
@@ -98,7 +112,7 @@
 	<jsp:useBean id="lecSvc" scope="page" class="com.lecturer.model.LecturerService"/>
 	 
 	<c:forEach var="cosVO" items="${list}" begin="<%=pageIndex%>" end="<%=pageIndex+rowsPerPage-1%>">
-	<FORM name="shoppingForm" METHOD="post" ACTION="<%=request.getContextPath()%>/cos/orderdetail.do" style="margin-bottom: 0px;" >
+	<FORM name="shoppingForm" METHOD="post" ACTION="<%=request.getContextPath()%>/cos/order.do" style="margin-bottom: 0px;" >
 		<tr>
 			<td id=cosNo>${cosVO.cosNo}</td>
 			<td>${lecSvc.getOneLecturer(cosVO.lecNo).lecName}</td>
@@ -119,7 +133,10 @@
 			<td>${cosVO.cosName}</td>
 			<td>
                  <input type="submit" value="報名" id="myBtn" onclick="this.disabled=true;this.form.submit();"/>
+                 <input class="test" type="submit" value="報名" id="myBtn" onclick="this.disabled=true;this.form.submit();"/>
+			     <input type="button" class="test" value="測試報名" />
 			     <input type="hidden" name="cosNo"  value="${cosVO.cosNo}">
+			     <input type="hidden" name="memNo"  value="${1000}">
 			     <input type="hidden" name="cosDetailPrice"  value="${cosVO.cosPrice}">
 			     <input type="hidden" name="cosCount"  value="${cosVO.cosCount}">
 			     <input type="hidden" name="action"	value="ADD">
@@ -136,7 +153,16 @@
 
 <%@ include file="/back-end/pages/page2.file" %>
 
+<script src="https://code.jquery.com/jquery-1.11.3.js"></script>
+
+
+
 <script type="text/javascript">
+
+$( ".test" ).click(function() {
+  alert("已加入");
+  $( this ).addClass( "submitToWhite" );
+});
 
 var cosCount = document.getElementById('cosCount');
 var cosMinCount = document.getElementById('cosMinCount');

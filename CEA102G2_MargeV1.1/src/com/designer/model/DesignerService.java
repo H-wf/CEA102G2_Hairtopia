@@ -51,7 +51,6 @@ public class DesignerService {
 		
 		DesignerVO designerVO = new DesignerVO();
 		
-
 		designerVO.setDesStatus(desStatus);
 		designerVO.setDesNo(desNo);
 		

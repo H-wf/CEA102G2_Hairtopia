@@ -10,51 +10,41 @@
     pageContext.setAttribute("list",list);
 %>
 
-<html>
+<!DOCTYPE html>
+<html lang="en">
+
 <head>
-<title>所有課程資料 - listAllCos.jsp</title>
-
-<style>
-  table#table-1 {
-	background-color: #CCCCFF;
-    border: 2px solid black;
-    text-align: center;
-  }
-  table#table-1 h4 {
-    color: red;
-    display: block;
-    margin-bottom: 1px;
-  }
-  h4 {
-    color: blue;
-    display: inline;
-  }
-</style>
-
-<style>
-  table {
-	width: 800px;
-	background-color: white;
-	margin-top: 5px;
-	margin-bottom: 5px;
-  }
-  table, th, td {
-    border: 1px solid #CCCCFF;
-  }
-  th, td {
-    padding: 5px;
-    text-align: center;
-  }
-</style>
-
+    <title>所有課程資料</title>
+    <meta charset="utf-8">
+<%@include file="/back-end/tempFile/head" %>
 </head>
-<body bgcolor='white'>
+
+<style>
+
+#mytb{
+	font-size:0.6rem;
+}
+
+#mytb td{
+	height:30%;
+}
+#table-1 h4{
+	color:black; font-family: "Open Sans", Arial, sans-serif;
+}
+
+</style>
+
+<body id="page-top">
+<%@include file="/back-end/tempFile/navBar_sideBar" %>
+
+<!-- Begin Page Content -->
+<div class="container-fluid">
 
 <table id="table-1">
-	<tr><td>
-		 <h3>所有課程資料 - listAllCos.jsp</h3>
-		 <h4><a href="<%=request.getContextPath()%>/back-end/Cos/select_cos_page.jsp"><img src="<%=request.getContextPath()%>/resource/images/back1.gif" width="100" height="32" border="0">回後台主頁</a></h4>
-	</td></tr>
+	<tr>
+	<td><h3>所有課程資料</h3></td>
+	<td><h5><a href="<%=request.getContextPath()%>/back-end/Cos/select_cos_page.jsp">回後台主頁</a></h5></td>
+	</tr>
 </table>
 
 <%-- 錯誤表列 --%>
@@ -67,27 +57,6 @@
 	</ul>
 </c:if>
 
-<table style="width: 100%">
-	<tr>
-		<th>課程編號</th>
-		<th>講師編號</th>
-		<th>課程類別編號</th>
-		<th>上課起</th>
-		<th>上課迄</th>
-		<th>課程介紹</th>
-		<th>課程圖片</th>
-		<th>課程地址</th>
-		<th>報名總人數</th>
-		<th>評價總分數</th>
-		<th>課程狀態</th>
-		<th>最低人數</th>
-		<th>最高人數</th>
-		<th>課程價格</th>
-		<th>報名開始日</th>
-		<th>報名截止日</th>
-		<th>課程名稱</th>
-	</tr>
-	
 	<%
 			for (CosVO cosVO : list) {
 				byte[] cosPic = cosVO.getCosPic();
@@ -102,45 +71,71 @@
 		%>
 	
 	<%@ include file="/back-end/pages/page1.file"%> 
+
+	<jsp:useBean id="costypeSvc" scope="page" class="com.coutype.model.CostypeService"/>
+	<jsp:useBean id="lecSvc" scope="page" class="com.lecturer.model.LecturerService"/>
+
+<div class="container bg-dark text-white">
 	<c:forEach var="cosVO" items="${list}" begin="<%=pageIndex%>" end="<%=pageIndex+rowsPerPage-1%>">
-	
-	
-		
-		<tr>
-			<td>${cosVO.cosNo}</td>
-			<td>${cosVO.lecNo}</td>
-			<td>${cosVO.cosTypeNo}</td>
-			<td><fmt:formatDate value="${cosVO.cosFrom}" type="both"/></td>
-			<td><fmt:formatDate value="${cosVO.cosTo}" type="both"/></td>
-			<td>${cosVO.cosIntro}</td>
-			<td><img width="100" src="<%=request.getContextPath()%>/PicFinder?pic=1&table=course&column=cosPic&idname=cosNo&id=${cosVO.cosNo}" alt='沒有圖片' /></td>
-			<td>${cosVO.cosAdd}</td>
-			<td>${cosVO.cosCount}</td>
-			<td>${cosVO.cosRate}</td>
-			<td>${cosVO.cosStatus==true?"上架":"下架"}</td>
-			<td>${cosVO.cosMinCount}</td>
-			<td>${cosVO.cosMaxCount}</td>
-			<td>${cosVO.cosPrice}</td>
-			<td><fmt:formatDate value="${cosVO.cosApplyFrom}" type="both"/></td>
-			<td><fmt:formatDate value="${cosVO.cosApplyTo}" type="both"/></td>
-			<td>${cosVO.cosName}</td>
-			<td>
+
+  <div class="row">
+    <div class="col-2">
+     <img width="100" src="<%=request.getContextPath()%>/PicFinder?pic=1&table=course&column=cosPic&idname=cosNo&id=${cosVO.cosNo}" alt='沒有圖片' />
+    </div>
+    <div class="col-2">
+      	課程編號:${cosVO.cosNo} <br/>
+      	講師編號:${lecSvc.getOneLecturer(cosVO.lecNo).lecName} <br/>
+      	類別編號:${costypeSvc.getOneCosType(cosVO.cosTypeNo).cosTypeName} <br/>
+      	<br>上課起:<fmt:formatDate value="${cosVO.cosFrom}" type="both"/><br/>
+      	<br>上課迄:<fmt:formatDate value="${cosVO.cosTo}" type="both"/><br/>
+    </div>
+    <div class="col-2" >
+      	課程介紹:${cosVO.cosIntro} <br/>
+      	課程地址:${cosVO.cosAdd} <br/>
+      	報名總人數:${cosVO.cosCount} <br/>
+      	評價總分數:${cosVO.cosRate} <br/>
+      	課程狀態:${cosVO.cosStatus==true?"上架":"下架"} <br/>
+    </div>
+    <div class="col-2">
+      	最低人數:${cosVO.cosMinCount} <br/>
+      	最高人數:${cosVO.cosMaxCount} <br/>
+      	課程價格:${cosVO.cosPrice} <br/>
+		<br>報名開始日:<fmt:formatDate value="${cosVO.cosApplyFrom}" type="both"/><br/>
+      	<br>報名截止日:<fmt:formatDate value="${cosVO.cosApplyTo}" type="both"/><br/>
+    	課程名稱:${cosVO.cosName} <br/>
+    </div>
+    <div class="col-2">
 			  <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/cos/cos.do" style="margin-bottom: 0px;" >
 			     <input type="submit" value="修改">
 			     <input type="hidden" name="cosNo"  value="${cosVO.cosNo}">
 			     <input type="hidden" name="action"	value="getOne_For_Update"></FORM>
-			</td>
-			<td>
+
 			  <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/cos/cos.do" style="margin-bottom: 0px;">
 			     <input type="submit" value="刪除">
 			     <input type="hidden" name="requestURL" value="<%=request.getServletPath()%>" >
 			     <input type="hidden" name="cosNo"  value="${cosVO.cosNo}">
 			     <input type="hidden" name="action" value="delete"></FORM>
-			</td>
-		</tr>
-	</c:forEach>
-</table>
+    </div>
+    <div class="col-10">
+		 課程介紹:${cosVO.cosIntro}
+    </div>
+  </div>
+  <div><p>
+  <div><p>
+  </div>
+  <div><p>
+  </div>
+  </div>
+</c:forEach>
+</div>
+
 <%@ include file="/back-end/pages/page2.file" %>
 
+</div>
+<!-- Page Content END -->
+                
+<%@include file="/back-end/tempFile/footer" %>
+<%@include file="/back-end/tempFile/srcJs" %>
 </body>
+
 </html>

@@ -10,8 +10,7 @@ import com.cos.model.CosDAO;
 import com.cossche.model.CosscheDAO;
 import com.cossche.model.CosscheVO;
 
-@WebServlet("/ScheduleServlet2")
-public class ScheduleServlet2 extends HttpServlet{    
+public class ScheServlet2 extends HttpServlet{    
     Timer timer ; 
     int count = 0;  
     CosscheDAO dao = new CosscheDAO();

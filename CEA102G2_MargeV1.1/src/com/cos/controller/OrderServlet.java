@@ -29,7 +29,7 @@ import com.cos.model.CosService;
 import com.cos.model.CosVO;
 
 @MultipartConfig
-public class OrderDetailServlet extends HttpServlet {
+public class OrderServlet extends HttpServlet {
 
 	protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 		doPost(req, res);
@@ -48,6 +48,7 @@ public class OrderDetailServlet extends HttpServlet {
 		}
 		
 		if (action.equals("DELETE")||action.equals("ADD")) {
+			System.out.println("orderServlet no.51：已經做到");
 			String url = null;
 			List<String> errorMsgs = new LinkedList<String>();
 			// Store this set in the request scope, in case we need to
@@ -63,41 +64,63 @@ public class OrderDetailServlet extends HttpServlet {
 			if (action.equals("DELETE")) {
 				String del = req.getParameter("del");
 				int d = Integer.parseInt(del);
-				
-				for( CosdetVO vo:buylist) {
+					for( CosdetVO vo : buylist) {
 					
-					int cosNo = vo.getCosNo();
-					if(cosNo==d) {
-						buylist.remove(vo);
-						break;
+						int cosNo = vo.getCosNo();
+						if(cosNo == d) {
+							buylist.remove(vo);					
 					}
-					
-				}
-				url= "/front-end/Cos/Cart.jsp";
+						url= "/front-end/Cos/Cart.jsp";
+					}
 			}
 			// 新增訂單明細至購物車中
 			else if (action.equals("ADD")) {
 				
+				CosdetService cosdetSvc = new CosdetService();
+				Integer memNo = new Integer(req.getParameter("memNo"));//先設死1000;
+				System.out.println("orderServlet no. 91 先設死memNo 1000：" + memNo);
+				
 				// 取得後來新增的訂單明細
 				Integer cosNo = new Integer(req.getParameter("cosNo"));
-//				System.out.println(cosNo);
+				System.out.println("orderServlet no. 88：" + cosNo);
 				
 				Integer cosDetailPrice = new Integer(req.getParameter("cosDetailPrice"));
-//				System.out.println(cosDetailPrice);
+				System.out.println("orderServlet no. 94：" + cosDetailPrice);
 				
-				CosdetVO cosdetVO = new CosdetVO();
-				cosdetVO.setCosNo(new Integer(cosNo));
-				cosdetVO.setCosDetailPrice(new Integer(cosDetailPrice));
-				buylist.add(cosdetVO);
-				url = "/front-end/Cos/listAllCosApplyFromfront.jsp";
+				CosdetVO deleteCosIfDouble = cosdetSvc.findQRCodeByCosNoAndCosNo(cosNo, memNo);
+				if (deleteCosIfDouble == null){
+						
+						System.out.println("orderServlet no.95沒有重複報名：");
+						CosdetVO cosdetVO = new CosdetVO();
+						cosdetVO.setCosNo(new Integer(cosNo));
+						cosdetVO.setMemNo(new Integer(memNo));
+						cosdetVO.setCosDetailPrice(new Integer(cosDetailPrice));
+						System.out.println("OrderServlet no.93："+ cosdetVO);
+						buylist.add(cosdetVO);
+				}
+				
+				if (deleteCosIfDouble != null) {
 					
-			}
+					CosdetVO cosdetVO = new CosdetVO();
+					cosdetVO.setCosNo(new Integer(cosNo));
+					cosdetVO.setMemNo(new Integer(memNo));
+					cosdetVO.setCosDetailPrice(new Integer(cosDetailPrice));
+					System.out.println("OrderServlet no.109："+ cosdetVO);
+					buylist.remove(cosdetVO);
+					url = "/front-end/Cos/passnowork.jsp";
+					RequestDispatcher rd = req.getRequestDispatcher(url);
+					rd.forward(req, res);
+				}
+			
+			
+			url = "/front-end/Cos/listAllCosApplyFromfront.jsp";
 			
 			session.setAttribute("shoppingcart", buylist);
 			
 			RequestDispatcher rd = req.getRequestDispatcher(url);
 			rd.forward(req, res);
 			
+		}
 		}
 
 		// 結帳，計算購物車訂單明細價錢總數
@@ -116,42 +139,64 @@ public class OrderDetailServlet extends HttpServlet {
 		}
 		
 		
-		if (action.equals("SENDMAIL")) {
+		if (action.equals("SENDCOSDETAIL")) {
 			List<String> errorMsgs = new LinkedList<String>();
 			// Store this set in the request scope, in case we need to
 			// send the ErrorPage view.
 			req.setAttribute("errorMsgs", errorMsgs);
-			/*************************** 1.接收請求參數 - 輸入格式的錯誤處理 **********************/
-			String account = req.getParameter("account");
-			/*************************** 2.開始查詢資料 *****************************************/
-			MemService memSvc = new MemService();
-			MailService ms = new MailService();
-			String memName = memSvc.validateEmail(account);
+//			/*************************** 1.接收請求參數 - 輸入格式的錯誤處理 **********************/
+//			String account = req.getParameter("account");
+//			/*************************** 2.開始查詢資料 *****************************************/
+//			MemService memSvc = new MemService();
+//			MailService ms = new MailService();
+//			String memName = memSvc.validateEmail(account);
 			
-			CosService cosSvc = new CosService();
+			
+			
 			// buylist -> cosdet 
 			for(CosdetVO vo : buylist) {
+				
 				Integer cosNo = vo.getCosNo();
-//				System.out.println(cosNo);
+				System.out.println("orderServlet no.153：" + cosNo);
+				
+				Integer memNo = vo.getMemNo();
+				System.out.println("orderServlet no.156：" + memNo);
+				
 //				if(vo.getMemNo()==null) {
-//				Integer memNo = 122248764;
-//				}
-//				Integer memNo = null;
-//				System.out.println(memNo);
+//					Integer memNo = 1000;
+//					}
+//					String memNo = null;
+//					System.out.println("orderServlet no.158："+ memNo);
 				Integer cosDetailPrice = vo.getCosDetailPrice();
+				System.out.println("orderServlet no.164：" + cosDetailPrice);
+				
+				
+				//抓出只要有重複就要強制送回原報名畫面並且不得給我加入cosdet及增加cosCount
+				
+				
+//					Integer memNoforcheck = checkIfDouble.getMemNo();
+//					Integer cosNoforcheck = checkIfDouble.getMemNo();
+//					if (memNoforcheck == memNo && cosNoforcheck == cosNo) {
+//						
+//						errorMsgs.add("報名失敗，請洽服務人員");
+//						RequestDispatcher failureView = req.getRequestDispatcher("/front-end/Cos/passnowork.jsp");
+//						failureView.forward(req, res);
+//						break;
+//					}else {
+//						
+//					}
+				
 				
 				//insert into cosdet table
 				CosdetVO cosdetVO = new CosdetVO();
 				cosdetVO.setCosNo(cosNo);
-				cosdetVO.setMemNo(1000);//因為memNo還沒抓到，因此先用1000代替
+				cosdetVO.setMemNo(memNo);//因為memNo還沒抓到，因此先用1000代替
+				System.out.println("orderServlet no.187：" + memNo);
 				cosdetVO.setCosDetailPrice(cosDetailPrice);
 				
 				CosdetService cosdetSvc = new CosdetService();
-				cosdetVO = cosdetSvc.insertCosDetNoComment(cosNo, 1000, cosDetailPrice);
-//				System.out.println("成功送入cosdet");
-//				String url = "/back-end/Cosdetail/listAllCosdetail.jsp";
-//				RequestDispatcher successView = req.getRequestDispatcher(url);
-//				successView.forward(req, res);
+				cosdetVO = cosdetSvc.insertCosDetNoComment(cosNo, memNo, cosDetailPrice);
+				System.out.println("orderServlet no.193：成功送入cosdet");
 				
 				//get cos cosCount=?
 				CosVO cosVO = new CosVO();
@@ -163,67 +208,13 @@ public class OrderDetailServlet extends HttpServlet {
 				
 				CosService cosSvc2 = new CosService();
 				cosVO = cosSvc2.AddCountApplyNo(cosNo, cosCount);
-				System.out.println("成功送入cos人數");
+				System.out.println("OrderServlet no.167：成功送入cos人數");
 			}
-			
-			String url = "/front-end/Cos/listOneCosfront.jsp";
-			
-			if (memName != null) {
-				/*************************** 3.查詢完成,準備轉交(Send the Success view) *************/
-//				errorMsgs.add("信箱存在");
-
-				String subject = "課程通知";
-				String password = genAuthCode();
-				String messageText = "感謝您報名課程"
-						+ "您的課程為\r\n" + "  \r\n"
-						//+ "------------------------\r\n" + "cosNo: " + cosNo + "\r\n"
-						+ "\r\n" + "可至課程查詢確認時間\r\n" + "  \r\n";
-//						+ "Please click this link to activate your account:\r\n"
-//						+ "http://www.yourwebsite.com/verify.php?email='.$email.'&hash='.$hash.";
-//				ms.sendMail(account, subject, messageText);
-
-				/* test用 請改成自己的信箱 */
-				ms.sendMail("herdsofreindeer@gmail.com", subject, messageText);
-
-				/* change password by random generate password */
-				memSvc.updatePassword(account, password);
-				/* Send the Success view */
+				
 				RequestDispatcher SuccessView = req.getRequestDispatcher("/front-end/Cos/pass.jsp");
 				SuccessView.forward(req, res);
-			} else {
-				errorMsgs.add("信箱不存在");
-				RequestDispatcher failureView = req.getRequestDispatcher("/front-end/Cos/passnowork.jsp");
-				failureView.forward(req, res);
-				
-			}
-		}
-		
-		
-		
+				System.out.println("OrderServlet no.174："+errorMsgs);
+				}
+
 	}
-
-	private String genAuthCode() {
-		char[] authCode = new char[8];
-		byte[] randNum = new byte[8];
-		// random 8 numbers to choice character
-		for (int i = 0; i < randNum.length; i++) {
-			randNum[i] = (byte) (Math.random() * 62);
-			// System.out.print(randNum[i] + " ");
-		}
-//		System.out.println();
-		// set a inner list 0-9 ->(char)0-9, 10-35 ->(char)A-Z, 36-61 -> (char)a-z
-		// purpose：Save memory
-		for (int i = 0; i < 8; i++) {
-			if (randNum[i] >= 0 && randNum[i] <= 9) {
-				authCode[i] = (char) (randNum[i] + 48);
-			} else if (randNum[i] >= 10 && randNum[i] <= 35) {
-				authCode[i] = (char) (randNum[i] + 55);
-			} else if (randNum[i] >= 36 && randNum[i] <= 61) {
-				authCode[i] = (char) (randNum[i] + 61);
-			}
-		}
-
-		return new String(authCode);
-	}
-
 }
