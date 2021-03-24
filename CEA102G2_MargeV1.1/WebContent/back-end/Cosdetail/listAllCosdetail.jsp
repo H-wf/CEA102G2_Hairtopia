@@ -75,10 +75,10 @@
                         	</tr>
                         </tfoot>
                         <tbody>
-						<c:forEach var="cosdetVO" items="${cosdetSvc.all}">
-                            <tr ${(cosdetVO.cosNo==param.cosNo) ? 'bgcolor=#F8F7F1':''}>
+						<c:forEach var="cosdetVO" items="${list}">
+                            <tr >
                                 <td>${cosdetVO.cosNo}</td>
-                                <td>${memSvc.getOneMemName(cosdetVO.memNo).memName}</td>
+                                <td>${memSvc.getOneMemName(cosdetVO.memNo)}</td>
                                 <td>${cosdetVO.cosComment}</td>
                                 <td>${cosdetVO.cosDetailPrice}</td>
                                 <td>

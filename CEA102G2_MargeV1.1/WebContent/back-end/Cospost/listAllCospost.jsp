@@ -78,23 +78,16 @@
 							<tr>
 								<td>${cospostVO.cosPubNo}</td>
 								<td>
-									<c:forEach var="cospostVO" items="${list}">
-                    				<c:if test="${cospostVO.cosPubNo==cospostVO.cosPubNo}">
-	             					¡i${cospostVO.cosPubNo}¡j
+									<c:forEach var="cosVO" items="${cosSvc.all}">
+                    				<c:if test="${cosVO.cosNo==cospostVO.cosNo}">
+	             					¡i${cosVO.cosName}¡j
                     				</c:if>
                 					</c:forEach>
             					</td>
-								<td>
-									<c:forEach var="cosVO" items="${cosSvc.all}">
-                    				<c:if test="${cospostVO.cosNo==cosVO.cosNo}">
-	                   				¡i${cosVO.cosName}¡j
-                    				</c:if>
-                					</c:forEach>
-								</td>
 								<td>${cospostVO.cosPubCon}</td>			
-								<td><fmt:formatDate value="${cospostVO.cosPubTime}" type="both"/></td>
+								<td><fmt:formatDate value="${cospostVO.cosPubTime}" pattern="yyyy-MM-dd"/></td>
 								<td>
-									<a href="<%=request.getContextPath()%>/cospost/cospost.do?cosPostNo=${cospostVO.cosPostNo}&action=getOne_For_Update" type="button" class="btn btn-primary btn-sm" >
+									<a href="<%=request.getContextPath()%>/cospost/cospost.do?cosPostNo=${cospostVO.cosPubNo}&action=getOne_For_Update" type="button" class="btn btn-primary btn-sm" >
 										­×§ï
 									</a>
 								</td>
@@ -113,7 +106,7 @@
 						            </div>
 									
 									<div class="modal-body pb-0">
-										<jsp:include page="update_cospost_input.jsp" />
+<%-- 										<jsp:include page="update_cospost_input.jsp" /> --%>
 									</div>
 								</div>
 							</div>
