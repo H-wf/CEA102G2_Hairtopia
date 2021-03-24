@@ -1,20 +1,6 @@
 $(document).ready(function(){
 //判斷是否為重導直接開燈箱
-	if(typeof wholePostMap != 'undefined'){
-		if(wholePostMap !=null){
-			function reopenPostModal(wholePostMap){
-				emptyModal();
-				var jData = JSON.parse(wholePostMap);
-				
-				var commentList = jData.commentList;
-				var postVo = jData.postVo;
-				var tagNameList = jData.tagNameList;
-				
-				showWholePost(commentList, postVo, tagNameList);
-				$('#postModal').modal('show');
-			}
-		}
-	}
+	
 	$('[data-toggle="popover"]').popover();
 		$('.onePost').on('click',function(){
 			$.ajax({
