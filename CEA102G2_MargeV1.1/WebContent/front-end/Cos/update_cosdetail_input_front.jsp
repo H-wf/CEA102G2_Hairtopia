@@ -2,9 +2,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page import="com.coudet.model.*"%>
 
-<%
-  CosdetVO cosdetVO = (CosdetVO) request.getAttribute("cosdetVO"); 
-%>
 <html>
 <head>
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
@@ -61,7 +58,7 @@
 		</c:forEach>
 	</ul>
 </c:if>
-
+ <jsp:useBean id="cosdetSvc" scope="page" class="com.coudet.model.CosdetService"/>
 <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/coudet/coudet.do" name="form1" enctype="multipart/form-data">
 <table>
 	<tr>
@@ -74,7 +71,14 @@
 	</tr>
 	<tr>
 		<td>課程評價:</td>
-		<td><input type="TEXT" name="cosComment" size="45" value="${cosdetVO.getCosComment()}" /></td>
+		<td><select name="cosComment" value="${cosdetVO.getCosComment()}">
+		 <option value="">請選擇1-5分</option>
+  			<option value="1">1</option>
+  			<option value="2">2</option>
+ 			<option value="3">3</option>
+ 			<option value="4">4</option>
+ 			<option value="5">5</option>
+			</select></td>
 	</tr>
 	<tr>
 		<td>報名課程價格:</td>

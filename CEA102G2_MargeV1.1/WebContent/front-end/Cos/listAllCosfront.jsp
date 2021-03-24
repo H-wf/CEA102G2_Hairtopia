@@ -42,6 +42,13 @@
 
 <table id="table-1">
 	<tr><td>
+		 <h4>回課程前台</h4>
+		 <li><a href="<%=request.getContextPath()%>/front-end/Cos/Course_Lec_1st.jsp">回課程前台</a></li>
+	</td></tr>
+</table>
+
+<table id="table-1">
+	<tr><td>
 		 <h4>所有課程資料 - listAllCosfront.jsp</h4>
 	</td></tr>
 </table>
@@ -58,7 +65,7 @@
 
 <li><a href="<%=request.getContextPath()%>/front-end/Cos/listAllCosApplyFromfront.jsp">列出所有報名中課程</a><br><br></li>
 
-<table id="mytb"style="width: 77.5rem" class="table table-striped" >
+<table id="mytb" style="width: 77.5rem" class="table table-striped" >
 	<tr>
 		<th style="width: 4rem" valign="middle">課程<br>編號</th>
 		<th style="width: 4rem" valign="middle">講師<br>編號</th>
