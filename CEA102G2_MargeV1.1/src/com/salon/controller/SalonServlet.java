@@ -502,7 +502,7 @@ public class SalonServlet extends HttpServlet{
 				
 				
 				req.setAttribute("designerVO", designerVO);         // 資料庫取出的salonVO物件,存入req
-				String url = "/front-end/designer/listOneDesigner.jsp";
+				String url = "/front-end/index.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url);// 成功轉交 update_salon_input.jsp
 				successView.forward(req, res);	
 				

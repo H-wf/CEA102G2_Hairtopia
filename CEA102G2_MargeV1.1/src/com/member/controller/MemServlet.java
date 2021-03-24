@@ -33,7 +33,15 @@ public class MemServlet extends HttpServlet {
 		PrintWriter out = res.getWriter();
 		String action = req.getParameter("action");
 
-		
+
+		if("logout".equals(action)){
+			HttpSession session = req.getSession();
+			session.invalidate();
+			res.sendRedirect(req.getContextPath() +"/front-end/index.jsp");
+			
+			
+			
+		}
 		
 		if("test".equals(action)) {
 			String memEmail = req.getParameter("memEmail");

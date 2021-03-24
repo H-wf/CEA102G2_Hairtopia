@@ -118,7 +118,6 @@
 													src="<%=request.getContextPath()%>/PicFinder?pic=1&table=post&column=postPic1&idname=postNo&id=${postVO.postNo}"
 													class="card-img-top post-img" />
 											</div>
-											</a>
 										</c:if>
 									</c:forEach>
 								</div>
