@@ -79,7 +79,7 @@
 		<td style="width: 10rem" valign="middle">&emsp;&emsp;&ensp;<%=order.getMemNo()%></td>
 		<td style="width: 10rem" valign="middle">&emsp;&emsp;&ensp;<%=order.getCosDetailPrice()%></td>
         <td style="width: 10rem" valign="middle">
-        	<form name="deleteForm" action="<%=request.getContextPath()%>/cos/order.do" method="POST">
+        	<form name="deleteForm" action="<%=request.getContextPath()%>/cos/orderdetail.do" method="POST">
               <input type="hidden" name="action"  value="DELETE">
               <input type="hidden" name="del" value="<%=order.getCosNo() %>">
               <input type="submit" value="刪除" class="button">

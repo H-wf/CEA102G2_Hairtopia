@@ -2,10 +2,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page import="com.coudet.model.*"%>
 
-<%
-  CosdetVO cosdetVO = (CosdetVO) request.getAttribute("cosdetVO");
-	System.out.println("front-end/update_cosdetail_input.jsp no.7" + cosdetVO);
-%>
 <html>
 <head>
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>

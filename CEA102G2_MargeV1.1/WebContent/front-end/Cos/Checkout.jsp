@@ -82,9 +82,9 @@
                 <input placeholder="MM/YY" type="tel" name="expiry">
                 <input placeholder="CVC" type="number" name="cvc">
                 <input type="hidden" name="memNo" value="${cosVO.cosNo}">
-                <input type="hidden" name="memNo" value="${memVO.memNo}"> 
+                <input type="hidden" name="memNo" value="${1000}"> 
 				<input type="hidden" name="action" value="SENDCOSDETAIL">
-				<input type="submit" value="送出結帳" id="checkoutbtn">
+				<input type="submit" value="送出結帳" class="button">
             </form>
         </div>
 </div>
@@ -96,7 +96,7 @@
 
 </div>
 <!-- Page Content END -->
-<%@include file="/front-end/tempFile/footer" %>
+
 <%@include file="/front-end/tempFile/tempJs" %>
 <script src="<%=request.getContextPath()%>/resource/card-master/dist/jquery.card.js"></script>
 <script>

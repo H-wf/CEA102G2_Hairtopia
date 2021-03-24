@@ -7,6 +7,7 @@
 <%
     CosService cosSvc = new CosService();
     List<CosVO> list = cosSvc.getAllCosApplyFrom();
+    
     pageContext.setAttribute("list",list);
 %>
 
@@ -135,6 +136,7 @@
                  <input class="test" type="submit" value="報名" id="myBtn" onclick="this.disabled=true;this.form.submit();"/>
 			     <input type="button" class="test" value="測試報名" />
 			     <input type="hidden" name="cosNo"  value="${cosVO.cosNo}">
+			     <input type="hidden" name="memNo"  value="${1000}">
 			     <input type="hidden" name="cosDetailPrice"  value="${cosVO.cosPrice}">
 			     <input type="hidden" name="cosCount"  value="${cosVO.cosCount}">
 			     <input type="hidden" name="action"	value="ADD">

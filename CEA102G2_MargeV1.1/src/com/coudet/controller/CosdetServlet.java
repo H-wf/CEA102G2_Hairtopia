@@ -297,7 +297,7 @@ public class CosdetServlet extends HttpServlet {
 					failureView.forward(req, res);
 					return;
 				}
-				System.out.println("CosdetServlet no.293："+str);
+				System.out.println("CosdetServlet no.300："+str);
 				
 				Integer memNo = null;
 				try {
@@ -312,13 +312,10 @@ public class CosdetServlet extends HttpServlet {
 					return;
 				}
 				
-				System.out.println("CosdetServlet no.308："+memNo);
+				System.out.println("CosdetServlet no.315："+memNo);
 				
 				CosdetService cosdetSvc = new CosdetService();
-//				CosdetVO cosdetVO = cosdetSvc.findByMenNoToCos(memNo);
 				List<CosdetVO> cosdetVO = cosdetSvc.getAllCosByMemNo(memNo);
-//				HashSet<CosdetVO> cosdetVO = cosdetSvc.getAllCosByMemNo();
-//				System.out.println("test1" + cosdetVO);
 				if (cosdetVO == null) {
 					errorMsgs.add("getOne_For_Display：cosdetVO為null");
 				}
@@ -331,7 +328,6 @@ public class CosdetServlet extends HttpServlet {
 
 				req.setAttribute("cosdetVO", cosdetVO);
 				String url = "/front-end/Cos/RateCos.jsp";//已經走到這一步
-//				System.out.println("test2" + cosdetVO);
 				RequestDispatcher successView = req.getRequestDispatcher(url);
 				successView.forward(req, res);
 
@@ -450,14 +446,14 @@ public class CosdetServlet extends HttpServlet {
 		
 		try {
 			Integer cosNo = new Integer(req.getParameter("cosNo"));
-			System.out.println("CosdetServlet no.347" + cosNo);
+			System.out.println("CosdetServlet no.449：" + cosNo);
+			
+			Integer memNo = new Integer(req.getParameter("memNo"));
+			System.out.println("CosdetServlet no.452：" + memNo);
 
 			CosdetService cosdetSvc = new CosdetService();
-			CosdetVO cosdetVO = cosdetSvc.findOneCosByCosNo(cosNo);
-			System.out.println("CosdetServlet no.350" + cosdetVO);
-			
-//			CosdetService cosdetSvc1 = new CosdetService();
-//			CosdetVO cosdetVO = cosdetSvc1.getAvgCosRateByCosNo(cosNo);
+			CosdetVO cosdetVO = cosdetSvc.findQRCodeByCosNoAndCosNo(cosNo, memNo);//這邊雖然是QRCode...但其實是從一個cosNo跟memNo找到一組資料
+			System.out.println("CosdetServlet no.356：" + cosdetVO);
 
 			req.setAttribute("cosdetVO", cosdetVO);
 			String url = "/front-end/Cos/update_cosdetail_input_front.jsp";
@@ -478,7 +474,7 @@ public class CosdetServlet extends HttpServlet {
 		    System.out.println("req.getParameter(\"cosNo\").trim() = "+req.getParameter("cosNo").trim());
 			try {
 				Integer cosNo = new Integer(req.getParameter("cosNo").trim());
-				System.out.println("getOneCos_For_UpdateRate取cosNo" + cosNo);
+				System.out.println("getOneCos_For_UpdateRate取cosNo no.477：" + cosNo);
 				
 				Integer memNo = null;
 				try {
@@ -487,7 +483,7 @@ public class CosdetServlet extends HttpServlet {
 					memNo = 0;
 					errorMsgs.add("updateCosRate：memNo出現NumberFormatException");
 				}
-				System.out.println("getOneCos_For_UpdateRate取memNo" + memNo);
+				System.out.println("getOneCos_For_UpdateRate取memNo no.486：" + memNo);
 				
 				Integer cosComment = null;
 				try {
@@ -496,7 +492,7 @@ public class CosdetServlet extends HttpServlet {
 					memNo = 0;
 					errorMsgs.add("updateCosRate：cosComment出現null");
 				}
-				System.out.println("getOneCos_For_UpdateRate取cosComment" + cosComment);
+				System.out.println("getOneCos_For_UpdateRate取cosComment no.495：" + cosComment);
 				
 				CosdetVO cosdetVO = new CosdetVO();
 				cosdetVO.setCosNo(cosNo);
@@ -520,17 +516,17 @@ public class CosdetServlet extends HttpServlet {
 				
 				cosdetVO1 = cosdetSvc.getAvgCosCommentByCosNo(cosNo);
 				Integer cosRate = (Integer)(cosdetVO1.getCosComment());
-//				System.out.println("cosdetVO1.getCosComment()求出平均分數："+cosdetVO1.getCosComment());
-//				System.out.println("cosRate"+cosRate);
+				System.out.println("cosdetVO1.getCosComment()求出平均分數："+cosdetVO1.getCosComment());
+				System.out.println("cosRate"+cosRate);
 				cosVO1.setCosRate(cosdetVO1.getCosComment());
 				
 				cosVO1.setCosNo(cosNo);
 				
 				CosdetService cosdetSvc1 = new CosdetService();
 				cosVO1 = cosdetSvc1.updateCosRateForCosTable(cosRate, cosNo);
-//				System.out.println(cosNo);
-//				System.out.println(cosRate);
-//				System.out.println("updateCosRateForCosTable：已做到419");
+				System.out.println(cosNo);
+				System.out.println(cosRate);
+				System.out.println("updateCosRateForCosTable：已做到419");
 				
 				req.setAttribute("cosVO", cosVO1);
 				
