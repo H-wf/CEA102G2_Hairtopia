@@ -22,7 +22,7 @@
 		<div class="h3 mb-2 text-gray-800">
 			商品管理
 			<button type="button" class="btn btn-primary float-right" data-toggle="modal" data-target="#add">								
-				<i class="fas fa-plus" style="color:white !important;"></i> 新增商品
+				<i class="fas fa-plus"></i> 新增商品
 			</button>
 			<!-- Modal ADD -->					
 			<div class="modal fade" id="add" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
@@ -45,7 +45,7 @@
 		<!-- DataTales Example -->
 		<div class="card shadow mb-4">
 			<div class="card-header py-3">
-				<h6 class="m-0 font-weight-bold text-primary">DataTables Example</h6>
+				<h6 class="m-0 font-weight-bold text-primary">商品</h6>
 			</div>
 			<div class="card-body">
 				<div class="table-responsive">

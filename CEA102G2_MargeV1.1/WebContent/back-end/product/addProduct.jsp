@@ -48,9 +48,11 @@
 		<p class="lead mb-0">商品單價:</p>
 		<input required class="mb-3 mt-0" type="number" min="0" name="proPrice" size="20" placeholder="請輸入商品金額" value="" />		
 		<p class="lead mb-0">商品主圖:</p>
-		<input required class="mb-3 mt-0" type="file" name="proMpic" id="myFile">
+		<div id="preview1"></div>
+		<input required class="mb-3 mt-0" type="file" name="proMpic" id="myFile1">
 		<p class="lead mb-0">商品副圖:</p>
-		<input required class="mb-3 mt-0" type="file" name="proPic" id="myFile">
+		<div id="preview2"></div>
+		<input required class="mb-3 mt-0" type="file" name="proPic" id="myFile2">
 		<p class="lead mb-0">商品描述:</p>
 		<textarea required class="mb-3 mt-0" name="proDesc" cols="30" rows="10" placeholder="請輸入商品描述"></textarea>
 		<div class="modal-footer">
@@ -149,6 +151,85 @@
 <!-- 		<input type="submit" value="新增"> -->
 		
 <!-- 	</form> -->
-
+<script>
+var customFile1 = document.getElementById("myFile1");
+var preview1 = document.getElementById('preview1');
+customFile1.addEventListener('change', function(e) {
+	// 取得檔案物件的兩種方式
+	// 1. 直接從myFile物件上取得檔案物件 (因為非同步，一樣，多個classname註冊時會有問題)
+	// 2. 從event物件中取得他的soure target，也就是myFile物件，再取得檔案物件 
+	// 檔案的基本資訊，包括：檔案的名稱、大小與文件型態
+	let files = e.target.files;
+	// 判斷files物件是否存在
+	if (files) {
+		// 取出files物件的第一個
+		let file = files[0];
+		// 判斷file.type的型別是否包含'image'
+		if (file.type.indexOf('image') > -1) {
+			// new a FileReader
+			let reader = new FileReader();
+			// 在FileReader物件上註冊load事件 - 載入檔案的意思
+			reader.addEventListener('load', function(e) {
+				// 取得結果 提示：從e.target.result取得讀取到結果
+				let result = e.target.result;
+				console.log(result);
+				// 新增img元素
+				let img = document.createElement('img');
+				// 賦予src屬性
+				img.setAttribute('src', result);
+				img.setAttribute('width', '200');
+				img.classList.add("prviewImg");
+				// 放到div裡面
+				preview1.innerHTML = "";
+				preview1.append(img);
+			});
+			// 使用FileReader物件上的 readAsDataURL(file) 的方法，傳入要讀取的檔案，並開始進行讀取
+			reader.readAsDataURL(file); // *** trigger read file content
+		} else {
+			// 彈出警告視窗 
+			alert('請上傳圖片！');
+		}
+	}
+});
+var customFile2 = document.getElementById("myFile2");
+var preview2 = document.getElementById('preview2');
+customFile2.addEventListener('change', function(e) {
+	// 取得檔案物件的兩種方式
+	// 1. 直接從myFile物件上取得檔案物件 (因為非同步，一樣，多個classname註冊時會有問題)
+	// 2. 從event物件中取得他的soure target，也就是myFile物件，再取得檔案物件 
+	// 檔案的基本資訊，包括：檔案的名稱、大小與文件型態
+	let files = e.target.files;
+	// 判斷files物件是否存在
+	if (files) {
+		// 取出files物件的第一個
+		let file = files[0];
+		// 判斷file.type的型別是否包含'image'
+		if (file.type.indexOf('image') > -1) {
+			// new a FileReader
+			let reader = new FileReader();
+			// 在FileReader物件上註冊load事件 - 載入檔案的意思
+			reader.addEventListener('load', function(e) {
+				// 取得結果 提示：從e.target.result取得讀取到結果
+				let result = e.target.result;
+				console.log(result);
+				// 新增img元素
+				let img = document.createElement('img');
+				// 賦予src屬性
+				img.setAttribute('src', result);
+				img.setAttribute('width', '200');
+				img.classList.add("prviewImg");
+				// 放到div裡面
+				preview2.innerHTML = "";
+				preview2.append(img);
+			});
+			// 使用FileReader物件上的 readAsDataURL(file) 的方法，傳入要讀取的檔案，並開始進行讀取
+			reader.readAsDataURL(file); // *** trigger read file content
+		} else {
+			// 彈出警告視窗 
+			alert('請上傳圖片！');
+		}
+	}
+});
+</script>
 </body>
 </html>

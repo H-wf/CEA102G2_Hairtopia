@@ -235,19 +235,19 @@ input {
 					<tbody>
 						<tr>
 							<td width="120">姓名</td>
-							<td>${sessionScope.memVO.memName}</td>
+							<td>${sessionScope.userSession.memName}</td>
 						</tr>
 						<tr>
 							<td width="120">信箱</td>
-							<td>${sessionScope.memVO.memEmail}</td>
+							<td>${sessionScope.userSession.memEmail}</td>
 						</tr>
 						<tr>
 							<td width="120">手機</td>
-							<td>${sessionScope.memVO.memPhone}</td>
+							<td>${sessionScope.userSession.memPhone}</td>
 						</tr>
 						<tr>
 							<td width="120">地址</td>
-							<td>${sessionScope.memVO.memAddr}</td>
+							<td>${sessionScope.userSession.memAddr}</td>
 						</tr>
 						
 					</tbody>
@@ -281,7 +281,7 @@ input {
 							<td><div id="twzipcode"></div>
 								<input type="text" style="width: 412px;" class="address" name="ordAddr"></td>
 						</tr>
-						<input type="hidden" name="memNo" value="${sessionScope.memVO.memNo}">				 
+						<input type="hidden" name="memNo" value="${sessionScope.userSession.memNo}">				 
 						<input type="hidden" name="ordAmt" class="ordAmt" value="${sessionScope.ordAmt}">
 						<input type="hidden" name="action" value="PAY">
 						</form>
@@ -463,10 +463,10 @@ $(".go3").click(function(){
 });
 //點選同上將訂購人資料帶入收件人資料
 $(".form-check-input").click(function() {
-	$(".name").val("${sessionScope.memVO.memName}");
-	$(".mail").val("${sessionScope.memVO.memEmail}");
-	$(".phone").val("${sessionScope.memVO.memPhone}");
-	$(".address").val("${sessionScope.memVO.memAddr}");
+	$(".name").val("${sessionScope.userSession.memName}");
+	$(".mail").val("${sessionScope.userSession.memEmail}");
+	$(".phone").val("${sessionScope.userSession.memPhone}");
+	$(".address").val("${sessionScope.userSession.memAddr}");
 });
 
 

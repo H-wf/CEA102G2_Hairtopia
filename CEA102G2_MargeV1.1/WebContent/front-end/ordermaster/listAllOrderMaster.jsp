@@ -8,7 +8,7 @@
 <!-- 網頁標題要改記得改! -->
  <title>Hairtopia</title>
  <meta charset="utf-8">
-<%@include file="/front-end/tempFile/head" %>
+<%-- <%@include file="/front-end/tempFile/head" %> --%>
  
 </head>
 <style>
@@ -39,9 +39,12 @@ td,th{
 	font-size:22px;
 	color:#333333;
 }
+ul{
+	list-style-type:none;
+}
 </style>
 <body>
-<%@include file="/front-end/tempFile/navBar" %>
+<%-- <%@include file="/front-end/tempFile/navBar" %> --%>
 
 <!-- Begin Page Content -->
 <div class="container-fluid px-0">
@@ -50,10 +53,10 @@ td,th{
 <jsp:useBean id="proSvc" scope="page" class="com.product.model.ProductService" />
 <jsp:useBean id="ptypeSvc" scope="page" class="com.ptype.model.PtypeService" />
 <jsp:useBean id="brandSvc" scope="page" class="com.brand.model.BrandService" />
-	<div class="myorder">我的訂單</div>
-	<div class="row">
-	<div class="col-2"></div>
-	<div class="col-8">
+	
+	
+	
+	
 	<table class="table table-striped">
 	<tr>
 		<th>訂單編號</th>
@@ -65,7 +68,7 @@ td,th{
 	</tr>
 
 		<c:forEach var="ordmVO" items="${ordmSvc.all}">
-		<c:if test="${sessionScope.memVO.memNo==ordmVO.memNo}">
+		<c:if test="${sessionScope.userSession.memNo==ordmVO.memNo}">
 	<tr>
 		<td class="ordNo">${ordmVO.ordNo}</td>
 		<td class="ordDate"><fmt:formatDate pattern="yyyy-MM-dd" value="${ordmVO.ordDate}" /></td>
@@ -174,10 +177,10 @@ td,th{
 							<div class="col-6">
 							<div class="line">訂購人資訊</div>
 								<ul>
-									<li>訂購人姓名:&emsp;${sessionScope.memVO.memNo}
-									<li>訂購人信箱:&emsp;${sessionScope.memVO.memEmail}
-									<li>訂購人手機:&emsp;${sessionScope.memVO.memPhone}
-									<li>訂購人地址:&emsp;${sessionScope.memVO.memAddr}
+									<li>訂購人姓名:&emsp;${sessionScope.userSession.memNo}
+									<li>訂購人信箱:&emsp;${sessionScope.userSession.memEmail}
+									<li>訂購人手機:&emsp;${sessionScope.userSession.memPhone}
+									<li>訂購人地址:&emsp;${sessionScope.userSession.memAddr}
 								</ul>
 							</div>
 							<div class="col-6" >
@@ -226,14 +229,14 @@ td,th{
 	</c:if>
 	</c:forEach>
 	</table>
-	</div>
+	
 	</div>
 
 
-</div>
+<%@include file="/front-end/tempFile/footer"%>
 <!-- Page Content END -->
-<%@include file="/front-end/tempFile/footer" %>
-<%@include file="/front-end/tempFile/tempJs" %>
+<%-- <%@include file="/front-end/tempFile/footer" %> --%>
+<%-- <%@include file="/front-end/tempFile/tempJs" %> --%>
 </body>
 <script>
 $(document).ready(function(){
@@ -271,7 +274,7 @@ $(".cancel").click(function(){
 					data:{
 						action:"cancel",
 						ordNo:$(this).parent().parent().find(".ordNo").text(),					
-						memNo:${sessionScope.memVO.memNo},
+						memNo:${sessionScope.userSession.memNo},
 						ordStatus:"3",
 						ordAmt:$(this).parent().parent().find(".ordAmt").text(),
 						index:$(this).parent().parent().index()-1

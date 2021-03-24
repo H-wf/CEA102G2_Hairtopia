@@ -3,6 +3,9 @@
 .fas{
 	color: #d8cf9e !important;
 	}
+.fa-plus{
+	color:white !important;
+}
 .sidebar-brand{
 	position: relative;
 }.sidebar-brand div img{
@@ -10,16 +13,38 @@
 	left: 25px;
 	top: 10px;
 }
+.sidebar .nav-item .collapse .collapse-inner .collapse-item:active, .sidebar .nav-item .collapsing .collapse-inner .collapse-item:active{
+	background-color:rgb(216 207 158 / 50%);
+}
+.sidebar .nav-item .collapse .collapse-inner .collapse-item:hover, .sidebar .nav-item .collapsing .collapse-inner .collapse-item:hover{
+	background-color:rgb(216 207 158 / 50%);
+}
 .btn-primary, .btn-primary:hover, .btn-primary.focus, .btn-primary:focus{
 	background-color:#d8cf9e;
 	border-style:none;
 	box-shadow:0 0 0 0rem rgb(216 207 158 / 50%);
 	border-radius:0 0 0 0;
 }
+.btn-primary:hover, .btn-primary.focus, .btn-primary:focus{
+	background-color:#FFF;
+	color:#d8cf9e;
+	border:0.5px #d8cf9e solid;
+	box-shadow:0 0 0 0rem rgb(255 255 255 / 50%);
+}
+.btn-primary:hover .fa-plus{
+	color:#d8cf9e !important;
+}
+.btn-primary:focus .fa-plus{
+	color:#d8cf9e !important;
+}
+.btn-primary.focus .fa-plus{
+	color:#d8cf9e !important;
+}
 .btn-primary:not(:disabled):not(.disabled).active, .btn-primary:not(:disabled):not(.disabled):active, .show>.btn-primary.dropdown-toggle{
 	background-color:#d8cf9e;
 	border-style:none;
 	box-shadow:0 0 0 0rem rgb(216 207 158 / 50%);
+	border-color:#d8cf9e;
 }
 .page-item.active .page-link {
 	background-color:#D8CF9E;
@@ -30,6 +55,9 @@
 }
 .page-link{
 	color:#969592;
+}
+.dataTable tbody tr:nth-of-type(odd){
+	background-color: rgba(199, 198, 194, 0.2);
 }
 </style>
 <!-- Page Wrapper -->
@@ -120,7 +148,7 @@
                 </a>
                 <div id="rulemanagement" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <a class="collapse-item" href="##">條款管理</a>
+                        <a class="collapse-item" href="<%=request.getContextPath()%>/back-end/rule/listAllRule.jsp">條款管理</a>
                     </div>
                 </div>
             </li>

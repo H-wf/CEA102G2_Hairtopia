@@ -386,18 +386,15 @@ img {
 						<div class="tab-pane fade" id="Order" role="tabpanel"
 							aria-labelledby="Order-tab">
 							<div class="ServiceCard">
-								<div class="callout callout-default">
-									<h4>Default Callout</h4>
-									This is a default callout. <a
-										class="btn btn-outline-primary bookingBtn">查看明細<i
-										class="bi bi-arrow-right"></i></a>
-								</div>
+<!-- 								<div class="callout callout-default"> -->
+									<jsp:include page="../ordermaster/listAllOrderMaster.jsp"/>
+<!-- 								</div> -->
 								<!-- 							Service -->
 								<!-- 							<br><br><br><br><br><br><br><br><br><br> -->
 							</div>
 						</div>
 						
-						//
+						
 						<div class="tab-pane fade" id="Course" role="tabpanel"
 							aria-labelledby="Info-tab">
 							<div class="InfoCard">
