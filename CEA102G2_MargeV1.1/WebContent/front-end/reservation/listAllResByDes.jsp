@@ -3,12 +3,17 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page import="java.util.*"%>
 <%@ page import="com.reservation.model.*"%>
+<%@ page import="com.designer.model.*"%>
 
 	<jsp:useBean id="serviceSvc" scope="page" class="com.service.model.ServiceService" />
 	<jsp:useBean id="designerSvc" scope="page" class="com.designer.model.DesignerService" />
 	<jsp:useBean id="resSvc" scope="page" class="com.reservation.model.ResService" />
 	<jsp:useBean id="memSvc" scope="page" class="com.member.model.MemService" />
-
+<%
+	DesignerService desSvc = new DesignerService();
+	DesignerVO desSession = desSvc.getOneDesByDesNo(2);
+	pageContext.setAttribute("desSession", desSession);
+%>
 <!DOCTYPE html>
 <html>
 <head>
