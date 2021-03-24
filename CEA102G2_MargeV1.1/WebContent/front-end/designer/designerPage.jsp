@@ -198,7 +198,7 @@
 						aria-label="Close">
 						<span aria-hidden="true">&times;</span>
 					</button>
-					<form METHOD="POST"	ACTION="<%=request.getContextPath()%>/post/post.do" id="addPostForm" name="form"	enctype="multipart/form-data">
+					<form METHOD="POST"	ACTION="<%=request.getContextPath()%>/post/post.do" id="addPostForm" name="form" enctype="multipart/form-data">
 						<div class="row justify-content-center">
 							<div class="col-md-12" id="addPostTitle"><h4>新增貼文</h4></div>
 							<div class="col-md-12 ftco-animate">

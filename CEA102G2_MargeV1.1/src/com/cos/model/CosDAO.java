@@ -35,9 +35,9 @@ public class CosDAO implements CosDAO_interface{
 	
 	private static final String INSERT_COURSE = 
 			"INSERT INTO course (lecNo, cosTypeNo, cosFrom, cosTo, "
-			+ "cosIntro, cosPic, cosAdd, cosCount, cosRate, "
+			+ "cosIntro, cosPic, cosAdd, "
 			+ "cosStatus, cosMinCount, cosMaxCount, cosPrice, cosApplyFrom, "
-			+ "cosApplyTo, cosName) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+			+ "cosApplyTo, cosName) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 	
 	private static final String GET_ONE_COURSE_STMT = 
 			"SELECT cosNo, lecNo, cosTypeNo, cosFrom, cosTo, " 
@@ -68,13 +68,13 @@ public class CosDAO implements CosDAO_interface{
 				
 	private static final String UPDATE_COURSE = 
 			"UPDATE course SET lecNo=?, cosTypeNo=?, cosFrom=?, cosTo=?, "  
-			+ "cosIntro=?, cosPic=?, cosAdd=?, cosCount=?, cosRate=?, "  
+			+ "cosIntro=?, cosPic=?, cosAdd=?, "  
 			+ "cosStatus=?, cosMinCount=?, cosMaxCount=?, cosPrice=?, cosApplyFrom=?, "  
 			+ "cosApplyTo=?, cosName=? where cosNo = ?";
 	
 	private static final String UPDATE_COURSE_NO_PIC = 
 			"UPDATE course SET lecNo=?, cosTypeNo=?, cosFrom=?, cosTo=?, "  
-			+ "cosIntro=?, cosAdd=?, cosCount=?, cosRate=?, "  
+			+ "cosIntro=?, cosAdd=?, "  
 			+ "cosStatus=?, cosMinCount=?, cosMaxCount=?, cosPrice=?, cosApplyFrom=?, "  
 			+ "cosApplyTo=?, cosName=? where cosNo = ?";
 	
@@ -101,15 +101,13 @@ public class CosDAO implements CosDAO_interface{
 			pstmt.setString(5, cosVO.getCosIntro());
 			pstmt.setBytes(6, cosVO.getCosPic());
 			pstmt.setString(7, cosVO.getCosAdd());
-			pstmt.setInt(8, cosVO.getCosCount());
-			pstmt.setInt(9, cosVO.getCosRate());
-			pstmt.setBoolean(10, cosVO.isCosStatus());
-			pstmt.setInt(11, cosVO.getCosMinCount());
-			pstmt.setInt(12, cosVO.getCosMaxCount());
-			pstmt.setInt(13, cosVO.getCosPrice());
-			pstmt.setTimestamp(14, cosVO.getCosApplyFrom());
-			pstmt.setTimestamp(15, cosVO.getCosApplyTo());
-			pstmt.setString(16, cosVO.getCosName());
+			pstmt.setBoolean(8, cosVO.isCosStatus());
+			pstmt.setInt(9, cosVO.getCosMinCount());
+			pstmt.setInt(10, cosVO.getCosMaxCount());
+			pstmt.setInt(11, cosVO.getCosPrice());
+			pstmt.setTimestamp(12, cosVO.getCosApplyFrom());
+			pstmt.setTimestamp(13, cosVO.getCosApplyTo());
+			pstmt.setString(14, cosVO.getCosName());
 
 			pstmt.executeUpdate("set auto_increment_offset=3;");
 			pstmt.executeUpdate("set auto_increment_increment=3;");
@@ -154,16 +152,14 @@ public class CosDAO implements CosDAO_interface{
 			pstmt.setString(5, cosVO.getCosIntro());
 			pstmt.setBytes(6, cosVO.getCosPic());
 			pstmt.setString(7, cosVO.getCosAdd());
-			pstmt.setInt(8, cosVO.getCosCount());
-			pstmt.setInt(9, cosVO.getCosRate());
-			pstmt.setBoolean(10, cosVO.isCosStatus());
-			pstmt.setInt(11, cosVO.getCosMinCount());
-			pstmt.setInt(12, cosVO.getCosMaxCount());
-			pstmt.setInt(13, cosVO.getCosPrice());
-			pstmt.setTimestamp(14, cosVO.getCosApplyFrom());
-			pstmt.setTimestamp(15, cosVO.getCosApplyTo());
-			pstmt.setString(16, cosVO.getCosName());
-			pstmt.setInt(17, cosVO.getCosNo());
+			pstmt.setBoolean(8, cosVO.isCosStatus());
+			pstmt.setInt(9, cosVO.getCosMinCount());
+			pstmt.setInt(10, cosVO.getCosMaxCount());
+			pstmt.setInt(11, cosVO.getCosPrice());
+			pstmt.setTimestamp(12, cosVO.getCosApplyFrom());
+			pstmt.setTimestamp(13, cosVO.getCosApplyTo());
+			pstmt.setString(14, cosVO.getCosName());
+			pstmt.setInt(15, cosVO.getCosNo());
 
 			pstmt.executeUpdate();
 
@@ -205,16 +201,14 @@ public class CosDAO implements CosDAO_interface{
 			pstmt.setTimestamp(4, cosVO.getCosTo());
 			pstmt.setString(5, cosVO.getCosIntro());
 			pstmt.setString(6, cosVO.getCosAdd());
-			pstmt.setInt(7, cosVO.getCosCount());
-			pstmt.setInt(8, cosVO.getCosRate());
-			pstmt.setBoolean(9, cosVO.isCosStatus());
-			pstmt.setInt(10, cosVO.getCosMinCount());
-			pstmt.setInt(11, cosVO.getCosMaxCount());
-			pstmt.setInt(12, cosVO.getCosPrice());
-			pstmt.setTimestamp(13, cosVO.getCosApplyFrom());
-			pstmt.setTimestamp(14, cosVO.getCosApplyTo());
-			pstmt.setString(15, cosVO.getCosName());
-			pstmt.setInt(16, cosVO.getCosNo());
+			pstmt.setBoolean(7, cosVO.isCosStatus());
+			pstmt.setInt(8, cosVO.getCosMinCount());
+			pstmt.setInt(9, cosVO.getCosMaxCount());
+			pstmt.setInt(10, cosVO.getCosPrice());
+			pstmt.setTimestamp(11, cosVO.getCosApplyFrom());
+			pstmt.setTimestamp(12, cosVO.getCosApplyTo());
+			pstmt.setString(13, cosVO.getCosName());
+			pstmt.setInt(14, cosVO.getCosNo());
 
 			pstmt.executeUpdate();
 
@@ -357,6 +351,7 @@ public class CosDAO implements CosDAO_interface{
 				}
 			}
 		}
+		
 		return cosVO;
 	}
 

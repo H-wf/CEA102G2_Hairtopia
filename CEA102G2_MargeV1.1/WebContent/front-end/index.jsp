@@ -184,7 +184,7 @@ img {
                         <div class="offer-deal text-center px-2 px-lg-5">
                             <i class="bi bi-search"></i>
                             <div class="text">
-                                <h3 class="mb-4">即刻預約</h3>
+                                <h3 class="mb-4">尋找設計師</h3>
                                 <p class="mb-4">心動不如馬上行動!<br>立即用Hairtopia預約屬於你的髮廊和設計師!</p>
                             </div>
                             <div id="infoBtn">
@@ -202,7 +202,7 @@ img {
                                 <p class="mb-4">在茫茫設計師海中迷路了嗎?<br>Hairtopia設計師風格貼文，帶您找到喜歡的設計Style!</p>
                             </div>
                             <div id="infoBtn">
-                                <a href="#" class="btn btn-primary d-block px-2 py-4"> 立即前往 </a>
+                                <a href="<%=request.getContextPath()%>/front-end/Post/ListAllPost_AJAX.jsp" class="btn btn-primary d-block px-2 py-4"> 立即前往 </a>
                             </div>
                         </div>
                     </div>

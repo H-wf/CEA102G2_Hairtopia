@@ -13,11 +13,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<style type="text/css">
-img {
-	width: 150px;
-}
-</style>
+
 <meta charset="UTF-8">
 <title>員工權限資料 - listAll_auth.jsp</title>
 <meta charset="utf-8">
@@ -79,7 +75,7 @@ img {
 													<FORM METHOD="post"
 														ACTION="<%=request.getContextPath()%>/authority/authority.do"
 														style="margin-bottom: 0px;">
-														<input type="submit" value="刪除權限" class="btn btn-primary"> <input
+														<input type="submit" value="刪除權限" class="btn btn-primary "> <input
 															type="hidden" name="funcNo" value="${funcVO.funcNo}">
 														<input type="hidden" name="staNo" value="${staVO.staNo}">
 														<input type="hidden" name="action" value="listAll_auth">
@@ -89,7 +85,7 @@ img {
 													<FORM METHOD="post"
 														ACTION="<%=request.getContextPath()%>/authority/authority.do"
 														style="margin-bottom: 0px;">
-														<input type="submit" value="增加權限" disabled class="btn btn-primary"> <input
+														<input type="submit" value="增加權限" disabled class="btn "> <input
 															type="hidden" name="funcNo" value="${funcVO.funcNo}">
 														<input type="hidden" name="staNo" value="${staVO.staNo}">
 														<input type="hidden" name="action" value="insert">
@@ -101,7 +97,7 @@ img {
 													<FORM METHOD="post"
 														ACTION="<%=request.getContextPath()%>/authority/authority.do"
 														style="margin-bottom: 0px;">
-														<input type="submit" value="刪除權限" disabled class="btn btn-primary"> <input
+														<input type="submit" value="刪除權限" disabled class="btn "> <input
 															type="hidden" name="funcNo" value="${funcVO.funcNo}">
 														<input type="hidden" name="staNo" value="${staVO.staNo}">
 														<input type="hidden" name="action" value="listAll_auth">
@@ -129,6 +125,8 @@ img {
 			</div>
 		</div>
 	</div>
+<%@include file="/back-end/tempFile/footer" %>
+<%@include file="/back-end/tempFile/srcJs" %>		
 
 </body>
 </html>

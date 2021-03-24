@@ -161,7 +161,7 @@ public class PtypeServlet extends HttpServlet {
 				/*************************** 1.接收請求參數 - 輸入格式的錯誤處理 **********************/
 
 				Integer ptypeNo = new Integer(req.getParameter("ptypeNo").trim());
-				System.out.println(ptypeNo);
+				
 				String ptypeName = req.getParameter("ptypeName").trim();
 				if (ptypeName == null || ptypeName.trim().length() == 0) {
 					errorMsgs.add("名稱請勿空白");
