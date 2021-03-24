@@ -2,7 +2,6 @@
 <%@ page import="com.reservation.model.*"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<%-- 此頁暫練習採用 Script 的寫法取值 --%>
 
 <%
   ResVO resVO = (ResVO) request.getAttribute("resVO"); //ResServlet.java(Concroller), 存入req的serviceVO物件
@@ -60,10 +59,6 @@
             content: '\2606';
             font-family: FontAwesome
         }
-        body{
-			font-size:.9rem;
-			font-weight:400;
-		}
     </style>
 </head>
 <body>
@@ -146,7 +141,7 @@
         		<input class="star star-1" id="star-1" type="radio" name="resCom" value=1 /> 
         		<label class="star star-1" for="star-1"></label>
     			</div>
-				<input type="submit" value="送出評價">
+				<input type="submit" value="送出評價" class="btn btn-primary">
 				<input type="hidden" name="resNo" value="${resVO.resNo}">
 				<input type="hidden" name="action" value="reviewRes">
 				</FORM>

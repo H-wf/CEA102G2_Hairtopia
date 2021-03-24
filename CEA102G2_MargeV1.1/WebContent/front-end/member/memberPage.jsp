@@ -5,6 +5,8 @@
 <%@ page import="com.post.model.*"%>
 <%@ page import="com.member.model.*"%>
 <%@ page import="com.salon.model.*"%>
+<%@ page import="com.reservation.model.*"%>
+<%@ page import="com.coudet.model.*"%>
 <%@ page import="java.util.*"%>
 
 <jsp:useBean id="desSvc" scope="page"
@@ -19,6 +21,13 @@
 	class="com.salon.model.SalonService" />
 <jsp:useBean id="serviceSvc" scope="page"
 	class="com.service.model.ServiceService" />
+<jsp:useBean id="resSvc" scope="page"
+	class="com.reservation.model.ResService" />
+<jsp:useBean id="cosSvc" scope="page"
+	class="com.cos.model.CosService" />
+<jsp:useBean id="cosdetSvc" scope="page"
+	class="com.coudet.model.CosdetService" />
+	
 
 <%
 	MemVO memVO = memSvc.getOneMem(2);
@@ -368,13 +377,106 @@ img {
 
 						<div class="tab-pane fade show active" id="Reservation" role="tabpanel"
 							aria-labelledby="Reservation-tab">
-						
-							<div class="callout callout-default">
-									<h4>Default Callout</h4>
-									This is a default callout11111111. <a
-										class="btn btn-outline-primary bookingBtn">查看明細<i
-										class="bi bi-arrow-right"></i></a>
-								</div>
+							
+<c:if test="${empty resSvc.getAllResByMemNo(sessionScope.userSession.memNo)}">	
+<div style="text-align:center;font-weight:400;">目前尚無預約</div>
+</c:if>					 
+<c:if test="${not empty resSvc.getAllResByMemNo(sessionScope.userSession.memNo)}">						 
+	<table class="table table-striped">
+	<tr>
+		<th>編號</th>
+		<th>服務項目</th>
+		<th>設計師</th>
+		<th>預約時間</th>
+		<th>預約狀態</th>
+		<th>金額</th>
+		<th>預約明細</th>
+		<th></th>
+		
+	</tr>
+	
+	<c:forEach var="resVO" items="${resSvc.getAllResByMemNo(sessionScope.userSession.memNo)}" >
+		
+		<tr>
+			<td>${resVO.resNo}</td>
+			<td>
+				<c:forEach var="serviceVO" items="${serviceSvc.all}">
+					<c:if test="${serviceVO.serNo==resVO.serNo}">
+	            	${serviceVO.serName}
+            		</c:if>
+				</c:forEach>
+			</td>
+			<td>
+				<c:forEach var="designerVO" items="${desSvc.all}">
+					<c:if test="${designerVO.desNo==resVO.desNo}">
+	            	${designerVO.desName}
+            		</c:if>
+				</c:forEach>
+			</td>
+			<td>
+				<c:forEach var="serviceVO" items="${serviceSvc.all}">
+					<c:if test="${serviceVO.serNo==resVO.serNo}">
+	            	<c:set var="serPeriod" value="${serviceVO.serTime}"/>
+            		</c:if>
+				</c:forEach>
+				<fmt:formatDate value="${resVO.resDate}" pattern="yyyy-MM-dd"/><br>
+				<c:set var="startTime" value="${resVO.resTime}"/>
+				<c:set var="endTime" value="${startTime+serPeriod}"/>
+				<fmt:formatNumber type="number" value="${((startTime*30 -(startTime*30%60)))/60}"  var="shour"/>
+				<fmt:formatNumber type="number" value="${((endTime*30 -(endTime*30%60)))/60}"  var="ehour"/>
+				<c:if test="${shour<10}">0</c:if>${shour}:${(startTime*30 %60 == 0)? "00" :"30" }
+				~<c:if test="${ehour<10}">0</c:if>${ehour}:${(endTime*30 %60 == 0)? "00" :"30" }
+			</td>
+			<td>
+			<c:choose>
+				<c:when test="${resVO.resStatus == 0}">
+				預約待確認
+				</c:when>
+				<c:when test="${resVO.resStatus == 1}">
+				確認待驗證
+				</c:when>
+				<c:when test="${resVO.resStatus == 2}">
+				已到店認證
+				</c:when>
+				<c:when test="${resVO.resStatus == 3}">
+				服務已完成
+				</c:when>
+				<c:when test="${resVO.resStatus == 4}">
+				無法提供服務
+				</c:when>
+				<c:when test="${resVO.resStatus == 5}">
+				您取消預約
+				</c:when>
+				<c:otherwise>
+				會員未到
+				</c:otherwise>
+			</c:choose>
+			</td>
+			
+			<td>${resVO.resPrice}</td>
+			<td>
+				<a href="<%=request.getContextPath()%>/reservation/res.do?resNo=${resVO.resNo}&action=getOne_For_Display_Of_Mem" class="checkDetail">查看明細</a>
+				
+			</td>
+			<td style="padding:12px 3px">
+				<c:if test="${resVO.resStatus == 0}">
+					<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/reservation/res.do" style="margin-bottom: 0px;">
+			     	<input type="submit" value="取消預約"  class="btn btn-primary" style="border:0px;padding:.3rem .75rem">
+			    	<input type="hidden" name="resNo"  value="${resVO.resNo}">
+			     	<input type="hidden" name="action"	value="cancelByMem"></FORM>
+				</c:if>
+			</td>
+			
+		</tr>
+	</c:forEach>
+</table>
+</c:if>
+<!-- 							<div class="callout callout-default"> -->
+<!-- 									<h4>Default Callout</h4> -->
+<!-- 									This is a default callout11111111. <a -->
+<!-- 										class="btn btn-outline-primary bookingBtn">查看明細<i -->
+<!-- 										class="bi bi-arrow-right"></i></a> -->
+<!-- 							</div> -->
 
 							<div class="container post">
 								<div class="card-columns ">
@@ -401,18 +503,42 @@ img {
 						<div class="tab-pane fade" id="Course" role="tabpanel"
 							aria-labelledby="Info-tab">
 							<div class="InfoCard">
-								<section class="ftco-section contact-section">
-									<div class="container">
+								<table class="table table-striped">
+								<tr>
+									<th>課程名稱</th>
+									<th>課程評價</th>
+									<th>報名課程價格</th>
+									<th></th>
+									<th></th>
 									
-									<div class="callout callout-default">
-									<h4>Default Callout</h4>
-									This is a default callout. <a
-										class="btn btn-outline-primary bookingBtn">查看明細<i
-										class="bi bi-arrow-right"></i></a>
-								</div>
-
-									</div>
-								</section>
+								</tr>
+								<c:forEach var="cosdetVO" items="${cosdetSvc.getAllCosByMemNo(userSession.memNo)}">
+								<tr>
+									<td><c:forEach var="cosVO" items="${cosSvc.all}">
+									<c:if test="${cosdetVO.cosNo==cosVO.cosNo}">
+	            					${cosVO.cosName}
+            						</c:if>
+									</c:forEach></td>
+									<td>${cosdetVO.cosComment}</td>
+									<td>${cosdetVO.cosDetailPrice}</td>
+									<td>
+			  							<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/coudet/coudet.do" style="margin-bottom: 0px;" >
+			     						<input type="submit" value="評分" class="btn btn-primary">
+			     						<input type="hidden" name="cosNo"  value="${cosdetVO.getCosNo()}">
+			    						<input type="hidden" name="memNo"  value="${cosdetVO.getMemNo()}">
+			     						<input type="hidden" name="cosComment"  value="${cosdetVO.getCosComment()}">
+			     						<input type="hidden" name="action"	value="getOneCos_For_UpdateRate"></FORM>
+									</td>
+									<td>
+			  							<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/coudet/coudet.do" style="margin-bottom: 0px;" >
+			     						<input type="submit" value="查詢QRCode" class="btn btn-primary">
+			     						<input type="hidden" name="cosNo"  value="${cosdetVO.getCosNo()}">
+			     						<input type="hidden" name="memNo"  value="${cosdetVO.getMemNo()}">
+			     						<input type="hidden" name="action"	value="ShowQRCodeByCosNoAndMemNo"></FORM>
+									</td>
+								</tr>
+								</c:forEach>
+							</table>
 							</div>
 						</div>
 						<% %>
@@ -495,26 +621,26 @@ img {
 	</div>
 
 	<!-- Post Modal -->
-	<c:if test="${openModal != null}">
-		<div class="modal fade" id="postModal" tabindex="-1"
-			aria-hidden="false">
-			<div
-				class="modal-dialog modal-dialog-centered modal-dialog-scrollable listOne">
-				<div class="modal-content">
-					<button type="button" class="postClose text-right"
-						data-dismiss="modal" aria-label="Close">
-						<span aria-hidden="true">&times;</span>
-					</button>
-					<div class="modal-body p-0 m-0">
-						<div class="includePage">
-							<jsp:include
-								page="/front-end/Comment/listPostWithComments_front.jsp" />
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</c:if>
+<%-- 	<c:if test="${openModal != null}"> --%>
+<!-- 		<div class="modal fade" id="postModal" tabindex="-1" -->
+<!-- 			aria-hidden="false"> -->
+<!-- 			<div -->
+<!-- 				class="modal-dialog modal-dialog-centered modal-dialog-scrollable listOne"> -->
+<!-- 				<div class="modal-content"> -->
+<!-- 					<button type="button" class="postClose text-right" -->
+<!-- 						data-dismiss="modal" aria-label="Close"> -->
+<!-- 						<span aria-hidden="true">&times;</span> -->
+<!-- 					</button> -->
+<!-- 					<div class="modal-body p-0 m-0"> -->
+<!-- 						<div class="includePage"> -->
+<%-- 							<jsp:include --%>
+<%-- 								page="/front-end/Comment/listPostWithComments_front.jsp" /> --%>
+<!-- 						</div> -->
+<!-- 					</div> -->
+<!-- 				</div> -->
+<!-- 			</div> -->
+<!-- 		</div> -->
+<%-- 	</c:if> --%>
 	<!-- Post END -->
 	<!-- Login Modal -->
 	<div class="modal fade" id="loginModal" tabindex="-1"
@@ -538,6 +664,31 @@ img {
 		</div>
 	</div>
 	<!-- Login Modal END -->
+	<!-- Res Modal -->
+		<c:if test="${openModal!=null}">
+<div class="modal fade" id="resModal" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+                <h4 class="modal-title" id="myModalLabel">Reservation Detail</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            </div>
+			
+			<div class="modal-body">
+<!-- =========================================以下為原listOneEmp.jsp的內容========================================== -->
+               <jsp:include page="/front-end/reservation/listOneResOfMem.jsp" />
+<!-- =========================================以上為原listOneEmp.jsp的內容========================================== -->
+			</div>
+			
+			<div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+            </div>
+		
+		</div>
+	</div>
+</div>
+</c:if>
+    <!-- Res Modal END -->
 	<script src="<%=request.getContextPath()%>/dist/js/jquery.min.js"></script>
 	<script
 		src="<%=request.getContextPath()%>/dist/js/jquery-migrate-3.0.1.min.js"></script>
@@ -572,6 +723,7 @@ img {
 	<%@include file="/front-end/tempFile/tempJs"%>
 </body>
 <script>
+$("#resModal").modal({show: true});
 // 	$('#loginModal').on('shown.bs.modal', function() {
 // 	    $('#myInput').trigger('focus')
 // 	})

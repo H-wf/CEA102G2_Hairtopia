@@ -28,7 +28,7 @@
 <%@include file="/front-end/tempFile/head"%>
 <link rel="stylesheet" href="<%=request.getContextPath()%>/resource/css/desPage.css">
 <link rel="stylesheet" href="<%=request.getContextPath()%>/resource/css/post.css">
-	<link rel="stylesheet" href="<%=request.getContextPath()%>/resource/tagify/dist/tagify.css">
+<link rel="stylesheet" href="<%=request.getContextPath()%>/resource/tagify/dist/tagify.css">
 </head>
 <style>
 
@@ -60,7 +60,7 @@
 											Follow
 										</c:when>
 										<c:otherwise>
-											${followSvc.isfollowing(memVO.memNo,designerVO.desNo) ==true?"Unfollow":"Follow"}
+											${followSvc.isfollowing(userSession.memNo,designerVO.desNo) ==true?"Unfollow":"Follow"}
 										</c:otherwise>
 									</c:choose>
 									</div>
@@ -142,7 +142,7 @@
 											<hr>
 											<div class="price">
 												<h4 style="display: inline; font-size: unset;">優惠價:${serviceVo.serPrice}元</h4>
-												<a class="btn btn-outline-primary bookingBtn" id="resBtn"	href="#">立即預約${empty sessionScope.memVO}<i class="bi bi-arrow-right"></i></a>
+												<a class="btn btn-outline-primary bookingBtn" id="resBtn" href="<%=request.getContextPath()%>/service/service.do?serNo=${serviceVo.serNo}&action=getOne_For_AddRes">立即預約<i class="bi bi-arrow-right"></i></a>
 											</div>
 										</div>
 									</c:if>
@@ -324,8 +324,7 @@
 		});
 		
 		$('#resBtn').on('click',function(){
-			if(${empty sessionScope.memVO}){
-				
+			if(${empty sessionScope.userSession}){
 				swal.fire({
 					title:'請先登入',
 					icon:'warning',
@@ -342,17 +341,18 @@
 				});
 				return false;
 			}else if(${not empty desSession}){
-				if(${desSession.desNo==serviceVO.desNo}){
-					Swal.fire({
+					if(${desSession.desNo==designerVO.desNo}){
+					swal.fire({
   				  		icon: 'warning',
   				  		title: 'Oops...',
   				  		text: '自己不能預約自己',
-  				  		confirmButtonColor:'rgba(216,207,158,0.8)'
-					})
-					
-					alert("5678")
+  				  		confirmButtonColor:'rgba(216,207,158,0.8)',
+					});
 					return false;
-  				}
+					}
+					alert("5678");
+					
+  				
 			}
 		})
 		

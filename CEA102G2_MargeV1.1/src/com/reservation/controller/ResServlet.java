@@ -140,7 +140,7 @@ public class ResServlet extends HttpServlet{
 //				req.setAttribute("memNo", memNo);
 				
 				/***************************3.新增完成,準備轉交(Send the Success view)***********/
-				String url = "/front-end/reservation/listAllResByMem.jsp";
+				String url = "/front-end/member/memberPage.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url); // 新增成功後轉交listAllResByMem.jsp
 				successView.forward(req, res);				
 				
@@ -148,7 +148,7 @@ public class ResServlet extends HttpServlet{
 			} catch (Exception e) {
 				errorMsgs.add(e.getMessage());
 				RequestDispatcher failureView = req
-						.getRequestDispatcher("/front-end/reservation/addRes.jsp");
+						.getRequestDispatcher("/front-end/member/memberPage.jsp");
 				failureView.forward(req, res);
 			}
 		}
@@ -255,16 +255,16 @@ public class ResServlet extends HttpServlet{
 				
 				ResService resSvc = new ResService();
 				ResVO resVO = resSvc.getOneRes(resNo);
-				Integer memNo = resVO.getMemNo();
-				List<ResVO> list=resSvc.getAllResByMemNo(memNo);
+//				Integer memNo = resVO.getMemNo();
+//				List<ResVO> list=resSvc.getAllResByMemNo(memNo);
 				
 				req.setAttribute("resVO", resVO); // 資料庫取出的resVO物件,存入req
-				req.setAttribute("list", list);
+//				req.setAttribute("list", list);
 				//Bootstrap_modal
 				boolean openModal=true;
 				req.setAttribute("openModal",openModal );
 				
-				String url = "/front-end/reservation/listAllResByMem.jsp";
+				String url = "/front-end/member/memberPage.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url); // 成功轉交 listOneEmp.jsp
 				successView.forward(req, res);
 				return;
@@ -423,7 +423,7 @@ public class ResServlet extends HttpServlet{
 				Integer resTime = resVO.getResTime();
 				Integer hour = resTime/2;
 				String minute = (resTime%2==0)?"00":"30";
-				String phone = "0981069319"; //接收者的電話 要測試的話可以改成你自己的號碼
+				String phone = "0932391332"; //接收者的電話 要測試的話可以改成你自己的號碼
 				String msg = memName+"會員你好，您的預約服務號碼"+resNo+"已確認預約成功，服務時間為"+resDate+" "+hour+":"+minute+"驗證碼為"+resCode;//傳送的訊息
 				String endcodeMsg = URLEncoder.encode(msg,"UTF-8");
 				MessageService msgSvc = new MessageService();
@@ -533,7 +533,7 @@ public class ResServlet extends HttpServlet{
 				// Send the use back to the form, if there were errors
 				if (!errorMsgs.isEmpty()) {
 					RequestDispatcher failureView = req
-							.getRequestDispatcher("/front-end/reservation/listAllResByMem.jsp");
+							.getRequestDispatcher("/front-end/member/memberPage.jsp");
 					failureView.forward(req, res);
 					return; //程式中斷
 				}
@@ -547,7 +547,7 @@ public class ResServlet extends HttpServlet{
 				List<ResVO> list = resSvc.getAllResByMemNo(resVO.getMemNo());
 				req.setAttribute("list", list);
 				req.setAttribute("memNo", memNo);
-				String url = "/front-end/reservation/listAllResByMem.jsp";
+				String url = "/front-end/member/memberPage.jsp";
 				
 				
 				RequestDispatcher successView = req.getRequestDispatcher(url); // 修改成功後,轉交listAllEmpBy.jsp
@@ -628,7 +628,7 @@ if ("searchByResNo".equals(action)) {
 					//轉交回原本頁面
 					Integer desNo = resVO.getDesNo();
 					List<ResVO> list=resSvc.getAllResByDesNo(desNo);
-					req.setAttribute("list", list);
+//					req.setAttribute("list", list);
 					req.setAttribute("desNo", desNo);
 					req.setAttribute("resVO", resVO);
 					
@@ -653,7 +653,7 @@ if ("searchByResNo".equals(action)) {
 				
 				Integer desNo = resVO.getDesNo();
 				List<ResVO> list = resSvc.getAllResByDesNo(resVO.getDesNo());
-				req.setAttribute("list", list);
+//				req.setAttribute("list", list);
 				req.setAttribute("desNo", desNo);
 				req.setAttribute("resVO", resVO);
 				
@@ -669,7 +669,7 @@ if ("searchByResNo".equals(action)) {
 			} catch (Exception e) {
 				errorMsgs.add("修改資料失敗:"+e.getMessage());
 				RequestDispatcher failureView = req
-						.getRequestDispatcher("/front-end/reservation/listAllResByMem.jsp");
+						.getRequestDispatcher("/front-end/reservation/listAllResByDes.jsp");
 				failureView.forward(req, res);
 			}
 		}
@@ -692,7 +692,7 @@ if ("searchByResNo".equals(action)) {
 				// Send the use back to the form, if there were errors
 				if (!errorMsgs.isEmpty()) {
 					RequestDispatcher failureView = req
-							.getRequestDispatcher("/front-end/reservation/listAllResByMem.jsp");
+							.getRequestDispatcher("/front-end/member/memberPage.jsp");
 					failureView.forward(req, res);
 					return; //程式中斷
 				}
@@ -712,7 +712,7 @@ if ("searchByResNo".equals(action)) {
 				boolean openModal=true;
 				req.setAttribute("openModal",openModal );
 				
-				String url = "/front-end/reservation/listAllResByMem.jsp";
+				String url = "/front-end/member/memberPage.jsp";
 				
 				RequestDispatcher successView = req.getRequestDispatcher(url); // 修改成功後,轉交listAllEmpBy.jsp
 				successView.forward(req, res);
@@ -721,7 +721,7 @@ if ("searchByResNo".equals(action)) {
 			} catch (Exception e) {
 				errorMsgs.add("修改資料失敗:"+e.getMessage());
 				RequestDispatcher failureView = req
-						.getRequestDispatcher("/front-end/reservation/listAllResByMem.jsp");
+						.getRequestDispatcher("/front-end/member/memberPage.jsp");
 				failureView.forward(req, res);
 			}
 		}
@@ -742,7 +742,7 @@ if ("searchByResNo".equals(action)) {
 				// Send the use back to the form, if there were errors
 				if (!errorMsgs.isEmpty()) {
 					RequestDispatcher failureView = req
-							.getRequestDispatcher("/front-end/reservation/listAllResByMem.jsp");
+							.getRequestDispatcher("/front-end/member/memberPage.jsp");
 					failureView.forward(req, res);
 					return; //程式中斷
 				}
@@ -773,7 +773,7 @@ if ("searchByResNo".equals(action)) {
 				boolean openModal=true;
 				req.setAttribute("openModal",openModal );
 				
-				String url = "/front-end/reservation/listAllResByMem.jsp";
+				String url = "/front-end/member/memberPage.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url); // 修改成功後,轉交listAllEmpBy.jsp
 				successView.forward(req, res);
 				
