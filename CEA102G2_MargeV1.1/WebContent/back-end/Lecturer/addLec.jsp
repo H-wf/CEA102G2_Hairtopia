@@ -43,14 +43,17 @@
 							cellspacing="0">
 							<jsp:useBean id="staffSvc" scope="page"
 								class="com.staff.model.StaffService" />
-
+							<jsp:useBean id="lecSvc" scope="page"
+								class="com.lecturer.model.LecturerService" />
 
 
 							<tr>
 								<td>選擇員工:</td>
 								<td><select size="1" name="staNo">
-										<c:forEach var="lecVO" items="${staffSvc.all}">
-											<option value="${lecVO.staNo}">${lecVO.staName}
+										<c:forEach var="staVO" items="${staffSvc.all}">
+										<c:if test="${staVO.staStatus != 0 && lecSvc.getOneLecturer2(staVO.staNo)== null }">
+											<option value="${staVO.staNo}">${staVO.staName}</option>
+										</c:if>
 										</c:forEach>
 								</select></td>
 
@@ -101,24 +104,7 @@
 </div>
 		<%@include file="/back-end/tempFile/footer"%>
 		<%@include file="/back-end/tempFile/srcJs"%>
-		<script
-			src="<%=request.getContextPath()%>/dist/backTemp/vendor/jquery/jquery.min.js"></script>
-		<script
-			src="<%=request.getContextPath()%>/dist/backTemp/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-		<!-- Core plugin JavaScript-->
-		<script
-			src="<%=request.getContextPath()%>/dist/backTemp/vendor/jquery-easing/jquery.easing.min.js"></script>
-		<!-- Custom scripts for all pages-->
-		<script
-			src="<%=request.getContextPath()%>/dist/backTemp/js/sb-admin-2.min.js"></script>
-		<!-- Page level plugins -->
-		<script
-			src="<%=request.getContextPath()%>/dist/backTemp/vendor/datatables/jquery.dataTables.min.js"></script>
-		<script
-			src="<%=request.getContextPath()%>/dist/backTemp/vendor/datatables/dataTables.bootstrap4.min.js"></script>
-		<!-- Page level custom scripts -->
-		<script
-			src="<%=request.getContextPath()%>/dist/backTemp/js/demo/datatables-demo.js"></script>
+	
 </body>
 <script>
 	var customFile = document.getElementById("myFile");

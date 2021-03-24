@@ -24,9 +24,9 @@ public class StaffLoginFilter implements Filter {
 		// 【取得 session】
 		HttpSession session = req.getSession();
 		// 【從 session 判斷此user是否登入過】
-		Object staAcct = session.getAttribute("staAcct");
+		Object staAcct = session.getAttribute("staAccount");
 		if (staAcct == null) {
-			res.sendRedirect(req.getContextPath() + "/back-end/Staff/login.jsp");
+			res.sendRedirect(req.getContextPath() + "/back-end/login.jsp");
 			return;
 		} else {
 			chain.doFilter(request, response);
