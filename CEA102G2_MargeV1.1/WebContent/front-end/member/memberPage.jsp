@@ -330,12 +330,12 @@ img {
 						<div class="media align-items-end profile-head">
 							<div class="profile mr-3">
 								<img
-									src="<%=request.getContextPath()%>/showImges.do?tableName=member&picColumn=memPic&pkColumn=memNo&memNo=${memVO.memNo}"
+									src="<%=request.getContextPath()%>/showImges.do?tableName=member&picColumn=memPic&pkColumn=memNo&memNo=${userSession.memNo}"
 									alt='沒有圖片' class="rounded mb-2 img-thumbnail" /> <a href="#"
 									class="btn btn-outline-dark btn-sm btn-block">Edit profile</a>
 							</div>
 							<div class="media-body mb-5 text-white myrow">
-								<h4 class="mt-0 mb-0">${memVO.memName}</h4>
+								<h4 class="mt-0 mb-0">${userSession.memName}</h4>
 								<div class="row  justify-content-end">
 									<%-- 	                            <div class="btn btn-outline-primary profileBtn" id="followBtn">${followSvc.isfollowing(memVO.memNo,designerVO.desNo) ==true?"Unfollow":"Follow"}</div> --%>
 								</div>
@@ -471,12 +471,6 @@ img {
 	</c:forEach>
 </table>
 </c:if>
-<!-- 							<div class="callout callout-default"> -->
-<!-- 									<h4>Default Callout</h4> -->
-<!-- 									This is a default callout11111111. <a -->
-<!-- 										class="btn btn-outline-primary bookingBtn">查看明細<i -->
-<!-- 										class="bi bi-arrow-right"></i></a> -->
-<!-- 							</div> -->
 
 							<div class="container post">
 								<div class="card-columns ">
@@ -494,12 +488,8 @@ img {
 										class="btn btn-outline-primary bookingBtn">查看明細<i
 										class="bi bi-arrow-right"></i></a>
 								</div>
-								<!-- 							Service -->
-								<!-- 							<br><br><br><br><br><br><br><br><br><br> -->
 							</div>
 						</div>
-						
-						//
 						<div class="tab-pane fade" id="Course" role="tabpanel"
 							aria-labelledby="Info-tab">
 							<div class="InfoCard">
@@ -559,9 +549,6 @@ img {
 							aria-labelledby="TransRecord-tab">
 							<div class="ServiceCard">
 								<div class="card shadow mb-4" width="80%">
-<!--                         			<div class="card-header py-3"> -->
-<!--                             			<h6 class="m-0 font-weight-bold text-primary">會員管理</h6> -->
-<!--                         			</div> -->
                         			<div class="card-body">
                             			<div class="table-responsive">
                                 			<table class="table" id="dataTable">
@@ -631,29 +618,6 @@ img {
 			</div>
 		</div>
 	</div>
-
-	<!-- Post Modal -->
-<%-- 	<c:if test="${openModal != null}"> --%>
-<!-- 		<div class="modal fade" id="postModal" tabindex="-1" -->
-<!-- 			aria-hidden="false"> -->
-<!-- 			<div -->
-<!-- 				class="modal-dialog modal-dialog-centered modal-dialog-scrollable listOne"> -->
-<!-- 				<div class="modal-content"> -->
-<!-- 					<button type="button" class="postClose text-right" -->
-<!-- 						data-dismiss="modal" aria-label="Close"> -->
-<!-- 						<span aria-hidden="true">&times;</span> -->
-<!-- 					</button> -->
-<!-- 					<div class="modal-body p-0 m-0"> -->
-<!-- 						<div class="includePage"> -->
-<%-- 							<jsp:include --%>
-<%-- 								page="/front-end/Comment/listPostWithComments_front.jsp" /> --%>
-<!-- 						</div> -->
-<!-- 					</div> -->
-<!-- 				</div> -->
-<!-- 			</div> -->
-<!-- 		</div> -->
-<%-- 	</c:if> --%>
-	<!-- Post END -->
 	<!-- Login Modal -->
 	<div class="modal fade" id="loginModal" tabindex="-1"
 		aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -757,82 +721,7 @@ img {
 <script>
 $("#resModal").modal({show: true});
 $("#cosModal").modal({show: true});
-// 	$('#loginModal').on('shown.bs.modal', function() {
-// 	    $('#myInput').trigger('focus')
-// 	})
-// 	$("#postModal").modal({show: true});
-	
-// 	$(document).ready(function(){
-// 		$('#followBtn').on('click',function(){
-// 			var obj = {
-// 					memNo:${not empty memVO.memNo?memVO.memNo:"null"},
-// 					desNo:${designerVO.desNo},
-// 			}
-			
-// 			if(obj.memNo === null){
-// 				window.alert("請先登入");
-// 				return false;
-// 			}else if(obj.memNo === ${designerVO.memNo}){
-// 				window.alert("自己不能追蹤自己");
-// 				return false;
-// 			}else if($('#followBtn').text() ==="Unfollow"){
-// 				obj.action = "deleteByAJAX";
-// 					$.ajax({
-// 						type:"POST",
-<%-- 						url:"<%=request.getContextPath()%>/followlist/followlist.do", --%>
-// 						data:obj,
-// 						success:function(data){
-// 							window.alert("已解除追蹤")
-// 							$('#followBtn').text("Follow");
-// 						},
-// 						error:function(){
-// 							window.alert("ajax ERROR!")
-// 						}
-// 					});
-				
-// 			}else if($('#followBtn').text() ==="Follow"){
-// 				obj.action = "insertByAJAX";
-// 					$.ajax({
-// 							type:"POST",
-<%-- 							url:"<%=request.getContextPath()%>/followlist/followlist.do", --%>
-// 							data:obj,
-// 							success:function(data){
-// 								window.alert("追蹤成功");
-// 								$('#followBtn').text("Unfollow");
-// 							},
-// 							error:function(){
-// 								window.alert("ajax ERROR!")
-// 							}
-// 					});
-// 				}
-// 		});
-		
-// 	});
-	
-// // MAP
-// 	function initMap() {
-//         	//準備好要顯示的緯經度
-//             const myLatLng = { lat: 24.957503, lng: 121.225111 };
-//             //抓取div id生成Map類別
-//             const map = new google.maps.Map(document.getElementById("map"), {
-//                 zoom: 18,
-//                 center: myLatLng,
-//             });
-//             var marker = new google.maps.Marker({
-//                 position: myLatLng,
-//                 map,
-//                 title: "Hello World!",
 
-//             });
-//             //將地點資訊放入小卡片
-//             var infoWindow = new google.maps.InfoWindow({
-//                 content: '<h1>salon</h1>'
-//             })
-//             //加入聆聽器 點擊彈出小卡片
-//             marker.addListener('click', function() {
-//                 infoWindow.open(map, marker);
-//             });
-//         }
 </script>
 
 </html>
