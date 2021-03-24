@@ -519,13 +519,25 @@ img {
 	            					${cosVO.cosName}
             						</c:if>
 									</c:forEach></td>
-									<td>${cosdetVO.cosComment}</td>
+									<td>
+									<c:if test="${cosdetVO.cosComment != 0}">
+										<c:forEach var="star" begin="1" end="5">
+										<c:choose>
+										<c:when test="${cosdetVO.cosComment>=star}"	>
+											&#x2605;
+										</c:when>
+										<c:otherwise>
+											&#x2606;
+										</c:otherwise>
+										</c:choose>
+										</c:forEach>
+									</c:if></td>
 									<td>${cosdetVO.cosDetailPrice}</td>
 									<td>
 			  							<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/coudet/coudet.do" style="margin-bottom: 0px;" >
 			     						<input type="submit" value="評分" class="btn btn-primary">
 			     						<input type="hidden" name="cosNo"  value="${cosdetVO.getCosNo()}">
-			    						<input type="hidden" name="memNo"  value="${cosdetVO.getMemNo()}">
+			    						<input type="hidden" name="memNo"  value="${userSession.memNo}">
 			     						<input type="hidden" name="cosComment"  value="${cosdetVO.getCosComment()}">
 			     						<input type="hidden" name="action"	value="getOneCos_For_UpdateRate"></FORM>
 									</td>
@@ -533,7 +545,7 @@ img {
 			  							<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/coudet/coudet.do" style="margin-bottom: 0px;" >
 			     						<input type="submit" value="查詢QRCode" class="btn btn-primary">
 			     						<input type="hidden" name="cosNo"  value="${cosdetVO.getCosNo()}">
-			     						<input type="hidden" name="memNo"  value="${cosdetVO.getMemNo()}">
+			     						<input type="hidden" name="memNo"  value="${userSession.memNo}">
 			     						<input type="hidden" name="action"	value="ShowQRCodeByCosNoAndMemNo"></FORM>
 									</td>
 								</tr>
@@ -665,12 +677,12 @@ img {
 	</div>
 	<!-- Login Modal END -->
 	<!-- Res Modal -->
-		<c:if test="${openModal!=null}">
+		<c:if test="${openResModal!=null}">
 <div class="modal fade" id="resModal" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header">
-                <h4 class="modal-title" id="myModalLabel">Reservation Detail</h4>
+                <h4 class="modal-title" id="myModalLabel">Course Detail</h4>
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
             </div>
 			
@@ -684,6 +696,26 @@ img {
                 <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
             </div>
 		
+		</div>
+	</div>
+</div>
+</c:if>
+    <!-- Res Modal END -->
+	<!-- Cos Modal -->
+		<c:if test="${openCosModal!=null}">
+<div class="modal fade" id="cosModal" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
+	<div class="modal-dialog modal-sm">
+		<div class="modal-content">
+			<div class="modal-header">
+                <h4 class="modal-title" id="myModalLabel">Reservation Detail</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            </div>
+			
+			<div class="modal-body">
+<!-- =========================================以下為原listOneEmp.jsp的內容========================================== -->
+               <jsp:include page="/front-end/Cos/update_cosdetail_input_front.jsp" />
+<!-- =========================================以上為原listOneEmp.jsp的內容========================================== -->
+			</div>
 		</div>
 	</div>
 </div>
@@ -724,6 +756,7 @@ img {
 </body>
 <script>
 $("#resModal").modal({show: true});
+$("#cosModal").modal({show: true});
 // 	$('#loginModal').on('shown.bs.modal', function() {
 // 	    $('#myInput').trigger('focus')
 // 	})

@@ -400,11 +400,11 @@ public class CosdetServlet extends HttpServlet {
 //				Integer cosNo = new Integer(req.getParameter("cosNo"));
 //				System.out.println(cosNo);
 				
-//				String url = req.getScheme() + "://" + req.getServerName() + ":" + req.getServerPort() + req.getContextPath() + "/" + req.getServletPath() + "/" + "listOneCosdetail.jsp?";
-				String s1 =  "http://localhost:8081/CEA102G2_Merge/coudet/coudet.do?cosNo=";
+				String url1 = req.getScheme() + "://" + req.getServerName() + ":" + req.getServerPort() + req.getContextPath() + "/" + req.getServletPath() + "/" + "listOneCosdetail.jsp?cosNo=";
+//				String s1 =  "http://localhost:8081/CEA102G2_Merge/coudet/coudet.do?cosNo=";
 				String s2 = String.valueOf(cosNo);
 				String s3 = "&action=getOne_For_Display";
-				String url = s1 + s2 + s3 ;
+				String url = url1 + s2 + s3 ;
 				int width = 200;
 				int height = 200;
 				String format = "jpg";
@@ -456,7 +456,9 @@ public class CosdetServlet extends HttpServlet {
 			System.out.println("CosdetServlet no.356：" + cosdetVO);
 
 			req.setAttribute("cosdetVO", cosdetVO);
-			String url = "/front-end/Cos/update_cosdetail_input_front.jsp";
+			boolean openCosModal=true;
+			req.setAttribute("openCosModal",openCosModal );
+			String url = "/front-end/member/memberPage.jsp";
 			RequestDispatcher successView = req.getRequestDispatcher(url);
 			successView.forward(req, res);
 		} catch (Exception e) {

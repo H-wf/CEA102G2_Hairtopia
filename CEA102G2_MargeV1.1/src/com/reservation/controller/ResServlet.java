@@ -261,8 +261,8 @@ public class ResServlet extends HttpServlet{
 				req.setAttribute("resVO", resVO); // 資料庫取出的resVO物件,存入req
 //				req.setAttribute("list", list);
 				//Bootstrap_modal
-				boolean openModal=true;
-				req.setAttribute("openModal",openModal );
+				boolean openResModal=true;
+				req.setAttribute("openResModal",openResModal );
 				
 				String url = "/front-end/member/memberPage.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url); // 成功轉交 listOneEmp.jsp
