@@ -70,7 +70,7 @@
                         </tfoot>
                         <tbody>
 						<c:forEach var="costypeVO" items="${list}">
-                            <tr ${(costypeVO.cosTypeNo==param.cosTypeNo) ? 'bgcolor=#F8F7F1':''}>
+                            <tr>
                                 <td>${costypeVO.cosTypeNo}</td>
                                 <td>${costypeVO.cosTypeName}</td>
                                 <td>

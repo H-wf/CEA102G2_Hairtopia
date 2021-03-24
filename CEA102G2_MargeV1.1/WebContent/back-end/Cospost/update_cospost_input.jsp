@@ -5,110 +5,48 @@
 <%
   CospostVO cospostVO = (CospostVO) request.getAttribute("cospostVO"); 
 %>
+<jsp:useBean id="cosSvc" scope="page" class="com.cos.model.CosService" />
+
 <html>
 <head>
-<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
-<title>課程公告資料修改 - update_cospost_input.jsp</title>
-
-<style>
-  table#table-1 {
-	background-color: #CCCCFF;
-    border: 2px solid black;
-    text-align: center;
-  }
-  table#table-1 h4 {
-    color: red;
-    display: block;
-    margin-bottom: 1px;
-  }
-  h4 {
-    color: blue;
-    display: inline;
-  }
-</style>
-
-<style>
-  table {
-	width: 450px;
-	background-color: white;
-	margin-top: 1px;
-	margin-bottom: 1px;
-  }
-  table, th, td {
-    border: 0px solid #CCCCFF;
-  }
-  th, td {
-    padding: 1px;
-  }
-</style>
-
+<meta charset="UTF-8">
+<title>課程資料修改</title>
 </head>
-<body bgcolor='white'>
-
-<table id="table-1">
-	<tr><td>
-		 <h3>課程資料修改 - update_cospost_input.jsp</h3>
-		 <h4><a href="<%= request.getContextPath()%>/back-end/Cospost/select_cospost_page.jsp"><img src="<%= request.getContextPath()%>/resource/images/back1.gif" width="100" height="32" border="0">回首頁</a></h4>
-	</td></tr>
-</table>
-
-<h3>資料修改:</h3>
-
-<%-- 錯誤表列 --%>
-<c:if test="${not empty errorMsgs}">
-	<font style="color:red">請修正~~以下錯誤:</font>
-	<ul>
-		<c:forEach var="message" items="${errorMsgs}">
-			<li style="color:red">${message}</li>
-		</c:forEach>
-	</ul>
-</c:if>
-
-<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/cospost/cospost.do" name="form1">
-<table>
-	<tr>
-		<td>課程公告編號:<font color=red><b>*</b></font></td>
-		<td><%=cospostVO.getCosPubNo()%></td>
-	</tr>
-	<tr>
-		<td>課程編號:</td>
-		<td><input type="TEXT" name="cosNo" size="45" value="<%=cospostVO.getCosNo()%>" /></td>
-	</tr>
-	<tr>
-		<td>課程公告:</td>
-		<td><input type="TEXT" name="cosPubCon" size="45" value="<%=cospostVO.getCosPubCon()%>" /></td>
-	</tr>
-	<tr>
-		<td>課程公告日期:</td>
-		<td><input name="cosPubTime" id="f_date1" type="text"></td>
-	</tr>
-
-</table>
-<br>
-<input type="hidden" name="action" value="update">
-<input type="hidden" name="cosPubNo" value="<%=cospostVO.getCosPubNo()%>"> <%-- 真正送出修改處 --%>
-<input type="submit" value="送出修改"></FORM>
-</body>
+<body>
+<form METHOD="POST" ACTION="<%=request.getContextPath()%>/cospost/cospost.do" name="form1"> 
+	<%-- 錯誤表列 --%>
+	<c:if test="${not empty errorMsgs}">
+		<font style="color: red">請修正以下錯誤:</font>
+		<ul>
+			<c:forEach var="message" items="${errorMsgs}">
+				<li style="color: red">${message}</li>
+			</c:forEach>
+		</ul>
+	</c:if>
+	<p class="lead mb-0">課程公告編號:<i>${cospostVO.cosPubNo}</i></p>	
+	<p class="lead mb-0">課程名稱:</p>
+	<select size="1" name="cosNo" >
+		<c:forEach var="cosVO" items="${cosSvc.all}" > 
+          	<option value="${cosVO.cosNo}"${(cosVO.cosNo==cospostVO.cosNo)?'selected':'' }>${cosVO.cosName}
+         </c:forEach>
+	</select>
+	<p class="lead mb-0">公告內容:</p>
+	<textarea required class="mb-3 mt-0" name="cosPubCon" cols="30" rows="10">${cospostVO.cosPubCon}</textarea>		
+	<p class="lead mb-0">課程公告日期:</p>
+	<input name="cosPubTime" id="f_date2" type="text" autocomplete="off" value="${cospostVO.cosPubTime}">
+	<div class="modal-footer">
+		<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+		<input type="submit" class="btn btn-primary" value="修改">
+		<input type="hidden" name="action" value="update">
+		<input type="hidden" name="cosPubNo" value="${cospostVO.cosPubNo}">
+	</div>
+</form>
 
 
 <!-- =========================================以下為 datetimepicker 之相關設定========================================== -->
-
-<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/datetimepicker/jquery.datetimepicker.css" />
-<script src="<%=request.getContextPath()%>/datetimepicker/jquery.js"></script>
-<script src="<%=request.getContextPath()%>/datetimepicker/jquery.datetimepicker.full.js"></script>
-
-<style>
-  .xdsoft_datetimepicker .xdsoft_datepicker {
-           width:  300px;   /* width:  300px; */
-  }
-  .xdsoft_datetimepicker .xdsoft_timepicker .xdsoft_time_box {
-           height: 151px;   /* height:  151px; */
-  }
-</style>
-
 <script>
         $.datetimepicker.setLocale('zh');
-        $('#f_date1').datetimepicker({
+        $('#f_date2').datetimepicker({
            theme: '',              //theme: 'dark',
  	       timepicker:true,       //timepicker:true,
  	       step: 1,                //step: 60 (這是timepicker的預設間隔60分鐘)
@@ -120,5 +58,6 @@
            //maxDate:               '+1970-01-01'  // 去除今日(不含)之後
         });
 
-</script>        
+</script>
+</body>        
 </html>       

@@ -61,7 +61,7 @@
 								<th>課程名稱</th>
 								<th>公告內容</th>
 								<th>公告時間</th>
-								<th>修改</th>
+								<th></th>
 							</tr>
 						</thead>
 						<tfoot>
@@ -70,7 +70,7 @@
 								<th>課程名稱</th>
 								<th>公告內容</th>
 								<th>公告時間</th>
-								<th>修改</th>
+								<th></th>
 							</tr>
 						</tfoot>
                         <tbody>
@@ -78,23 +78,16 @@
 							<tr>
 								<td>${cospostVO.cosPubNo}</td>
 								<td>
-									<c:forEach var="cospostVO" items="${list}">
-                    				<c:if test="${cospostVO.cosPubNo==cospostVO.cosPubNo}">
-	             					【${cospostVO.cosPubNo}】
+									<c:forEach var="cosVO" items="${cosSvc.all}">
+                    				<c:if test="${cosVO.cosNo==cospostVO.cosNo}">
+	             					${cosVO.cosName}
                     				</c:if>
                 					</c:forEach>
             					</td>
-								<td>
-									<c:forEach var="cosVO" items="${cosSvc.all}">
-                    				<c:if test="${cospostVO.cosNo==cosVO.cosNo}">
-	                   				【${cosVO.cosName}】
-                    				</c:if>
-                					</c:forEach>
-								</td>
 								<td>${cospostVO.cosPubCon}</td>			
-								<td><fmt:formatDate value="${cospostVO.cosPubTime}" type="both"/></td>
+								<td><fmt:formatDate value="${cospostVO.cosPubTime}" pattern="yyyy-MM-dd"/></td>
 								<td>
-									<a href="<%=request.getContextPath()%>/cospost/cospost.do?cosPostNo=${cospostVO.cosPostNo}&action=getOne_For_Update" type="button" class="btn btn-primary btn-sm" >
+									<a href="<%=request.getContextPath()%>/cospost/cospost.do?cosPubNo=${cospostVO.cosPubNo}&action=getOne_For_Update" type="button" class="btn btn-primary btn-sm" >
 										修改
 									</a>
 								</td>

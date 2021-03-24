@@ -59,7 +59,7 @@
 						<thead>
 							<tr>
                            		<th>課程編號</th>
-                           		<th>會員編號</th>
+                           		<th>會員名稱</th>
 								<th>課程評價</th>
 								<th>報名課程價格</th>                         
                                 <th>修改</th>                                
@@ -68,17 +68,17 @@
                         <tfoot>
                             <tr>
                                <th>課程編號</th>
-                           		<th>會員編號</th>
+                           		<th>會員名稱</th>
 								<th>課程評價</th>
 								<th>報名課程價格</th>  
                                <th>修改</th>                               
                         	</tr>
                         </tfoot>
                         <tbody>
-						<c:forEach var="cosdetVO" items="${cosdetSvc.all}">
-                            <tr ${(cosdetVO.cosNo==param.cosNo) ? 'bgcolor=#F8F7F1':''}>
+						<c:forEach var="cosdetVO" items="${list}">
+                            <tr >
                                 <td>${cosdetVO.cosNo}</td>
-                                <td>${memSvc.getOneMemName(cosdetVO.memNo).memName}</td>
+                                <td>${memSvc.getOneMemName(cosdetVO.memNo)}</td>
                                 <td>${cosdetVO.cosComment}</td>
                                 <td>${cosdetVO.cosDetailPrice}</td>
                                 <td>
