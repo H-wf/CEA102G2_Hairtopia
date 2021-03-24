@@ -71,7 +71,7 @@ public class CosService {
 			String cosIntro, String cosAdd,  
 			Boolean cosStatus, Integer cosMinCount, Integer cosMaxCount, Integer cosPrice, Timestamp cosApplyFrom, 
 			Timestamp cosApplyTo, String cosName) {
-		
+		System.out.println("error");
 			CosVO cosVO = new CosVO();
 
 			cosVO.setCosNo(cosNo);

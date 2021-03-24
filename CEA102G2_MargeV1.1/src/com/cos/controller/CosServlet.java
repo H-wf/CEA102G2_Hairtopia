@@ -101,14 +101,13 @@ public class CosServlet extends HttpServlet {
 					req.setAttribute("cosVO", cosVO);
 					boolean openModal=true;
 					req.setAttribute("openModal",openModal);
+					
 					String url = "/back-end/Cos/listAllCos2.jsp";
 					RequestDispatcher successView = req.getRequestDispatcher(url);
 					successView.forward(req, res);
 					return;
 				} catch (Exception e) {
-					RequestDispatcher failureView = req
-							.getRequestDispatcher("/back-end/Cos/listAllCos2.jsp");
-					failureView.forward(req, res);
+					throw new ServletException(e);
 				}
 			}
 			
@@ -181,30 +180,32 @@ public class CosServlet extends HttpServlet {
 					} catch (IllegalArgumentException e) {
 						errorMsgs.add("update：cosName出現IllegalArgumentException");
 					}
+					
 					Timestamp cosTo = null;
 					try {
 						cosTo = java.sql.Timestamp.valueOf(req.getParameter("cosTo"));
 					} catch (IllegalArgumentException e) {
 						errorMsgs.add("update：cosTo出現IllegalArgumentException");
-					}					
+					}				
 					Timestamp cosApplyFrom = null;
 					try {
 						cosApplyFrom = java.sql.Timestamp.valueOf(req.getParameter("cosApplyFrom"));
 					} catch (IllegalArgumentException e) {
 						errorMsgs.add("update：cosApplyFrom出現IllegalArgumentException");
-					}					
+					}						
 					Timestamp cosApplyTo = null;
 					try {
 						cosApplyTo = java.sql.Timestamp.valueOf(req.getParameter("cosApplyTo"));
 					} catch (IllegalArgumentException e) {
 						errorMsgs.add("update：cosApplyTo出現IllegalArgumentException");
-					}					
+					}				
 					
 					Integer cosTypeNo = new Integer(req.getParameter("cosTypeNo").trim());
 					
 					byte[] cosPic = null;
+					CosVO cosVO = null;
 					try {
-						Part part = req.getPart("upfile1");
+						Part part = req.getPart("cosPic");
 
 						if (part.getSize() != 0) {
 							//此段檢查JSP送資料時是否有上傳圖片
@@ -212,10 +213,28 @@ public class CosServlet extends HttpServlet {
 							InputStream is = part.getInputStream();
 							cosPic = new byte[is.available()];
 							is.read(cosPic);
+							//有上傳圖片走的路徑
+							cosVO = new CosVO();
+							cosVO.setCosNo(cosNo);
+							cosVO.setLecNo(lecNo);
+							cosVO.setCosTypeNo(cosTypeNo);
+							cosVO.setCosFrom(cosFrom);
+							cosVO.setCosTo(cosTo);
+							cosVO.setCosIntro(cosIntro);
+							cosVO.setCosPic(cosPic);
+							cosVO.setCosAdd(cosAdd);
+							cosVO.setCosStatus(cosStatus);
+							cosVO.setCosMinCount(cosMinCount);
+							cosVO.setCosMaxCount(cosMaxCount);
+							cosVO.setCosPrice(cosPrice);
+							cosVO.setCosApplyFrom(cosApplyFrom);
+							cosVO.setCosApplyTo(cosApplyTo);
+							cosVO.setCosName(cosName);
+							
 							is.close();
 						} else {
 							//圖片未上傳走的路徑
-							CosVO cosVO = new CosVO();
+							cosVO = new CosVO();
 							cosVO.setCosNo(cosNo);
 							cosVO.setLecNo(lecNo);
 							cosVO.setCosTypeNo(cosTypeNo);
@@ -235,29 +254,13 @@ public class CosServlet extends HttpServlet {
 					} catch (Exception e) {
 						errorMsgs.add("有問題");
 					}
-					//有上傳圖片走的路徑
-					CosVO cosVO = new CosVO();
-					cosVO.setCosNo(cosNo);
-					cosVO.setLecNo(lecNo);
-					cosVO.setCosTypeNo(cosTypeNo);
-					cosVO.setCosFrom(cosFrom);
-					cosVO.setCosTo(cosTo);
-					cosVO.setCosIntro(cosIntro);
-					cosVO.setCosPic(cosPic);
-					cosVO.setCosAdd(cosAdd);
-					cosVO.setCosStatus(cosStatus);
-					cosVO.setCosMinCount(cosMinCount);
-					cosVO.setCosMaxCount(cosMaxCount);
-					cosVO.setCosPrice(cosPrice);
-					cosVO.setCosApplyFrom(cosApplyFrom);
-					cosVO.setCosApplyTo(cosApplyTo);
-					cosVO.setCosName(cosName);
+					
 					
 
 					if (!errorMsgs.isEmpty()) {
 						req.setAttribute("cosVO", cosVO);
 						RequestDispatcher failureView = req
-								.getRequestDispatcher("/back-end/Cos/update_cos_input.jsp");
+								.getRequestDispatcher("/back-end/Cos/listAllCos2.jsp");
 						failureView.forward(req, res);
 						return;
 					}

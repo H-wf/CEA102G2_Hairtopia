@@ -52,7 +52,7 @@
 		<div id="preview"></div>
 		<input required class="mb-3 mt-0" type="file" name="cosPic" id="myFile">
 		<p class="lead mb-0">課程地址:</p>
-		<div id = "twzipcode"></div><input type="TEXT" id="cosAdd" name="cosAdd" size="45" value="${cosVO.CosAdd}" />
+		<div id = "twzipcode"></div><input type="TEXT" id="cosAdd" name="cosAdd" size="45" value="${cosVO.cosAdd}" />
 		<p class="lead mb-0">報名人數上限:</p>
 		<input type="number" name="cosMaxCount" size="45" min="1" value="" />
 		<p class="lead mb-0">報名人數下限:</p>
