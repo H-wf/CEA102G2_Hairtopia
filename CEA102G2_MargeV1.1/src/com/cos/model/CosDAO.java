@@ -321,6 +321,7 @@ public class CosDAO implements CosDAO_interface{
 				cosVO.setCosApplyFrom(rs.getTimestamp("cosApplyFrom"));
 				cosVO.setCosApplyTo(rs.getTimestamp("cosApplyTo"));
 				cosVO.setCosName(rs.getString("cosName"));
+System.out.println("check");				
 			}
 
 			// Handle any SQL errors

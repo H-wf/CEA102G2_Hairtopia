@@ -42,14 +42,7 @@
 
 <table id="table-1">
 	<tr><td>
-		 <h4>回課程前台</h4>
 		 <li><a href="<%=request.getContextPath()%>/front-end/Cos/Course_Lec_1st.jsp">回課程前台</a></li>
-	</td></tr>
-</table>
-
-<table id="table-1">
-	<tr><td>
-		 <h4>所有課程資料 - listAllCosfront.jsp</h4>
 	</td></tr>
 </table>
 

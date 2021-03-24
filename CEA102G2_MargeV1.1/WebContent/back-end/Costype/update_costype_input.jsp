@@ -7,82 +7,29 @@
 %>
 <html>
 <head>
-<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
-<title>課程類型修改 - update_costype_input.jsp</title>
-
-<style>
-  table#table-1 {
-	background-color: #CCCCFF;
-    border: 2px solid black;
-    text-align: center;
-  }
-  table#table-1 h4 {
-    color: red;
-    display: block;
-    margin-bottom: 1px;
-  }
-  h4 {
-    color: blue;
-    display: inline;
-  }
-</style>
-
-<style>
-  table {
-	width: 450px;
-	background-color: white;
-	margin-top: 1px;
-	margin-bottom: 1px;
-  }
-  table, th, td {
-    border: 0px solid #CCCCFF;
-  }
-  th, td {
-    padding: 1px;
-  }
-</style>
-
+<meta charset="UTF-8">
+<title>課程類別資料修改</title>
 </head>
-<body bgcolor='white'>
-
-<table id="table-1">
-	<tr><td>
-		 <h3>課程類型修改 - update_costype_input.jsp</h3>
-		 <h4><a href="<%= request.getContextPath()%>/back-end/Costype/select_costype_page.jsp"><img src="<%= request.getContextPath()%>/resource/images/back1.gif" width="100" height="32" border="0">回首頁</a></h4>
-	</td></tr>
-</table>
-
-<h3>資料修改:</h3>
-
-<%-- 錯誤表列 --%>
-<c:if test="${not empty errorMsgs}">
-	<font style="color:red">請修正~~以下錯誤:</font>
-	<ul>
-		<c:forEach var="message" items="${errorMsgs}">
-			<li style="color:red">${message}</li>
-		</c:forEach>
-	</ul>
-</c:if>
-
-<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/coutype/coutype.do" name="form1" enctype="multipart/form-data">
-<table>
-	<tr>
-		<td>課程類別編號:<font color=red><b>*</b></font></td>
-		<td>${costypeVO.getCosTypeNo()}</td>
-	</tr>
-	<tr>
-		<td>課程類別名稱:</td>
-		<td><input type="TEXT" name="cosTypeName" size="45" value="${costypeVO.getCosTypeName()}" /></td>
-	</tr>
-	<tr>
-		<td>課程類別敘述:</td>
-		<td><input type="TEXT" name="cosTypeIntro" size="45" value="${costypeVO.getCosTypeIntro()}" /></td>
-	</tr>
-	
-</table>
-<br>
-<input type="hidden" name="action" value="update">
-<input type="hidden" name="cosTypeNo" value="${costypeVO.getCosTypeNo()}"> <%-- 真正送出修改處 --%>
-<input type="submit" value="送出修改"></FORM>
+<body>
+<form METHOD="POST" ACTION="<%=request.getContextPath()%>/coutype/coutype.do" name="form1" enctype="multipart/form-data"> 
+	<%-- 錯誤表列 --%>
+	<c:if test="${not empty errorMsgs}">
+		<font style="color: red">請修正以下錯誤:</font>
+		<ul>
+			<c:forEach var="message" items="${errorMsgs}">
+				<li style="color: red">${message}</li>
+			</c:forEach>
+		</ul>
+	</c:if>
+	<p class="lead mb-0">課程類別編號:<i>${costypeVO.cosTypeNo}</i></p>
+	<p class="lead mb-0">課程類別名稱:</p>
+	<input required class="mb-3 mt-0" type="TEXT" name="cosTypeName" size="45" value="${costypeVO.cosTypeName}" />
+	<div class="modal-footer">
+		<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+		<input type="submit" class="btn btn-primary" value="修改">
+		<input type="hidden" name="action" value="update">
+		<input type="hidden" name="cosTypeNo" value="${costypeVO.cosTypeNo}">
+	</div>
+</form>
 </body>
-</html>       
+</html> 

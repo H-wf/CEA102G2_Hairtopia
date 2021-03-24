@@ -56,7 +56,7 @@
 
 <%if (buylist != null && (buylist.size() > 0)) {%>
 
-<h4>目前報名課程如下：（Cart.jsp）</h4>
+<h5>目前報名課程如下</h5>
 
 <table id="mytb"style="width: 77.5rem" class="table table-striped" >
     <tr> 

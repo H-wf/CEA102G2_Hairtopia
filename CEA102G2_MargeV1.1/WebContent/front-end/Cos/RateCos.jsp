@@ -3,13 +3,40 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ page import="java.util.*, com.coudet.model.*, com.coudet.controller.*, com.cos.controller.*" %>
 
+<!DOCTYPE html>
 <html>
 <head>
-<title>課程評分</title>
+<!-- 網頁標題要改記得改! -->
+ <title>課程首頁</title>
+ <meta charset="utf-8">
+<%@include file="/front-end/tempFile/head" %>
+ 
 </head>
-<body>
+<style>
+.ftco-navbar-light{
+	position:static;
+}
+#mytb{
+	font-size:0.8rem;
+}
+#mytb td{
+	height:30%;
+}
+#table-1 h4{
+	color:black; font-family: "Open Sans", Arial, sans-serif;
+}
 
-<%-- <%session.getAttribute("memVO");%> --%>
+.submitToWhite {
+        color:gray;
+}
+
+</style>
+<body>
+<%@include file="/front-end/tempFile/navBar" %>
+
+<!-- Begin Page Content -->
+<div class="container-fluid">
+</div>
 
 <%-- 錯誤表列 --%>
 <c:if test="${not empty errorMsgs}">
@@ -21,24 +48,38 @@
 	</ul>
 </c:if>
 
+<jsp:useBean id="cosSvc" scope="page" class="com.cos.model.CosService"/>
+<jsp:useBean id="cosdetSvc" scope="page" class="com.coudet.model.CosdetService"/>
+
 <table style="width: 100%">
 	<tr>
-		<th>課程編號</th>
+		<th>課程名稱</th>
 		<th>課程評價</th>
 		<th>報名課程價格</th>
 	</tr>
+	
 	<c:forEach var="cosdetVO" items="${cosdetVO}">
 	<tr>
-		<td>${cosdetVO.cosNo}</td>
+	 <% long now = new Date().getTime();
+			     	request.setAttribute("now", now);
+			     %>
+		<td>${cosSvc.findByPrimaryKeyCos(cosdetVO.cosNo).cosName}</td>
 		<td>${cosdetVO.cosComment}</td>
 		<td>${cosdetVO.cosDetailPrice}</td>
 		<td>
 			  <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/coudet/coudet.do" style="margin-bottom: 0px;" >
+			   
+			     <c:if  test="${cosSvc.findByPrimaryKeyCos(cosdetVO.cosNo).cosTo.getTime() >= now}">
 			     <input type="submit" value="評分">
+			     </c:if>
 			     <input type="hidden" name="cosNo"  value="${cosdetVO.getCosNo()}">
 			     <input type="hidden" name="memNo"  value="${cosdetVO.getMemNo()}">
+			     
 			     <input type="hidden" name="cosComment"  value="${cosdetVO.getCosComment()}">
-			     <input type="hidden" name="action"	value="getOneCos_For_UpdateRate"></FORM>
+			     
+			     <input class="test" type="hidden" name="action" value="getOneCos_For_UpdateRate">
+				
+			     </FORM>
 		</td>
 		<td>
 			  <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/coudet/coudet.do" style="margin-bottom: 0px;" >
@@ -54,5 +95,8 @@
 </table>
 
 
+<!-- Page Content END -->
+<%@include file="/front-end/tempFile/footer" %>
+<%@include file="/front-end/tempFile/tempJs" %>
 </body>
 </html>

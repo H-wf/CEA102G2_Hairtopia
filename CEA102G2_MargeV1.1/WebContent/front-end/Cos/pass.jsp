@@ -1,33 +1,50 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="BIG5">
-<title>Insert title here</title>
+<!-- 網頁標題要改記得改! -->
+ <title>Hairtopia</title>
+ <meta charset="utf-8">
+<%@include file="/front-end/tempFile/head" %>
+ 
 </head>
+<style>
+.ftco-navbar-light{
+		position:static;
+	}
+#mytb{
+	font-size:0.8rem;
+}
+#mytb td{
+	height:30%;
+}
+#table-1 h4{
+	color:black; font-family: "Open Sans", Arial, sans-serif;
+}
+
+#h5{
+color=D8CF9E
+}
+
+</style>
 <body>
+<%@include file="/front-end/tempFile/navBar" %>
 
-恭喜報名成功，系通將發送通知信至您信箱！
-<div class="demo-container">
-        <div class="card-wrapper"></div>
-        <div class="form-container active">
-            <form action="">
-                <input placeholder="Card number" type="tel" name="number">
-                <input placeholder="Full name" type="text" name="name">
-                <input placeholder="MM/YY" type="tel" name="expiry">
-                <input placeholder="CVC" type="number" name="cvc">
-            </form>
-        </div>
-    </div>
+<!-- Begin Page Content -->
+<div class="container-fluid">
 
-<script src="<%=request.getContextPath()%>/resource/card-master/dist/jquery.card.js"></script>
-<script>
-        new Card({
-            form: document.querySelector('form'),
-            container: '.card-wrapper'
-        });
-    </script>
+<table id="table-1">
+	<tr><td>
+		 <li><a href="<%=request.getContextPath()%>/front-end/Cos/Course_Lec_1st.jsp">回課程前台</a></li>
+	</td></tr>
+</table>
+
+<h5 id="h5">報名通過，請至"查詢修課紀錄及評分"查看QR Code及評分！</h5>
+
+<!-- Page Content END -->
+
+<%@include file="/front-end/tempFile/footer" %>
+<%@include file="/front-end/tempFile/tempJs" %>
 </body>
 </html>

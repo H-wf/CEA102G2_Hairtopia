@@ -58,11 +58,7 @@
 <h3>多條件查詢：</font></h3>
 <ul>  
   <li>   
-    <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/cos/cos.do" name="form1">
-        <b></b><br>
-        <b>輸入課程編號：</b>
-        <input type="text" name="cosNo" value="1"><br>
-           
+    <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/cos/cos.do" name="form1">           
        <b>輸入課程關鍵字：</b>
        <input type="text" name="cosName" value="瘋狂理髮師"><br>
        

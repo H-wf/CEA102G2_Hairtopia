@@ -57,12 +57,11 @@
 
 <table id="table-1">
 	<tr><td>
-		 <h4>回課程前台</h4>
 		 <li><a href="<%=request.getContextPath()%>/front-end/Cos/Course_Lec_1st.jsp">回課程前台</a></li>
 	</td></tr>
 </table>
 
-<table>
+<table id='mytb' style="width: 77.5rem" class="table table-striped">
 	<tr>
 		<th>公告編號</th>
 		<th>課程編號</th>
@@ -72,8 +71,6 @@
 	<%@ include file="/back-end/pages/page1.file"%> 
 	<c:forEach var="cospostVO" items="${list}" begin="<%=pageIndex%>" end="<%=pageIndex+rowsPerPage-1%>">
 
-
-		
 		<tr>
 			<td>${cospostVO.getCosPubNo()}</td>
 			<td>${cospostVO.getCosNo()}</td>
