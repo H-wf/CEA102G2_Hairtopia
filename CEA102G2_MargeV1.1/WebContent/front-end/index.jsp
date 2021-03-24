@@ -210,17 +210,37 @@
                     <h2 class="mb-1">熱門髮廊</h2>
                 </div>
             </div>
-	            <div class="row justify-content-between slidemove">
-	            <c:forEach  var="salonVO" items="${salSvc.pickup5Sal()}"> 
-					 	<div class="col-2 ">
-							 <div class="card">
-								<a href="<%=request.getContextPath()%>/salon/salon.do?action=getOne_For_Display&salNo=${salonVO.salNo}" >
-	<!-- 							這邊有問題 salon沒有照片 如果此欄位需要，是否要找一些圖片隨機放上去? -->
-								<img class="img-fluid" src="<%=request.getContextPath()%>/PicFinder?pic=1&table=Designer&column=desPic&idname=desNo&id=${designerVO.desNo}" class="card-img-top" alt="...">
-									<h5 class="card-title">${salonVO.salName }</h5>	
-								</a>
-							</div>	            
-						</div>         
+	            <div class="row justify-content-between slidemove2">
+	           		 <c:forEach  var="salonVO" items="${salSvc.pickup5Sal()}">
+	           		 	    <div class="card mb-3" style="max-width: 505px;">
+	           		 	    	<a href="<%=request.getContextPath()%>/salon/salon.do?action=getOne_For_Display&salNo=${salonVO.salNo}" >
+						        <div class="row no-gutters">
+						            <div class="col-md-4">
+						                <img class="img-fluid" src="<%=request.getContextPath()%>/PicFinder?pic=1&table=Designer&column=desPic&idname=desNo&id=${designerVO.desNo}" class="card-img-top" alt="...">
+						            </div>
+						            <div class="col-md-8">
+						                <div class="card-body">
+						                    <h5 class="card-title">${salonVO.salName }</h5>
+						                   <span class="icon icon-map-marker mr-3"><i
+											class="bi bi-geo-alt-fill"></i></span><span class="card-text mb-0">${salonVO.salAdd}</span> 
+						                    <span class="icon icon-phone mr-3"><i
+											class="bi bi-telephone-fill"></i></span> <span class="text">${salonVO.salPhone}</span>
+						                </div>
+						            </div>
+						        </div>
+						        </a>
+						    </div>
+	           		 
+	           		  
+<!-- 					 	<div class="col-2 "> -->
+<!-- 							 <div class="card"> -->
+<%-- 								<a href="<%=request.getContextPath()%>/salon/salon.do?action=getOne_For_Display&salNo=${salonVO.salNo}" > --%>
+<!-- 	<!-- 							這邊有問題 salon沒有照片 如果此欄位需要，是否要找一些圖片隨機放上去? --> 
+<%-- 								<img class="img-fluid" src="<%=request.getContextPath()%>/PicFinder?pic=1&table=Designer&column=desPic&idname=desNo&id=${designerVO.desNo}" class="card-img-top" alt="..."> --%>
+<%-- 									<h5 class="card-title">${salonVO.salName }</h5>	 --%>
+<!-- 								</a> -->
+<!-- 							</div>	             -->
+<!-- 						</div>          -->
 					  </c:forEach> 
 	        </div>
         </div>
@@ -287,6 +307,19 @@
 <script src="<%=request.getContextPath()%>/resource/js/postModal.js"></script>
 
 </body>
+	<c:if test="${!empty newDesReq}">
+			<script type="text/javascript">
+					function alertTest() {
+					 Swal.fire(
+							 "${newDesReq}"
+				            );
+					}
+					
+					alertTest();
+					
+						
+			</script>
+		</c:if>
 <c:if test="${not empty wholePostMap}">
 	<script>
 			var wholePostMap = '${wholePostMap}';
@@ -301,7 +334,12 @@ $('.slidemove').slick({
 	  autoplaySpeed: 2000,
 	});
 	
-	
+$('.slidemove2').slick({
+	  slidesToShow: 2,
+	  slidesToScroll: 1,
+	  autoplay: true,
+	  autoplaySpeed: 2000,
+	});	
 	
 
 </script>
