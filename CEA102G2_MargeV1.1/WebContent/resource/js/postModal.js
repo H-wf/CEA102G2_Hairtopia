@@ -1,4 +1,20 @@
 $(document).ready(function(){
+//判斷是否為重導直接開燈箱
+	if(typeof wholePostMap != 'undefined'){
+		if(wholePostMap !=null){
+			function reopenPostModal(wholePostMap){
+				emptyModal();
+				var jData = JSON.parse(wholePostMap);
+				
+				var commentList = jData.commentList;
+				var postVo = jData.postVo;
+				var tagNameList = jData.tagNameList;
+				
+				showWholePost(commentList, postVo, tagNameList);
+				$('#postModal').modal('show');
+			}
+		}
+	}
 	$('[data-toggle="popover"]').popover();
 		$('.onePost').on('click',function(){
 			$.ajax({
@@ -139,8 +155,16 @@ function showWholePost(commentList, postVo, tagNameList) {
 		                                    		<i class="bi bi-three-dots-vertical"></i>
 							                    </a>
 												  <div class="dropdown-menu" aria-labelledby="comDropdown`+item.comNo+`">
-												    <a class="dropdown-item" href="#">刪除留言</a>
-												    <a class="dropdown-item" data-toggle="collapse" href="#udCom`+item.comNo+`" role="button" aria-expanded="false" aria-controls="udCom`+item.comNo+`">修改</a>
+												    <form METHOD="POST"	ACTION="`+contextPath+`/comment/comment.do">
+												  		
+												    	<input name="action" value="delete_Comment_Front" type="hidden">
+												  		<input name="postNo" value="`+postVo.postNo+`" type="hidden">
+												  		<input name="comNo" value="`+item.comNo+`" type="hidden">
+												  		<input name="comStatus" value="`+item.comStatus+`" type="hidden">
+												  		<input name="URI" value="`+URI+`" type="hidden">
+												  		<button type="submit" id="submitBtn`+item.comNo+`">刪除</button>
+												  		<a class="dropdown-item" data-toggle="collapse" href="#udCom`+item.comNo+`" role="button" aria-expanded="false" aria-controls="udCom`+item.comNo+`">修改</a>
+												    </form>
 							   					  </div>
 												</div>`+
 	                            `<p class="comCon" id="comCon`+item.comNo+`">` + item.comCon + `</p>

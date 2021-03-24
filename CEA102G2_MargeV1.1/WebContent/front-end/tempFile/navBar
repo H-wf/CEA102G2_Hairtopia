@@ -19,7 +19,7 @@
                     <a class="nav-link" href="<%=request.getContextPath()%>/front-end/product/EShop2.jsp">髮品商城</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">風格誌</a>
+                    <a class="nav-link" href="<%=request.getContextPath()%>/front-end/Post/ListAllPost_AJAX.jsp">風格貼文</a>
                 </li>
                 <li class="nav-item">
                     <div id="navbar-bell">
