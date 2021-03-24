@@ -15,13 +15,6 @@
 <meta charset="utf-8">
 <%@include file="/back-end/tempFile/head" %>
 </head>
-<style>
-<style>
-tr,th{
-	font-size:16px !important;
-}
-</style>
-
 <body id="page-top">
 <%@include file="/back-end/tempFile/navBar_sideBar" %>
 	<!-- Begin Page Content -->	
@@ -43,7 +36,7 @@ tr,th{
 			        </button>
 			      </div>
 			      <div class="modal-body pb-0">																	
-					<jsp:include page="addCos.jsp" />
+					<jsp:include page="addCos2.jsp" />
 				  </div>
 				</div>
 			</div>
@@ -65,22 +58,22 @@ tr,th{
 					 			<th>課程照片</th>
 								<th>講師名稱</th>
 					 			<th>上課期間</th>
-					 			<th>報名期間</th>
+					 			
 					 			<th>查看詳情</th>  
 					 			<th>修改</th>                              
                             </tr>
                         </thead>
                         <tfoot>
                             <tr>
-                               	<th>課程編號</th>
+                           		<th>課程編號</th>
 					 			<th>課程名稱</th>
 					 			<th>課程照片</th>
 								<th>講師名稱</th>
 					 			<th>上課期間</th>
-					 			<th>報名期間</th>
-					 			<th>查看詳情</th>
-					 			<th>修改</th>                                 
-                        	</tr>
+					 			
+					 			<th>查看詳情</th>  
+					 			<th>修改</th>                              
+                            </tr>
                         </tfoot>
                         <tbody>
 						<c:forEach var="cosVO" items="${cosSvc.all}">
@@ -89,72 +82,69 @@ tr,th{
                                 <td>${cosVO.cosName}</td>                                
                                 <td><img src="<%=request.getContextPath()%>/PicFinder?pic=1&table=course&column=cosPic&idname=cosNo&id=${cosVO.cosNo}" alt='沒有圖片' width="50" height="40"/></td>
                                 <td>${lecSvc.getOneLecturer(cosVO.lecNo).lecName}</td>
-                                <td><fmt:formatDate value="${cosVO.cosFrom}" pattern="yyyy-MM-dd"/>~<fmt:formatDate value="${cosVO.cosTo}" pattern="yyyy-MM-dd"/></td>
-                                <td><fmt:formatDate value="${cosVO.cosApplyFrom}" pattern="yyyy-MM-dd"/>~<fmt:formatDate value="${cosVO.cosApplyTo}" pattern="yyyy-MM-dd"/></td>
+                                <td><fmt:formatDate value="${cosVO.cosFrom}" pattern="yyyy-MM-dd"/><div style="text-align:center;">∣</div><fmt:formatDate value="${cosVO.cosTo}" pattern="yyyy-MM-dd"/></td>
                                 <td>
-                                	<button type="button" class="btn btn-primary" data-toggle="modal" data-target=".course${cosVO.cosNo}">查看詳情</button>
+	                                <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target=".bd-example-modal-lg${cosVO.cosNo}">查看詳情</button>
+	                                <div class="modal fade bd-example-modal-lg${cosVO.cosNo}" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+									  <div class="modal-dialog modal-lg">
+									    <div class="modal-content p-1">
+											<div>課程編號:${cosVO.cosNo}</div>
+										    <div>課程名稱:${cosVO.cosName}</div>
+										    <div>講師名稱:${lecSvc.getOneLecturer(cosVO.lecNo).lecName}</div>
+										    <div>類別名稱:${costypeSvc.getOneCosType(cosVO.cosTypeNo).cosTypeName}</div>
+										    <div>上課期間:<fmt:formatDate value="${cosVO.cosFrom}" pattern="yyyy-MM-dd"/>~<fmt:formatDate value="${cosVO.cosTo}" pattern="yyyy-MM-dd"/></div>
+										    <div>報名期間:<fmt:formatDate value="${cosVO.cosApplyFrom}" pattern="yyyy-MM-dd"/>~<fmt:formatDate value="${cosVO.cosApplyTo}" pattern="yyyy-MM-dd"/></div>
+										    <div>課程介紹:${cosVO.cosIntro}</div>
+										    <div>課程地址:${cosVO.cosAdd}</div>
+										    <div>報名總人數:${cosVO.cosCount}</div>
+										    <div>評價總分數:${cosVO.cosRate}</div>
+										    <div>課程狀態:${cosVO.cosStatus==true?"上架":"下架"}</div>
+										    <div>最低人數:${cosVO.cosMinCount}</div>
+										    <div>最高人數:${cosVO.cosMaxCount}</div>
+										    <div>課程價格:${cosVO.cosPrice}</div>
+									    </div>
+									  </div>
+									</div>
                                 </td>
-<%--                                 	<div class="modal fade course${cosVO.cosNo}" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true"> --%>
-<!-- 									  <div class="modal-dialog modal-lg"> -->
-<!-- 									    <div class="modal-content">									      -->
-<%-- 									      	課程編號:${cosVO.cosNo} <br/> --%>
-<%-- 									      	課程名稱:${cosVO.cosName} <br/> --%>
-<%-- 									      	講師名稱:${lecSvc.getOneLecturer(cosVO.lecNo).lecName} <br/> --%>
-<%-- 									      	類別名稱:${costypeSvc.getOneCosType(cosVO.cosTypeNo).cosTypeName} <br/> --%>
-<%-- 									      	上課期間:<fmt:formatDate value="${cosVO.cosFrom}" pattern="yyyy-MM-dd"/>~<fmt:formatDate value="${cosVO.cosTo}" pattern="yyyy-MM-dd"/><br/> --%>
-<%-- 									      	報名期間:<fmt:formatDate value="${cosVO.cosApplyFrom}" pattern="yyyy-MM-dd"/>~<fmt:formatDate value="${cosVO.cosApplyTo}" pattern="yyyy-MM-dd"/><br>		 --%>
-<%-- 									      	課程介紹:${cosVO.cosIntro} <br/> --%>
-<%-- 									      	課程地址:${cosVO.cosAdd} <br/> --%>
-<%-- 									      	報名總人數:${cosVO.cosCount} <br/> --%>
-<%-- 									      	評價總分數:${cosVO.cosRate} <br/> --%>
-<%-- 									      	課程狀態:${cosVO.cosStatus==true?"上架":"下架"} <br/>									    --%>
-<%-- 									      	最低人數:${cosVO.cosMinCount} <br/> --%>
-<%-- 									      	最高人數:${cosVO.cosMaxCount} <br/> --%>
-<%-- 									      	課程價格:${cosVO.cosPrice} <br/>									    	 --%>
-<!-- 									    </div> -->
-<!-- 									  </div> -->
-<!-- 									</div> -->
-                                
                                 <td>
-<%-- 									<a href="<%=request.getContextPath()%>/brand/brand.do?braNo=${brandVO.braNo}&action=getOne_For_Update" type="button" class="btn btn-primary btn-sm" > --%>
-<!-- 										修改 -->
-<!-- 									</a>									 -->
+									<a href="<%=request.getContextPath()%>/cos/cos.do?cosNo=${cosVO.cosNo}&action=getOne_For_Update" type="button" class="btn btn-primary btn-sm" >
+										修改
+									</a>									
 								</td>                              
                             </tr>
-						</c:forEach>
-						</tbody>       
+						</c:forEach>       
 					</table>
-					
 					<!-- Modal GET_ONE-->
-<%-- 					<c:if test="${openModal!=null}"> --%>
-<!-- 						<div class="modal fade" id="basicModal" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true"> -->
-<!-- 							<div class="modal-dialog"> -->
-<!-- 								<div class="modal-content"> -->
-<!-- 									<div class="modal-header"> -->
-<!-- 						                <h4 class="modal-title" id="myModalLabel">商品品牌修改</h4> -->
-<!-- 						                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button> -->
-<!-- 						            </div> -->
-										
-<!-- 									<div class="modal-body pb-0"> -->
-<%-- 										<jsp:include page="" /> --%>
-<!-- 									</div> -->
-<!-- 								</div> -->
-<!-- 							</div> -->
-<!-- 						</div> -->
-<%-- 					</c:if>	 --%>
+					<c:if test="${openModal!=null}">
+						<div class="modal fade" id="basicModal" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
+							<div class="modal-dialog">
+								<div class="modal-content">
+									<div class="modal-header">
+						                <h4 class="modal-title" id="myModalLabel">課程修改</h4>
+						                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+						            </div>
+									
+									<div class="modal-body pb-0">
+										<jsp:include page="update_cos_input2.jsp" />
+									</div>
+								</div>
+							</div>
+						</div>
+					</c:if>	
 					<!-- Modal GET_ONE End-->
 				</div>
 			</div>
 		</div>
 	</div>
-
+<!-- Page Content END -->
                 
 <%@include file="/back-end/tempFile/footer" %>
 <%@include file="/back-end/tempFile/srcJs" %>
+
 <script>
 $("#basicModal").modal({show: true});
 
 </script>
-</body>
 
+</body>
 </html>

@@ -20,7 +20,7 @@
 		<div class="h3 mb-2 text-gray-800">
 			商品品牌管理
 			<button type="button" class="btn btn-primary float-right" data-toggle="modal" data-target="#add">								
-				<i class="fas fa-plus" style="color:white !important;"></i> 新增商品品牌
+				<i class="fas fa-plus"></i> 新增商品品牌
 			</button>
 			<!-- Modal ADD -->					
 			<div class="modal fade" id="add" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">

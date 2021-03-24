@@ -30,6 +30,9 @@
 	font-size:22px;
 	color:#333333;
 }
+ul{
+	list-style-type:none;
+}
 </style>
 <body>
 <%@include file="/front-end/tempFile/navBar" %>
@@ -118,10 +121,10 @@
 					<div class="col-6">
 					<div class="line">訂購人資訊</div>
 						<ul>
-							<li>訂購人姓名:&emsp;${sessionScope.memVO.memName}
-							<li>訂購人信箱:&emsp;${sessionScope.memVO.memEmail}
-							<li>訂購人手機:&emsp;${sessionScope.memVO.memPhone}
-							<li>訂購人地址:&emsp;${sessionScope.memVO.memAddr}
+							<li>訂購人姓名:&emsp;${sessionScope.userSession.memName}
+							<li>訂購人信箱:&emsp;${sessionScope.userSession.memEmail}
+							<li>訂購人手機:&emsp;${sessionScope.userSession.memPhone}
+							<li>訂購人地址:&emsp;${sessionScope.userSession.memAddr}
 						</ul>
 					</div>
 					<div class="col-6" >

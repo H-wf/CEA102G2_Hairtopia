@@ -14,10 +14,9 @@ public class CosService {
 	}
 	
 	public CosVO addCos(Integer lecNo, Integer cosTypeNo, Timestamp cosFrom, Timestamp cosTo, 
-			String cosIntro, byte[] cosPic, String cosAdd, Integer cosCount, Integer cosRate, 
+			String cosIntro, byte[] cosPic, String cosAdd, 
 			Boolean cosStatus, Integer cosMinCount, Integer cosMaxCount, Integer cosPrice, Timestamp cosApplyFrom, 
 			Timestamp cosApplyTo, String cosName){
-
 		CosVO cosVO = new CosVO();
 		
 		cosVO.setLecNo(lecNo);
@@ -27,8 +26,6 @@ public class CosService {
 		cosVO.setCosIntro(cosIntro);
 		cosVO.setCosPic(cosPic);
 		cosVO.setCosAdd(cosAdd);
-		cosVO.setCosCount(cosCount);
-		cosVO.setCosRate(cosRate);
 		cosVO.setCosStatus(cosStatus);
 		cosVO.setCosMinCount(cosMinCount);
 		cosVO.setCosMaxCount(cosMaxCount);
@@ -43,7 +40,7 @@ public class CosService {
 	}
 
 	public CosVO updateCos(Integer cosNo, Integer lecNo, Integer cosTypeNo, Timestamp cosFrom, Timestamp cosTo, 
-			String cosIntro, byte[] cosPic, String cosAdd, Integer cosCount, Integer cosRate, 
+			String cosIntro, byte[] cosPic, String cosAdd, 
 			Boolean cosStatus, Integer cosMinCount, Integer cosMaxCount, Integer cosPrice, Timestamp cosApplyFrom, 
 			Timestamp cosApplyTo, String cosName) {
 		
@@ -57,8 +54,6 @@ public class CosService {
 			cosVO.setCosIntro(cosIntro);
 			cosVO.setCosPic(cosPic);
 			cosVO.setCosAdd(cosAdd);
-			cosVO.setCosCount(cosCount);
-			cosVO.setCosRate(cosRate);
 			cosVO.setCosStatus(cosStatus);
 			cosVO.setCosMinCount(cosMinCount);
 			cosVO.setCosMaxCount(cosMaxCount);
@@ -73,7 +68,7 @@ public class CosService {
 	}
 	
 	public CosVO updateCosNoPic(Integer cosNo, Integer lecNo, Integer cosTypeNo, Timestamp cosFrom, Timestamp cosTo, 
-			String cosIntro, String cosAdd, Integer cosCount, Integer cosRate, 
+			String cosIntro, String cosAdd,  
 			Boolean cosStatus, Integer cosMinCount, Integer cosMaxCount, Integer cosPrice, Timestamp cosApplyFrom, 
 			Timestamp cosApplyTo, String cosName) {
 		
@@ -86,8 +81,6 @@ public class CosService {
 			cosVO.setCosTo(cosTo);
 			cosVO.setCosIntro(cosIntro);
 			cosVO.setCosAdd(cosAdd);
-			cosVO.setCosCount(cosCount);
-			cosVO.setCosRate(cosRate);
 			cosVO.setCosStatus(cosStatus);
 			cosVO.setCosMinCount(cosMinCount);
 			cosVO.setCosMaxCount(cosMaxCount);
