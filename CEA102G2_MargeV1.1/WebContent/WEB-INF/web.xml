@@ -14,39 +14,29 @@
 		<welcome-file>default.jsp</welcome-file>
 	</welcome-file-list>
 <!-- 	login 濾器註冊 -->
-<!-- 	<filter> -->
-<!-- 		<filter-name>loginFilter</filter-name> -->
-<!-- 		<filter-class>com.util.filter.LoginFilter</filter-class> -->
-<!-- 	</filter> -->
-<!-- 	<filter-mapping> -->
-<!-- 		<filter-name>loginFilter</filter-name> -->
-<!-- 		<url-pattern>/front-end/member/NewFile.jsp</url-pattern> -->
-<!-- 		<url-pattern>/front-end/product/Checkout.jsp</url-pattern> -->
-<!-- 		<url-pattern>/front-end/Cos/Checkout.jsp</url-pattern> -->
-<!-- 		<url-pattern>/front-end/Cos/LoginToRateCos.jsp</url-pattern> -->
-<!-- 		<url-pattern>/front-end/Cos/RateCos.jsp</url-pattern>		 -->
-<!-- 		<url-pattern>/front-end/ordermaster/listAllOrderMaster.jsp</url-pattern> -->
-<!-- 		<url-pattern>/front-end/reservation/AddResTest.jsp</url-pattern>		 -->
+	<filter>
+		<filter-name>loginFilter</filter-name>
+		<filter-class>com.util.filter.LoginFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>loginFilter</filter-name>
+		<url-pattern>/front-end/member/NewFile.jsp</url-pattern>
+		<url-pattern>/front-end/product/Checkout.jsp</url-pattern>
+		<url-pattern>/front-end/Cos/Checkout.jsp</url-pattern>
+		<url-pattern>/front-end/Cos/LoginToRateCos.jsp</url-pattern>
+		<url-pattern>/front-end/Cos/RateCos.jsp</url-pattern>		
+		<url-pattern>/front-end/ordermaster/listAllOrderMaster.jsp</url-pattern>
+		<url-pattern>/front-end/reservation/AddResTest.jsp</url-pattern>		
 
-<!--     <dispatcher>REQUEST</dispatcher> -->
-<!-- 		<dispatcher>FORWARD</dispatcher> -->
-<!-- 		<dispatcher>INCLUDE</dispatcher> -->
-<!-- 		<dispatcher>ERROR</dispatcher> -->
-<!-- 		<dispatcher>ASYNC</dispatcher> -->
-<!-- 	</filter-mapping> -->
-<!-- 	<filter> -->
-<!-- 		<filter-name>StaffLoginFilter</filter-name> -->
-<!-- 		<filter-class>com.util.filter.StaffLoginFilter</filter-class> -->
-<!-- 	</filter> -->
-<!-- 	<filter-mapping> -->
-<!-- 		<filter-name>StaffLoginFilter</filter-name> -->
-<!-- 		<url-pattern>/back-end/Staff/login_success.jsp</url-pattern> -->
-<!-- 		<dispatcher>REQUEST</dispatcher> -->
-<!-- 		<dispatcher>FORWARD</dispatcher> -->
-<!-- 		<dispatcher>INCLUDE</dispatcher> -->
-<!-- 		<dispatcher>ERROR</dispatcher> -->
-<!-- 		<dispatcher>ASYNC</dispatcher> -->
-<!-- 	</filter-mapping> -->
+    		</filter-mapping>
+	<filter>
+		<filter-name>StaffLoginFilter</filter-name>
+		<filter-class>com.util.filter.StaffLoginFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>StaffLoginFilter</filter-name>
+		<url-pattern>/back-end/Staff/login_success.jsp</url-pattern>
+	</filter-mapping>
 <!-- login 濾器註冊END -->
 	<resource-ref>
 		<description>DB Connection</description>
