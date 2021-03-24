@@ -5,8 +5,9 @@
 <%
   CosVO cosVO = (CosVO) request.getAttribute("cosVO"); 
 %>
-<jsp:useBean id="cosSvc" scope="page" class="com.cos.model.CosService" />
+
 <jsp:useBean id="lecSvc" scope="page" class="com.lecturer.model.LecturerService" />
+<jsp:useBean id="costypeSvc" scope="page" class="com.coutype.model.CostypeService" />
 <html>
 <head>
 <meta charset="UTF-8">
@@ -25,7 +26,7 @@
 	</c:if>
 	<p class="lead mb-0">課程編號:<i>${cosVO.cosNo}</i></p>
 	<p class="lead mb-0">課程名稱:</p>
-		<input type="TEXT" name="cosName" size="45" value="${cosVO.cosNames}" />
+		<input type="TEXT" name="cosName" size="45" value="${cosVO.cosName}" />
 		<p class="lead mb-0">講師:</p>
 		<select size="1" name="lecNo" >
 			<c:forEach var="lecturerVO" items="${lecSvc.all}" > 
@@ -45,8 +46,8 @@
 		<p class="lead mb-0">課程介紹:</p>
 		<textarea required class="mb-3 mt-0" name="cosIntro" cols="30" rows="10">${cosVO.cosIntro}</textarea>		
 		<p class="lead mb-0">課程圖片:</p>
-		<div id="preview"></div>
-		<input required class="mb-3 mt-0" type="file" name="cosPic" id="myFile">
+		<div id="preview1"></div>
+		<input class="mb-3 mt-0" type="file" name="cosPic" id="myFile1">
 		<p class="lead mb-0">課程地址:</p>
 		<div id = "twzipcode"></div><input type="TEXT" id="cosAdd" name="cosAdd" size="45" value="${cosVO.cosAdd}" />
 		<p class="lead mb-0">報名人數上限:</p>
@@ -82,7 +83,7 @@ $.datetimepicker.setLocale('zh');
            //minDate:               '-1970-01-01', // 去除今日(不含)之前
            //maxDate:               '+1970-01-01'  // 去除今日(不含)之後
         });
-        $('#f_date5').datetimepicker({
+        $('#f_date6').datetimepicker({
             theme: '',
   	       timepicker:true,
   	       step: 1,
@@ -103,6 +104,45 @@ $.datetimepicker.setLocale('zh');
   	       format:'Y-m-d H:i:s',
   		   value: '<%=cosVO.getCosTo()%>',
   		   });
+        var customFile1 = document.getElementById("myFile1");
+        var preview1 = document.getElementById('preview1');
+        customFile1.addEventListener('change', function(e) {
+        	// 取得檔案物件的兩種方式
+        	// 1. 直接從myFile物件上取得檔案物件 (因為非同步，一樣，多個classname註冊時會有問題)
+        	// 2. 從event物件中取得他的soure target，也就是myFile物件，再取得檔案物件 
+        	// 檔案的基本資訊，包括：檔案的名稱、大小與文件型態
+        	let files = e.target.files;
+        	// 判斷files物件是否存在
+        	if (files) {
+        		// 取出files物件的第一個
+        		let file = files[0];
+        		// 判斷file.type的型別是否包含'image'
+        		if (file.type.indexOf('image') > -1) {
+        			// new a FileReader
+        			let reader = new FileReader();
+        			// 在FileReader物件上註冊load事件 - 載入檔案的意思
+        			reader.addEventListener('load', function(e) {
+        				// 取得結果 提示：從e.target.result取得讀取到結果
+        				let result = e.target.result;
+        				console.log(result);
+        				// 新增img元素
+        				let img = document.createElement('img');
+        				// 賦予src屬性
+        				img.setAttribute('src', result);
+        				img.setAttribute('width', '200');
+        				img.classList.add("prviewImg");
+        				// 放到div裡面
+        				preview1.innerHTML = "";
+        				preview1.append(img);
+        			});
+        			// 使用FileReader物件上的 readAsDataURL(file) 的方法，傳入要讀取的檔案，並開始進行讀取
+        			reader.readAsDataURL(file); // *** trigger read file content
+        		} else {
+        			// 彈出警告視窗 
+        			alert('請上傳圖片！');
+        		}
+        	}
+        });
 </script>
 </body>
 </html>

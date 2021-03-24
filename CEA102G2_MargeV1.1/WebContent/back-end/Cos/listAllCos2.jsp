@@ -7,6 +7,7 @@
 
 <jsp:useBean id="cosSvc" scope="page" class="com.cos.model.CosService" />
 <jsp:useBean id="lecSvc" scope="page" class="com.lecturer.model.LecturerService" />
+<jsp:useBean id="costypeSvc" scope="page" class="com.coutype.model.CostypeService" />
 
 <!DOCTYPE html>
 <html lang="en">
