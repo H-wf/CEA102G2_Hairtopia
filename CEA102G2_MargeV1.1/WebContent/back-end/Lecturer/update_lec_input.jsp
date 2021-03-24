@@ -13,6 +13,15 @@
 <link
 	href="<%=request.getContextPath()%>/dist/backTemp/vendor/datatables/dataTables.bootstrap4.min.css"
 	rel="stylesheet">
+	
+<style type="text/css">
+.prviewImg{
+width :300px;
+
+}
+
+
+</style>	
 </head>
 <body id="page-top">
 	<%@include file="/back-end/tempFile/navBar_sideBar"%>
@@ -89,24 +98,6 @@
 
 	<%@include file="/back-end/tempFile/footer"%>
 	<%@include file="/back-end/tempFile/srcJs"%>
-	<script
-		src="<%=request.getContextPath()%>/dist/backTemp/vendor/jquery/jquery.min.js"></script>
-	<script
-		src="<%=request.getContextPath()%>/dist/backTemp/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-	<!-- Core plugin JavaScript-->
-	<script
-		src="<%=request.getContextPath()%>/dist/backTemp/vendor/jquery-easing/jquery.easing.min.js"></script>
-	<!-- Custom scripts for all pages-->
-	<script
-		src="<%=request.getContextPath()%>/dist/backTemp/js/sb-admin-2.min.js"></script>
-	<!-- Page level plugins -->
-	<script
-		src="<%=request.getContextPath()%>/dist/backTemp/vendor/datatables/jquery.dataTables.min.js"></script>
-	<script
-		src="<%=request.getContextPath()%>/dist/backTemp/vendor/datatables/dataTables.bootstrap4.min.js"></script>
-	<!-- Page level custom scripts -->
-	<script
-		src="<%=request.getContextPath()%>/dist/backTemp/js/demo/datatables-demo.js"></script>
 
 
 </body>

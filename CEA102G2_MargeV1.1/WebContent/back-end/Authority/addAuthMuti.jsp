@@ -14,14 +14,17 @@
 
 <title>修改權限</title>
 <%@include file="/back-end/tempFile/head"%>
+<link
+	href="<%=request.getContextPath()%>/dist/backTemp/vendor/datatables/dataTables.bootstrap4.min.css"
+	rel="stylesheet">
 </head>
 <body id="page-top">
 	<%@include file="/back-end/tempFile/navBar_sideBar"%>
 
 	<div class="container-fluid">
 		<div class="row">
-
-			<div class="col-6">
+		
+			<div class="col-12">
 
 				<div class="card shadow mb-4">
 
@@ -50,15 +53,14 @@
 
 									</tr>
 
-									<jsp:useBean id="funcSvc" scope="page"
-										class="com.func.model.FuncService" />
+									<jsp:useBean id="funcSvc" scope="page" class="com.func.model.FuncService" />
 									<tr>
 
 										<th>功能名稱:<font color=red><b>*</b></font></th>
 										<td><c:forEach var="funcVO" items="${funcSvc.all}">
 												<input type="checkbox" id="ckBox" name="funcNo"
 													value="${funcVO.funcNo}">
-  					${funcVO.funcName}<br>
+  														${funcVO.funcName}<br>
 
 											</c:forEach></td>
 									</tr>
@@ -87,5 +89,8 @@
 
 		</div>
 	</div>
+	
+<%@include file="/back-end/tempFile/footer" %>
+<%@include file="/back-end/tempFile/srcJs" %>	
 </body>
 </html>

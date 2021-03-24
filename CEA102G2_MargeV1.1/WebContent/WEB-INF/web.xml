@@ -40,7 +40,14 @@
 	</filter>
 	<filter-mapping>
 		<filter-name>StaffLoginFilter</filter-name>
-		<url-pattern>/back-end/Staff/login_success.jsp</url-pattern>
+		<url-pattern>/back-end/indexBack.jsp</url-pattern>
+		<url-pattern>/back-end/Authority/*</url-pattern>
+		<url-pattern>/back-end/designer/*</url-pattern>
+		<url-pattern>/back-end/product/*</url-pattern>
+		<url-pattern>/back-end/ordermaster/*</url-pattern>
+		<url-pattern>/back-end/ptype/*</url-pattern>
+		<url-pattern>/back-end/Staff/*</url-pattern>
+		<url-pattern>/back-end/brand/*</url-pattern>
 		<dispatcher>REQUEST</dispatcher>
 		<dispatcher>FORWARD</dispatcher>
 		<dispatcher>INCLUDE</dispatcher>

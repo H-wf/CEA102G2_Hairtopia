@@ -52,6 +52,7 @@ public class LecturerServlet extends HttpServlet {
 				if (str == null || (str.trim()).isEmpty() == true) {
 					errorMsgs.add("請輸入講師編號");
 				}
+				
 				// Send the use back to the form, if there were errors
 				if (!errorMsgs.isEmpty()) {
 					RequestDispatcher failureView = req.getRequestDispatcher("/back-end/Lecturer/select_lec_page.jsp");
@@ -65,6 +66,7 @@ public class LecturerServlet extends HttpServlet {
 				} catch (Exception e) {
 					errorMsgs.add("講師編號格式不正確");
 				}
+			
 				// Send the use back to the form, if there were errors
 				if (!errorMsgs.isEmpty()) {
 					RequestDispatcher failureView = req.getRequestDispatcher("/back-end/Lecturer/select_lec_page.jsp");

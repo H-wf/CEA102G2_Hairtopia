@@ -1,7 +1,7 @@
 package com.staff.controller;
 
 import java.io.IOException;
-
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -16,6 +16,7 @@ import javax.servlet.http.HttpSession;
 
 import com.authority.model.AuthorityService;
 import com.authority.model.AuthorityVO;
+import com.func.model.FuncService;
 import com.member.model.MemService;
 import com.member.model.MemVO;
 import com.staff.model.*;
@@ -43,7 +44,20 @@ public class StaffServlet extends HttpServlet {
 
 	protected void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 		req.setCharacterEncoding("UTF-8");
+		res.setContentType("text/html; charset=UTF-8");
 		String action = req.getParameter("action");
+		
+		
+		if("logout".equals(action)){
+			HttpSession session = req.getSession();
+			session.invalidate();
+			res.sendRedirect(req.getContextPath() +"/back-end/login.jsp");
+			
+			
+			
+		}
+		
+		
 		
 		if ("login".equals(action)) {
 
@@ -71,11 +85,17 @@ public class StaffServlet extends HttpServlet {
 			} else {
 				HttpSession session = req.getSession();
 				AuthorityService authSvc = new AuthorityService();
-				List<AuthorityVO> authList = authSvc.getAllByStaNo(staVO.getStaNo());
+				FuncService funcSvc = new FuncService();
+				List<AuthorityVO> list = authSvc.getAllByStaNo(staVO.getStaNo());
+				List<String> funcList = new ArrayList();
 				
-				session.setAttribute("authList", authList);
+				for(AuthorityVO authVo : list) {
+					funcList.add(funcSvc.getOneFunc(authVo.getFuncNo()).getFuncName());
+				}
+				
+				session.setAttribute("authList", funcList);
 				session.setAttribute("staAccount", staAcct);
-				session.setAttribute("staffVO", staVO);
+				session.setAttribute("sessionSta", staVO);
 				
 				
 				try {
@@ -88,7 +108,7 @@ public class StaffServlet extends HttpServlet {
 				} catch (Exception ignored) {
 				}
 
-				res.sendRedirect(req.getContextPath() + "/back-end/Staff/login_success.jsp");
+				res.sendRedirect(req.getContextPath() + "/back-end/indexBack.jsp");
 			}
 		}
 		if ("getOne_For_Display".equals(action)) { // 來自select_lec_page.jsp的請求
@@ -218,6 +238,7 @@ public class StaffServlet extends HttpServlet {
 				/*************************** 2.開始修改資料 *****************************************/
 				staVO.setStaStatus(staStatus);
 				staVO.setStaPswd(genAuthCode());
+				
 	//修改狀態 & 密碼
 				StaffVO newStaVO = staSvc.updateStaff(staVO);
 				AuthorityService authSvc = new AuthorityService();
