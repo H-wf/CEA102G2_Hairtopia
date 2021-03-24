@@ -16,9 +16,9 @@
 <%
 	DesignerVO designerVO = (DesignerVO) request.getAttribute("designerVO");
 	SalonVO salVo = (SalonVO) request.getAttribute("salVo");
-	DesignerService desSvcs = new DesignerService();
-	DesignerVO desSession = desSvcs.getOneDesByDesNo(1);
-	pageContext.setAttribute("desSession", desSession);
+// 	DesignerService desSvcs = new DesignerService();
+// 	DesignerVO desSession = desSvcs.getOneDesByDesNo(1);
+// 	pageContext.setAttribute("desSession", desSession);
 %>
 <html lang="en">
 

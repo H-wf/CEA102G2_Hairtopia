@@ -120,29 +120,13 @@
 						aria-label="Close">
 						<span aria-hidden="true">&times;</span>
 					</button>
-					<form METHOD="POST"	ACTION="<%=request.getContextPath()%>/post/post.do" id="addPostForm" name="form" enctype="multipart/form-data">
+					<form METHOD="POST"	ACTION="<%=request.getContextPath()%>/post/post.do" id="updatePostForm" name="form" enctype="multipart/form-data">
 						<div class="row justify-content-center">
-							<div class="col-md-12" id="addPostTitle"><h4>新增貼文</h4></div>
+							<div class="col-md-12" id="addPostTitle"><h4>修改貼文</h4></div>
 							<div class="col-md-12 ftco-animate">
-									<div class="form-group">
-										<label for="tagName">貼文標籤</label> 
-										<input class="form-control"	id="tagName" name="tagName" placeholder="write some tags" value="predefined,tags,here" size="50">
-									</div>
 									<div class="form-group">
 										<label for="postCon">貼文內容</label>
 										<textarea name="postCon" id="postCon" cols="30" rows="3" class="form-control"></textarea>
-									</div>
-									<div class="form-group">
-										<label for="Picture 1">Picture 1</label> 
-										<input type="file"	name="upfile1" id="myFile1" class="form-control"	placeholder="Picture 1">
-									</div>
-									<div class="form-group">
-										<label for="Picture 2">Picture 2</label>
-										<input type="file" name="upfile2" id="myFile2" class="form-control" placeholder="Picture 2">
-									</div>
-									<div class="form-group">
-										<label for="Picture 3">Picture 3</label> 
-										<input type="file" name="upfile3" id="myFile3" class="form-control" placeholder="Picture 3">
 									</div>
 									<label for="">貼文狀態</label>
 									<div class="form-group">
@@ -155,7 +139,8 @@
 											<label class="form-check-label" for="inlineRadio2">隱藏</label>
 										</div>
 									</div>
-									<input name="action" value="insert" type="hidden">
+									<input name="action" value="update" type="hidden">
+									<input name="postNo" value="update" type="hidden">
 									<input name="desNo" value="${desSession.desNo}" type="hidden">
 									<div class="form-group" style="text-align: center;">
 										<input type="button" value="上傳貼文" class="btn btn-primary py-3 px-5" id="addPostSmtBtn">
@@ -177,22 +162,15 @@
 $(document).ready(function(){
 	$('#updatePostModal').on('click',function(){
 		//判斷欄位空值
-		var isTags = $('tags').attr('class');
-		if(isTags.indexOf('tagify--noTags') != -1 || $('#postCon').val().trim().length === 0 || $('#myFile1').val().trim().length === 0 || $('input[name=postStatus]:checked').val()==null){
+		if( $('#postCon').val().trim().length === 0 || $('input[name=postStatus]:checked').val()==null){
 			var errorText=[];
 			var AllError='';
-			if(isTags.indexOf('tagify--noTags') != -1){
-				var tagError ="請至少輸入一個標籤。";
-				errorText.push(tagError);
-			}
+			
 			if($('#postCon').val().trim().length === 0){
 				var postConError = "請輸入貼文內容。";
 				errorText.push(postConError);
 			}
-			if($('#myFile1').val().trim().length === 0){
-				var fileError = "請至少上傳一張照片。";
-				errorText.push(fileError);
-			}
+			
 			if($('input[name=postStatus]:checked').val()==null){
 				var postStatusError = "請選擇貼文狀態。";
 				errorText.push(postStatusError);
@@ -210,7 +188,7 @@ $(document).ready(function(){
 			});
 		}else{
 				swal.fire({
-				title:'已送出貼文',
+				title:'已送出修改',
 				icon:'success',
 				showCloseButton: true,
 			}).then(function(){

@@ -248,7 +248,15 @@ function addCom(comVo){
                                     		<i class="bi bi-three-dots-vertical"></i>
 					                    </a>
 										  <div class="dropdown-menu" aria-labelledby="comDropdown`+comVo.comNo+`">
-										    <a class="dropdown-item" href="#">刪除留言</a>
+										  	<form METHOD="POST"	ACTION="`+contextPath+`/comment/comment.do">
+												<a class="dropdown-item" href="javascript:;"onclick="$('#submitBtn`+comVo.comNo+`').click();">刪除留言</a>
+												<input name="action" value="delete_Comment_Front" type="hidden">
+												<input name="postNo" value="`+postVo.postNo+`" type="hidden">
+												<input name="comNo" value="`+comVo.comNo+`" type="hidden">
+												<input name="comStatus" value="`+comVo.comStatus+`" type="hidden">
+												<input name="URI" value="`+URI+`" type="hidden">
+												<button type="submit" id="submitBtn`+comVo.comNo+`" style="display:none;">刪除</button>
+											</form>
 										    <a class="dropdown-item" data-toggle="collapse" href="#udCom`+comVo.comNo+`" role="button" aria-expanded="false" aria-controls="udCom`+comVo.comNo+`">修改</a>
 					   					  </div>
 										</div>`+
