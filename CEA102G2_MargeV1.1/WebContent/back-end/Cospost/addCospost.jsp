@@ -8,6 +8,7 @@
 <head>
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 <title>課程公告資料新增</title>
+<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/resource/datetimepicker/jquery.datetimepicker.css" />
 </head>
 <style>
 *{
@@ -18,7 +19,7 @@
 }
 </style>
 <body>
-	<form METHOD="POST" ACTION="<%=request.getContextPath()%>/cospost/cospost.do" name="form1" enctype="multipart/form-data">
+	<form METHOD="POST" ACTION="<%=request.getContextPath()%>/cospost/cospost.do" name="form1">
 		<c:if test="${not empty errorMsgs}">
 		<font style="color: red">請修正以下錯誤:</font>
 		<ul>
@@ -27,7 +28,7 @@
 			</c:forEach>
 		</ul>
 		</c:if>
-		<p class="lead mb-0">課程編號:</p>
+		<p class="lead mb-0">課程名稱:</p>
 		<select size="1" name="cosNo">
 			<c:forEach var="cosVO" items="${cosSvc.all}">
 				<option value="${cosVO.cosNo}">${cosVO.cosName}
@@ -36,7 +37,7 @@
 		<p class="lead mb-0">公告內容:</p>
 		<textarea required class="mb-3 mt-0" name="cosPubCon" cols="30" rows="10" placeholder="請輸入公告內容"></textarea>
 		<p class="lead mb-0">公告時間:</p>
-		<input type="TEXT" name="cosPubTime" size="45"  id="f_date1">
+		<input type="TEXT" name="cosPubTime" size="45"  id="f_date1" autocomplete="off">
 		<div class="modal-footer">
 			<input name="action" value="insert" type="hidden" >
 			<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -48,6 +49,7 @@
 <script src="<%=request.getContextPath()%>/dist/backTemp/vendor/jquery/jquery.min.js"></script>
 <script src="<%=request.getContextPath()%>/resource/datetimepicker/jquery.js"></script>
 <script src="<%=request.getContextPath()%>/resource/datetimepicker/jquery.datetimepicker.full.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery-twzipcode@1.7.14/jquery.twzipcode.min.js"></script>
 
 <script>
         $.datetimepicker.setLocale('zh');
