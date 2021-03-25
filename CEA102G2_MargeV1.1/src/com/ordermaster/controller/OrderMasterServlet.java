@@ -3,6 +3,8 @@ package com.ordermaster.controller;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -22,7 +24,6 @@ import javax.servlet.http.Part;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
-
 import com.brand.model.BrandService;
 import com.brand.model.BrandVO;
 import com.orderdetail.model.OrderDetailVO;
@@ -30,6 +31,7 @@ import com.ordermaster.model.OrderMasterDAO;
 import com.ordermaster.model.OrderMasterService;
 import com.ordermaster.model.OrderMasterVO;
 import com.product.model.ProductVO;
+import com.ptype.model.PtypeService;
 
 
 @MultipartConfig
@@ -89,7 +91,7 @@ public class OrderMasterServlet extends HttpServlet {
 			
 			HttpSession session = req.getSession();
 			@SuppressWarnings("unchecked")
-			Vector<ProductVO> shoppingcart = (Vector<ProductVO>)session.getAttribute("shoppingcart");
+			Vector<ProductVO> shoppingbag = (Vector<ProductVO>)session.getAttribute("shoppingbag");
 			OrderMasterVO ordermasterVO = new OrderMasterVO();
 			ordermasterVO.setMemNo(memNo);
 			ordermasterVO.setOrdAmt(ordAmt);
@@ -98,21 +100,20 @@ public class OrderMasterServlet extends HttpServlet {
 			ordermasterVO.setOrdPhone(ordPhone);
 			ordermasterVO.setOrdAddr(ordAddr);
 			List<OrderDetailVO> list = new ArrayList<OrderDetailVO>();
-			OrderDetailVO orderdetailVO = null;System.out.println(shoppingcart.size());
-			for(ProductVO productVO : shoppingcart) {
+			OrderDetailVO orderdetailVO = null;
+			for(ProductVO productVO : shoppingbag) {
 				orderdetailVO = new OrderDetailVO();
 				orderdetailVO.setProNo(productVO.getProNo());
 				orderdetailVO.setOrdDetAmt(productVO.getQuantity());
 				orderdetailVO.setOrdDetPrice(productVO.getProPrice()*productVO.getQuantity());
 				list.add(orderdetailVO);
 			}
-			session.removeAttribute("shoppingcart");
+			session.removeAttribute("shoppingbag");
 			session.removeAttribute("ordAmt");
 			session.removeAttribute("sum");
 			/***************************2.開始新增資料***************************************/
 			OrderMasterService ordermasterSvc = new OrderMasterService();
-			ordermasterVO = ordermasterSvc.addOrderMasterwithOrderDetails(memNo,ordAmt,ordName,ordEmail,ordPhone,ordAddr,list);
-				
+			ordermasterVO = ordermasterSvc.addOrderMasterwithOrderDetails(memNo,ordAmt,ordName,ordEmail,ordPhone,ordAddr,list);	
 			/*************************** 3.新增完成,準備轉交(Send the Success view) ***********/
 			req.setAttribute("ordermasterVO", ordermasterVO);
 			String url = "/front-end/ordermaster/listOneOrderMaster2.jsp";

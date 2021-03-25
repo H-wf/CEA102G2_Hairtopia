@@ -40,7 +40,7 @@ public class ProductServlet extends HttpServlet {
 		
 		HttpSession session = req.getSession();
 		@SuppressWarnings("unchecked")
-		List<ProductVO> buylist = (Vector<ProductVO>) session.getAttribute("shoppingcart");
+		List<ProductVO> buylist = (Vector<ProductVO>) session.getAttribute("shoppingbag");
 	
 		if (action.equals("DELETE")||action.equals("ADD")) {
 			
@@ -85,7 +85,7 @@ public class ProductServlet extends HttpServlet {
 			}
 			session.getAttribute("sum");
 			session.setAttribute("sum", sum);
-			session.setAttribute("shoppingcart", buylist);
+			session.setAttribute("shoppingbag", buylist);
 			String jsonStr = new JSONArray(buylist).toString();
 			
 			System.out.println(jsonStr);

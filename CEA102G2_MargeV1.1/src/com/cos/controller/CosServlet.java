@@ -46,7 +46,7 @@ public class CosServlet extends HttpServlet {
 					}
 					if (!errorMsgs.isEmpty()) {
 						RequestDispatcher failureView = req
-								.getRequestDispatcher("/back-end/Cos/select_cos_page.jsp");
+								.getRequestDispatcher("/back-end/Cos/listAllCos2.jsp");
 						failureView.forward(req, res);
 						return;
 					}
@@ -59,7 +59,7 @@ public class CosServlet extends HttpServlet {
 					}
 					if (!errorMsgs.isEmpty()) {
 						RequestDispatcher failureView = req
-								.getRequestDispatcher("/back-end/Cos/select_cos_page.jsp");
+								.getRequestDispatcher("/back-end/Cos/listAllCos2.jsp");
 						failureView.forward(req, res);
 						return;
 					}
@@ -71,20 +71,21 @@ public class CosServlet extends HttpServlet {
 					}
 					if (!errorMsgs.isEmpty()) {
 						RequestDispatcher failureView = req
-								.getRequestDispatcher("/back-end/Cos/select_cos_page.jsp");
+								.getRequestDispatcher("/back-end/Cos/listAllCos2.jsp");
 						failureView.forward(req, res);
 						return;
 					}
 
 					req.setAttribute("cosVO", cosVO);
-					String url = "/back-end/Cos/listOneCos.jsp";
+					
+					String url = "/back-end/Cos/listAllCos2.jsp";
 					RequestDispatcher successView = req.getRequestDispatcher(url);
 					successView.forward(req, res);
 
 				} catch (Exception e) {
 					errorMsgs.add("getOne_For_Display：有errorMsgs發生" + e.getMessage());
 					RequestDispatcher failureView = req
-							.getRequestDispatcher("/back-end/Cos/select_cos_page.jsp");
+							.getRequestDispatcher("/back-end/Cos/listAllCos2.jsp");
 					failureView.forward(req, res);
 				}
 			}

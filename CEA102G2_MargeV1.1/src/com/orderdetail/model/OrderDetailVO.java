@@ -1,6 +1,6 @@
 package com.orderdetail.model;
 
-public class OrderDetailVO {
+public class OrderDetailVO implements java.io.Serializable {
 	private Integer ordNo;
 	private Integer proNo;
 	private Integer ordDetAmt;

@@ -2,7 +2,7 @@ package com.product.model;
 
 import java.sql.Timestamp;
 
-public class ProductVO {
+public class ProductVO implements java.io.Serializable {
 	private Integer proNo;
 	private Integer ptypeNo;
 	private Integer braNo;

@@ -1,0 +1,116 @@
+.ftco-navbar-light {
+	position: static;
+}
+
+.minus {
+	color: #D9BF77;
+}
+
+.plus {
+	color: #D9BF77;
+}
+
+.quantity {
+	width: 25px;
+	font-size: 5px;
+}
+
+.quantitycontainer {
+	width: 12%;
+}
+
+.table-striped {
+	font-size: 16px;
+}
+
+.table-striped th, .table-striped td {
+	padding-left: 0;
+	padding-right: 0;
+}
+
+input {
+	background-color: #F8F7F1;
+	border-radius: 0.25rem;
+	border: solid 0.5px #969592;
+}
+
+@media ( max-width : 768px) {
+	.stepword {
+		display: none;
+	}
+	.step {
+		display: none
+	}
+}
+
+/* 列表項目處理 */
+.horizontalProgress {
+	padding-left: 50px !important;
+}
+
+.horizontalProgress li {
+	list-style-type: none; /* 移除項目預設樣式 */
+}
+/* 圓點處理 */
+.horizontalProgress li::before {
+	display: inline-block; /* 水平區塊 */
+	width: 1.5em; /* 區塊大小 */
+	height: 1.5em; /* 區塊大小 */
+	background-color: rgb(216, 207, 158); /* 區塊顏色 */
+	border-radius: 50%; /* 區塊圓角 */
+	content: "1";
+	color: white;
+	font-size: 1em;
+	line-height: 1.5em; /* 上下置中 */
+	text-align: center; /* 水平置中 */
+	margin: 0px 10px 25px 0px;
+}
+
+.step1::before {
+	content: "1" !important;
+}
+
+.step2::before {
+	content: "2" !important;
+}
+
+.step3::before {
+	content: "3" !important;
+}
+/* 線條處理 */
+.step2::after {
+	position: absolute;
+	content: "";
+	top: -210px;
+	left: 4.3em;
+	z-index: -1; /* 讓線條置於圓圈後 */
+	border-left: 1px solid #BDB58C;
+	padding-left: 20px;
+}
+.step3::after {
+	position: absolute;
+	content: "";
+	top: -595px;
+	left: 4.3em;
+	z-index: -1; /* 讓線條置於圓圈後 */
+	border-left: 1px solid #BDB58C;
+	padding-left: 20px;
+}
+.form-control{
+	background-color: #F8F7F1;
+	border-radius: 0.25rem;
+	border: solid 0.5px #969592;
+	height:30px !important;
+}
+.a{
+	padding-top:7px;
+}
+#form11{
+ 	font-size:16px;
+} 
+.demo-container{
+	margin-bottom:15px;
+}
+table th, table td{
+	border-color:#D8CF9E !important;
+}

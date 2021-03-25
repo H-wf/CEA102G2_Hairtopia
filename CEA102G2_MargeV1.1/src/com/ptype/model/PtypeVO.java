@@ -1,6 +1,6 @@
 package com.ptype.model;
 
-public class PtypeVO {
+public class PtypeVO implements java.io.Serializable {
 	private Integer ptypeNo;
 	private String ptypeName;
 	
