@@ -205,11 +205,11 @@
 					<input type="hidden" name="action"	value="updateSerStatus">
 				</FORM>
 				</c:if>
-				<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/service/service.do">
-					<input type="submit" value="刪除" class="btn btn-outline-primary bookingBtn">
-					<input type="hidden" name="serNo"  value="${serviceVO.serNo}">
-					<input type="hidden" name="action"	value="delete">
-				</FORM>
+<%-- 				<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/service/service.do"> --%>
+<!-- 					<input type="submit" value="刪除" class="btn btn-outline-primary bookingBtn"> -->
+<%-- 					<input type="hidden" name="serNo"  value="${serviceVO.serNo}"> --%>
+<!-- 					<input type="hidden" name="action"	value="delete"> -->
+<!-- 				</FORM> -->
 			</div></h4>
 			<span style="font-size:1rem;color:#b9b9b9">${serviceVO.serDesc}</span>
 			<h4>服務時長:　
