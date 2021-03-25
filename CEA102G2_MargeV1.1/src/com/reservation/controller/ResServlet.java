@@ -658,8 +658,8 @@ if ("searchByResNo".equals(action)) {
 				req.setAttribute("resVO", resVO);
 				
 				//Bootstrap_modal
-				boolean openModal=true;
-				req.setAttribute("openModal",openModal );
+				boolean openResModal=true;
+				req.setAttribute("openResModal",openResModal );
 				
 				String url = "/front-end/reservation/listAllResByDes.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url); // 修改成功後,轉交listAllEmpBy.jsp
