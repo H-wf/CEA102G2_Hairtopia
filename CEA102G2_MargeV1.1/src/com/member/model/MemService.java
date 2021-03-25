@@ -77,6 +77,10 @@ public class MemService {
 		return dao.validateEmail(memEmail);
 	}
 	
+	public String validateMemberName(String memName) {
+		return dao.validateMemberName(memName);
+	}
+	
 	public void updatePassword(String memEmail, String memPswd) {
 		dao.updatePassword(memEmail, memPswd);
 	}

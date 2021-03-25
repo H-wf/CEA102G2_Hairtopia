@@ -18,6 +18,7 @@ public class MemJDBCDAO implements MemDAO_interface {
 	private static final String GET_ONE_STMT = "SELECT * FROM MEMBER WHERE memNO = ?";
 	private static final String VALIDATE_STMT = "SELECT * FROM MEMBER WHERE memEmail=? AND memPswd=?";
 	private static final String CONFIRM_EMAIL = "SELECT memName FROM MEMBER WHERE memEmail=? ";
+	private static final String CONFIRM_MEMBER_NAME = "SELECT * FROM MEMBER WHERE memName=? ";
 	private static final String DELETE = "DELETE FROM MEMBER WHERE memNO = ?";
 	private static final String UPDATE = "UPDATE MEMBER set memName=?, memEmail=?, memPswd= ? WHERE memNO = ?";
 	private static final String UPDATE_PASSWORD_BY_EMAIL = "UPDATE MEMBER set memPswd= ? WHERE memEmail = ?";
@@ -516,6 +517,58 @@ public class MemJDBCDAO implements MemDAO_interface {
 		return memName;
 	}
 	
+	@Override
+	public String validateMemberName(String memName) {
+		String valid = null;
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+
+		try {
+			Class.forName(driver);
+			con = DriverManager.getConnection(url, userid, passwd);
+			pstmt = con.prepareStatement(CONFIRM_MEMBER_NAME);
+			
+			pstmt.setString(1, memName);
+
+			rs = pstmt.executeQuery();
+
+			if(rs.next()) {
+				valid = rs.getString("memName");
+			}
+			
+			// Handle any driver errors
+		} catch (SQLException se) {
+			throw new RuntimeException("A database error occured. " + se.getMessage());
+			// Clean up JDBC resources
+		} catch (ClassNotFoundException e) {
+			throw new RuntimeException("Couldn't load database driver. " + e.getMessage());
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
+		return valid;
+		
+	}
 	
 	
 
@@ -597,7 +650,10 @@ public class MemJDBCDAO implements MemDAO_interface {
 		
 //		dao.updatePassword("PRESIDENT11@sss", "243564");
 			
-		dao.updateStatus("PRESIDENT@sss", 0);
+//		dao.updateStatus("PRESIDENT@sss", 0);
+		
+//		System.out.println(dao.validateMemberName("KING5"));
+
 	}
 
 

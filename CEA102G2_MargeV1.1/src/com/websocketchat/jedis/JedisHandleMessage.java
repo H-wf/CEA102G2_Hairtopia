@@ -4,6 +4,8 @@ import java.util.List;
 
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
+import redis.clients.jedis.ScanParams;
+import redis.clients.jedis.ScanResult;
 
 public class JedisHandleMessage {
 	// 此範例key的設計為(發送者名稱:接收者名稱)，實際應採用(發送者會員編號:接收者會員編號)
@@ -51,5 +53,47 @@ public class JedisHandleMessage {
 		jedis.select(1);
 		AuthenticationCode = jedis.get(key);
 		return AuthenticationCode;
+	}
+	
+	public static  List<String> getEachMessageByMember(){
+		Jedis jedis = pool.getResource();
+		jedis.auth("123456");
+		
+		String cursor = ScanParams.SCAN_POINTER_START;
+	    String key = "KING10" + ":" + "*";
+	    ScanParams scanParams = new ScanParams();
+	    scanParams.match(key);// 匹配以 test:xttblog:* 为前缀的 key
+	    scanParams.count(1000);
+	     
+	    while (true){
+	        //使用scan命令获取500条数据，使用cursor游标记录位置，下次循环使用
+	        ScanResult<String> scanResult = jedis.scan(cursor, scanParams);
+	        cursor = scanResult.getStringCursor();// 返回0 说明遍历完成
+	        List<String> list = scanResult.getResult();
+	        long t1 = System.currentTimeMillis();
+	        for(int i = 0;i < list.size();i++){
+	            String mapentry = list.get(i);
+	            List<String> historyData = jedis.lrange(mapentry, -1, -1);
+	            for(int j = 0; j < historyData.size(); j++) {
+	            	System.out.println(historyData.get(j));
+	            }
+	            //jedis.del(key, mapentry);
+//	            jedis.ltrim("test:xttblog:", 0 ,1);
+	            System.out.println(mapentry);
+	        }
+	        long t2 = System.currentTimeMillis();
+	        System.out.println("删除" + list.size()
+	            + "条数据，耗时: " + (t2-t1) + "毫秒,cursor:" + cursor);
+	        if ("0".equals(cursor)){
+	            break;
+	        }
+	    }
+		
+		
+		return null;
+	}
+	
+	public static void main(String[] args) {
+		JedisHandleMessage.getEachMessageByMember();
 	}
 }
