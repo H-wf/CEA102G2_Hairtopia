@@ -71,10 +71,16 @@
 					</div>
 					<div class="bg-light p-4 d-flex justify-content-end text-center">
 						<ul class="list-inline mb-0">
+						
 							<li class="list-inline-item">
-								<h5 class="font-weight-bold mb-0 d-block"><fmt:formatNumber type="number" value="${designerVO.desTolScore/designerVO.desCount}" maxFractionDigits="1"/></h5>
+								<h5 class="font-weight-bold mb-0 d-block">
+								<c:choose>
+								<c:when test="${designerVO.desCount!=0}"><fmt:formatNumber type="number" value="${designerVO.desTolScore/designerVO.desCount}" maxFractionDigits="1"/></c:when>
+								<c:when test="${designerVO.desCount eq 0}">0.0</c:when>
+								</c:choose></h5>
 								<small class="text-muted"></i><i class="fas fa-star" style="color:#D8CF9E"></i>Score</small>
 							</li>
+						
 							<li class="list-inline-item">
 								<h5 class="font-weight-bold mb-0 d-block">745</h5>
 								<small class="text-muted">Followers</small>
