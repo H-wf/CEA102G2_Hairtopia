@@ -34,9 +34,11 @@ public class MemDAO implements MemDAO_interface{
 	private static final String GET_ONE_STMT = "SELECT * FROM MEMBER WHERE memNO = ?";
 	private static final String VALIDATE_STMT = "SELECT * FROM MEMBER WHERE memEmail=? AND memPswd=?";
 	private static final String CONFIRM_EMAIL = "SELECT * FROM MEMBER WHERE memEmail=? ";
+	private static final String CONFIRM_MEMBER_NAME = "SELECT * FROM MEMBER WHERE memName=? ";
 	private static final String DELETE = "DELETE FROM MEMBER WHERE memNO = ?";
 	private static final String UPDATE_WITH_PIC = "UPDATE MEMBER set memName=?, memGender=?, memInform=?, memEmail=?, memPswd= ?, memPhone=?, memAddr=?, memPic=? WHERE memNO = ?";
 	private static final String UPDATE_PASSWORD_BY_EMAIL = "UPDATE MEMBER set memPswd= ? WHERE memEmail = ?";
+	private static final String UPDATE_STATUS_BY_EMAIL = "UPDATE MEMBER set memStatus= ? WHERE memEmail = ?";
 	private static final String UPDATE_NOPIC_STMT = "UPDATE MEMBER set memName=?, memGender=?, memInform=?, memEmail=?, memPswd= ?, memPhone=?, memAddr=? WHERE memNO = ?";
 	private static final String GET_IMG = "SELECT memPic FROM MEMBER WHERE memNO = ?";
 
@@ -195,6 +197,40 @@ public class MemDAO implements MemDAO_interface{
 	}
 	
 	@Override
+	public void updateStatus(String memEmail, Integer memStatus) {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		try {
+			con = ds.getConnection();
+			pstmt = con.prepareStatement(UPDATE_STATUS_BY_EMAIL);
+			pstmt.setInt(1, memStatus);
+			pstmt.setString(2, memEmail);
+			
+
+			int a = pstmt.executeUpdate();
+
+		} catch (SQLException se) {
+			throw new RuntimeException("A database error occured. " + se.getMessage());
+		} finally {
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
+		
+	}
+	
+	@Override
 	public void delete(Integer memNo) {
 		// TODO Auto-generated method stub
 		Connection con = null;
@@ -243,6 +279,7 @@ public class MemDAO implements MemDAO_interface{
 			pstmt = con.prepareStatement(GET_ONE_STMT);
 
 			pstmt.setInt(1, memNo);
+			System.out.println("MemDAO no.246 for memNo："+ memNo);
 
 			rs = pstmt.executeQuery();
 
@@ -466,6 +503,58 @@ public class MemDAO implements MemDAO_interface{
 		}
 		return memName;
 	}
+	
+	@Override
+	public String validateMemberName(String memName) {
+		
+		String valid = null;
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+
+		try {
+			con = ds.getConnection();
+			pstmt = con.prepareStatement(CONFIRM_MEMBER_NAME);
+			
+			pstmt.setString(1, memName);
+
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				valid = rs.getString("memName");
+			}
+			
+			// Handle any driver errors
+		} catch (SQLException se) {
+			throw new RuntimeException("A database error occured. " + se.getMessage());
+			// Clean up JDBC resources
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
+		return valid;
+		
+	}
+	
 
 //	public InputStream showImg(Integer memNo) {
 //		InputStream memPic= null;

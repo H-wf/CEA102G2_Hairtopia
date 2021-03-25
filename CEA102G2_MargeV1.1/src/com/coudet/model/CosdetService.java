@@ -1,16 +1,20 @@
 package com.coudet.model;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+
+import com.cos.model.CosVO;
 
 public class CosdetService {
 
-		private CosdetDAO_interface dao;
+		private static CosdetDAO_interface dao;
 
 		public CosdetService() {
 			dao = new CosdetDAO();
 		}
 		
-		public CosdetVO insertCosDet(Integer cosNo, Integer memNo, String cosComment, Integer cosDetailPrice) {
+		public CosdetVO insertCosDet(Integer cosNo, Integer memNo, Integer cosComment, Integer cosDetailPrice) {
 
 			CosdetVO cosdetVO = new CosdetVO();
 			
@@ -27,7 +31,7 @@ public class CosdetService {
 			dao.delete(cosNo);
 		}
 		
-		public CosdetVO updateCosDet(Integer cosNo, String cosComment, Integer cosDetailPrice, Integer memNo) {
+		public CosdetVO updateCosDet(Integer cosNo, Integer cosComment, Integer cosDetailPrice, Integer memNo) {
 
 			CosdetVO cosdetVO = new CosdetVO();
 
@@ -45,8 +49,63 @@ public class CosdetService {
 			return dao.getAll();
 		}
 
-		public CosdetVO getOneCosDet(Integer cosNo) {
+		public List<CosdetVO> getOneCosDet(Integer cosNo) {
 			return dao.findByPrimaryKey(cosNo);
 		}
+		
+		public CosdetVO insertCosDetNoComment(Integer cosNo, Integer memNo, Integer cosDetailPrice) {
+
+			CosdetVO cosdetVO = new CosdetVO();
+			
+			cosdetVO.setCosNo(cosNo);
+			cosdetVO.setMemNo(1000);
+			System.out.println("cosdetService no.61 先設死：" + 1000);
+			cosdetVO.setCosDetailPrice(cosDetailPrice);
+			dao.insertNoComment(cosdetVO);
+
+			return cosdetVO;
+		}
+		
+		public CosdetVO updateCosDetWithComment(Integer cosComment, Integer memNo, Integer cosNo) {
+
+			CosdetVO cosdetVO = new CosdetVO();
+			
+			cosdetVO.setCosComment(cosComment);
+			cosdetVO.setMemNo(memNo);
+			cosdetVO.setCosNo(cosNo);
+			
+			dao.updateCosRate(cosdetVO);
+
+			return cosdetVO;
+		}
+		
+		public List<CosdetVO> getAllCosByMemNo(Integer memNo) {
+			return dao.getAllCosByMemNo(memNo);
+		}
+		
+		public CosdetVO getAvgCosCommentByCosNo(Integer cosNo) {
+			return dao.getAvgCosCommentByCosNo(cosNo);
+		}
+		
+		public CosVO updateCosRateForCosTable(Integer cosRate, Integer cosNo) {
+
+			CosVO cosVO = new CosVO();
+			
+			cosVO.setCosRate(cosRate);
+			cosVO.setCosNo(cosNo);
+			
+			dao.updateCosRateForCosTable(cosVO);
+
+			return cosVO;
+		}
+		
+//		public CosdetVO findOneCosByCosNo(Integer cosNo) {
+//			return dao.findOneCosByCosNo(cosNo);
+//		}
+		
+		public CosdetVO findQRCodeByCosNoAndCosNo(Integer cosNo, Integer memNo) {
+			return dao.findQRCodeByCosNoAndCosNo(cosNo, memNo);
+		}
+		
 }
 

@@ -22,19 +22,36 @@
 		<filter-name>loginFilter</filter-name>
 		<url-pattern>/front-end/member/NewFile.jsp</url-pattern>
 		<url-pattern>/front-end/product/Checkout.jsp</url-pattern>
+		<url-pattern>/front-end/Cos/Checkout.jsp</url-pattern>
+		<url-pattern>/front-end/Cos/LoginToRateCos.jsp</url-pattern>
+		<url-pattern>/front-end/Cos/RateCos.jsp</url-pattern>
+		<url-pattern>/front-end/ordermaster/listAllOrderMaster.jsp</url-pattern>
+		<url-pattern>/front-end/reservation/AddResTest.jsp</url-pattern>
 		<dispatcher>REQUEST</dispatcher>
 		<dispatcher>FORWARD</dispatcher>
 		<dispatcher>INCLUDE</dispatcher>
 		<dispatcher>ERROR</dispatcher>
-		<dispatcher>ASYNC</dispatcher>
-	</filter-mapping>
+		<dispatcher>ASYNC</dispatcher>		
+    </filter-mapping>
+    
 	<filter>
 		<filter-name>StaffLoginFilter</filter-name>
 		<filter-class>com.util.filter.StaffLoginFilter</filter-class>
 	</filter>
 	<filter-mapping>
 		<filter-name>StaffLoginFilter</filter-name>
-		<url-pattern>/back-end/Staff/login_success.jsp</url-pattern>
+		<url-pattern>/back-end/indexBack.jsp</url-pattern>
+		<url-pattern>/back-end/Authority/*</url-pattern>
+		<url-pattern>/back-end/designer/*</url-pattern>
+		<url-pattern>/back-end/product/*</url-pattern>
+		<url-pattern>/back-end/ordermaster/*</url-pattern>
+		<url-pattern>/back-end/ptype/*</url-pattern>
+		<url-pattern>/back-end/Staff/*</url-pattern>
+		<url-pattern>/back-end/brand/*</url-pattern>
+		<url-pattern>/back-end/Cos/*</url-pattern>
+		<url-pattern>/back-end/Cospost/*</url-pattern>
+		<url-pattern>/back-end/Costype/*</url-pattern>
+		<url-pattern>/back-end/Lecturer/*</url-pattern>
 		<dispatcher>REQUEST</dispatcher>
 		<dispatcher>FORWARD</dispatcher>
 		<dispatcher>INCLUDE</dispatcher>
@@ -42,29 +59,6 @@
 		<dispatcher>ASYNC</dispatcher>
 	</filter-mapping>
 <!-- login 濾器註冊END -->
-	<!-- sitemesh濾器註冊 -->
-<!-- 	<filter> -->
-<!-- 		<filter-name>sitemesh</filter-name> -->
-<!-- 		<filter-class>org.sitemesh.config.ConfigurableSiteMeshFilter</filter-class> -->
-<!-- 	</filter> -->
-<!-- 	<filter-mapping> -->
-<!-- 		<filter-name>sitemesh</filter-name> -->
-<!-- 		<url-pattern>/front-end/*</url-pattern> -->
-<!-- 		<servlet-name>*</servlet-name> -->
-<!-- <dispatcher>REQUEST</dispatcher> -->
-
-    <!-- <dispatcher>FORWARD</dispatcher> -->
-		<!-- <dispatcher>INCLUDE</dispatcher> -->
-		<!-- <dispatcher>ERROR</dispatcher> -->
-		<!-- <dispatcher>ASYNC</dispatcher> -->
-<!-- 	</filter-mapping> -->
-<!-- 	<filter-mapping> -->
-<!-- 		<filter-name>sitemesh</filter-name> -->
-<!-- 		<url-pattern>/front-end/*</url-pattern> -->
-<!-- 		<servlet-name>*</servlet-name> -->
-<!-- 		<dispatcher>FORWARD</dispatcher> -->
-<!-- 	</filter-mapping> -->
-	<!-- sitemesh濾器註冊END -->
 	<resource-ref>
 		<description>DB Connection</description>
 		<res-ref-name>jdbc/root</res-ref-name>
@@ -156,6 +150,14 @@
 		<url-pattern>/cos/cos.do</url-pattern>
 	</servlet-mapping>
 	<servlet>
+		<servlet-name>OrderServlet</servlet-name>
+		<servlet-class>com.cos.controller.OrderServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>OrderServlet</servlet-name>
+		<url-pattern>/cos/order.do</url-pattern>
+	</servlet-mapping>
+	<servlet>
 		<servlet-name>CostypeServlet</servlet-name>
 		<servlet-class>com.coutype.controller.CostypeServlet</servlet-class>
 	</servlet>
@@ -171,6 +173,24 @@
 		<servlet-name>CosdetServlet</servlet-name>
 		<url-pattern>/coudet/coudet.do</url-pattern>
 	</servlet-mapping>
+	<servlet>
+		<servlet-name>QRCodeServlet</servlet-name>
+		<servlet-class>com.QRCode.controller.QRCodeServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>QRCodeServlet</servlet-name>
+		<url-pattern>/QRCode/QRCode.do</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>ScheServlet2</servlet-name>
+		<servlet-class>com.cossche.controller.ScheServlet2</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>ScheServlet2</servlet-name>
+		<url-pattern>/cossche/cossche.do</url-pattern>
+	</servlet-mapping>
+	
 	
 	 <servlet>  
     <servlet-name>LecturerServlet</servlet-name>

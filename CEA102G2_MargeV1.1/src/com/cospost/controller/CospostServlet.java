@@ -98,7 +98,9 @@ public class CospostServlet extends HttpServlet {
 					CospostVO cospostVO = cospostSvc.getOneCosPost(cosPubNo);
 
 					req.setAttribute("cospostVO", cospostVO);
-					String url = "/back-end/Cospost/update_cospost_input.jsp";
+					boolean openModal=true;
+					req.setAttribute("openModal",openModal);
+					String url = "/back-end/Cospost/listAllCospost.jsp";
 					RequestDispatcher successView = req.getRequestDispatcher(url);
 					successView.forward(req, res);
 
@@ -149,7 +151,7 @@ public class CospostServlet extends HttpServlet {
 					if (!errorMsgs.isEmpty()) {
 						req.setAttribute("cospostVO", cospostVO);
 						RequestDispatcher failureView = req
-								.getRequestDispatcher("/back-end/Cospost/update_cospost_input.jsp");
+								.getRequestDispatcher("/back-end/Cospost/listAllCospost.jsp");
 						failureView.forward(req, res);
 						return;
 					}
@@ -158,14 +160,14 @@ public class CospostServlet extends HttpServlet {
 					cospostVO = cospostSvc.updateCosPost(cosNo, cosPubCon, cosPubTime, cosPubNo);
 
 					req.setAttribute("cospostVO", cospostVO);
-					String url = "/back-end/Cospost/listOneCospost.jsp";
+					String url = "/back-end/Cospost/listAllCospost.jsp";
 					RequestDispatcher successView = req.getRequestDispatcher(url);
 					successView.forward(req, res);
 
 				} catch (Exception e) {
 					errorMsgs.add("update：有errorMsgs發生"+e.getMessage());
 					RequestDispatcher failureView = req
-							.getRequestDispatcher("/back-end/Cospost/update_cospost_input.jsp");
+							.getRequestDispatcher("/back-end/Cospost/listAllCospost.jsp");
 					failureView.forward(req, res);
 				}
 			}
@@ -175,7 +177,7 @@ public class CospostServlet extends HttpServlet {
 				List<String> errorMsgs = new LinkedList<String>();
 
 				req.setAttribute("errorMsgs", errorMsgs);
-
+				System.out.println("sss");
 				try {
 
 				    Integer cosNo = new Integer(req.getParameter("cosNo"));
@@ -198,7 +200,7 @@ public class CospostServlet extends HttpServlet {
 					if (!errorMsgs.isEmpty()) {
 						req.setAttribute("cospostVO", cospostVO);
 						RequestDispatcher failureView = req
-								.getRequestDispatcher("/back-end/Cospost/addCospost.jsp");
+								.getRequestDispatcher("/back-end/Cospost/listAllCospost.jsp");
 						failureView.forward(req, res);
 //						System.out.println(errorMsgs);
 						return;
@@ -215,7 +217,7 @@ public class CospostServlet extends HttpServlet {
 				} catch (Exception e) {
 					errorMsgs.add(e.getMessage());
 					RequestDispatcher failureView = req
-							.getRequestDispatcher("/back-end/Cospost/addCospost.jsp");
+							.getRequestDispatcher("/back-end/Cospost/listAllCospost.jsp");
 					failureView.forward(req, res);
 				}
 			}

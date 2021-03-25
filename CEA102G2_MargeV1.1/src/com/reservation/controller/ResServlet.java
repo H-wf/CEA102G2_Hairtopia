@@ -2,6 +2,8 @@ package com.reservation.controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.net.URLEncoder;
+import java.sql.Date;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -16,10 +18,15 @@ import org.json.JSONObject;
 
 import com.designer.model.DesignerService;
 import com.designer.model.DesignerVO;
+import com.member.model.MemService;
+import com.member.model.MemVO;
 import com.reservation.model.ResService;
 import com.reservation.model.ResVO;
+import com.schedule.model.ScheduleService;
+import com.schedule.model.ScheduleVO;
 import com.service.model.ServiceService;
 import com.service.model.ServiceVO;
+import com.util.message.MessageService;
 
 public class ResServlet extends HttpServlet{
 	
@@ -59,6 +66,7 @@ public class ResServlet extends HttpServlet{
 				/*******************透過ServiceService取得金額及設計師等相關資料*******************/
 				ServiceService serviceSvc = new ServiceService();
 				ServiceVO serviceVO = serviceSvc.getOneServiceBySerNo(serNo);
+				Integer serTime = serviceVO.getSerTime();
 				Integer desNo = new Integer(serviceVO.getDesNo());
 				Integer resPrice = new Integer(serviceVO.getSerPrice());
 				
@@ -78,16 +86,61 @@ public class ResServlet extends HttpServlet{
 					failureView.forward(req, res);
 					return;
 				}
+				/*************************若當天無填寫班表，新增班表資料******************************/
+				ScheduleService schSvc= new ScheduleService();
+				if(schSvc.getOneSchdule(desNo, resDate) == null) {
+					Integer week = resDate.getDay();
+					System.out.println("week"+week);
+					DesignerService desSvc = new DesignerService();
+					DesignerVO desVO = desSvc.getOneDesByDesNo(desNo);
+					String schedule = desVO.getDesSchedule();
+					Integer start = Integer.parseInt(schedule.substring(week*4, week*4+2));
+					Integer end = Integer.parseInt(schedule.substring(week*4+2, week*4+4));
+					System.out.println(start);
+					System.out.println(end);
+					String schStatus = "";
+					for(int i=0 ; i<48 ; i++) {
+						if(i<start || i>end) {
+							schStatus+=2;
+						}else {
+							schStatus+=1;
+						}
+					}
+					System.out.println(schStatus);
+					String newSchStatus = schStatus.substring(0, resTime);
+					for(int i=0 ; i<serTime ; i++) {
+						newSchStatus+=2;
+					}
+					newSchStatus+= schStatus.substring(resTime+serTime);
+					System.out.println(newSchStatus+"new");
+					//存入此日期班表
+					schSvc.addSchedule(desNo, resDate,newSchStatus);
+				}else if(schSvc.getOneSchdule(desNo, resDate) != null){
+					ScheduleVO schVO = schSvc.getOneSchdule(desNo,resDate);
+					String schStatus = schVO.getSchStatus();
+					Integer schNo = schVO.getSchNo();
+					System.out.println(schStatus);
+					String newSchStatus = schStatus.substring(0, resTime);
+					for(int i=0 ; i<serTime ; i++) {
+						newSchStatus+=2;
+					}
+					newSchStatus+= schStatus.substring(resTime+serTime);
+					System.out.println(newSchStatus+"new");
+					//修改此日期班表
+					schSvc.updateSchedule(schNo, desNo, resDate, newSchStatus);
+				}
+				
 				
 				/***************************2.開始新增資料***************************************/
 				ResService resSvc = new ResService();
 				resVO = resSvc.addRes(memNo, serNo, desNo, resDate, resTime, resPrice);
 				List<ResVO> list = resSvc.getAllResByMemNo(resVO.getMemNo());
 				req.setAttribute("resVO", resVO);
-				req.setAttribute("list",list);
-				req.setAttribute("memNo", memNo);
+//				req.setAttribute("list",list);
+//				req.setAttribute("memNo", memNo);
+				
 				/***************************3.新增完成,準備轉交(Send the Success view)***********/
-				String url = "/front-end/reservation/listAllResByMem.jsp";
+				String url = "/front-end/member/memberPage.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url); // 新增成功後轉交listAllResByMem.jsp
 				successView.forward(req, res);				
 				
@@ -95,7 +148,7 @@ public class ResServlet extends HttpServlet{
 			} catch (Exception e) {
 				errorMsgs.add(e.getMessage());
 				RequestDispatcher failureView = req
-						.getRequestDispatcher("/front-end/reservation/addRes.jsp");
+						.getRequestDispatcher("/front-end/member/memberPage.jsp");
 				failureView.forward(req, res);
 			}
 		}
@@ -202,16 +255,16 @@ public class ResServlet extends HttpServlet{
 				
 				ResService resSvc = new ResService();
 				ResVO resVO = resSvc.getOneRes(resNo);
-				Integer memNo = resVO.getMemNo();
-				List<ResVO> list=resSvc.getAllResByMemNo(memNo);
+//				Integer memNo = resVO.getMemNo();
+//				List<ResVO> list=resSvc.getAllResByMemNo(memNo);
 				
 				req.setAttribute("resVO", resVO); // 資料庫取出的resVO物件,存入req
-				req.setAttribute("list", list);
+//				req.setAttribute("list", list);
 				//Bootstrap_modal
-				boolean openModal=true;
-				req.setAttribute("openModal",openModal );
+				boolean openResModal=true;
+				req.setAttribute("openResModal",openResModal );
 				
-				String url = "/front-end/reservation/listAllResByMem.jsp";
+				String url = "/front-end/member/memberPage.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url); // 成功轉交 listOneEmp.jsp
 				successView.forward(req, res);
 				return;
@@ -362,7 +415,19 @@ public class ResServlet extends HttpServlet{
 				}
 				
 				System.out.println(resCode);
-
+				/**傳簡訊用**/
+				MemService memSvc = new MemService();
+				MemVO memVO = memSvc.getOneMem(resVO.getMemNo());
+				String memName = memVO.getMemName();
+				Date resDate = resVO.getResDate();
+				Integer resTime = resVO.getResTime();
+				Integer hour = resTime/2;
+				String minute = (resTime%2==0)?"00":"30";
+				String phone = "0932391332"; //接收者的電話 要測試的話可以改成你自己的號碼
+				String msg = memName+"會員你好，您的預約服務號碼"+resNo+"已確認預約成功，服務時間為"+resDate+" "+hour+":"+minute+"驗證碼為"+resCode;//傳送的訊息
+				String endcodeMsg = URLEncoder.encode(msg,"UTF-8");
+				MessageService msgSvc = new MessageService();
+				msgSvc.sendSms(phone,endcodeMsg);
 				resVO.setResCode(resCode);
 				resVO.setResStatus(resStatus);
 				
@@ -385,10 +450,11 @@ public class ResServlet extends HttpServlet{
 				/***************************3.修改完成,準備轉交(Send the Success view)*************/
 				req.setAttribute("resVO", resVO); // 資料庫update成功後,正確的的resVO物件,存入req
 				Integer desNo = resVO.getDesNo();
-				List<ResVO> list = resSvc.getAllResByDesNo(resVO.getDesNo());
-				req.setAttribute("list", list);
-				req.setAttribute("desNo", desNo);
-				String url = "/front-end/reservation/listAllResByDes.jsp";
+				DesignerVO designerVO = new DesignerService().getOneDesByDesNo(desNo);
+				req.setAttribute("designerVO", designerVO);
+//				List<ResVO> list = resSvc.getAllResByDesNo(resVO.getDesNo());
+//				req.setAttribute("list", list);
+				String url = "/front-end/reservation/listScheduleOfDes.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url); // 修改成功後,轉交listAllEmpByDes.jsp
 				successView.forward(req, res);
 
@@ -467,7 +533,7 @@ public class ResServlet extends HttpServlet{
 				// Send the use back to the form, if there were errors
 				if (!errorMsgs.isEmpty()) {
 					RequestDispatcher failureView = req
-							.getRequestDispatcher("/front-end/reservation/listAllResByMem.jsp");
+							.getRequestDispatcher("/front-end/member/memberPage.jsp");
 					failureView.forward(req, res);
 					return; //程式中斷
 				}
@@ -481,7 +547,7 @@ public class ResServlet extends HttpServlet{
 				List<ResVO> list = resSvc.getAllResByMemNo(resVO.getMemNo());
 				req.setAttribute("list", list);
 				req.setAttribute("memNo", memNo);
-				String url = "/front-end/reservation/listAllResByMem.jsp";
+				String url = "/front-end/member/memberPage.jsp";
 				
 				
 				RequestDispatcher successView = req.getRequestDispatcher(url); // 修改成功後,轉交listAllEmpBy.jsp
@@ -562,7 +628,7 @@ if ("searchByResNo".equals(action)) {
 					//轉交回原本頁面
 					Integer desNo = resVO.getDesNo();
 					List<ResVO> list=resSvc.getAllResByDesNo(desNo);
-					req.setAttribute("list", list);
+//					req.setAttribute("list", list);
 					req.setAttribute("desNo", desNo);
 					req.setAttribute("resVO", resVO);
 					
@@ -587,7 +653,7 @@ if ("searchByResNo".equals(action)) {
 				
 				Integer desNo = resVO.getDesNo();
 				List<ResVO> list = resSvc.getAllResByDesNo(resVO.getDesNo());
-				req.setAttribute("list", list);
+//				req.setAttribute("list", list);
 				req.setAttribute("desNo", desNo);
 				req.setAttribute("resVO", resVO);
 				
@@ -603,7 +669,7 @@ if ("searchByResNo".equals(action)) {
 			} catch (Exception e) {
 				errorMsgs.add("修改資料失敗:"+e.getMessage());
 				RequestDispatcher failureView = req
-						.getRequestDispatcher("/front-end/reservation/listAllResByMem.jsp");
+						.getRequestDispatcher("/front-end/reservation/listAllResByDes.jsp");
 				failureView.forward(req, res);
 			}
 		}
@@ -626,7 +692,7 @@ if ("searchByResNo".equals(action)) {
 				// Send the use back to the form, if there were errors
 				if (!errorMsgs.isEmpty()) {
 					RequestDispatcher failureView = req
-							.getRequestDispatcher("/front-end/reservation/listAllResByMem.jsp");
+							.getRequestDispatcher("/front-end/member/memberPage.jsp");
 					failureView.forward(req, res);
 					return; //程式中斷
 				}
@@ -646,7 +712,7 @@ if ("searchByResNo".equals(action)) {
 				boolean openModal=true;
 				req.setAttribute("openModal",openModal );
 				
-				String url = "/front-end/reservation/listAllResByMem.jsp";
+				String url = "/front-end/member/memberPage.jsp";
 				
 				RequestDispatcher successView = req.getRequestDispatcher(url); // 修改成功後,轉交listAllEmpBy.jsp
 				successView.forward(req, res);
@@ -655,7 +721,7 @@ if ("searchByResNo".equals(action)) {
 			} catch (Exception e) {
 				errorMsgs.add("修改資料失敗:"+e.getMessage());
 				RequestDispatcher failureView = req
-						.getRequestDispatcher("/front-end/reservation/listAllResByMem.jsp");
+						.getRequestDispatcher("/front-end/member/memberPage.jsp");
 				failureView.forward(req, res);
 			}
 		}
@@ -676,7 +742,7 @@ if ("searchByResNo".equals(action)) {
 				// Send the use back to the form, if there were errors
 				if (!errorMsgs.isEmpty()) {
 					RequestDispatcher failureView = req
-							.getRequestDispatcher("/front-end/reservation/listAllResByMem.jsp");
+							.getRequestDispatcher("/front-end/member/memberPage.jsp");
 					failureView.forward(req, res);
 					return; //程式中斷
 				}
@@ -707,7 +773,7 @@ if ("searchByResNo".equals(action)) {
 				boolean openModal=true;
 				req.setAttribute("openModal",openModal );
 				
-				String url = "/front-end/reservation/listAllResByMem.jsp";
+				String url = "/front-end/member/memberPage.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url); // 修改成功後,轉交listAllEmpBy.jsp
 				successView.forward(req, res);
 				

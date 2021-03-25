@@ -95,7 +95,22 @@ public class TagDAO implements TagDAO_Interface{
 		}  catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}				
+		}	finally {
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}			
 	}
 	@Override
 	public void delete(Integer tagNo) {
@@ -111,7 +126,22 @@ public class TagDAO implements TagDAO_Interface{
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}		
+		}	finally {
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}	
 	}
 	@Override
 	public String findByTagNo(Integer tagNo) {
@@ -133,6 +163,28 @@ public class TagDAO implements TagDAO_Interface{
 		} catch (SQLException e) {
 			throw new RuntimeException("Get tagName excetion. "
 					+ e.getMessage());
+		}finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
 		}
 		
 		return tagName;

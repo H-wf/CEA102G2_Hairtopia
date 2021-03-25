@@ -1,148 +1,160 @@
-<%@ page contentType="text/html; charset=UTF-8" pageEncoding="Big5"%>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ page import="java.util.*"%>
 <%@ page import="com.cos.model.*"%>
-<%-- ¦¹­¶½m²ß±Ä¥Î EL ªº¼gªk¨ú­È --%>
+<%@ page import="com.lecturer.model.*"%>
 
-<%
-    CosService cosSvc = new CosService();
-    List<CosVO> list = cosSvc.getAll();
-    pageContext.setAttribute("list",list);
-%>
+<jsp:useBean id="cosSvc" scope="page" class="com.cos.model.CosService" />
+<jsp:useBean id="lecSvc" scope="page" class="com.lecturer.model.LecturerService" />
 
-
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-<title>©Ò¦³½Òµ{¸ê®Æ - listAllCos.jsp</title>
-
-<style>
-  table#table-1 {
-	background-color: #CCCCFF;
-    border: 2px solid black;
-    text-align: center;
-  }
-  table#table-1 h4 {
-    color: red;
-    display: block;
-    margin-bottom: 1px;
-  }
-  h4 {
-    color: blue;
-    display: inline;
-  }
-</style>
-
-<style>
-  table {
-	width: 800px;
-	background-color: white;
-	margin-top: 5px;
-	margin-bottom: 5px;
-  }
-  table, th, td {
-    border: 1px solid #CCCCFF;
-  }
-  th, td {
-    padding: 5px;
-    text-align: center;
-  }
-</style>
-
+<title>æ‰€æœ‰èª²ç¨‹è³‡æ–™</title>
+<meta charset="utf-8">
+<%@include file="/back-end/tempFile/head" %>
 </head>
-<body bgcolor='white'>
+<style>
+<style>
+tr,th{
+	font-size:16px !important;
+}
+</style>
 
-<h4>¦¹­¶½m²ß±Ä¥Î EL ªº¼gªk¨ú­È:</h4>
-<table id="table-1">
-	<tr><td>
-		 <h3>©Ò¦³½Òµ{¸ê®Æ - listAllCos.jsp</h3>
-		 <h4><a href="<%=request.getContextPath()%>/back-end/Cos/select_cos_page.jsp"><img src="<%=request.getContextPath()%>/resource/images/back1.gif" width="100" height="32" border="0">¦^­º­¶</a></h4>
-	</td></tr>
-</table>
-
-<%-- ¿ù»~ªí¦C --%>
-<c:if test="${not empty errorMsgs}">
-	<font style="color:red">½Ğ­×¥¿¥H¤U¿ù»~:</font>
-	<ul>
-		<c:forEach var="message" items="${errorMsgs}">
-			<li style="color:red">${message}</li>
-		</c:forEach>
-	</ul>
-</c:if>
-
-<table>
-	<tr>
-		<th>½Òµ{½s¸¹</th>
-		<th>Á¿®v½s¸¹</th>
-		<th>½Òµ{Ãş§O½s¸¹</th>
-		<th>¤W½Ò°_</th>
-		<th>¤W½Ò¨´</th>
-		<th>½Òµ{¤¶²Ğ</th>
-		<th>½Òµ{¹Ï¤ù</th>
-		<th>½Òµ{¦a§}</th>
-		<th>³ø¦WÁ`¤H¼Æ</th>
-		<th>µû»ùÁ`¤À¼Æ</th>
-		<th>½Òµ{ª¬ºA</th>
-		<th>³Ì§C¤H¼Æ</th>
-		<th>³Ì°ª¤H¼Æ</th>
-		<th>½Òµ{»ù®æ</th>
-		<th>³ø¦W¶}©l¤é</th>
-		<th>³ø¦WºI¤î¤é</th>
-		<th>½Òµ{¦WºÙ</th>
-	</tr>
-	
-	<%
-			for (CosVO cosVO : list) {
-				byte[] cosPic = cosVO.getCosPic();
-				Base64.Encoder encoder = Base64.getEncoder();
-				String src = "data:image/jpeg;base64,";
-				if (cosPic != null){
-					src += encoder.encodeToString(cosPic);
+<body id="page-top">
+<%@include file="/back-end/tempFile/navBar_sideBar" %>
+	<!-- Begin Page Content -->	
+	<div class="container-fluid">
+		<!-- Page Heading -->
+		<div class="h3 mb-2 text-gray-800">
+			èª²ç¨‹ç®¡ç†
+			<button type="button" class="btn btn-primary float-right" data-toggle="modal" data-target="#add">								
+				<i class="fas fa-plus"></i> æ–°å¢èª²ç¨‹
+			</button>
+			<!-- Modal ADD -->					
+			<div class="modal fade" id="add" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+			  <div class="modal-dialog modal-dialog-centered" role="document">
+			    <div class="modal-content">
+			      <div class="modal-header">
+			        <h5 class="modal-title" id="exampleModalLongTitle">èª²ç¨‹æ–°å¢</h5>
+			        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+			          <span aria-hidden="true">&times;</span>
+			        </button>
+			      </div>
+			      <div class="modal-body pb-0">																	
+					<jsp:include page="addCos.jsp" />
+				  </div>
+				</div>
+			</div>
+		</div>		
+		<!-- Modal ADD End-->
+		</div>
+		<!-- DataTales Example -->
+		<div class="card shadow mb-4">
+			<div class="card-header py-3">
+				<h6 class="m-0 font-weight-bold text-primary">èª²ç¨‹</h6>
+			</div>
+			<div class="card-body">
+				<div class="table-responsive">
+					<table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+						<thead>
+							<tr>
+                           		<th>èª²ç¨‹ç·¨è™Ÿ</th>
+					 			<th>èª²ç¨‹åç¨±</th>
+					 			<th>èª²ç¨‹ç…§ç‰‡</th>
+								<th>è¬›å¸«åç¨±</th>
+					 			<th>ä¸Šèª²æœŸé–“</th>
+					 			<th>å ±åæœŸé–“</th>
+					 			<th>æŸ¥çœ‹è©³æƒ…</th>  
+					 			<th>ä¿®æ”¹</th>                              
+                            </tr>
+                        </thead>
+                        <tfoot>
+                            <tr>
+                               	<th>èª²ç¨‹ç·¨è™Ÿ</th>
+					 			<th>èª²ç¨‹åç¨±</th>
+					 			<th>èª²ç¨‹ç…§ç‰‡</th>
+								<th>è¬›å¸«åç¨±</th>
+					 			<th>ä¸Šèª²æœŸé–“</th>
+					 			<th>å ±åæœŸé–“</th>
+					 			<th>æŸ¥çœ‹è©³æƒ…</th>
+					 			<th>ä¿®æ”¹</th>                                 
+                        	</tr>
+                        </tfoot>
+                        <tbody>
+						<c:forEach var="cosVO" items="${cosSvc.all}">
+                            <tr>
+                                <td>${cosVO.cosNo}</td>
+                                <td>${cosVO.cosName}</td>                                
+                                <td><img src="<%=request.getContextPath()%>/PicFinder?pic=1&table=course&column=cosPic&idname=cosNo&id=${cosVO.cosNo}" alt='æ²’æœ‰åœ–ç‰‡' width="50" height="40"/></td>
+                                <td>${lecSvc.getOneLecturer(cosVO.lecNo).lecName}</td>
+                                <td><fmt:formatDate value="${cosVO.cosFrom}" pattern="yyyy-MM-dd"/>~<fmt:formatDate value="${cosVO.cosTo}" pattern="yyyy-MM-dd"/></td>
+                                <td><fmt:formatDate value="${cosVO.cosApplyFrom}" pattern="yyyy-MM-dd"/>~<fmt:formatDate value="${cosVO.cosApplyTo}" pattern="yyyy-MM-dd"/></td>
+                                <td>
+                                	<button type="button" class="btn btn-primary" data-toggle="modal" data-target=".course${cosVO.cosNo}">æŸ¥çœ‹è©³æƒ…</button>
+                                </td>
+<%--                                 	<div class="modal fade course${cosVO.cosNo}" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true"> --%>
+<!-- 									  <div class="modal-dialog modal-lg"> -->
+<!-- 									    <div class="modal-content">									      -->
+<%-- 									      	èª²ç¨‹ç·¨è™Ÿ:${cosVO.cosNo} <br/> --%>
+<%-- 									      	èª²ç¨‹åç¨±:${cosVO.cosName} <br/> --%>
+<%-- 									      	è¬›å¸«åç¨±:${lecSvc.getOneLecturer(cosVO.lecNo).lecName} <br/> --%>
+<%-- 									      	é¡åˆ¥åç¨±:${costypeSvc.getOneCosType(cosVO.cosTypeNo).cosTypeName} <br/> --%>
+<%-- 									      	ä¸Šèª²æœŸé–“:<fmt:formatDate value="${cosVO.cosFrom}" pattern="yyyy-MM-dd"/>~<fmt:formatDate value="${cosVO.cosTo}" pattern="yyyy-MM-dd"/><br/> --%>
+<%-- 									      	å ±åæœŸé–“:<fmt:formatDate value="${cosVO.cosApplyFrom}" pattern="yyyy-MM-dd"/>~<fmt:formatDate value="${cosVO.cosApplyTo}" pattern="yyyy-MM-dd"/><br>		 --%>
+<%-- 									      	èª²ç¨‹ä»‹ç´¹:${cosVO.cosIntro} <br/> --%>
+<%-- 									      	èª²ç¨‹åœ°å€:${cosVO.cosAdd} <br/> --%>
+<%-- 									      	å ±åç¸½äººæ•¸:${cosVO.cosCount} <br/> --%>
+<%-- 									      	è©•åƒ¹ç¸½åˆ†æ•¸:${cosVO.cosRate} <br/> --%>
+<%-- 									      	èª²ç¨‹ç‹€æ…‹:${cosVO.cosStatus==true?"ä¸Šæ¶":"ä¸‹æ¶"} <br/>									    --%>
+<%-- 									      	æœ€ä½äººæ•¸:${cosVO.cosMinCount} <br/> --%>
+<%-- 									      	æœ€é«˜äººæ•¸:${cosVO.cosMaxCount} <br/> --%>
+<%-- 									      	èª²ç¨‹åƒ¹æ ¼:${cosVO.cosPrice} <br/>									    	 --%>
+<!-- 									    </div> -->
+<!-- 									  </div> -->
+<!-- 									</div> -->
+                                
+                                <td>
+<%-- 									<a href="<%=request.getContextPath()%>/brand/brand.do?braNo=${brandVO.braNo}&action=getOne_For_Update" type="button" class="btn btn-primary btn-sm" > --%>
+<!-- 										ä¿®æ”¹ -->
+<!-- 									</a>									 -->
+								</td>                              
+                            </tr>
+						</c:forEach>
+						</tbody>       
+					</table>
 					
-					
-				}else{
-					src="/back-end/resource/images/back1.gif";
-				}
-			}
-		%>
-	
-	<%@ include file="/back-end/pages/page1.file"%> 
-	<c:forEach var="cosVO" items="${list}" begin="<%=pageIndex%>" end="<%=pageIndex+rowsPerPage-1%>">
-		
-		<tr>
-			<td>${cosVO.getCosNo()}</td>
-			<td>${cosVO.getLecNo()}</td>
-			<td>${cosVO.getCosTypeNo()}</td>
-			<td><fmt:formatDate value="${cosVO.getCosFrom()}" pattern="yyyy-MM-dd HH:mm:ss.SSSZ"/></td>
-			<td><fmt:formatDate value="${cosVO.getCosTo()}" pattern="yyyy-MM-dd HH:mm:ss.SSSZ"/></td>
-			<td>${cosVO.getCosIntro()}</td>
-			<td><img src="<%=request.getContextPath()%>/PicFinder?pic=1&table=course&column=cosPic&idname=cosNo&id=${cosVO.cosNo}" alt='¨S¦³¹Ï¤ù' /></td>
-			<td>${cosVO.getCosAdd()}</td>
-			<td>${cosVO.getCosCount()}</td>
-			<td>${cosVO.getCosRate()}</td>
-			<td>${cosVO.getCosStatus()}</td>
-			<td>${cosVO.getCosMinCount()}</td>
-			<td>${cosVO.getCosMaxCount()}</td>
-			<td>${cosVO.getCosPrice()}</td>
-			<td><fmt:formatDate value="${cosVO.getCosApplyFrom()}" pattern="yyyy-MM-dd HH:mm:ss.SSSZ"/></td>
-			<td><fmt:formatDate value="${cosVO.getCosApplyTo()}" pattern="yyyy-MM-dd HH:mm:ss.SSSZ"/></td>
-			<td>${cosVO.getCosName()}</td>
-			<td>
-			  <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/cos/cos.do" style="margin-bottom: 0px;" >
-			     <input type="submit" value="­×§ï">
-			     <input type="hidden" name="cosNo"  value="${cosVO.getCosNo()}">
-			     <input type="hidden" name="action"	value="getOne_For_Update"></FORM>
-			</td>
-			<td>
-			  <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/cos/cos.do" style="margin-bottom: 0px;">
-			     <input type="submit" value="§R°£">
-			     <input type="hidden" name="cosNo"  value="${cosVO.getCosNo()}">
-			     <input type="hidden" name="action" value="delete"></FORM>
-			</td>
-		</tr>
-	</c:forEach>
-</table>
-<%@ include file="/back-end/pages/page2.file" %>
+					<!-- Modal GET_ONE-->
+<%-- 					<c:if test="${openModal!=null}"> --%>
+<!-- 						<div class="modal fade" id="basicModal" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true"> -->
+<!-- 							<div class="modal-dialog"> -->
+<!-- 								<div class="modal-content"> -->
+<!-- 									<div class="modal-header"> -->
+<!-- 						                <h4 class="modal-title" id="myModalLabel">å•†å“å“ç‰Œä¿®æ”¹</h4> -->
+<!-- 						                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button> -->
+<!-- 						            </div> -->
+										
+<!-- 									<div class="modal-body pb-0"> -->
+<%-- 										<jsp:include page="" /> --%>
+<!-- 									</div> -->
+<!-- 								</div> -->
+<!-- 							</div> -->
+<!-- 						</div> -->
+<%-- 					</c:if>	 --%>
+					<!-- Modal GET_ONE End-->
+				</div>
+			</div>
+		</div>
+	</div>
 
+                
+<%@include file="/back-end/tempFile/footer" %>
+<%@include file="/back-end/tempFile/srcJs" %>
+<script>
+$("#basicModal").modal({show: true});
+
+</script>
 </body>
+
 </html>

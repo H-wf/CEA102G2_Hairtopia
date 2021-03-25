@@ -44,10 +44,10 @@
         
         <jsp:useBean id="memberSvc" scope="page" class="com.member.model.MemService" />
      	<li><b><font color=orange>選擇會員編號:</font></b>
-	       <select size="1" name="proNo" >
+	       <select size="1" name="memNo" >
 	         <option>
-	         <c:forEach var="productVO" items="${productSvc.all}" > 
-	          <option value="${productVO.proNo}">${productVO.proName}
+	         <c:forEach var="memVO" items="${memberSvc.all}" > 
+	          <option value="${memVO.memNo}">${memVO.memName}
 	         </c:forEach>   
 	       </select>
         </li>

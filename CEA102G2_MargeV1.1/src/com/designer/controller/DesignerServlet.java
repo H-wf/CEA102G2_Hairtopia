@@ -91,9 +91,6 @@ public class DesignerServlet extends HttpServlet {
 /*取得髮廊VO*/
 				SalonVO salVo = new SalonService().getOneSalon(desVO.getSalNo());
 				
-				if (desVO == null) {
-					errorMsgs.add("查無設計師資料");
-				}
 				// Send the use back to the form, if there were errors
 				if (!errorMsgs.isEmpty()) {
 					if ("getOne_For_Display_Back".equals(action)) {
@@ -113,10 +110,10 @@ public class DesignerServlet extends HttpServlet {
 				req.setAttribute("designerVO", desVO); // 資料庫取出的lecVO物件,存入req
 				req.setAttribute("salVo", salVo);
 				String url="";
-MemDAO mamdao = new MemDAO();
-MemVO memVO = mamdao.findByPrimaryKey(2);
-HttpSession session = req.getSession(); 
-session.setAttribute("memVO", memVO);
+//MemDAO mamdao = new MemDAO();
+//MemVO memVO = mamdao.findByPrimaryKey(2);
+//HttpSession session = req.getSession(); 
+//session.setAttribute("memVO", memVO);
 				if("getOne_For_Display_Back".equals(action)) {
 //				 url = "/back-end/designer/listOneDesignerBack.jsp";
 				 url = "/front-end/designer/designerPage.jsp";
@@ -276,7 +273,7 @@ session.setAttribute("memVO", memVO);
 			// Store this set in the request scope, in case we need to
 			// send the ErrorPage view.
 			req.setAttribute("errorMsgs", errorMsgs);
-			System.out.println(action);
+	
 
 			try {
 				/*************************** 1.接收請求參數 ****************************************/
@@ -361,12 +358,12 @@ session.setAttribute("memVO", memVO);
 				designerVO.setDesInfor(desInfor);
 				designerVO.setDesSchedule(desSchedule);
 				designerVO.setDesPic(desPic);
-
+				
 				// Send the use back to the form, if there were errors
 				if (!errorMsgs.isEmpty()) {
 					req.setAttribute("designerVO", designerVO); // 含有輸入格式錯誤的serviceVO物件,也存入req
 					RequestDispatcher failureView = req
-							.getRequestDispatcher("/front-end/designer/update_designer_input.jsp");
+							.getRequestDispatcher("/designer/designer.do?action=getOne_For_Update&desNo="+desNo);
 					failureView.forward(req, res);
 					return; // 程式中斷
 				}
@@ -383,7 +380,7 @@ session.setAttribute("memVO", memVO);
 
 				/*************************** 3.修改完成,準備轉交(Send the Success view) *************/
 				req.setAttribute("designerVO", designerVO); // 資料庫update成功後,正確的的designerVO物件,存入req
-				String url = "/front-end/designer/listOneDesigner.jsp";
+				String url = "/designer/designer.do?action=getOne_For_Update&desNo="+desNo;
 				RequestDispatcher successView = req.getRequestDispatcher(url); // 修改成功後,轉交listOneSalon.jsp
 				successView.forward(req, res);
 
@@ -392,7 +389,7 @@ session.setAttribute("memVO", memVO);
 
 				errorMsgs.add("修改資料失敗:" + e.getMessage());
 				RequestDispatcher failureView = req
-						.getRequestDispatcher("/front-end/designer/update_designer_input.jsp");
+						.getRequestDispatcher("/front-end/index.jsp");
 				failureView.forward(req, res);
 			}
 		}
@@ -429,35 +426,34 @@ session.setAttribute("memVO", memVO);
 			
 			req.setAttribute("errorMsgs", errorMsgs);
 
-			try {
+//			try {
 				/*************************** 1.接收請求參數 ****************************************/
 				Integer desNo = new Integer(req.getParameter("desNo"));	
-				Integer desStatus = new Integer(req.getParameter("desStatus"));	
-
-				java.sql.Date desEndDate = null;
+				String str = req.getParameter("desStatus");	
+				Integer desStatus = null;
 				try {
-					desEndDate = java.sql.Date.valueOf(req.getParameter("desEndDate").trim());
-				} catch (IllegalArgumentException e) {
-					desEndDate = new java.sql.Date(System.currentTimeMillis());
-					errorMsgs.add("請輸入設計師到期日!");
+					desStatus = new Integer(str);
+				}catch(Exception e) {
+					desStatus = 0 ;
 				}
+
 
 				/*************************** 2.開始修改資料 *****************************************/
 				DesignerService designerSvc = new DesignerService();
 				DesignerVO designerVO = new DesignerVO();
-				designerSvc.updateOneStatus(desEndDate,desStatus,desNo);
+				designerSvc.updateOneStatus(desStatus,desNo);
 				designerVO=designerSvc.getOneDesByDesNo(desNo);
 				/*************************** 3.修改完成,準備轉交(Send the Success view) *************/
 				req.setAttribute("designerVO", designerVO); // 資料庫update成功後,正確的的empVO物件,存入req
-				String url = "/back-end/designer/update_designer_input_Back.jsp";
+				String url = "/back-end/designer/listAllDesigner.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url); // 修改成功後,轉交listOneEmp.jsp
 				successView.forward(req, res);
 				/*************************** 其他可能的錯誤處理 **********************************/
-			} catch (Exception e) {
-				errorMsgs.add("無法取得要修改的資料:" + e.getMessage());
-				RequestDispatcher failureView = req.getRequestDispatcher("/back-end/designer/listOneDesignerBack.jsp");
-				failureView.forward(req, res);
-			}
+//			} catch (Exception e) {
+//				errorMsgs.add("無法取得要修改的資料:" + e.getMessage());
+//				RequestDispatcher failureView = req.getRequestDispatcher("/back-end/designer/listAllDesigner.jsp");
+//				failureView.forward(req, res);
+//			}
 		}
 		if ("delete".equals(action)) { // 來自listAll_lec.jsp
 

@@ -26,7 +26,7 @@
 <link rel="stylesheet"
 	href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
 
-<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
 
 
 
@@ -142,15 +142,9 @@ padding:5px;
 		<h2 class="h2">Step2. 選擇填寫設計師資料</h2>
 		<div class="card card-body">
 		<div class="form-group">
-			<label for="memNo">會員編號</label>
-		
-		<input type="TEXT" name="memNo" id="memNo"  class="form-control" value="${empty designerVO ? ' ' :designerVO.memNo}" />
-		</div>
-	
-		<div class="form-group">
 			<label for="desName">設計師名字</label>
 		
-		<input type="TEXT" name="desName" id="desName"  class="form-control" value="${empty designerVO ? ' ' :designerVO.desName}" />
+		<input type="TEXT" name="desName" id="desName"  required  class="form-control" value="${empty designerVO ? ' ' :designerVO.desName}" />
 		</div>
 		
 		<div class="form-group">
@@ -206,7 +200,7 @@ padding:5px;
 		<div class="form-group ScheduleTime">
 		<label for="desInfor">設計師簡介</label>
 		<textarea id='desInfor' row="10" cols="48" name="desInfor"  class="form-control"  rows ="10"
-						size="45" >${empty designerVO ? ' ' :designerVO.desInfor}</textarea>
+						size="45" required>${empty designerVO ? ' ' :designerVO.desInfor}</textarea>
 			
 		</div>
 		<div class="form-group ScheduleTime">
@@ -216,11 +210,13 @@ padding:5px;
 		</div>
 	
 		<br>
+		
+		<input type="hidden" name="memNo" value="${userSession.memNo}">
 		<input type="hidden" name="salStatus" value="1">
 		<input type="hidden" name="desStatus" value="0">
 		<input type="hidden" name="desSchedule" id="desSchedule" value="1">
 		
-
+<%-- 		<input type="hidden" name="memNo" value="${memVO.memNo}">  --%>
 		<input type="hidden" name="action" value="addDesAndSal"> 
 		<input type="hidden" id="salLat" name="salLat" value="7"> 
 		<input type="hidden" id="salLng" name="salLng" value="8"> 
@@ -239,6 +235,7 @@ padding:5px;
 <%@include file="/front-end/tempFile/footer" %>
 <%@include file="/front-end/tempFile/tempJs" %>
 <script src="http://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 
 <script>
 var contextPath = "<%=request.getContextPath()%>";
@@ -247,13 +244,13 @@ var contextPath = "<%=request.getContextPath()%>";
 		$('#addButton').click(function(){
 			if($('#addSalondiv').hasClass("divDisplayNone")){
 
-        $('#addSalondiv').fadeIn(500,function(){
+        $('#addSalondiv').slideDown(400,function(){
 
 					$('#addSalondiv').removeClass("divDisplayNone");	
 				});
 				
 			}else{
-				$('#addSalondiv').fadeOut(500,function(){
+				$('#addSalondiv').slideUp(400,function(){
 
 					$('#addSalondiv').addClass("divDisplayNone");
 				})		
@@ -323,11 +320,12 @@ var contextPath = "<%=request.getContextPath()%>";
 			let str ="";
 			btnF.onclick = function(){
 				if(ckeck() === false){
-					
+				 	
 					return false
 				}else{
-				geocode()	
 				scheduleSum()
+				geocode()	
+				
 				  
 				
 				 
@@ -361,6 +359,16 @@ var contextPath = "<%=request.getContextPath()%>";
 					alert("Saturday時間填寫有誤")
 					return false;
 				}
+				
+				if($("#desName").val().trim().length === 0){
+					alert("請填寫設計師名字")
+					return false;
+				}else if($("#desInfor").val().trim().length === 0){
+					alert("請填寫設計師簡介")
+					return false;
+				}
+			
+				
 					
 			}
 	//串接班表
@@ -408,9 +416,12 @@ var contextPath = "<%=request.getContextPath()%>";
 				})
 				.catch(function(error){
 					alert("請填入地址");
+					return false
  
 				});
 			}
+			 
+			
 			
 			var customFile = document.getElementById("customFile");
 			var preview = document.getElementById('preview');
@@ -457,6 +468,11 @@ var contextPath = "<%=request.getContextPath()%>";
 
 // JS結束
 					console.log(error);
+					
+					
+					$("#submitForm").click(function(){
+						
+					})
 
 
 	})

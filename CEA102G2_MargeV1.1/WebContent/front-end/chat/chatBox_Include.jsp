@@ -23,31 +23,19 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-   	<script src="https://kit.fontawesome.com/5f1a2208d7.js" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<!--     <meta http-equiv="X-UA-Compatible" content="IE=edge"> -->
+<!--     <meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
+<!--     <title>Document</title> -->
+	<link rel="stylesheet" href="<%=request.getContextPath()%>/resource/web-fonts-with-css/css/fontawesome-all.min.css">
+	<script src="<%=request.getContextPath()%>/dist/js/jquery.min.js"></script>
+    
 
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC&display=swap');
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-        }
-
-        body {
-/*         	height:1000px; */
-            font-family: 'Lato', sans-serif;
-            font-size: 16px;
-            color: #999999;
-/*             word-wrap: break-word; */
-        }
-
-        ul {
-            list-style: none;
         }
 
         .chatbox-holder {
@@ -115,7 +103,6 @@
             font-size: 15px;
             font-weight: bold;
             color: #30649c;
-/*             text-shadow: 1px 1px 0 white; */
             transition: .1s ease-out;
         }
 
@@ -267,11 +254,6 @@
         .message-send {
             -webkit-appearance: none;
             background: #999;
-/*             background: -moz-linear-gradient(180deg, #00d8ff, #00b5d6); */
-/*             background: -webkit-linear-gradient(180deg, #00d8ff, #00b5d6); */
-/*             background: -o-linear-gradient(180deg, #00d8ff, #00b5d6); */
-/*             background: -ms-linear-gradient(180deg, #00d8ff, #00b5d6); */
-/*             background: linear-gradient(180deg, #00d8ff, #00b5d6); */
             color: white;
             font-size: 12px;
             padding: 0 15px;
@@ -307,7 +289,6 @@
 
         .chatbox-min {
             margin-bottom: -362px;
-            /*   height: 46px; */
         }
 
         .chatbox-min .chatbox-avatar {
@@ -337,7 +318,7 @@
 		<!--第一區塊 -->
 		<!--第一區塊 -->
 		<!--第一區塊 -->
-        <div class="chatbox firstChatbox" style="z-index: 1000;">
+        <div class="chatbox firstChatbox" style="z-index: 1000;display:none;">
             <div class="chatbox-top">
                 <div class="chatbox-avatar">
                     <img
@@ -346,12 +327,12 @@
                 <div class="chat-partner-name" id="chatPartnerName">
                     <!-- <span class="status online"></span> -->
 <!--                     <a target="_blank" href="#personal page"> -->
-                    ${friend.memName}
+                    ${designerVO.desName}
 <!--                     </a> -->
                 </div>
                 <div class="chatbox-icons">
-                    <a href="javascript:void(0);"><i class="fa fa-minus"></i></a>
-                    <a href="javascript:void(0);"><i class="fa fa-close"></i></a>
+                    <a href="javascript:void(0);"><i class="fa fas fa-minus"></i></a>
+                    <a href="javascript:void(0);"><i class="fa fas fa-times"></i></a>
                 </div>
             </div>
 
@@ -386,13 +367,12 @@
 					</c:if>
 				</c:forEach>
             
-            
             </div>
 
             <div class="chat-input-holder">
                 <div class="chat-input-icons">
                 	<input type="file" id="uploadImage" accept="image/*">
-                    <a href="javascript:void(0);" id="upload_link"><i class="fa fa-image"></i></a>
+                    <a href="javascript:void(0);" id="upload_link"><i class="fas fa-image"></i></a>
                 </div>
                 <input type="text" class="chat-input" id="message" onkeydown="if (event.keyCode == 13) sendMessage();" autocomplete="off">
 				<div class="chat-input-icons">
@@ -412,7 +392,9 @@
 		var path = window.location.pathname;
 		var webCtx = path.substring(0, path.indexOf('/', 1));
 		var endPointURL = "ws://" + host + webCtx + MyPoint;
+		/*需要調整區*/
 		var chatPartnerName = document.getElementById("chatPartnerName");
+		/*需要調整區*/
 		var messagesArea = document.getElementsByClassName("chat-messages")[0];
 
         //改成登入時,塞進session的memVO
@@ -424,13 +406,13 @@
             $('.fa-minus').click(function () {
                 $(this).closest('.chatbox').toggleClass('chatbox-min');
             });
-            $('.fa-close').click(function () {
+            $('.fa-times').click(function () {
                 $(this).closest('.chatbox').hide();
                 disconnect();
                 
             });
             
-            $('.chatbtn').click(function(){
+            $('#msgBtn').click(function(){
             	$('.firstChatbox').toggle();
             	// $('.secondChatbox').toggle();
             	connect();
@@ -458,7 +440,7 @@
         function connect() {
     		// create a websocket
     		<%
-    			System.out.println(1234);
+//     			System.out.println(1234);
     		%>
     		webSocket = new WebSocket(endPointURL);
     		webSocket.binaryType = "arraybuffer";
@@ -538,12 +520,13 @@
         
     	function getHistory() {
     		var container = document.getElementById("row");
-            //要改成抓hidden傳送要交談的對象,可以先傳到session存起來(VO 或 單純朋友名字)
-   			var friend = ${friend.memName};
+    		/*需要調整區*/
+   			var designer = "${designerVO.desName}";
+   			/*需要調整區*/
    			var jsonObj = {
    					"type" : "history",
    					"sender" : self,
-   					"receiver" : friend,
+   					"receiver" : designer,
    					"message" : ""
    				};
     			webSocket.send(JSON.stringify(jsonObj));
@@ -553,14 +536,16 @@
 //     		var inputMessage = document.getElementById("message");
 
             //要改成抓hidden傳送要交談的對象,可以先傳到session存起來(VO 或 單純朋友名字)
-    		var friend = ${friend.memName};
+            /*需要調整區*/
+    		var designer = "${designerVO.desName}";
+    		/*需要調整區*/
     		var message = $('#message').val().trim();
 
     		if (message !== "") {
     			var jsonObj = {
         				"type" : "chat",
         				"sender" : self,
-        				"receiver" : friend,
+        				"receiver" : designer,
         				"message" : message
         			};
         		webSocket.send(JSON.stringify(jsonObj));
@@ -571,7 +556,7 @@
         }
 
         function sendImage(e){
-            let imageURL = new Float64Array(evt.data);;
+            let imageURL = new Float64Array(e.data);;
             let files = e.target.files;
             if (files) {
                     // 取出files物件的第一個
@@ -588,13 +573,15 @@
                             imageURL = e.target.result;
                             console.log('Start');
                              //要改成抓hidden傳送要交談的對象,可以先傳到session存起來(VO 或 單純朋友名字)
-                            var friend = ${friend.memName};
+                             /*需要調整區*/
+                            var designer = "${designerVO.desName}";
+                            /*需要調整區*/
     		                var message = imageURL;
                             console.log("start send image");
                             var jsonObj = {
                                 "type" : "image",
                                 "sender" : self,
-                                "receiver" : friend,
+                                "receiver" : designer,
                                 "message" : "123"
                             };  
                             webSocket.send(JSON.stringify(jsonObj));

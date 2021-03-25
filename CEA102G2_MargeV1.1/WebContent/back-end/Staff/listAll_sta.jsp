@@ -17,87 +17,88 @@
 <!DOCTYPE html>
 <html>
 <head>
-<style type="text/css">
-img {
-	width: 150px;
-}
-</style>
+
 <meta charset="UTF-8">
-<title>所有講師資料 - listAll_sta.jsp</title>
+<title>所有員工資料</title>
+<%@include file="/back-end/tempFile/head"%>
+<link href="<%=request.getContextPath()%>/dist/backTemp/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
 </head>
-<body>
-	<h4>此頁練習採用 EL 的寫法取值:</h4>
-	<table id="table-1">
-		<tr>
-			<td>
-				<h3>所有講師資料 - listAll_sta.jsp</h3>
-				<h4>
-					<a href="<%=request.getContextPath()%>/back-end/Staff/select_sta_page.jsp">
-					<img src="<%=request.getContextPath()%>/resource/images/back1.gif"
-						width="100" height="32" border="0">回首頁</a>
-				</h4>
-			</td>
-		</tr>
-	</table>
+<body id="page-top">
+	<%@include file="/back-end/tempFile/navBar_sideBar"%>
+	<div class="container-fluid">
+		<div class="row">
+			<jsp:useBean id="staSvc" scope="page"
+									class="com.staff.model.StaffService" />
+								<jsp:useBean id="authSvc" scope="page"
+									class="com.authority.model.AuthorityService" />
+								<jsp:useBean id="funcSvc" scope="page"
+									class="com.func.model.FuncService" />
 
+			<div class="col-12">
+				<h3 class="text-center">所有員工資料</h3>
 
-	<c:if test="${not empty errorMsgs}">
-		<font style="color: red">請修正以下錯誤:</font>
-		<ul>
-			<c:forEach var="message" items="${errorMsgs}">
-				<li style="color: red">${message}</li>
-			</c:forEach>
-		</ul>
-	</c:if>
+				<div class="card shadow mb-4">
+					<div class="card-body">
+						<div class="table-responsive">
+							<table class="table table-bordered" id="dataTable" width="100%"
+								cellspacing="0">
+								<thead>
+									<tr>
+										<th >員工編號</th>
+										<th >員工姓名</th>
+										<th >員工帳號</th>
+										<th >在職狀態</th>
+										<th  >員工權限</th>
 
+									</tr>
+								</thead>
+								
+								<tbody>
+									<c:forEach var="staVO" items="${staSvc.all}">
+										<tr>
+											<td >${staVO.staNo}</td>
+											<td ><a class="badge badge-light"
+												href="<%=request.getContextPath()%>/authority/authority.do?
+											action=queryByStaNo&staNo=${staVO.staNo}">
+													${staVO.staName}</a></td>
+											<td >${staVO.staAcct}</td>
+											<td >
+											${staVO.staStatus== 0 ? "離職" : "在職"}
 
-	<table>
-		<tr>
-			<th>員工編號</th>
-			<th>員工姓名</th>
-			<th>員工帳號</th>
-			<th>員工密碼</th>
-			
+											</td>
+											<td >
+											<c:forEach var="authVO"
+												items="${authSvc.getAllByStaNo(staVO.staNo)}">
+												
+													${funcSvc.getOneFunc(authVO.funcNo).funcName} 
+											</c:forEach>
+											</td>
+										</tr>
+									</c:forEach>
+								</tbody>
+							</table>	
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-2">
 
-		</tr>
-	
-		<jsp:useBean id="staSvc" scope="page"
-			class="com.staff.model.StaffService" />
+				<c:if test="${not empty errorMsgs}">
+					<font style="color: red">請修正以下錯誤:</font>
+					<ul>
+						<c:forEach var="message" items="${errorMsgs}">
+							<li style="color: red">${message}</li>
+						</c:forEach>
+					</ul>
+				</c:if>
 
-		<%@ include file="/resource/pages/page1.file" %> 
-		<c:forEach var="staVO" items="${staSvc.all}" begin="<%=pageIndex%>" end="<%=pageIndex+rowsPerPage-1%>">>
-			<tr>
-				<td>${staVO.staName}</td>
-				<td>${staVO.staNo}</td>
-				<td>${staVO.staAcct}</td>
-				<td>${staVO.staPswd}</td>
-				<td>
-					<FORM METHOD="post"
-						ACTION="<%=request.getContextPath()%>/staff/staff.do"
-						style="margin-bottom: 0px;">
-						<input type="submit" value="修改"> <input type="hidden"
-							name="staNo" value="${staVO.staNo}"> <input
-							type="hidden" name="action" value="getOne_For_Update">
-					</FORM>
-				</td>
-				<td>
-					<FORM METHOD="post"
-						ACTION="<%=request.getContextPath()%>/staff/staff.do"
-						style="margin-bottom: 0px;">
-						<input type="submit" value="刪除"> <input type="hidden"
-							name="staNo" value="${staVO.staNo}"> <input
-							type="hidden" name="action" value="delete">
-					</FORM>
-				</td>
-			</tr>
+			</div>
+		</div>
+	</div>
 
-		</c:forEach>
-
-
-
-
-	</table>
-<%@ include file="/resource/pages/page2.file" %>
-
+<%@include file="/back-end/tempFile/footer" %>
+<%@include file="/back-end/tempFile/srcJs" %>
 </body>
+
+
 </html>

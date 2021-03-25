@@ -9,6 +9,7 @@
 	ChatService chatSvc = new ChatService();
 	MemService memSvc = new MemService();
 	List<ChatVO> list = chatSvc.getAll();
+	List<MemVO> list2 = memSvc.getAll();
 	MemVO friend = memSvc.getOneMem(4);
 	MemVO userSession = memSvc.getOneMem(2);
 	pageContext.setAttribute("friend", friend);
@@ -328,7 +329,8 @@
 <body>
 	
 	<div>
-<!-- 		<button class="chatbtn">打開視窗</button> -->
+		<button id="friend1">打開視窗</button>
+		<button id="friend2">打開視窗</button>
 	</div>
 
     <div class="chatbox-holder">
@@ -336,11 +338,10 @@
 		<!--第一區塊 -->
 		<!--第一區塊 -->
 		<!--第一區塊 -->
-        <div class="chatbox firstChatbox" style="z-index: 9999;">
+        <div class="chatbox firstChatbox" style="display:none">
             <div class="chatbox-top">
                 <div class="chatbox-avatar">
-                    <img
-                        src="<%=request.getContextPath()%>/showImges.do?tableName=member&picColumn=memPic&pkColumn=memNo&memNo=${friend.memNo}" />
+                    <img id="chatbox-image" src="<%=request.getContextPath()%>/showImges.do?tableName=member&picColumn=memPic&pkColumn=memNo&memNo=${friend.memNo}" />
                 </div>
                 <div class="chat-partner-name" id="chatPartnerName">
                     <!-- <span class="status online"></span> -->
@@ -385,79 +386,11 @@
 					</c:if>
 				</c:forEach>
             
-            
-<!--                 <div class="message-box-holder"> -->
-<!--                     <div class="message-box"> -->
-<!--                         Hello -->
-<!--                     </div> -->
-<!--                 </div> -->
-
-<!--                 <div class="message-box-holder"> -->
-<!--                     <div class="message-sender"> -->
-<!--                         Mamun Khandaker -->
-<!--                     </div> -->
-<!--                     <div class="message-box message-partner"> -->
-<!--                         Hi. -->
-<!--                     </div> -->
-<!--                 </div> -->
-
-<!--                 <div class="message-box-holder"> -->
-<!--                     <div class="message-box"> -->
-<!--                         How are you doing? -->
-<!--                     </div> -->
-<!--                 </div> -->
-
-<!--                 <div class="message-box-holder"> -->
-<!--                     <div class="message-sender"> -->
-<!--                         Mamun Khandaker -->
-<!--                     </div> -->
-<!--                     <div class="message-box message-partner"> -->
-<!--                         I'm doing fine. How about you? -->
-<!--                     </div> -->
-<!--                 </div> -->
-
-<!--                 <div class="message-box-holder"> -->
-<!--                     <div class="message-box"> -->
-<!--                         I am fine. -->
-<!--                     </div> -->
-<!--                 </div> -->
-
-<!--                 <div class="message-box-holder"> -->
-<!--                     <div class="message-box"> -->
-<!--                         Do you know why I knocked you today? -->
-<!--                     </div> -->
-<!--                 </div> -->
-
-<!--                 <div class="message-box-holder"> -->
-<!--                     <div class="message-box"> -->
-<!--                         There's something important I would like to share with you. Do you have some time? -->
-<!--                     </div> -->
-<!--                 </div> -->
-
-<!--                 <div class="message-box-holder"> -->
-<!--                     <div class="message-sender"> -->
-<!--                         Mamun Khandaker -->
-<!--                     </div> -->
-<!--                     <div class="message-box message-partner"> -->
-<!--                         Yeah sure. Let's meet in the Einstein cafe this evening and discuss the matter. -->
-<!--                     </div> -->
-<!--                 </div> -->
-
-<!--                 <div class="message-box-holder"> -->
-<!--                     <div class="message-sender"> -->
-<!--                         Mamun Khandaker -->
-<!--                     </div> -->
-<!--                     <div class="message-box message-partner"> -->
-<!--                         I thought of coming to your place and discuss about it but I had to finish my projects and I -->
-<!--                         didn't -->
-<!--                         have enough time to go out of the house. -->
-<!--                     </div> -->
-<!--                 </div> -->
             </div>
 
             <div class="chat-input-holder">
                 <div class="chat-input-icons">
-                	<input type="file" id="uploadImage" accept="image/*">
+                	<input type="file" id="uploadChatImage" style="display:none" accept="image/*">
                     <a href="javascript:void(0);" id="upload_link"><i class="fa fa-image"></i></a>
                 </div>
                 <input type="text" class="chat-input" id="message" onkeydown="if (event.keyCode == 13) sendMessage();" autocomplete="off">
@@ -468,108 +401,6 @@
             </div>
         </div>
 
-
-
-		<!--第二區塊 -->
-		<!--第二區塊 -->
-		<!--第二區塊 -->
-<!--         <div class="chatbox secondChatbox" style="display:none"> -->
-<!--             <div class="chatbox-top"> -->
-<!--                 <div class="chatbox-avatar"> -->
-<!--                     <a target="_self" href="#personalpage"><img -->
-<%--                             src="<%=request.getContextPath()%>/showImges.do?tableName=member&picColumn=memPic&pkColumn=memNo&memNo=${userSession.memNo}" /></a> --%>
-<!--                 </div> -->
-<!--                 <div class="chat-partner-name"> -->
-<!--                     <span class="status donot-disturb"></span> -->
-<!--                     <a target="_blank" href="https://www.facebook.com/mfreak">Mamun Khandaker</a> -->
-<!--                 </div> -->
-<!--                 <div class="chatbox-icons"> -->
-<!--                     <a href="javascript:void(0);"><i class="fa fa-minus"></i></a> -->
-<!--                     <a href="javascript:void(0);"><i class="fa fa-close"></i></a> -->
-<!--                 </div> -->
-<!--             </div> -->
-
-<!--             <div class="chat-messages"> -->
-<!--                 <div class="message-box-holder"> -->
-<!--                     <div class="message-box"> -->
-<!--                         Hello -->
-<!--                     </div> -->
-<!--                 </div> -->
-
-<!--                 <div class="message-box-holder"> -->
-<!--                     <div class="message-sender"> -->
-<!--                         Mamun Khandaker -->
-<!--                     </div> -->
-<!--                     <div class="message-box message-partner"> -->
-<!--                         Hi. -->
-<!--                     </div> -->
-<!--                 </div> -->
-
-<!--                 <div class="message-box-holder"> -->
-<!--                     <div class="message-box"> -->
-<!--                         How are you doing? -->
-<!--                     </div> -->
-<!--                 </div> -->
-
-<!--                 <div class="message-box-holder"> -->
-<!--                     <div class="message-sender"> -->
-<!--                         Mamun Khandaker -->
-<!--                     </div> -->
-<!--                     <div class="message-box message-partner"> -->
-<!--                         I'm doing fine. How about you? -->
-<!--                     </div> -->
-<!--                 </div> -->
-
-<!--                 <div class="message-box-holder"> -->
-<!--                     <div class="message-box"> -->
-<!--                         I am fine. -->
-<!--                     </div> -->
-<!--                 </div> -->
-
-<!--                 <div class="message-box-holder"> -->
-<!--                     <div class="message-box"> -->
-<!--                         Do you know why I knocked you today? -->
-<!--                     </div> -->
-<!--                 </div> -->
-
-<!--                 <div class="message-box-holder"> -->
-<!--                     <div class="message-box"> -->
-<!--                         There's something important I would like to share with you. Do you have some time? -->
-<!--                     </div> -->
-<!--                 </div> -->
-
-<!--                 <div class="message-box-holder"> -->
-<!--                     <div class="message-sender"> -->
-<!--                         Mamun Khandaker -->
-<!--                     </div> -->
-<!--                     <div class="message-box message-partner"> -->
-<!--                         Yeah sure. Let's meet in the Einstein cafe this evening and discuss the matter. -->
-<!--                     </div> -->
-<!--                 </div> -->
-
-<!--                 <div class="message-box-holder"> -->
-<!--                     <div class="message-sender"> -->
-<!--                         Mamun Khandaker -->
-<!--                     </div> -->
-<!--                     <div class="message-box message-partner"> -->
-<!--                         I thought of coming to your place and discuss about it but I had to finish my projects and I -->
-<!--                         didn't -->
-<!--                         have enough time to go out of the house. -->
-<!--                     </div> -->
-<!--                 </div> -->
-<!--             </div> -->
-
-<!--             <div class="chat-input-holder"> -->
-
-<!--                 <div class="chat-input-icons"> -->
-<!--                     <a href="#" class="fa fa-image"></a> -->
-<!--                 </div> -->
-<!--                 <textarea class="chat-input"></textarea> -->
-<!--                 <input type="text" class="chat-input" name="" > -->
-<!--                 <input type="submit" value="Send" class="message-send" /> -->
-
-<!--             </div> -->
-<!--         </div> -->
     </div>
     <script>
         ////改成登入時,塞進session的memVO
@@ -578,7 +409,8 @@
 		var path = window.location.pathname;
 		var webCtx = path.substring(0, path.indexOf('/', 1));
 		var endPointURL = "ws://" + host + webCtx + MyPoint;
-		var chatPartnerName = document.getElementById("chatPartnerName");
+// 		var chatPartnerName = document.getElementById("chatPartnerName");
+		var chatPartnerName = "${friend.memName}";
 		var messagesArea = document.getElementsByClassName("chat-messages")[0];
 
         //改成登入時,塞進session的memVO
@@ -596,9 +428,38 @@
                 
             });
             
-            $('.chatbtn').click(function(){
-            	$('.firstChatbox').toggle();
+//             $('.chatbtn').click(function(){
+//             	$('.firstChatbox').toggle();
+//             	// $('.secondChatbox').toggle();
+//             	connect();
+//             });
+            
+            $('#friend1').click(function(){
+            	if(webSocket.readyState === 1) disconnect();
+            <%
+            		friend = memSvc.getOneMem(10);
+            		pageContext.setAttribute("friend", friend);
+    		%>
+    		chatPartnerName = "KING10";
+    		$('#chatbox-image').attr('src', '<%=request.getContextPath()%>/showImges.do?tableName=member&picColumn=memPic&pkColumn=memNo&memNo=${friend.memNo}');
+//             	$('.firstChatbox').toggle();
             	// $('.secondChatbox').toggle();
+           	
+            $('#chatPartnerName').text(chatPartnerName);
+            
+            	connect();
+				console.log(webSocket.readyState);
+            });
+            
+            $('#friend2').click(function(){
+            	
+//             	disconnect();
+<%--             	<% --%>
+//             		friend = memSvc.getOneMem(5);
+//             		pageContext.setAttribute("friend", friend);
+<%--             	%> --%>
+            	$('.firstChatbox').toggle();
+//             	// $('.secondChatbox').toggle();
             	connect();
             });
             
@@ -606,10 +467,10 @@
             
             $("#upload_link").on('click', function(e){
                 e.preventDefault();
-                $("#uploadImage:hidden").trigger('click');
+                $("#uploadChatImage:hidden").trigger('click');
             });
             
-            $("#uploadImage").change(function(e){	
+            $("#uploadChatImage").change(function(e){	
             	console.log("Trigger");
                 sendImage(e);
 
@@ -623,16 +484,13 @@
         
         function connect() {
     		// create a websocket
-    		<%
-    			System.out.println(1234);
-    		%>
     		webSocket = new WebSocket(endPointURL);
 //     		webSocket.binaryType = "arraybuffer";
     		
     		webSocket.onopen = function(event) {
     			console.log("Connect Success!");
     			getHistory();
-    			console.log(chatPartnerName.textContent.trim());
+    			console.log(chatPartnerName);
     		};
 
     		webSocket.onmessage = function(event) {
@@ -706,6 +564,7 @@
     		var container = document.getElementById("row");
             //要改成抓hidden傳送要交談的對象,可以先傳到session存起來(VO 或 單純朋友名字)
    			var friend = "${friend.memName}";
+   			console.log("${friend.memName}");
    			var jsonObj = {
    					"type" : "history",
    					"sender" : self,
@@ -738,7 +597,7 @@
         }
 
         function sendImage(e){
-            let imageURL = new Float64Array(evt.data);;
+            let imageURL = new Float64Array(e.data);;
             let files = e.target.files;
             if (files) {
                     // 取出files物件的第一個

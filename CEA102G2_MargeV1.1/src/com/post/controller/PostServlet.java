@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 
 import com.post.model.*;
+import com.salon.model.*;
 import com.tag.model.*;
 import com.tagdet.model.*;
 import com.comment.model.*;
@@ -22,6 +23,7 @@ import com.designer.model.*;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonElement;
 
 @MultipartConfig
 public class PostServlet extends HttpServlet {
@@ -605,13 +607,13 @@ System.out.println("postVO設置完成");
 				PostService postSvc = new PostService();
 				switch (switchCode) {
 				case 3:
-					postVO = postSvc.addPost(desNo, postCon, postPic1, postPic2, postPic3, postStatus, postPror);
+					postVO = postSvc.addPost(desNo, postCon, postPic1, postPic2, postPic3, postStatus);
 					break;
 				case 2:
-					postVO = postSvc.addPost(desNo, postCon, postPic1, postPic2, postStatus, postPror);
+					postVO = postSvc.addPost(desNo, postCon, postPic1, postPic2, postStatus);
 					break;
 				case 1:
-					postVO = postSvc.addPost(desNo, postCon, postPic1, postStatus, postPror);
+					postVO = postSvc.addPost(desNo, postCon, postPic1, postStatus);
 
 					break;
 				default:
@@ -653,8 +655,17 @@ System.out.println("postVO設置完成");
 				list = postSvc.getAll(desNo);
 
 				/*************************** 3.新增完成,準備轉交(Send the Success view) ***********/
-				req.setAttribute("list", list); //
-				String url = "/front-end/Post/listAll_postByDesNo.jsp";
+				req.setAttribute("list", list); 
+//設置轉傳設計師頁面的VO
+				DesignerService desSvc = new DesignerService();
+				DesignerVO desVo = desSvc.getOneDesByDesNo(desNo);
+				req.setAttribute("designerVO", desVo);
+				
+				SalonService salSvc = new SalonService();
+				SalonVO salVo = salSvc.getOneSalon(desVo.getSalNo());
+				req.setAttribute("salVo", salVo);
+//轉回設計師頁面
+				String url = "/front-end/designer/designerPage.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url); // 新增成功後轉交listAll_lec.jsp
 				successView.forward(req, res);
 
@@ -727,7 +738,13 @@ System.out.println("postVO設置完成");
 			
 //取得postVo
 			PostVO postVo = postSvc.getOnePost(postNo);
-			
+//判斷幾張照片
+			postVo.setPostPic1(new byte[0]);
+			if(postVo.getPostPic2() != null) {
+				postVo.setPostPic2(new byte[0]);
+			}else if(postVo.getPostPic3() != null) {
+				postVo.setPostPic3(new byte[0]);
+			}
 //用postNo取得tagDet的tagNo再取得所有tagName
 			Set<Integer> tagNoSet = tagdetSvc.getTagNo(postNo);
 			List<String> tagNameList = tagSvc.getTagName(tagNoSet);
@@ -735,12 +752,6 @@ System.out.println("postVO設置完成");
 //用postNo取得所有comment
 			List<CommentVO> commentList = comSvc.getComsByPostNo(postNo);
 			
-			postVo.setPostPic1(new byte[0]);
-			if(postVo.getPostPic2() != null) {
-				postVo.setPostPic2(new byte[0]);
-			}else if(postVo.getPostPic3() != null) {
-				postVo.setPostPic3(new byte[0]);
-			}
 			
 			Map ajaxMap = new HashMap();
 			ajaxMap.put("postVo", postVo);
@@ -748,8 +759,6 @@ System.out.println("postVO設置完成");
 			ajaxMap.put("commentList", commentList);
 
 			String jsonStr = gson.toJson(ajaxMap);
-System.out.println(jsonStr);
-
 			res.setContentType("text/plain");
 			res.setCharacterEncoding("UTF-8");
 			PrintWriter out = res.getWriter();

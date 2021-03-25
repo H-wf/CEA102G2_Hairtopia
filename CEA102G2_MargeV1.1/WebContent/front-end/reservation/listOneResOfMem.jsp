@@ -2,7 +2,6 @@
 <%@ page import="com.reservation.model.*"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<%-- 此頁暫練習採用 Script 的寫法取值 --%>
 
 <%
   ResVO resVO = (ResVO) request.getAttribute("resVO"); //ResServlet.java(Concroller), 存入req的serviceVO物件
@@ -60,15 +59,9 @@
             content: '\2606';
             font-family: FontAwesome
         }
-        body{
-			font-size:.9rem;
-			font-weight:400;
-		}
     </style>
 </head>
 <body>
-
-<h5>服務資料 - ListOneResOfMem.jsp</h5>
 <jsp:useBean id="designerSvc" scope="page" class="com.designer.model.DesignerService" />
 <jsp:useBean id="serviceSvc" scope="page" class="com.service.model.ServiceService" />
 <jsp:useBean id="salonSvc" scope="page" class="com.salon.model.SalonService" />
@@ -77,14 +70,14 @@
 	<tr><th>服務項目</th>
 		<td><c:forEach var="serviceVO" items="${serviceSvc.all}">
 				<c:if test="${serviceVO.serNo==resVO.serNo}">
-	            	${serviceVO.serNo}-${serviceVO.serName}
+	            	${serviceVO.serName}
             	</c:if>
 			</c:forEach>
 		</td></tr>
 	<tr><th>設計師</th>
 		<td><c:forEach var="designerVO" items="${designerSvc.all}">
 					<c:if test="${designerVO.desNo==resVO.desNo}">
-	            	${designerVO.desNo}-${designerVO.desName}
+	            	${designerVO.desName}
             		</c:if>
 			</c:forEach>
 		</td></tr>
@@ -148,7 +141,7 @@
         		<input class="star star-1" id="star-1" type="radio" name="resCom" value=1 /> 
         		<label class="star star-1" for="star-1"></label>
     			</div>
-				<input type="submit" value="送出評價">
+				<input type="submit" value="送出評價" class="btn btn-primary">
 				<input type="hidden" name="resNo" value="${resVO.resNo}">
 				<input type="hidden" name="action" value="reviewRes">
 				</FORM>

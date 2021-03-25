@@ -1,4 +1,4 @@
-<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+ <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page import="com.staff.model.*"%>
 
@@ -9,28 +9,15 @@
 <head>
 <meta charset="UTF-8">
 <title>講師資料修改 - update_sta_input.jsp</title>
-
+<%@include file="/back-end/tempFile/head" %>
 
 
 </head>
-<body bgcolor='white'>
+<body id="page-top">
+<%@include file="/back-end/tempFile/navBar_sideBar" %>
+	<div class="container-fluid">
 
-	<table id="table-1">
-		<tr>
-			<td>
-				<h3>員工資料修改 - update_sta_input.jsp</h3>
-				<h4>
-					<a
-						href="<%=request.getContextPath()%>/back-end/Staff/select_sta_page.jsp">
-						<img src="<%=request.getContextPath()%>/resource/images/back1.gif"
-						width="100" height="32" border="0">回首頁
-					</a>
-				</h4>
-			</td>
-		</tr>
-	</table>
-
-	<h3>資料修改:</h3>
+	
 
 
 	<%-- 錯誤表列 --%>
@@ -89,6 +76,11 @@
 
 	</form>
 
+
+</div>
+
+<%@include file="/back-end/tempFile/footer" %>
+<%@include file="/back-end/tempFile/srcJs" %>
 	<script>
 		var form = document.forms[0], 
 		    submit = document.querySelector(".login_btn"), 
@@ -101,9 +93,5 @@
 			}
 		}
 	</script>
-
-
-
-
 </body>
 </html>

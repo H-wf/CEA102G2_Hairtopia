@@ -19,6 +19,8 @@ import com.brand.model.BrandDAO;
 import com.brand.model.BrandService;
 import com.brand.model.BrandVO;
 import com.product.model.ProductVO;
+import com.ptype.model.PtypeService;
+import com.ptype.model.PtypeVO;
 
 
 @MultipartConfig
@@ -97,32 +99,52 @@ public class BrandServlet extends HttpServlet {
 		}
 		
 		if ("getOne_For_Update".equals(action)) { // 來自listAllBrand.jsp的請求
-
-			List<String> errorMsgs = new LinkedList<String>();
-			// Store this set in the request scope, in case we need to
-			// send the ErrorPage view.
-			req.setAttribute("errorMsgs", errorMsgs);
-
 			try {
-				/*************************** 1.接收請求參數 ****************************************/
+				
 				Integer braNo = new Integer(req.getParameter("braNo"));
-
-				/*************************** 2.開始查詢資料 ****************************************/
-				BrandService braSvc = new BrandService();
-				BrandVO brandVO = braSvc.getOneBrand(braNo);
-
-				/*************************** 3.查詢完成,準備轉交(Send the Success view) ************/
-				req.setAttribute("brandVO", brandVO); // 資料庫取出的brandVO物件,存入req
-				String url = "/back-end/brand/update_bra_input.jsp";
-				RequestDispatcher successView = req.getRequestDispatcher(url);// 成功轉交 update_bra_input.jsp
+				
+				BrandService brandSvc = new BrandService();
+				BrandVO brandVO = brandSvc.getOneBrand(braNo);
+				
+				req.setAttribute("brandVO", brandVO); 
+				//Bootstrap_modal
+				boolean openModal=true;
+				req.setAttribute("openModal",openModal );
+				
+				String url = "/back-end/brand/listAllBrand.jsp";
+				RequestDispatcher successView = req.getRequestDispatcher(url); 
 				successView.forward(req, res);
+				return;
 
-				/*************************** 其他可能的錯誤處理 **********************************/
+				/***************************其他可能的錯誤處理*************************************/
 			} catch (Exception e) {
-				errorMsgs.add("無法取得要修改的資料:" + e.getMessage());
-				RequestDispatcher failureView = req.getRequestDispatcher("/back-end/brand/listAllBrand.jsp");
-				failureView.forward(req, res);
+				throw new ServletException(e);
 			}
+//			List<String> errorMsgs = new LinkedList<String>();
+//			// Store this set in the request scope, in case we need to
+//			// send the ErrorPage view.
+//			req.setAttribute("errorMsgs", errorMsgs);
+//
+//			try {
+//				/*************************** 1.接收請求參數 ****************************************/
+//				Integer braNo = new Integer(req.getParameter("braNo"));
+//
+//				/*************************** 2.開始查詢資料 ****************************************/
+//				BrandService braSvc = new BrandService();
+//				BrandVO brandVO = braSvc.getOneBrand(braNo);
+//
+//				/*************************** 3.查詢完成,準備轉交(Send the Success view) ************/
+//				req.setAttribute("brandVO", brandVO); // 資料庫取出的brandVO物件,存入req
+//				String url = "/back-end/brand/update_bra_input.jsp";
+//				RequestDispatcher successView = req.getRequestDispatcher(url);// 成功轉交 update_bra_input.jsp
+//				successView.forward(req, res);
+//
+//				/*************************** 其他可能的錯誤處理 **********************************/
+//			} catch (Exception e) {
+//				errorMsgs.add("無法取得要修改的資料:" + e.getMessage());
+//				RequestDispatcher failureView = req.getRequestDispatcher("/back-end/brand/listAllBrand.jsp");
+//				failureView.forward(req, res);
+//			}
 		}
 		
 		if ("update".equals(action)) { // 來自update_bra_input.jsp的請求
@@ -174,25 +196,26 @@ public class BrandServlet extends HttpServlet {
 				// Send the use back to the form, if there were errors
 				if (!errorMsgs.isEmpty()) {
 					req.setAttribute("brandVO", brandVO); // 含有輸入格式錯誤的brandVO物件,也存入req
-					RequestDispatcher failureView = req.getRequestDispatcher("/back-end/brand/update_bra_input.jsp");
+					boolean openModal=true;
+					req.setAttribute("openModal",openModal);
+					RequestDispatcher failureView = req.getRequestDispatcher("/back-end/brand/listAllBrand.jsp");
 					failureView.forward(req, res);
 					return; // 程式中斷
 				}
 				/*************************** 2.開始修改資料 *****************************************/
 				
 				brandVO = braSvc.updateBrand(braNo, braName, braLogo, braIntro);
-				System.out.println(brandVO.getBraNo());
 
 				/*************************** 3.修改完成,準備轉交(Send the Success view) *************/
 				req.setAttribute("brandVO", brandVO); // 資料庫update成功後,正確的的brandVO物件,存入req
-				String url = "/back-end/brand/listOneBrand.jsp";
+				String url = "/back-end/brand/listAllBrand.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url); // 修改成功後,轉交listOneBrand.jsp
 				successView.forward(req, res);
 
 				/*************************** 其他可能的錯誤處理 *************************************/
 			} catch (Exception e) {
 				errorMsgs.add("修改資料失敗:" + e.getMessage());
-				RequestDispatcher failureView = req.getRequestDispatcher("/back-end/brand/update_bra_input.jsp");
+				RequestDispatcher failureView = req.getRequestDispatcher("/back-end/brand/listAllBrand.jsp");
 				failureView.forward(req, res);
 			}
 		}
@@ -237,8 +260,8 @@ public class BrandServlet extends HttpServlet {
 				if (!errorMsgs.isEmpty()) {
 
 					req.setAttribute("brandVO", brandVO); // 含有輸入格式錯誤的brandVO物件,也存入req
-
-					RequestDispatcher failureView = req.getRequestDispatcher("/back-end/brand/addBrand.jsp");
+					
+					RequestDispatcher failureView = req.getRequestDispatcher("/back-end/brand/listAllBrand.jsp");
 					failureView.forward(req, res);
 					return;
 				}
@@ -256,7 +279,7 @@ public class BrandServlet extends HttpServlet {
 			} catch (Exception e) {
 				errorMsgs.add(e.getMessage());
 
-				RequestDispatcher failureView = req.getRequestDispatcher("/back-end/brand/addBrand.jsp");
+				RequestDispatcher failureView = req.getRequestDispatcher("/back-end/brand/listAllBrand.jsp");
 				failureView.forward(req, res);
 
 			}

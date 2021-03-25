@@ -1,0 +1,106 @@
+
+<!--通知欄位 -->
+					<div class="notification_buble box" style="z-index: 1000;">
+						<ul class="nav nav-tabs nav-justified">
+							<li role="presentation" class="active">
+								 <a id="chat">我的訊息</a>
+							</li>
+							<li role="presentation" class="">
+								<a id="aboutme">關於我的</a>
+							</li>
+							<li role="presentation" class="">
+								 <a id="myfollowing">我追蹤的</a>
+							</li>
+						</ul>
+
+						<div style="display: block;">
+							<div class="notification_list_wrap">
+								<div class="loader_li list_loader">
+									<div class="loader" data-loader="circle"></div>
+								</div>
+								<ul class="notification_list">
+								<script>console.log('XZZ');</script>
+								<c:forEach var="chatVO" items="${list}">
+								<script>console.log('X');</script>
+								
+									<li class="clearfix">
+										<a class="clearfix">
+											<figure>
+											<c:forEach var="memVO" items="${memSvc.all}">
+												<c:if test="false">
+													<img class="cover_fit"
+													src="">
+												</c:if>
+											</c:forEach>
+											</figure>
+											<div class="noti_con">
+											<c:forEach var="memVO" items="${memSvc.all}">
+												<c:if test="${chatVO.chatSender==memVO.memNo}">
+													<div class="user_name">${memVO.memName}</div>
+												</c:if>
+											</c:forEach>
+												<div class="msg"
+													style="padding-bottom: 8px; margin-top: 0px;">${chatVO.chatText}</div>
+												<div class="chat_time">8 天前</div>
+												<!-- react-text: 477 -->
+												<!-- /react-text -->
+											</div>
+										</a>
+									</li>
+									</c:forEach>
+
+									<!-- /react-text -->
+									<li class="notification_more btn_loader"><a>
+											<div class="loader" data-loader="circle"></div> <!-- react-text: 1409 -->載入更多
+											<!-- /react-text -->
+									</a></li>
+								</ul>
+							</div>
+						</div>
+
+						<div style="display: none;">
+							<div class="notification_list_wrap">
+								<div class="loader_li list_loader">
+									<div class="loader" data-loader="circle"></div>
+								</div>
+								
+								
+								<ul class="notification_list">
+								
+									<li class="clearfix">
+										<a class="clearfix">
+											<figure>
+												
+													<img class="cover_fit" src="">
+												
+											</figure>
+											<div class="noti_con">
+												<img class="noti_img" src="https://cdn.style-map.com/post/photo/small/625048.jpg">
+												<div class="msg">Rocco  發表了新貼文$</div>
+												<div class="post_time">8 天前</div>
+											</div>
+										</a>
+									</li>
+								
+<!-- 									<div class="none_data">尚無通知</div> -->
+									<!-- react-text: 170 -->
+									<!-- /react-text -->
+								</ul>
+							</div>
+						</div>
+						<div style="display: none;">
+							<div class="notification_list_wrap">
+								<div class="loader_li list_loader">
+									<div class="loader" data-loader="circle"></div>
+								</div>
+<!-- 								<ul class="notification_list"> -->
+<!-- 									<div class="none_data">尚無通知</div> -->
+<!-- 									react-text: 358 -->
+<!-- 									/react-text -->
+<!-- 								</ul> -->
+							</div>
+						</div>
+					</div>
+					
+					<!--通知欄位end -->
+					

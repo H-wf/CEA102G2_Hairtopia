@@ -8167,9 +8167,9 @@ h1, h2, h3, h4, h5,
   color: #d9bf77 !important; }
 
 .ftco-navbar-light {
-  background: transparent !important;
+  background: rgba(51,51,51,0.5); !important;
   position: absolute;
-  top: 10px;
+  top: 0;
   left: 0;
   right: 0;
   z-index: 3;
@@ -8208,7 +8208,7 @@ h1, h2, h3, h4, h5,
     letter-spacing: 3px;
     opacity: 1 !important; }
     .ftco-navbar-light .navbar-nav > .nav-item > .nav-link:hover {
-      color: #000; }
+      color:  #d9bf77; }
     @media (max-width: 991.98px) {
       .ftco-navbar-light .navbar-nav > .nav-item > .nav-link {
         padding-left: 0;
