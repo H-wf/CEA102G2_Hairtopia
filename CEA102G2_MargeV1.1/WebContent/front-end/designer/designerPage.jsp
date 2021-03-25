@@ -264,7 +264,6 @@
 					memNo:${not empty userSession.memNo?userSession.memNo:"null"},	//userSession
 					desNo:${designerVO.desNo},
 			}
-			
 			if(obj.memNo === null){
 				swal.fire({
 					title:'請先登入',
@@ -288,7 +287,7 @@
 					showCloseButton: true,
 				});
 				return false;
-			}else if($('#followBtn').text() =="Unfollow"){
+			}else if($('#followBtn').text().trim() =="Unfollow"){
 				obj.action = "deleteByAJAX";
 					$.ajax({
 						type:"POST",
@@ -304,7 +303,7 @@
 						},
 					});
 				
-			}else if($('#followBtn').text() =="Follow"){
+			}else if($('#followBtn').text().trim() =="Follow"){
 				obj.action = "insertByAJAX";
 					$.ajax({
 							type:"POST",
