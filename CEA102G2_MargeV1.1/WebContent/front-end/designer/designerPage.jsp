@@ -288,7 +288,7 @@
 					showCloseButton: true,
 				});
 				return false;
-			}else if($('#followBtn').text() ==="Unfollow"){
+			}else if($('#followBtn').text() =="Unfollow"){
 				obj.action = "deleteByAJAX";
 					$.ajax({
 						type:"POST",
@@ -304,7 +304,7 @@
 						},
 					});
 				
-			}else if($('#followBtn').text() ==="Follow"){
+			}else if($('#followBtn').text() =="Follow"){
 				obj.action = "insertByAJAX";
 					$.ajax({
 							type:"POST",
