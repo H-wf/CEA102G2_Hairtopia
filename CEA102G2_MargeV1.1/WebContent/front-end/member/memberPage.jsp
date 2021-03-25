@@ -331,8 +331,8 @@ img {
 							<div class="profile mr-3">
 								<img
 									src="<%=request.getContextPath()%>/showImges.do?tableName=member&picColumn=memPic&pkColumn=memNo&memNo=${userSession.memNo}"
-									alt='沒有圖片' class="rounded mb-2 img-thumbnail" /> <a href="#"
-									class="btn btn-outline-dark btn-sm btn-block">Edit profile</a>
+									alt='沒有圖片' class="rounded mb-2 img-thumbnail" /> 
+									<a href="<%=request.getContextPath()%>/front-end/member/memberSetting.jsp" class="btn btn-outline-dark btn-sm btn-block">Edit profile</a>
 							</div>
 							<div class="media-body mb-5 text-white myrow">
 								<h4 class="mt-0 mb-0">${userSession.memName}</h4>
