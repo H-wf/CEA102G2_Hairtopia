@@ -58,8 +58,7 @@ public class CosdetService {
 			CosdetVO cosdetVO = new CosdetVO();
 			
 			cosdetVO.setCosNo(cosNo);
-			cosdetVO.setMemNo(1000);
-			System.out.println("cosdetService no.61 先設死：" + 1000);
+			cosdetVO.setMemNo(memNo);
 			cosdetVO.setCosDetailPrice(cosDetailPrice);
 			dao.insertNoComment(cosdetVO);
 

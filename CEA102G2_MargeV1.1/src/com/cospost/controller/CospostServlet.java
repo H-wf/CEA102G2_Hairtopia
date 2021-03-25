@@ -177,7 +177,6 @@ public class CospostServlet extends HttpServlet {
 				List<String> errorMsgs = new LinkedList<String>();
 
 				req.setAttribute("errorMsgs", errorMsgs);
-				System.out.println("sss");
 				try {
 
 				    Integer cosNo = new Integer(req.getParameter("cosNo"));
