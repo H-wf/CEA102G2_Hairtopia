@@ -17,6 +17,7 @@
 <title>Hairtopia</title>
 <meta charset="utf-8">
 <%@include file="/front-end/tempFile/head"%>
+<link rel="stylesheet" href="<%=request.getContextPath()%>/resource/css/post.css">
 </head>
 <style>
 .slick-prev:before, .slick-next:before {
@@ -34,79 +35,6 @@
 .myVideo {
 	width: 100%;
 }
-</style>
-<style>
-.ftco-navbar-light {
-	position: static;
-}
-
-/* postCSS */
-@media ( min-width : 576px) {
-	.card-columns {
-		column-count: 2;
-	}
-}
-
-@media ( min-width : 768px) {
-	.card-columns {
-		column-count: 4;
-	}
-}
-
-@media ( min-width : 992px) {
-	.card-columns {
-		column-count: 4;
-	}
-}
-
-@media ( min-width : 1200px) {
-	.card-columns {
-		column-count: 4;
-	}
-}
-
-.post {
-	padding-left: 8em;
-	padding-right: 7em;
-}
-
-.card:hover {
-	transform: scale(1.05);
-	box-shadow: 0 10px 20px rgba(0, 0, 0, .12), 0 4px 8px rgba(0, 0, 0, .06);
-}
-/* postCSS END */
-
-/* Whole post Css */
-#postModal .modal-dialog {
-	max-width: 70%;
-}
-
-#postModal .close {
-	margin-top: -15px;
-	margin-right: -10px;
-}
-
-div.comDisplay {
-	overflow-y: auto;
-	height: 300px;
-}
-
-img {
-	max-width: 100%;
-}
-
-#tags div {
-	text-transform: uppercase;
-	display: inline-block;
-	padding: 4px 10px;
-	margin-bottom: 7px;
-	margin-right: 4px;
-	border-radius: 4px;
-	color: #000;
-	border: 1px solid #e6e6e6;
-	font-size: 11px;
-}
-/* Whole post Css END */
 </style>
 <body>
 <%@include file="/front-end/tempFile/navBar" %>
@@ -258,43 +186,16 @@ img {
                 </div>
             </div>
 	            <div class="row justify-content-between slidemove">
-<%-- 	            <c:forEach  var="designerVO" items="${desSvc.pickup5Des()}"> --%>
-<%-- 	            </c:forEach> --%>
-	            <div class="col-2 ">
-	                <div class="card">
-	                    <img src=" https://picsum.photos/400/500?random=1" class="card-img-top img-fluid ">
-	                </div>
-	            </div>
-	            <div class="col-2 ">
-	                <div class="card">
-	                    <img src=" https://picsum.photos/400/500?random=1" class="card-img-top img-fluid ">
-	                </div>
-	            </div>
-	            <div class="col-2 ">
-	                <div class="card">
-	                    <img src=" https://picsum.photos/400/500?random=1" class="card-img-top img-fluid ">
-	                </div>
-	            </div>
-	            <div class="col-2 ">
-	                <div class="card">
-	                    <img src=" https://picsum.photos/400/500?random=1" class="card-img-top img-fluid ">
-	                </div>
-	            </div>
-	            <div class="col-2 ">
-	                <div class="card">
-	                    <img src=" https://picsum.photos/400/500?random=1" class="card-img-top img-fluid ">
-	                </div>
-	            </div>
-	            <div class="col-2 ">
-	                <div class="card">
-	                    <img src=" https://picsum.photos/400/500?random=1" class="card-img-top img-fluid ">
-	                </div>
-	            </div>
-	            <div class="col-2 ">
-	                <div class="card">
-	                    <img src=" https://picsum.photos/400/500?random=1" class="card-img-top img-fluid ">
-	                </div>
-	            </div>
+	            	<c:forEach var="designerVO" items="${desSvc.pickup5Des()}">
+						<div class="col-2 ">
+							<div class="card">
+								<a href="<%=request.getContextPath()%>/designer/designer.do?action=getOne_For_Display&desNo=${designerVO.desNo}" >
+								<img class="img-fluid" src="<%=request.getContextPath()%>/PicFinder?pic=1&table=Designer&column=desPic&idname=desNo&id=${designerVO.desNo}" class="card-img-top" alt="...">
+									<h5 class="card-title">${designerVO.desName}</h5>	
+								</a>
+							</div>
+						</div>
+					</c:forEach>
 	        </div>
         </div>
     </section>
@@ -309,106 +210,121 @@ img {
                     <h2 class="mb-1">熱門髮廊</h2>
                 </div>
             </div>
-	            <div class="row justify-content-between slidemove">
-<%-- 	 	            <c:forEach  var="salonVO" items="${salSvc.pickup5Sal()}">  --%>
-<%-- 		            </c:forEach>  --%>
-	            <div class="col-2 ">
-	                <div class="card">
-	                    <img src=" https://picsum.photos/400/500?random=1" class="card-img-top img-fluid ">
-	                </div>
-	            </div>
-	            <div class="col-2 ">
-	                <div class="card">
-	                    <img src=" https://picsum.photos/400/500?random=1" class="card-img-top img-fluid ">
-	                </div>
-	            </div>
-	            <div class="col-2 ">
-	                <div class="card">
-	                    <img src=" https://picsum.photos/400/500?random=1" class="card-img-top img-fluid ">
-	                </div>
-	            </div>
-	            <div class="col-2 ">
-	                <div class="card">
-	                    <img src=" https://picsum.photos/400/500?random=1" class="card-img-top img-fluid ">
-	                </div>
-	            </div>
-	            <div class="col-2 ">
-	                <div class="card">
-	                    <img src=" https://picsum.photos/400/500?random=1" class="card-img-top img-fluid ">
-	                </div>
-	            </div>
-	            <div class="col-2 ">
-	                <div class="card">
-	                    <img src=" https://picsum.photos/400/500?random=1" class="card-img-top img-fluid ">
-	                </div>
-	            </div>
-	            <div class="col-2 ">
-	                <div class="card">
-	                    <img src=" https://picsum.photos/400/500?random=1" class="card-img-top img-fluid ">
-	                </div>
-	            </div>
+	            <div class="row justify-content-between slidemove2">
+	           		 <c:forEach  var="salonVO" items="${salSvc.pickup5Sal()}">
+	           		 	    <div class="card mb-3" style="max-width: 505px;">
+	           		 	    	<a href="<%=request.getContextPath()%>/salon/salon.do?action=getOne_For_Display&salNo=${salonVO.salNo}" >
+						        <div class="row no-gutters">
+						            <div class="col-md-4">
+						                <img class="img-fluid" src="<%=request.getContextPath()%>/PicFinder?pic=1&table=Designer&column=desPic&idname=desNo&id=${designerVO.desNo}" class="card-img-top" alt="...">
+						            </div>
+						            <div class="col-md-8">
+						                <div class="card-body">
+						                    <h5 class="card-title">${salonVO.salName }</h5>
+						                   <span class="icon icon-map-marker mr-3"><i
+											class="bi bi-geo-alt-fill"></i></span><span class="card-text mb-0">${salonVO.salAdd}</span> 
+						                    <span class="icon icon-phone mr-3"><i
+											class="bi bi-telephone-fill"></i></span> <span class="text">${salonVO.salPhone}</span>
+						                </div>
+						            </div>
+						        </div>
+						        </a>
+						    </div>
+	           		 
+	           		  
+<!-- 					 	<div class="col-2 "> -->
+<!-- 							 <div class="card"> -->
+<%-- 								<a href="<%=request.getContextPath()%>/salon/salon.do?action=getOne_For_Display&salNo=${salonVO.salNo}" > --%>
+<!-- 	<!-- 							這邊有問題 salon沒有照片 如果此欄位需要，是否要找一些圖片隨機放上去? --> 
+<%-- 								<img class="img-fluid" src="<%=request.getContextPath()%>/PicFinder?pic=1&table=Designer&column=desPic&idname=desNo&id=${designerVO.desNo}" class="card-img-top" alt="..."> --%>
+<%-- 									<h5 class="card-title">${salonVO.salName }</h5>	 --%>
+<!-- 								</a> -->
+<!-- 							</div>	             -->
+<!-- 						</div>          -->
+					  </c:forEach> 
 	        </div>
         </div>
     </section>
 <!-- end Hot Salon -->
 
-<!-- Hot Trand -->
+<!-- Hot Product -->
 	<section class="ftco-gallery ftco-section">
         <div class="container px-5">
             <div class="row justify-content-center mb-5 pb-3">
                 <div class="col-md-7 heading-section ftco-animate text-center">
                     <h3 class="subheading">Styling</h3>
-                    <h2 class="mb-1">最新潮流</h2>
+                    <h2 class="mb-1">推薦商品</h2>
                 </div>
             </div>
 	            <div class="row justify-content-between slidemove">
+	            
 <%-- 	            	<c:forEach  var="trendVO" items="${trendSvc.pickup5Trend()}">   --%>
 <%--  		            </c:forEach> --%>
-	            <div class="col-2 ">
-	                <div class="card">
-	                    <img src=" https://picsum.photos/400/500?random=1" class="card-img-top img-fluid ">
-	                </div>
-	            </div>
-	            <div class="col-2 ">
-	                <div class="card">
-	                    <img src=" https://picsum.photos/400/500?random=1" class="card-img-top img-fluid ">
-	                </div>
-	            </div>
-	            <div class="col-2 ">
-	                <div class="card">
-	                    <img src=" https://picsum.photos/400/500?random=1" class="card-img-top img-fluid ">
-	                </div>
-	            </div>
-	            <div class="col-2 ">
-	                <div class="card">
-	                    <img src=" https://picsum.photos/400/500?random=1" class="card-img-top img-fluid ">
-	                </div>
-	            </div>
-	            <div class="col-2 ">
-	                <div class="card">
-	                    <img src=" https://picsum.photos/400/500?random=1" class="card-img-top img-fluid ">
-	                </div>
-	            </div>
-	            <div class="col-2 ">
-	                <div class="card">
-	                    <img src=" https://picsum.photos/400/500?random=1" class="card-img-top img-fluid ">
-	                </div>
-	            </div>
-	            <div class="col-2 ">
-	                <div class="card">
-	                    <img src=" https://picsum.photos/400/500?random=1" class="card-img-top img-fluid ">
-	                </div>
-	            </div>
+<!-- 	            <div class="col-2 "> -->
+<!-- 	                <div class="card"> -->
+<!-- 	                    <img src=" https://picsum.photos/400/500?random=1" class="card-img-top img-fluid "> -->
+<!-- 	                </div> -->
+<!-- 	            </div> -->
+<!-- 	            <div class="col-2 "> -->
+<!-- 	                <div class="card"> -->
+<!-- 	                    <img src=" https://picsum.photos/400/500?random=1" class="card-img-top img-fluid "> -->
+<!-- 	                </div> -->
+<!-- 	            </div> -->
+<!-- 	            <div class="col-2 "> -->
+<!-- 	                <div class="card"> -->
+<!-- 	                    <img src=" https://picsum.photos/400/500?random=1" class="card-img-top img-fluid "> -->
+<!-- 	                </div> -->
+<!-- 	            </div> -->
+<!-- 	            <div class="col-2 "> -->
+<!-- 	                <div class="card"> -->
+<!-- 	                    <img src=" https://picsum.photos/400/500?random=1" class="card-img-top img-fluid "> -->
+<!-- 	                </div> -->
+<!-- 	            </div> -->
+<!-- 	            <div class="col-2 "> -->
+<!-- 	                <div class="card"> -->
+<!-- 	                    <img src=" https://picsum.photos/400/500?random=1" class="card-img-top img-fluid "> -->
+<!-- 	                </div> -->
+<!-- 	            </div> -->
+<!-- 	            <div class="col-2 "> -->
+<!-- 	                <div class="card"> -->
+<!-- 	                    <img src=" https://picsum.photos/400/500?random=1" class="card-img-top img-fluid "> -->
+<!-- 	                </div> -->
+<!-- 	            </div> -->
+<!-- 	            <div class="col-2 "> -->
+<!-- 	                <div class="card"> -->
+<!-- 	                    <img src=" https://picsum.photos/400/500?random=1" class="card-img-top img-fluid "> -->
+<!-- 	                </div> -->
+<!-- 	            </div> -->
 	        </div>
         </div>
     </section>
-<!-- end Hot Trand -->
+<!-- end Hot Product -->
 </div>
 <!-- Page Content END -->
+<%@include file="/front-end/Post/postModal" %>
 <%@include file="/front-end/tempFile/footer"%>
 <%@include file="/front-end/tempFile/tempJs"%>
+<script src="<%=request.getContextPath()%>/resource/js/postModal.js"></script>
 
 </body>
+	<c:if test="${!empty newDesReq}">
+			<script type="text/javascript">
+					function alertTest() {
+					 Swal.fire(
+							 "${newDesReq}"
+				            );
+					}
+					
+					alertTest();
+					
+						
+			</script>
+		</c:if>
+<c:if test="${not empty wholePostMap}">
+	<script>
+			var wholePostMap = '${wholePostMap}';
+	</script>
+</c:if>
 <script>
 var contextPath = "<%=request.getContextPath()%>";
 $('.slidemove').slick({
@@ -418,7 +334,12 @@ $('.slidemove').slick({
 	  autoplaySpeed: 2000,
 	});
 	
-	
+$('.slidemove2').slick({
+	  slidesToShow: 2,
+	  slidesToScroll: 1,
+	  autoplay: true,
+	  autoplaySpeed: 2000,
+	});	
 	
 
 </script>

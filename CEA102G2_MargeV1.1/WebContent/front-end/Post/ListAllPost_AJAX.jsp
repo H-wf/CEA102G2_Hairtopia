@@ -23,7 +23,13 @@
  
 </head>
 <style>
-
+ #headImg{ 
+ height: 40vh;
+    background-image: url(forHeadBG2.jpg);
+    background-repeat: no-repeat;
+    background-position: 50% 34%;
+    background-size: 100%;
+ } 
 </style>
 <body>
 <%@include file="/front-end/tempFile/navBar" %>
@@ -31,19 +37,21 @@
 <!-- Begin Page Content -->
 <div class="container-fluid px-0">
 	<!-- carousel -->
-    <div id="carouselExampleSlidesOnly" class="carousel slide mb-5" data-ride="carousel">
-        <div class="carousel-inner">
-            <div class="carousel-item active">
-                <img src="https://picsum.photos/1300/300?random=2" class="d-block w-100">
-            </div>
-            <div class="carousel-item">
-                <img src="https://picsum.photos/1300/300?random=3" class="d-block w-100">
-            </div>
-            <div class="carousel-item">
-                <img src="https://picsum.photos/1300/300?random=4" class="d-block w-100">
-            </div>
-        </div>
-    </div>
+	<div id="headImg">
+	</div>
+<!--     <div id="carouselExampleSlidesOnly" class="carousel slide mb-5" data-ride="carousel"> -->
+<!--         <div class="carousel-inner"> -->
+<!--             <div class="carousel-item active"> -->
+<!--                 <img src="https://picsum.photos/1300/300?random=2" class="d-block w-100"> -->
+<!--             </div> -->
+<!--             <div class="carousel-item"> -->
+<!--                 <img src="https://picsum.photos/1300/300?random=3" class="d-block w-100"> -->
+<!--             </div> -->
+<!--             <div class="carousel-item"> -->
+<!--                 <img src="https://picsum.photos/1300/300?random=4" class="d-block w-100"> -->
+<!--             </div> -->
+<!--         </div> -->
+<!--     </div> -->
     <!-- csrousel end -->
     <h1></h1>
 	<div class="container post">

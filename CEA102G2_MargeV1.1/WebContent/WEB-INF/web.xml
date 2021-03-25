@@ -28,12 +28,12 @@
 		<url-pattern>/front-end/ordermaster/listAllOrderMaster.jsp</url-pattern>
 		<url-pattern>/front-end/reservation/AddResTest.jsp</url-pattern>
 		<dispatcher>REQUEST</dispatcher>
-	    <dispatcher>FORWARD</dispatcher>
-	    <dispatcher>INCLUDE</dispatcher>
-	    <dispatcher>ERROR</dispatcher>
-	    <dispatcher>ASYNC</dispatcher>		
-
-    		</filter-mapping>
+		<dispatcher>FORWARD</dispatcher>
+		<dispatcher>INCLUDE</dispatcher>
+		<dispatcher>ERROR</dispatcher>
+		<dispatcher>ASYNC</dispatcher>		
+    </filter-mapping>
+    
 	<filter>
 		<filter-name>StaffLoginFilter</filter-name>
 		<filter-class>com.util.filter.StaffLoginFilter</filter-class>
@@ -48,6 +48,15 @@
 		<url-pattern>/back-end/ptype/*</url-pattern>
 		<url-pattern>/back-end/Staff/*</url-pattern>
 		<url-pattern>/back-end/brand/*</url-pattern>
+		<url-pattern>/back-end/Cos/*</url-pattern>
+		<url-pattern>/back-end/Cospost/*</url-pattern>
+		<url-pattern>/back-end/Costype/*</url-pattern>
+		<url-pattern>/back-end/Lecturer/*</url-pattern>
+		<dispatcher>REQUEST</dispatcher>
+		<dispatcher>FORWARD</dispatcher>
+		<dispatcher>INCLUDE</dispatcher>
+		<dispatcher>ERROR</dispatcher>
+		<dispatcher>ASYNC</dispatcher>
 	</filter-mapping>
 <!-- login 濾器註冊END -->
 	<resource-ref>

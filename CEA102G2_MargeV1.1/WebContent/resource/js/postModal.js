@@ -248,7 +248,6 @@ function addCom(comVo){
                                     		<i class="bi bi-three-dots-vertical"></i>
 					                    </a>
 										  <div class="dropdown-menu" aria-labelledby="comDropdown`+comVo.comNo+`">
-										    <a class="dropdown-item" href="#">刪除留言</a>
 										    <a class="dropdown-item" data-toggle="collapse" href="#udCom`+comVo.comNo+`" role="button" aria-expanded="false" aria-controls="udCom`+comVo.comNo+`">修改</a>
 					   					  </div>
 										</div>`+

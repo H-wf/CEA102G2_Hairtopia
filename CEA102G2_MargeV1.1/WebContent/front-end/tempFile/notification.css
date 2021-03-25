@@ -1,0 +1,191 @@
+body {
+	box-sizing: border-box;
+}
+
+ol, ul {
+	list-style: none;
+}
+
+.nav>li>a {
+	position: relative;
+	display: block;
+	padding: 10px 15px;
+	text-align: center;
+}
+
+article, body, dd, div, dl, dt, fieldset, figure, footer, form, h1, h2,
+	h3, h4, h5, h6, header, input, li, ol, p, pre, section, td, textarea,
+	th, ul {
+	margin: 0;
+	padding: 0;
+	font-weight: 400;
+}
+
+.notification_buble {
+	display: none;
+	position: absolute;
+	top: 80px;
+	right: 200px;
+	width: 340px;
+	max-height: 480px;
+	background: #fff;
+	overflow: hidden;
+	z-index: 200;
+}
+
+@media ( max-width : 991.98px) {
+	.notification_buble {
+		width: 100%;
+		right: 0px;
+	}
+}
+
+.notification_buble.active {
+	display: block;
+}
+
+a, a:link {
+	color: #48adc5;
+	text-decoration: none;
+	cursor: pointer;
+}
+
+.box {
+	background: #fff;
+	box-shadow: 0 0 3px #ccc;
+	box-sizing: border-box;
+}
+
+.nav-tabs.nav-justified {
+	width: 100%;
+	border-bottom: 0;
+	padding: 0px;
+	display: block;
+}
+
+.notification_buble .nav-tabs.nav-justified>li {
+	display: table-cell;
+	width: 1%;
+}
+
+.notification_buble .nav-tabs.nav-justified>li>a {
+	margin-bottom: 0;
+}
+
+.nav-tabs.nav-justified>li>a, .nav-tabs>li>a {
+	border: none;
+	border-bottom: 1px solid #ccc;
+	color: #666;
+	transition: all .2s;
+	padding: 12px 13px 8px;
+}
+
+.nav-tabs.nav-justified>.active>a, .nav-tabs.nav-justified>.active>a:focus,
+	.nav-tabs.nav-justified>.active>a:hover, .nav-tabs>li.active>a,
+	.nav-tabs>li.active>a:focus, .nav-tabs>li.active>a:hover {
+	background: 0 0;
+	border: none;
+	border-bottom: 3px solid #3d3d3d;
+	padding: 12px 13px 6px;
+	color: #3d3d3d;
+	font-weight: 700;
+}
+
+.nav-tabs.nav-justified>li>a, .nav-tabs>li>a {
+	border: none;
+	border-bottom: 1px solid #ccc;
+	color: #666;
+	transition: all .2s;
+	padding: 12px 13px 8px;
+}
+
+.nav-tabs>li.active>a, .nav-tabs>li.active>a:focus, .nav-tabs>li.active>a:hover
+	{
+	cursor: default;
+}
+
+.notification_buble .notification_list, .notification_list {
+	overflow: hidden;
+}
+
+.notification_buble .notification_list a {
+	color: #666;
+}
+
+.notification_buble .notification_list_wrap {
+	max-height: 360px;
+	overflow: auto;
+}
+
+.notification_list li {
+	border-bottom: 1px solid #ccc;
+	transition: .5s all;
+	-webkit-transition: all .5s;
+	position: relative;
+	display: block;
+}
+
+.notification_list li figure {
+	width: 48px;
+	height: 48px;
+	overflow: hidden;
+	position: absolute;
+	left: 6px;
+	top: 6px;
+}
+.navbar-nav img.noti_img {
+    float: right;
+    height: auto;
+    max-height: 52px;
+    max-width: 54px;
+    margin: 0 10px 0 6px;
+}
+
+img.cover_fit {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.navbar-nav img.cover_fit, .notification_list img.cover_fit {
+    height: 100%;
+}
+
+.notification_list .noti_con {
+	min-height: 60px;
+	margin: 0 0 0 62px;
+	padding-top: 4px;
+	text-align: left;
+}
+
+.notification_list .user_name {
+	font-size: 16px;
+	padding-top: 2px;
+}
+
+.notification_list .msg {
+	margin-top: 5px;
+	margin-right: 50px;
+	overflow: hidden;
+}
+
+.notification_list .chat_time {
+	position: absolute;
+	top: 7px;
+	right: 5px;
+	font-size: 13px;
+	color: #aaa;
+}
+
+.none_data {
+	padding: 0px;
+	text-align: center;
+	padding-top: 20px;
+	font-size: 18px;
+	color: #666;
+	min-height: 100px;
+}
+.notification_more {
+    padding: 7px 0 3px;
+    text-align: center;
+}

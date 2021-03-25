@@ -428,11 +428,11 @@
                 
             });
             
-            $('.chatbtn').click(function(){
-            	$('.firstChatbox').toggle();
-            	// $('.secondChatbox').toggle();
-            	connect();
-            });
+//             $('.chatbtn').click(function(){
+//             	$('.firstChatbox').toggle();
+//             	// $('.secondChatbox').toggle();
+//             	connect();
+//             });
             
             $('#friend1').click(function(){
             	if(webSocket.readyState === 1) disconnect();
@@ -440,11 +440,13 @@
             		friend = memSvc.getOneMem(10);
             		pageContext.setAttribute("friend", friend);
     		%>
+    		chatPartnerName = "KING10";
     		$('#chatbox-image').attr('src', '<%=request.getContextPath()%>/showImges.do?tableName=member&picColumn=memPic&pkColumn=memNo&memNo=${friend.memNo}');
 //             	$('.firstChatbox').toggle();
             	// $('.secondChatbox').toggle();
-           	let memberNO = 5;
-            $('#chatPartnerName').text();
+           	
+            $('#chatPartnerName').text(chatPartnerName);
+            
             	connect();
 				console.log(webSocket.readyState);
             });
