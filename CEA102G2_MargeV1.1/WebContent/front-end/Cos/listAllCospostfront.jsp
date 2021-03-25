@@ -3,13 +3,16 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ page import="java.util.*"%>
 <%@ page import="com.cospost.model.*"%>
-<%-- 此頁練習採用 EL 的寫法取值 --%>
+<%@ page import="com.cos.model.*"%>
 
 <%
     CospostService cospostSvc = new CospostService();
     List<CospostVO> list = cospostSvc.getAll();
     pageContext.setAttribute("list",list);
 %>
+
+<jsp:useBean id="cosSvc" scope="page" class="com.cos.model.CosService" />
+
 
 <!DOCTYPE html>
 <html>
@@ -57,14 +60,15 @@
 
 <table id="table-1">
 	<tr><td>
-		 <li><a href="<%=request.getContextPath()%>/front-end/Cos/Course_Lec_1st.jsp">回課程前台</a></li>
+		<li><a href="<%=request.getContextPath()%>/front-end/Cos/Course_Lec_1st.jsp">回課程前台</a></li>
+		<li><a href="<%=request.getContextPath()%>/front-end/Cos/listAllCosApplyFromfront.jsp">列出所有報名中課程</a><br><br></li>
 	</td></tr>
 </table>
 
 <table id='mytb' style="width: 77.5rem" class="table table-striped">
 	<tr>
 		<th>公告編號</th>
-		<th>課程編號</th>
+		<th>課程名稱</th>
 		<th>公告內容</th>
 		<th>公告時間</th>
 	</tr>
@@ -73,7 +77,9 @@
 
 		<tr>
 			<td>${cospostVO.getCosPubNo()}</td>
-			<td>${cospostVO.getCosNo()}</td>
+			<!-- <td><a href="<%=request.getContextPath()%>/cos/cos.do?cosNo=${cospostVO.cosNo}&action=getOne_For_Display">${cosSvc.findByPrimaryKeyCos(cospostVO.cosNo).cosName}</a></td> -->
+			<td>${cosSvc.findByPrimaryKeyCos(cospostVO.cosNo).cosName}</td>
+			
 			<td>${cospostVO.getCosPubCon()}</td>
 			<td><fmt:formatDate value="${cospostVO.getCosPubTime()}" type="both"/></td>
 		</tr>

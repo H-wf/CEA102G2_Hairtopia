@@ -24,6 +24,7 @@
 		<url-pattern>/front-end/product/Checkout.jsp</url-pattern>
 		<url-pattern>/front-end/Cos/Checkout.jsp</url-pattern>
 		<url-pattern>/front-end/Cos/LoginToRateCos.jsp</url-pattern>
+		<url-pattern>/front-end/Cos/listAllCosApplyFromfront.jsp</url-pattern>
 		<url-pattern>/front-end/Cos/RateCos.jsp</url-pattern>
 		<url-pattern>/front-end/ordermaster/listAllOrderMaster.jsp</url-pattern>
 		<url-pattern>/front-end/reservation/AddResTest.jsp</url-pattern>
@@ -185,6 +186,7 @@
 	<servlet>
 		<servlet-name>ScheServlet2</servlet-name>
 		<servlet-class>com.cossche.controller.ScheServlet2</servlet-class>
+		<load-on-startup>10</load-on-startup>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>ScheServlet2</servlet-name>

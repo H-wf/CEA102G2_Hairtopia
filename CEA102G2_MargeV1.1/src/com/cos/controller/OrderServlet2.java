@@ -30,7 +30,7 @@ import com.cos.model.CosService;
 import com.cos.model.CosVO;
 
 @MultipartConfig
-public class OrderServlet extends HttpServlet {
+public class OrderServlet2 extends HttpServlet {
 
 	protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 		doPost(req, res);
@@ -42,11 +42,11 @@ public class OrderServlet extends HttpServlet {
 		HttpSession session = req.getSession();
 
 		@SuppressWarnings("unchecked")
-		List<CosdetVO> buylist = (Vector<CosdetVO>) session.getAttribute("shoppingcart");
+		HashSet<CosdetVO> buylist = (HashSet<CosdetVO>) session.getAttribute("shoppingcart");
 
-//		if (buylist == null) {
-//			buylist = new List<CosdetVO>();
-//		}
+		if (buylist == null) {
+			buylist = new HashSet<>();
+		}
 
 		if (action.equals("DELETE") || action.equals("ADD")) {
 			System.out.println("orderServlet no.51：已經做到");
@@ -60,12 +60,12 @@ public class OrderServlet extends HttpServlet {
 			if (action.equals("DELETE")) {
 				String del = req.getParameter("del");
 				int d = Integer.parseInt(del);
-	//			for (CosdetVO vo : buylist) {
+				for (CosdetVO vo : buylist) {
 
-	//				int cosNo = vo.getCosNo();
-	//				if (cosNo == d) {
-						buylist.remove(d);
-	//				}
+					int cosNo = vo.getCosNo();
+					if (cosNo == d) {
+						buylist.remove(vo);
+					}
 					if (buylist.size()>0) {
 						url = "/front-end/Cos/Cart.jsp";
 					} else {
@@ -77,7 +77,7 @@ public class OrderServlet extends HttpServlet {
 					RequestDispatcher rd = req.getRequestDispatcher(url);
 					rd.forward(req, res);
 
-//				}
+				}
 			}
 			// 新增訂單明細至購物車中
 			else if (action.equals("ADD")) {
@@ -102,50 +102,29 @@ public class OrderServlet extends HttpServlet {
 					cosdetVO.setCosNo(new Integer(cosNo));
 					cosdetVO.setMemNo(new Integer(memNo));
 					cosdetVO.setCosDetailPrice(new Integer(cosDetailPrice));
-					if (buylist == null) {
-						buylist = new Vector<CosdetVO>();
-					}
+					System.out.println("OrderServlet no.93：" + cosdetVO);
 					buylist.add(cosdetVO);
-					
-//					String add = req.getParameter("add");
-//					int a = Integer.parseInt(add);
-//					for (CosdetVO vo : buylist) {
-//						cosNo = vo.getCosNo();
-//						System.out.println("cosNo ordservlet no.111："+cosNo);
-//						if (cosNo == a) {
-//							buylist.add(vo);
-//						}
-//					}
-					
+				}
+
+				if (deleteCosIfDouble != null) {
+
+					CosdetVO cosdetVO = new CosdetVO();
+					cosdetVO.setCosNo(new Integer(cosNo));
+					cosdetVO.setMemNo(new Integer(memNo));
+					cosdetVO.setCosDetailPrice(new Integer(cosDetailPrice));
+					System.out.println("OrderServlet no.109：" + cosdetVO);
+					buylist.remove(cosdetVO);
+					url = "/front-end/Cos/alreadyCosApplied.jsp";
+					RequestDispatcher rd = req.getRequestDispatcher(url);
+					rd.forward(req, res);
+				} else {
 					url = "/front-end/Cos/listAllCosApplyFromfront.jsp";
 
 					session.setAttribute("shoppingcart", buylist);
 
 					RequestDispatcher rd = req.getRequestDispatcher(url);
-					rd.forward(req, res);	
-				}
-				if (deleteCosIfDouble != null) {
-
-//					CosdetVO cosdetVO = new CosdetVO();
-//					cosdetVO.setCosNo(new Integer(cosNo));
-//					cosdetVO.setMemNo(new Integer(memNo));
-//					cosdetVO.setCosDetailPrice(new Integer(cosDetailPrice));
-//					
-//					String add = req.getParameter("add");
-//					int a = Integer.parseInt(add);
-//					System.out.println("orderServlet no.125："+ a);
-//					for (CosdetVO vo : buylist) {
-//						cosNo = vo.getCosNo();
-//						System.out.println("cosNo ordservlet no.111："+cosNo);
-//						if (cosNo == a) {
-//							buylist.remove(vo);
-//						}
-//					}
-//					System.out.println("===================");
-					
-					url = "/front-end/Cos/alreadyCosApplied.jsp";
-					RequestDispatcher rd = req.getRequestDispatcher(url);
 					rd.forward(req, res);
+
 				}
 
 			}

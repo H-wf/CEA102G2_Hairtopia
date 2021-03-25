@@ -101,6 +101,7 @@ public class CosServlet extends HttpServlet {
 					req.setAttribute("cosVO", cosVO);
 					boolean openModal=true;
 					req.setAttribute("openModal",openModal);
+					System.out.println("cosServlet no.104：進入getoneforupdate"+openModal);
 					
 					String url = "/back-end/Cos/listAllCos2.jsp";
 					RequestDispatcher successView = req.getRequestDispatcher(url);
@@ -115,18 +116,20 @@ public class CosServlet extends HttpServlet {
 				
 				List<String> errorMsgs = new LinkedList<String>();
 				req.setAttribute("errorMsgs", errorMsgs);
+				System.out.println("cosServ no.119："+errorMsgs);
 			
 				//String requestURL = req.getParameter("requestURL");// 送出修改的來源網頁路徑: 可能為【/emp/listAllEmp.jsp】 或  【/dept/listEmps_ByDeptno.jsp】 或 【 /dept/listAllDept.jsp】 或 【 /emp/listEmps_ByCompositeQuery.jsp】
 				
 				try {
 					Integer cosNo = new Integer(req.getParameter("cosNo").trim());
+					System.out.println("cosServlet no.123：cosNo進入update："+cosNo);
 					
 					Integer lecNo = null;
 					try {
 						lecNo = new Integer(req.getParameter("lecNo").trim());
 					} catch (NumberFormatException e) {
 						lecNo = 0;
-						errorMsgs.add("update：lecNo出現NumberFormatException");
+						System.out.println("update：lecNo出現NumberFormatException");
 					}
 					
 					Boolean cosStatus = null;
@@ -138,39 +141,39 @@ public class CosServlet extends HttpServlet {
 						cosMinCount = new Integer(req.getParameter("cosMinCount").trim());
 					} catch (NumberFormatException e) {
 						cosMinCount = 0;
-						errorMsgs.add("update：cosMinCount出現NumberFormatException");
+						System.out.println("update：cosMinCount出現NumberFormatException");
 					}					
 					Integer cosMaxCount = null;
 					try {
 						cosMaxCount = new Integer(req.getParameter("cosMaxCount").trim());
 					} catch (NumberFormatException e) {
 						cosMaxCount = 0;
-						errorMsgs.add("update：cosMaxCount出現NumberFormatException");
+						System.out.println("update：cosMaxCount出現NumberFormatException");
 					}
 					Integer cosPrice = null;
 					try {
 						cosPrice = new Integer(req.getParameter("cosPrice").trim());
 					} catch (NumberFormatException e) {
 						cosPrice = 0;
-						errorMsgs.add("update：cosPrice出現NumberFormatException");
+						System.out.println("update：cosPrice出現NumberFormatException");
 					}					
 					
 					
 					String cosIntro = req.getParameter("cosIntro");
 					if (cosIntro == null || cosIntro.trim().length() == 0) {
-						errorMsgs.add("update：cosIntro出現null");
+						System.out.println("update：cosIntro出現null");
 					}			
 					
 					String cosAdd = req.getParameter("cosAdd");
 					if (cosAdd == null || cosAdd.trim().length() == 0) {
-						errorMsgs.add("update：cosAdd出現null");
+						System.out.println("update：cosAdd出現null");
 					}					
 					String cosName = req.getParameter("cosName");
 					String cosNameReg = "^[(\u4e00-\u9fa5)(a-zA-Z0-9_)]{2,10}$";
 					if (cosName == null || cosName.trim().length() == 0) {
-						errorMsgs.add("課程名稱: 請勿空白");
+						System.out.println("課程名稱: 請勿空白");
 					} else if(!cosName.trim().matches(cosNameReg)) { //以下練習正則(規)表示式(regular-expression)
-						errorMsgs.add("課程名稱: 只能是中、英文字母、數字和_ , 且長度必需在2到10之間");
+						System.out.println("課程名稱: 只能是中、英文字母、數字和_ , 且長度必需在2到10之間");
 		            }
 					
 					
@@ -178,34 +181,37 @@ public class CosServlet extends HttpServlet {
 					try {
 						cosFrom = java.sql.Timestamp.valueOf(req.getParameter("cosFrom"));
 					} catch (IllegalArgumentException e) {
-						errorMsgs.add("update：cosName出現IllegalArgumentException");
+						System.out.println("update：cosName出現IllegalArgumentException");
 					}
 					
 					Timestamp cosTo = null;
 					try {
 						cosTo = java.sql.Timestamp.valueOf(req.getParameter("cosTo"));
 					} catch (IllegalArgumentException e) {
-						errorMsgs.add("update：cosTo出現IllegalArgumentException");
+						System.out.println("update：cosTo出現IllegalArgumentException");
 					}				
 					Timestamp cosApplyFrom = null;
 					try {
 						cosApplyFrom = java.sql.Timestamp.valueOf(req.getParameter("cosApplyFrom"));
 					} catch (IllegalArgumentException e) {
-						errorMsgs.add("update：cosApplyFrom出現IllegalArgumentException");
+						System.out.println("update：cosApplyFrom出現IllegalArgumentException");
 					}						
 					Timestamp cosApplyTo = null;
 					try {
 						cosApplyTo = java.sql.Timestamp.valueOf(req.getParameter("cosApplyTo"));
 					} catch (IllegalArgumentException e) {
-						errorMsgs.add("update：cosApplyTo出現IllegalArgumentException");
-					}				
+						System.out.println("update：cosApplyTo出現IllegalArgumentException");
+					}
+					System.out.println("cosServlet no.204：cosNo進入update："+cosApplyTo);
 					
 					Integer cosTypeNo = new Integer(req.getParameter("cosTypeNo").trim());
+					
 					
 					byte[] cosPic = null;
 					CosVO cosVO = null;
 					try {
 						Part part = req.getPart("cosPic");
+						System.out.println("cosServlet no.214：cosNo進入update："+part);
 
 						if (part.getSize() != 0) {
 							//此段檢查JSP送資料時是否有上傳圖片
@@ -253,11 +259,13 @@ public class CosServlet extends HttpServlet {
 						}
 					} catch (Exception e) {
 						errorMsgs.add("有問題");
+						System.out.println("cosServlet no.262：cosNo進入update：錯誤產生");
 					}
 					
 					
 
 					if (!errorMsgs.isEmpty()) {
+						System.out.println("cosServlet no.264：cosNo進入update：錯誤產生");
 						req.setAttribute("cosVO", cosVO);
 						RequestDispatcher failureView = req
 								.getRequestDispatcher("/back-end/Cos/listAllCos2.jsp");
@@ -283,6 +291,7 @@ public class CosServlet extends HttpServlet {
 						//req.setAttribute("listCos_ByCompositeQuery",list); //  複合查詢, 資料庫取出的list物件,存入request
 					//}
 					req.setAttribute("cosVO", cosVO);
+					System.out.println("cosServlet no.289：cosNo進入update："+cosVO);
 					//String url = requestURL;
 					String url = "/back-end/Cos/listAllCos2.jsp";
 					RequestDispatcher successView = req.getRequestDispatcher(url);   // 修改成功後,轉交回送出修改的來源網頁

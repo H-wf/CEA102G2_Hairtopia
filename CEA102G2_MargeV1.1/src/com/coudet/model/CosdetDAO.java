@@ -451,7 +451,7 @@ public List<CosdetVO> getAllCosByMemNo(Integer memNo) {
 				con = ds.getConnection();
 				pstmt = con.prepareStatement(GET_ALL_MEM_COS_2);
 				
-				pstmt.setInt(1, memNo);//設死1000
+				pstmt.setInt(1, memNo);
 				
 				rs = pstmt.executeQuery();
 
@@ -463,6 +463,7 @@ public List<CosdetVO> getAllCosByMemNo(Integer memNo) {
 					cosdetVO.setCosDetailPrice(rs.getInt("cosDetailPrice"));
 					
 					hashset.add(cosdetVO);
+					System.out.println("CosdetDAO no.466"+cosdetVO);
 				}
 
 			} catch (SQLException se) {

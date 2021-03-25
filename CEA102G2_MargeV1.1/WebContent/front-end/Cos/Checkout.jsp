@@ -49,7 +49,7 @@
 
 <table id="mytb"style="width: 77.5rem">
 	<% @SuppressWarnings("unchecked")
-   		HashSet<CosdetVO> buylist = (HashSet<CosdetVO>) session.getAttribute("shoppingcart");
+   		List<CosdetVO> buylist = (List<CosdetVO>) session.getAttribute("shoppingcart");
 		String ordAmt =  (String) request.getAttribute("ordAmt");
 	%>
 	<jsp:useBean id="cosSvc" scope="page" class="com.cos.model.CosService" />
@@ -82,7 +82,7 @@
                 <input placeholder="MM/YY" type="tel" name="expiry">
                 <input placeholder="CVC" type="number" name="cvc">
                 <input type="hidden" name="cosNo" value="${cosVO.cosNo}">
-                <input type="hidden" name="memNo" value="${memNo}"> 
+                <input type="hidden" name="memNo" value="${userSession.memNo}"> 
 				<input type="hidden" name="action" value="SENDCOSDETAIL">
 				<input type="submit" value="送出結帳" class="button">
             </form>
