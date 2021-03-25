@@ -327,7 +327,7 @@
                 <div class="chat-partner-name" id="chatPartnerName">
                     <!-- <span class="status online"></span> -->
 <!--                     <a target="_blank" href="#personal page"> -->
-                    ${friend.memName}
+                    ${designerVO.desName}
 <!--                     </a> -->
                 </div>
                 <div class="chatbox-icons">
@@ -367,7 +367,6 @@
 					</c:if>
 				</c:forEach>
             
-            
             </div>
 
             <div class="chat-input-holder">
@@ -393,7 +392,9 @@
 		var path = window.location.pathname;
 		var webCtx = path.substring(0, path.indexOf('/', 1));
 		var endPointURL = "ws://" + host + webCtx + MyPoint;
+		/*需要調整區*/
 		var chatPartnerName = document.getElementById("chatPartnerName");
+		/*需要調整區*/
 		var messagesArea = document.getElementsByClassName("chat-messages")[0];
 
         //改成登入時,塞進session的memVO
@@ -411,7 +412,7 @@
                 
             });
             
-            $('.chatbtn').click(function(){
+            $('#msgBtn').click(function(){
             	$('.firstChatbox').toggle();
             	// $('.secondChatbox').toggle();
             	connect();
@@ -519,12 +520,13 @@
         
     	function getHistory() {
     		var container = document.getElementById("row");
-            //要改成抓hidden傳送要交談的對象,可以先傳到session存起來(VO 或 單純朋友名字)
-   			var friend = "${friend.memName}";
+    		/*需要調整區*/
+   			var designer = "${designerVO.desName}";
+   			/*需要調整區*/
    			var jsonObj = {
    					"type" : "history",
    					"sender" : self,
-   					"receiver" : friend,
+   					"receiver" : designer,
    					"message" : ""
    				};
     			webSocket.send(JSON.stringify(jsonObj));
@@ -534,14 +536,16 @@
 //     		var inputMessage = document.getElementById("message");
 
             //要改成抓hidden傳送要交談的對象,可以先傳到session存起來(VO 或 單純朋友名字)
-    		var friend = "${friend.memName}";
+            /*需要調整區*/
+    		var designer = "${designerVO.desName}";
+    		/*需要調整區*/
     		var message = $('#message').val().trim();
 
     		if (message !== "") {
     			var jsonObj = {
         				"type" : "chat",
         				"sender" : self,
-        				"receiver" : friend,
+        				"receiver" : designer,
         				"message" : message
         			};
         		webSocket.send(JSON.stringify(jsonObj));
@@ -552,7 +556,7 @@
         }
 
         function sendImage(e){
-            let imageURL = new Float64Array(evt.data);;
+            let imageURL = new Float64Array(e.data);;
             let files = e.target.files;
             if (files) {
                     // 取出files物件的第一個
@@ -569,13 +573,15 @@
                             imageURL = e.target.result;
                             console.log('Start');
                              //要改成抓hidden傳送要交談的對象,可以先傳到session存起來(VO 或 單純朋友名字)
-                            var friend = "${friend.memName}";
+                             /*需要調整區*/
+                            var designer = "${designerVO.desName}";
+                            /*需要調整區*/
     		                var message = imageURL;
                             console.log("start send image");
                             var jsonObj = {
                                 "type" : "image",
                                 "sender" : self,
-                                "receiver" : friend,
+                                "receiver" : designer,
                                 "message" : "123"
                             };  
                             webSocket.send(JSON.stringify(jsonObj));

@@ -25,7 +25,9 @@
                     <div id="navbar-bell">
                         <i class="bi bi-bell"></i>
                     </div>
+                    <jsp:include page="/front-end/tempFile/notification"></jsp:include>
                 </li>
+                
                 <li class="nav-item">
                     <div id="navbar-search">
                         <i class="bi bi-search"></i>

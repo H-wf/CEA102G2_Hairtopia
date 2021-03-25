@@ -182,6 +182,11 @@ public class MemServlet extends HttpServlet {
 					errorMsgs.put("memName", "請勿空白");
 				}else if(memName.trim().length() > 30) {
 					errorMsgs.put("memName", "長度過長");
+				}else {
+					MemService memSvc =  new MemService();
+					if(memSvc.validateMemberName(memName) != null) {
+						errorMsgs.put("memName", "名稱重複");
+					}
 				}
 
 				String memEmail = req.getParameter("memEmail").trim();
@@ -344,6 +349,8 @@ public class MemServlet extends HttpServlet {
 				
 				if (memName == null || memName.trim().length() == 0) {
 					errorMsgs.put("memName","顯示名稱請勿空白");
+				}else {
+					memSvc.validateMemberName(memName);
 				}
 				
 				String memGender = req.getParameter("memGender");
