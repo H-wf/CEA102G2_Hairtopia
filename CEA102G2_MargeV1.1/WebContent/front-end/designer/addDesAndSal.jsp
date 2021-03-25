@@ -73,7 +73,10 @@ margin-top:10px;
 .Weekday{
 padding:5px;
 }
-
+.form-control{
+	height:2.5rem !important;
+	font-size:1rem;
+}
 
 
 
@@ -104,7 +107,7 @@ padding:5px;
 		<div class="col-md-6">
 <h3  >加入設計師</h3>
 	<br>
-	<h3 class="h3">Step1.  選擇工作地點</h3>
+	<h3 class="h5">Step1.  選擇工作地點</h5>
 
 
 <form METHOD="post" id="location-form"	ACTION="<%=request.getContextPath()%>/salon/salon.do" name="form1"
@@ -139,7 +142,7 @@ padding:5px;
 		</div>
 		
 		<hr>
-		<h2 class="h2">Step2. 選擇填寫設計師資料</h2>
+		<h4 class="h5">Step2. 選擇填寫設計師資料</h5>
 		<div class="card card-body">
 		<div class="form-group">
 			<label for="desName">設計師名字</label>
