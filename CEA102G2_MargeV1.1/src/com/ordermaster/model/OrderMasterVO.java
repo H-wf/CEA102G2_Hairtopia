@@ -2,7 +2,7 @@ package com.ordermaster.model;
 
 import java.sql.Timestamp;
 
-public class OrderMasterVO {
+public class OrderMasterVO implements java.io.Serializable {
 	private Integer ordNo;
 	private Integer memNo;
 	private Timestamp ordDate;

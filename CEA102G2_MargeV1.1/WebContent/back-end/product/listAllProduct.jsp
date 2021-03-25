@@ -52,29 +52,29 @@
 					<table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
 						<thead>		
 							<tr>
-								<th>商品編號</th>
-								<th>商品類別編號</th>
-								<th>品牌編號</th>
-								<th>商品名稱</th>
-								<th>上架狀態</th>
-								<th>商品單價</th>
-								<th>商品主圖</th>
-								<th>商品副圖</th>
-								<th>商品描述</th>
+								<th>編號</th>
+								<th>類別</th>
+								<th>品牌</th>
+								<th>名稱</th>
+								<th>狀態</th>
+								<th>單價</th>
+								<th>主圖</th>
+								<th>副圖</th>
+								<th>描述</th>
 								<th>修改</th>
 							</tr>
 						</thead>
 						<tfoot>
 							<tr>
-								<th>商品編號</th>
-								<th>商品類別編號</th>
-								<th>品牌編號</th>
-								<th>商品名稱</th>
-								<th>上架狀態</th>
-								<th>商品單價</th>
-								<th>商品主圖</th>
-								<th>商品副圖</th>
-								<th>商品描述</th>
+								<th>編號</th>
+								<th>類別</th>
+								<th>品牌</th>
+								<th>名稱</th>
+								<th>狀態</th>
+								<th>單價</th>
+								<th>主圖</th>
+								<th>副圖</th>
+								<th>描述</th>
 								<th>修改</th>
 							</tr>
 						</tfoot>
@@ -85,14 +85,14 @@
 								<td>
 									<c:forEach var="ptypeVO" items="${ptypeSvc.all}">
                     				<c:if test="${productVO.ptypeNo==ptypeVO.ptypeNo}">
-	             					【${ptypeVO.ptypeName}】
+	             					${ptypeVO.ptypeName}
                     				</c:if>
                 					</c:forEach>
             					</td>
 								<td>
 									<c:forEach var="brandVO" items="${brandSvc.all}">
                     				<c:if test="${productVO.braNo==brandVO.braNo}">
-	                   				【${brandVO.braName}】
+	                   				${brandVO.braName}
                     				</c:if>
                 					</c:forEach>
 								</td>

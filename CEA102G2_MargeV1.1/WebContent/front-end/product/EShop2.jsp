@@ -7,238 +7,8 @@
  <title>Hairtopia</title>
  <meta charset="utf-8">
 <%@include file="/front-end/tempFile/head" %>
- 
+<link rel="stylesheet" href="<%=request.getContextPath()%>/resource/css/product/EShop2.css"> 
 </head>
-	<style>
-        .cart{
-        	right:15px;
-        	bottom:78.5%;
-        	position:fixed;
-        	z-index: 2;
-        }
-
-        .cart-btn {
-            background: rgba(255, 255, 255, 0);
-            border: 0px;
-            cursor: pointer;
-        }
-
-        .cart-btn:focus {
-            outline: none;
-        }
-
-        .cart img {
-            height: 2em;
-        }
-	
-		.cart span{
-		  background:#D9BF77;
-		  color:black;
- 		  position:absolute; 
-		  width: 20px;
-		  height: 20px;
-		  border-radius:50%;
-		  display: flex;
-		  justify-content: center;
-		  align-items: center;
-		  right:-9px;
-		  top:10px;
-		}
-		.carousel{
-			z-index:0;
-		}
-        .carousel-inner { 
-            height: 90vh;
-        }
-
-        .carousel-inner .carousel-item img {
-        	height: 90vh;
-        	object-fit: cover;
-        }
-        .btn-danger.focus, .btn-danger:focus{
-			box-shadow: 0 0 0 0 !important;
-		}
-		.btn-danger:not(:disabled):not(.disabled).active, .btn-danger:not(:disabled):not(.disabled):active, .show>.btn-danger.dropdown-toggle{
- 			color: grey;
-			background-color: #FFFFFF;
-			border-color: #FFFFFF;
-		}
-        .dropcontainer{
-        	text-align: center;
-        }
-        .btn-group{
-        	display: inline-block;
-        	
-        }     
-      	.btn-danger{
-     		color: grey;
-        	background-color: #FFFFFF;
-        	border-color: #FFFFFF;
-        	padding-bottom: 0;
-        	position: relative;       	
-      	}
-
-      	.dropdown-menu{
-      		margin: 0 auto;
-      	}
-        .btn-danger:hover{
-        	cursor: default !important;
- 			color: grey;
-			background-color: #FFFFFF;
-			border-color: #FFFFFF;
-			text-decoration:underline;
-		}
-		.btn-danger:focus + div.dropdown-menu{
-			display: none;
-		}
-		.btn-danger:hover + div.dropdown-menu{
-			display: block;
-		}		
-		div.dropdown-menu:hover{
-			display: block;
-		}
-		.dropdown-item:focus{
-			background-color:#BDB58C;
-		}
-		.procontainer{
-			width: 80%;
-			margin-top: 10px;
-		}		
-		.products{
-			padding:5px;
- 			height:270px; /*???*/ 
-			padding-bottom: 50px;
-  			position: relative;
-		}
-		.mask {
-		    position: absolute;
-		    top: 5px;
-		    left: 5px;
-		    width:calc(100% - 10px);
-		    height:calc(100% - 55px);
-  			border-radius: .35rem; 
- 		    background: rgba(101, 101, 101, 0.3);
-		    color: #FFFFFF;
-		    opacity: 0;		   
-		    display: flex;
-  			justify-content: center;
-  			align-items: center; 
-		}
-		.mask span{
- 			display: block; 
-		}
-		.products:hover .mask{
-			opacity: 1;
-			
-		}
-		.products:hover{
-			cursor: pointer;
-		}
-
-		.products img{
-			width: 100%;
-			height: 100%;
-			object-fit: cover;
-			border-radius: .35rem;
-		}
-		.products p{
-			text-align: center;
-		}
-		.searchcontainer{
-			width: 80%;
-		}
-		.label-primary{
-			margin: 0px 0px 4px 0.1px;
-			display: inline-block;
-			background-color:#BDB58C;
-			color: #fff;
-			border-radius: .25em;
-			padding: 4px 6px 2px 4px;
-			font-size: 75%;
-			position: relative;
-			
-		}
-		.label-primary a{
-			cursor: pointer;
-		}
-		.label-primary a img{
-			position: relative;
-    		top: -2px;
-    		height: 6px;
-		}
-		.searchcontainer{
-			margin-top: 15px;
-			margin-bottom: 15px;
-		}
-		.searchbar{
-			display: inline-block;
-			float: right;
-		}
-		.form-control{
-			height:36px !important;
-			font-size:16px;
-		}
-		.form-control:focus{
-			border-color: #D8CF9E;
-			box-shadow: 0 0 0 0.1rem rgb(216 207 157 / 25%) !important;
-		}
-		.btn-outline-success{
-			color: #D9BF77;
-			border-color: #D9BF77;
-		}
-		.btn-outline-success:hover{
-			background-color:#D9BF77;
-			border-color: #D9BF77;
-		}
-		.btn-outline-success.focus, .btn-outline-success:focus {
-			box-shadow: 0 0 0 0 !important;
-		}
-		.btn-outline-success:not(:disabled):not(.disabled).active, .btn-outline-success:not(:disabled):not(.disabled):active, .show>.btn-outline-success.dropdown-toggle{
-			border-color: #D9BF77;
-			background-color:#D9BF77;
-		}
-		.bag_div{
-			width:20%;
-			display:none;
-		}
-		.cart:hover .bag_div{
-			background:rgba(189, 181, 140, 0.8);
-			color:white;
-		  	right:15px;
-         	position:fixed;
-        	z-index: 2;
-        	display:block;
-		}
-		.bag_div:hover{
-			background:rgba(189, 181, 140, 0.8);
-			color:white;
-		  	right:15px;
-         	position:fixed;
-        	z-index: 2;
-        	display:block;
-		}
-		.picture{
-			display:inline-block;
- 			padding-top:3px;
- 			padding-left:2px; 
-			margin:0;
-			vertical-align:text-top;
-		}
-		.name{
-			display:inline-block;
-			font-size:5px;
- 			padding:0;
-			vertical-align:text-top;
-		}
-		.checkout{			
-			vertical-align:text-top;
-			text-align:center;
-		}
-		.checkout a{
-			color:white;
-		}
-
-    </style>
 <body>
 <%@include file="/front-end/tempFile/navBar" %>
 
@@ -253,12 +23,12 @@
         		<path d="M8 1a2.5 2.5 0 0 1 2.5 2.5V4h-5v-.5A2.5 2.5 0 0 1 8 1zm3.5 3v-.5a3.5 3.5 0 1 0-7 0V4H1v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V4h-3.5zM2 5h12v9a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V5z" />
     		</svg>
 <%--             <img src="<%=request.getContextPath()%>/dist/images/cart.jpg"> --%>
-            <c:if test="${not empty sessionScope.shoppingcart}">
+            <c:if test="${not empty sessionScope.shoppingbag}">
             	<span class="sum">${sessionScope.sum}</span>
             </c:if>            
         </button>
         <div class="bag_div">
-            <c:forEach var="productVO" items="${sessionScope.shoppingcart}">           	
+            <c:forEach var="productVO" items="${sessionScope.shoppingbag}">           	
             	<div class="col-3 picture"><img src="<%=request.getContextPath()%>/PicFinder?pic=1&table=product&column=proMpic&idname=proNo&id=${productVO.proNo}" alt='沒有圖片' width="40" height="50"></div>
             	<div class="col-8 name">${productVO.proName}<br>Qty:<i>${productVO.quantity}</i></div>            	
             </c:forEach>
@@ -280,7 +50,7 @@
                 <img class="d-block w-100" src="<%=request.getContextPath()%>/dist/images/shop1.jpg">
             </div>
             <div class="carousel-item">
-                <img class="d-block w-100 " src="<%=request.getContextPath()%>/dist/images/shop2.jpg">
+                <img class="d-block w-100 " src="<%=request.getContextPath()%>/dist/images/shop4.jpg">
             </div>
             <div class="carousel-item">
                 <img class="d-block w-100 " src="<%=request.getContextPath()%>/dist/images/shop3.jpg">
@@ -379,16 +149,10 @@
 <%@include file="/front-end/tempFile/tempJs" %>
 	<script>
 		$(document).ready(function(){
-			if(${empty sessionScope.shoppingcart}){
+			if(${empty sessionScope.shoppingbag}){
 				$(".checkout a").attr("href","##");
 			}
 		})
-	</script>
-	
-	
-	
-	<script>
-
 		var myKey = [];
 		var myValue = [];
         $(document).on("click", ".label-primary a",  function(){

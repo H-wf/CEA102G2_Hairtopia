@@ -36,7 +36,7 @@
 						<thead>
 							<tr>
                            		<th>訂單編號</th>
-								<th>會員編號</th>
+								<th>會員</th>
 								<th>訂單狀態</th>
 								<th>總金額</th>
 								<th>上架</th>
@@ -46,7 +46,7 @@
 						<tfoot>
 							<tr>
                            		<th>訂單編號</th>
-								<th>會員編號</th>
+								<th>會員</th>
 								<th>訂單狀態</th>
 								<th>總金額</th>
 								<th>更改狀態</th>
@@ -71,9 +71,9 @@
 									 <c:if test="${ordermasterVO.ordStatus==9}">退貨</c:if>
 								 </td>
 								 <td>${ordermasterVO.ordAmt}</td>
-								 <td>
+								 <td class="pr-0">
 								 <form class="updateform" METHOD="POST" ACTION="<%=request.getContextPath()%>/ordermaster/ordermaster.do" enctype="multipart/form-data">
-									<select size="1" name="ordStatus" class="ordStatus">										
+									<select size="1" name="ordStatus" class="ordStatus custom-select custom-select-sm" style="width:100px">										
 										<option value="0"${(ordermasterVO.ordStatus==0)?'selected':'' }>未出貨
 										<option value="1"${(ordermasterVO.ordStatus==1)?'selected':'' }>已出貨
 										<option value="2"${(ordermasterVO.ordStatus==2)?'selected':'' }>已結案

@@ -12,238 +12,26 @@
 <title>商品資料 - listOneProduct.jsp</title>
 <meta charset="utf-8">
 <%@include file="/front-end/tempFile/head" %>
-<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/dist/slick/slick.css"/>
-<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/dist/slick/slick-theme.css"/>
-<style>
-	.ftco-navbar-light{
-		position:static;
-		z-index:100;
-	}
- 	.right{
- 		padding-left:20vh;
- 	}
-	.cart{
-        right:15px;
-        bottom:78.5%;
-        position:fixed;
-        z-index: 2;
-    }
-	@media (max-width: 992px){
-		.cart{
-			bottom:70%;
-		}
-		.right{
-			padding-left:45px;
-			padding-right:30px;
-		}
-	}
-    .cart-btn {
-        background: rgba(255, 255, 255, 0);
-        border: 0px;
-        cursor: pointer;
-    }
-
-    .cart-btn:focus {
-        outline: none;
-    }
-
-    .cart img {
-        height: 2em;
-    }
-    .cart span{
-		background:#D9BF77;
-		color:black;
- 		position:absolute; 
-		width: 20px;
-		height: 20px;
-		border-radius:50%;
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		right:-9px;
-		top:10px;
-	}
-	.protable{
-		margin-top:0;
-		margin-bottom:15%;
-		width:70%;
-		font-size:100%;	
-	}
-
-	.protable td{
-		padding:1%;
-	}
-	.protable th{
-		width:40%;
-	}
-	.add{
-		color:#D9BF77;
-		background-color:white;
-	}
- 	.btn-secondary{
- 		margin-top:5px; 
- 		width:50%; 
-		background-color:white;
-		border-color:#D9BF77; 
-		color:#D9BF77; 
- 	} 
-	.btn-secondary:hover{
-		background-color:#D9BF77;
-		color:white;
-		border-color:#D9BF77; 
-	}
-	.btn-secondary:not(:disabled):not(.disabled):active, 
-	.btn-secondary:not(:disabled):not(.disabled).active, 
-	.show > .btn-secondary.dropdown-toggle{
-		background-color:#D9BF77;
-		color:white;
-		border-color:#D9BF77; 
-	}
-	.quantity{
-		width:30%;
-		height:21px;
-		vertical-align:center;
-	}
-	.btn-danger{
-		padding:0px 5px;
-		background-color:white;
-		border-color:#D9BF77; 
-		color:#D9BF77; 
-	}
-	.btn-danger:hover{
-		background-color:#D9BF77;
-		color:white;
-		border-color:#D9BF77; 
-	}
-	.btn-danger:not(:disabled):not(.disabled):active{
-		background-color:#D9BF77;
-		color:white;
-		border-color:#D9BF77;
-	}
-	.bag_div{
-		width:20%;
-		display:none;
-	}
-	.cart:hover .bag_div{
-		background:rgba(189, 181, 140, 0.8);
-		color:white;
-	  	right:15px;
-        position:fixed;
-       	z-index: 2;
-       	display:block;
-	}
-	.bag_div:hover{
-		background:rgba(189, 181, 140, 0.8);
-		color:white;
-	  	right:15px;
-        position:fixed;
-       	z-index: 2;
-       	display:block;
-	}
-	.picture{
-		display:inline-block;
- 		padding-top:3px;
-		padding-left:2px; 
-		margin:0;
-		vertical-align:text-top;
-	}
-	.name{
-		display:inline-block;
-		font-size:5px;
- 		padding:0;
-		vertical-align:text-top;
-	}
-	.checkout{			
-		vertical-align:text-top;
-		text-align:center;
-	}
-	.checkout a{
-		color:white;
-	}
- 	.minus{ 
- 		color:#D9BF77;
- 	}
- 	.plus{
- 		color:#D9BF77;
- 	}
- 	.carousel {
-            position: relative;
-        }
-
-        .carousel-control-next,
-        .carousel-control-prev {
-            position: absolute;
-            color: white;
-            background-color: #BDB58C;
-            width: 25px;
-            height: 25px;
-            border-radius: 50%;
-            top: 50%;
-            transform: translateY(-50%);
-        }
-
-        .carousel-control-next {
-            right: -12%;
-        }	
-        .carousel-control-prev {
-            left: -12%;
-        }
- 	@media (max-width: 768px){
- 		.carousel-control-next {
-             right:0%;
-         }
-         .carousel-control-prev { 
-             left: 0%; 
-         } 
- 	} 
-        .carousel-indicators {
-            position: absolute;
-            bottom: -15%;
-        }
-
-        .carousel-indicators .active {
-            background-color: grey;
-        }
-
-        .carousel-indicators li {
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            background-color: rgba(101, 101, 101, .5);
-        }
-		.carousel-inner{
-			height:70vh;
-		}
-        .d-block {
-        	height:70vh;
-            object-fit: cover;
-        }
-	@media (max-width: 768px){
-        .d-block {
-        	padding-left:30px;
-        	padding-right:30px;
-        }
-	}
-</style>
+<link rel="stylesheet" href="<%=request.getContextPath()%>/resource/css/product/listOneProduct.css">
 </head>
 <body>
 <%@include file="/front-end/tempFile/navBar" %>
 <!-- Begin Page Content -->
 <jsp:useBean id="ptypeSvc" scope="page" class="com.ptype.model.PtypeService" />
 <jsp:useBean id="brandSvc" scope="page" class="com.brand.model.BrandService" />
-<a href="<%=request.getContextPath()%>/front-end/product/EShop2.jsp">回商城</a>
+
 <div class="container-fluid" style="margin-bottom:30px;">
 	 <div class="cart">
         <button class="cart-btn">
             <svg style="color:#D8CF9E;" xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-bag" viewBox="0 0 16 16">
         		<path d="M8 1a2.5 2.5 0 0 1 2.5 2.5V4h-5v-.5A2.5 2.5 0 0 1 8 1zm3.5 3v-.5a3.5 3.5 0 1 0-7 0V4H1v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V4h-3.5zM2 5h12v9a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V5z" />
     		</svg>
-            <c:if test="${not empty sessionScope.shoppingcart}">
+            <c:if test="${not empty sessionScope.shoppingbag}">
             	<span class="sum">${sessionScope.sum}</span>
             </c:if>
         </button>
         <div class="bag_div">
-            <c:forEach var="productVO" items="${sessionScope.shoppingcart}">
+            <c:forEach var="productVO" items="${sessionScope.shoppingbag}">
             	<div class="col-3 picture"><img src="<%=request.getContextPath()%>/PicFinder?pic=1&table=product&column=proMpic&idname=proNo&id=${productVO.proNo}" alt='沒有圖片' width="40" height="50"></div>
             	<div class="col-8 name">${productVO.proName}<br>Qty:<i>${productVO.quantity}</i></div>
             </c:forEach>
@@ -251,7 +39,7 @@
             <div class="checkout"><a href="<%=request.getContextPath()%>/product/product.do?action=CHECKOUT">CHECKOUT</a></div>
     	</div>   
     </div>
-	<div class="row">
+	<div class="row my-5">
 		<div class="col-md-1 col-lg-1"></div>
 		<div class="col-12 col-md-5 col-lg-5">
 			<div id="carouselExampleIndicators" class="carousel slide">
@@ -342,7 +130,7 @@
 <script type="text/javascript" src="<%=request.getContextPath()%>/dist/slick/slick.min.js"></script>
 <script>
 		$(document).ready(function(){
-			if(${empty sessionScope.shoppingcart}){
+			if(${empty sessionScope.shoppingbag}){
 				$(".checkout a").attr("href","##");
 			}
 		})
