@@ -358,12 +358,12 @@ public class DesignerServlet extends HttpServlet {
 				designerVO.setDesInfor(desInfor);
 				designerVO.setDesSchedule(desSchedule);
 				designerVO.setDesPic(desPic);
-
+				
 				// Send the use back to the form, if there were errors
 				if (!errorMsgs.isEmpty()) {
 					req.setAttribute("designerVO", designerVO); // 含有輸入格式錯誤的serviceVO物件,也存入req
 					RequestDispatcher failureView = req
-							.getRequestDispatcher("/front-end/designer/update_designer_input.jsp");
+							.getRequestDispatcher("/designer/designer.do?action=getOne_For_Update&desNo="+desNo);
 					failureView.forward(req, res);
 					return; // 程式中斷
 				}
@@ -380,7 +380,7 @@ public class DesignerServlet extends HttpServlet {
 
 				/*************************** 3.修改完成,準備轉交(Send the Success view) *************/
 				req.setAttribute("designerVO", designerVO); // 資料庫update成功後,正確的的designerVO物件,存入req
-				String url = "/front-end/designer/listOneDesigner.jsp";
+				String url = "/designer/designer.do?action=getOne_For_Update&desNo="+desNo;
 				RequestDispatcher successView = req.getRequestDispatcher(url); // 修改成功後,轉交listOneSalon.jsp
 				successView.forward(req, res);
 
@@ -389,7 +389,7 @@ public class DesignerServlet extends HttpServlet {
 
 				errorMsgs.add("修改資料失敗:" + e.getMessage());
 				RequestDispatcher failureView = req
-						.getRequestDispatcher("/front-end/designer/update_designer_input.jsp");
+						.getRequestDispatcher("/front-end/index.jsp");
 				failureView.forward(req, res);
 			}
 		}

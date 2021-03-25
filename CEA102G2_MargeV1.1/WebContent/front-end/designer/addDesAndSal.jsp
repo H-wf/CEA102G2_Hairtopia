@@ -26,7 +26,7 @@
 <link rel="stylesheet"
 	href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
 
-<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
 
 
 
@@ -235,6 +235,7 @@ padding:5px;
 <%@include file="/front-end/tempFile/footer" %>
 <%@include file="/front-end/tempFile/tempJs" %>
 <script src="http://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 
 <script>
 var contextPath = "<%=request.getContextPath()%>";
