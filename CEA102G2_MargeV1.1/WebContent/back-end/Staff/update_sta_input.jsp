@@ -2,9 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page import="com.staff.model.*"%>
 
-<%
-	StaffVO staVO = (StaffVO) request.getAttribute("staVO");
-%>
+<%-- <%	StaffVO staVO = (StaffVO) request.getAttribute("staVO");%> --%>
 <html>
 <head>
 <meta charset="UTF-8">
@@ -33,34 +31,34 @@
 	<form METHOD="POST"
 		ACTION="<%=request.getContextPath()%>/staff/staff.do" name="form1"
 		enctype="application/x-www-form-urlencoded">
-		<table>
+		<table class="table table-bordered dataTable">
 			<tr>
-				<td>員工編號:<font color=red><b>*</b></font></td>
-				<td>${staVO.staNo}</td>
+				<td>員工編號<font color=red><b>*</b></font></td>
+				<td>${sessionScope.sessionSta.staNo}</td>
 			</tr>
 			<tr>
-				<td>員工姓名:</td>
-				<td>${staVO.staName}</td>
+				<td>員工姓名</td>
+				<td>${sessionScope.sessionSta.staName}</td>
 			</tr>
 			<tr>
-				<td>員工帳號:</td>
-				<td>${staVO.staAcct}</td>
+				<td>員工帳號</td>
+				<td>${sessionScope.sessionSta.staAcct}</td>
 			</tr>
 			<tr>
 				<td>請輸入舊密碼</td>
-				<td><input type="password" name="staPswd" required="true"
-					size="45"   /></td>
+				<td><input class="form-control form-control-sm" type="password" name="staPswd" required="true"
+					size="20" style="width:200px;" /></td>
 			</tr>
 			<tr>
 				<td>請輸入新密碼</td>
-				<td><input type="password" class="newPswd" name="staPswd2" required="true"
-					size="45" value=""  /></td>
+				<td><input class="form-control form-control-sm" type="password" class="newPswd" name="staPswd2" required="true"
+					size="20" style="width:200px;" value=""  /></td>
 			</tr>
 			
 			<tr>
 				<td>請再次輸入新密碼</td>
-				<td><input type="password" class="newPswd" required="true"
-					size="45" value=""  /></td>
+				<td><input class="form-control form-control-sm" type="password" class="newPswd" required="true"
+					size="20" style="width:200px;" value=""  /></td>
 			</tr>
 
 
@@ -69,10 +67,10 @@
 
 		<br> 
 			<input type="hidden" name="action" value="update"> 
-			<input type="hidden" name="staNo" value="${staVO.staNo}"> 
-			<input type="hidden" name="staName" value="${staVO.staName}"> 
-			<input type="hidden" name="staAcct" value="${staVO.staAcct}"> 
-			<input	type="submit" id="submit" class="login_btn" value="送出修改">
+			<input type="hidden" name="staNo" value="${sessionScope.sessionSta.staNo}"> 
+			<input type="hidden" name="staName" value="${sessionScope.sessionSta.staName}"> 
+			<input type="hidden" name="staAcct" value="${sessionScope.sessionSta.staAcct}"> 
+			<input	type="submit" id="submit" class="login_btn btn btn-primary" value="送出修改">
 
 	</form>
 

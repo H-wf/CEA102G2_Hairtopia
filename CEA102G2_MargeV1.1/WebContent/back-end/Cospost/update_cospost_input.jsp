@@ -23,17 +23,17 @@
 			</c:forEach>
 		</ul>
 	</c:if>
-	<p class="lead mb-0">課程公告編號:<i>${cospostVO.cosPubNo}</i></p>	
-	<p class="lead mb-0">課程名稱:</p>
-	<select size="1" name="cosNo" >
+	<p class="lead mb-0"><label>課程公告編號:<i>${cospostVO.cosPubNo}</i></label></p>	
+	<p class="lead mb-0"><label for="cosNo">課程名稱:</label></p>
+	<select class="form-control form-control-sm" style="width:300px;" id="cosNo" size="1" name="cosNo" >
 		<c:forEach var="cosVO" items="${cosSvc.all}" > 
           	<option value="${cosVO.cosNo}"${(cosVO.cosNo==cospostVO.cosNo)?'selected':'' }>${cosVO.cosName}
          </c:forEach>
 	</select>
-	<p class="lead mb-0">公告內容:</p>
-	<textarea required class="mb-3 mt-0" name="cosPubCon" cols="30" rows="10">${cospostVO.cosPubCon}</textarea>		
-	<p class="lead mb-0">課程公告日期:</p>
-	<input name="cosPubTime" id="f_date2" type="text" autocomplete="off" value="${cospostVO.cosPubTime}">
+	<p class="lead mb-0"><label for="cosPubCon">公告內容:</label></p>
+	<textarea required class="form-control mb-3" id="cosPubCon" name="cosPubCon" cols="30" rows="10">${cospostVO.cosPubCon}</textarea>		
+	<p class="lead mb-0"><label for="f_date2">課程公告日期:</label></p>
+	<input  class="form-control form-control-sm mb-3" style="width:200px;" name="cosPubTime" id="f_date2" type="text" autocomplete="off" value="${cospostVO.cosPubTime}">
 	<div class="modal-footer">
 		<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
 		<input type="submit" class="btn btn-primary" value="修改">

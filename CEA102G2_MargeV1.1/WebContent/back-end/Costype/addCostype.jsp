@@ -39,16 +39,16 @@
 				</c:forEach>
 			</ul>
 		</c:if>
-		<p class="lead mb-0">課程類別名稱:</p>
-		<input required class="mb-3 mt-0" type="TEXT" name="cosTypeName"
+		<p class="lead mb-0"><label for="cosTypeName">課程類別名稱:</label></p>
+		<input required class="form-control form-control-sm mb-3" style="width:200px;" id="cosTypeName" type="TEXT" name="cosTypeName"
 			size="20" placeholder="請輸入課程類別" value="" />
 			
-		<p class="lead mb-0">課程類別敘述:</p>
-		<input required class="mb-3 mt-0" type="TEXT" name="cosTypeIntro" size="20" placeholder="請輸入類別敘述" value="" />
+		<p class="lead mb-0"><label for="cosTypeIntro">課程類別敘述:</label></p>
+		<input required class="form-control form-control-sm mb-3" style="width:200px;" id="cosTypeIntro" type="TEXT" name="cosTypeIntro" size="20" placeholder="請輸入類別敘述" value="" />
 
 
 
-<!-- 		</table> -->
+
 		<div class="modal-footer">
 			<input type="hidden" name="action" value="insert"> 
 			<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
