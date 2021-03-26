@@ -48,7 +48,7 @@
                         </a>
                         <a class="dropdown-item" href="<%=request.getContextPath()%>/front-end/member/memberSetting.jsp">
                             <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
-                            	設定
+                            	會員設定
                         </a>
                         <c:if test="${empty desSession}">
                         <a class="dropdown-item" href="<%=request.getContextPath()%>/front-end/designer/addDesAndSal.jsp">
