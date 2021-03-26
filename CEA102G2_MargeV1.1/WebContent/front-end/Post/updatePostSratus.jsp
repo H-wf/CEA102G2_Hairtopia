@@ -28,9 +28,6 @@
  
 </head>
 <style>
-/* 	td,th{ */
-/* 		font-size:1rem; */
-/* 	} */
 	.ftco-navbar-light{
 		position:static;
 	}
@@ -55,6 +52,14 @@
 	.mainArea{ 
  		margin:5rem 0; 
  	} 
+ 	.postStaBtn{
+ 	position: absolute;
+    top: 6px;
+    right: 6px;
+ 	}
+ 	.card:hover{
+    transform: none;
+    box-shadow: none;}
 </style>
 <body>
 <%@include file="/front-end/tempFile/navBar" %>
@@ -62,7 +67,7 @@
 
 <div class="container-fluid mainArea">
 <div class="row">
-	<div class="col-1"></div>
+	<div class="col-2"></div>
 	<div class="col-2">
 		<div class="list-group">
   			<a href="<%=request.getContextPath()%>/service/service.do?action=queryByDesNo&desNo=${desSession.desNo}" class="list-group-item list-group-item-action">
@@ -82,28 +87,40 @@
 			</a>
 		</div>
 	</div>
-	<div class="col-8">
-	<c:if test="${not empty errorMsgs}">
-		<font style="color: red">請修正以下錯誤:</font>
-		<ul>
-			<c:forEach var="message" items="${errorMsgs}">
-				<li style="color: red">${message}</li>
-			</c:forEach>
-		</ul>
-	</c:if>
-	
-	<h4>My Post</h4>
-	<div class="container">
-		<div class="card-columns ">
+	<div class="col-7">
+	<h4>All Post</h4>
+	<div class="container-fluid">
 		<!-- Post Card -->
 			<c:forEach var="postVO"	items="${postSvc.getAll(designerVO.desNo)}">
-				<c:if test="${postVO.postStatus eq 0}">
-					<div class="card onePost" id="${postVO.postNo}">
-						<img src="<%=request.getContextPath()%>/PicFinder?pic=1&table=post&column=postPic1&idname=postNo&id=${postVO.postNo}" class="card-img-top post-img" />
-					</div>
+				<c:if test="${postVO.postStatus != 2}">
+					<div class="card w-auto  my-3"  >
+							<div class="row no-gutters">
+								<div class="col-md-3">
+									<img  class="img-fluid" src="<%=request.getContextPath()%>/PicFinder?pic=1&table=post&column=postPic1&idname=postNo&id=${postVO.postNo}" />
+								</div>
+								<div class="postStaBtn">
+									<button class="btn btn-outline-primary onePost" id="${postVO.postNo}">顯示貼文</button>
+									<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/post/post.do">
+										<input type="submit" value="修改狀態" class="btn btn-outline-primary">
+										<input type="hidden" name="postNo"  value="${postVO.postNo}">
+										<input type="hidden" name="postStatus"  value="${postVO.postStatus}">
+										<input type="hidden" name="URI"  value="<%=request.getServletPath()%>">
+										<input type="hidden" name="action"	value="changePostStatus">
+									</FORM>
+								</div>
+								<div class="col-md-5">
+									<div class="card-body pl-3">
+										<p class="card-text">${postVO.postCon}</p>
+										<p class="card-text">顯示狀態:${postVO.postStatus == 0?"顯示中":"隱藏中"}</p>
+										<p class="card-text">
+											<small class="text-muted"><fmt:formatDate value="${postVO.postTime}" pattern="yyyy-MM-dd HH:mm:ss" /></small>
+										</p>
+									</div>
+								</div>
+							</div>
+						</div>
 				</c:if>
 			</c:forEach>
-		</div>
 	</div>
 </div>
 <div class="col-1"></div>

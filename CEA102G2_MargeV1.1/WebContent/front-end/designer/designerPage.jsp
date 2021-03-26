@@ -15,10 +15,8 @@
 
 <%
 	DesignerVO designerVO = (DesignerVO) request.getAttribute("designerVO");
-	SalonVO salVo = (SalonVO) request.getAttribute("salVo");
-// 	DesignerService desSvcs = new DesignerService();
-// 	DesignerVO desSession = desSvcs.getOneDesByDesNo(1);
-// 	pageContext.setAttribute("desSession", desSession);
+	SalonVO salVo = salonSvc.getOneSalon(designerVO.getSalNo());
+	request.setAttribute("salVo", salVo);
 %>
 <html lang="en">
 
@@ -260,6 +258,11 @@
 	<script src="<%=request.getContextPath()%>/resource/tagify/dist/jQuery.tagify.min.js"></script>
 	<script	src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAgth_SXMI_V6SbxEmCxOFwzUwCXAizZhY&callback=initMap&libraries=&v=weekly" async></script>
 </body>
+<c:if test="${not empty wholePostMap}">
+	<script>
+			var wholePostMap = '${wholePostMap}';
+	</script>
+</c:if>
 <script>
 
 //FOLLOW

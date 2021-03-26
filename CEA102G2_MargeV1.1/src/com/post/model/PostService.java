@@ -70,6 +70,24 @@ public class PostService {
 
 		return postVO;
 	}
+	public PostVO updatePost(Integer postNo, String postCon) {
+		PostVO postVO = new PostVO();
+		
+		postVO.setPostNo(postNo);
+		postVO.setPostCon(postCon);
+		dao.updateAJAX(postVO);
+		
+		postVO = dao.findByPrimaryKey(postNo);
+		
+		postVO.setPostPic1(new byte[0]);
+		if(postVO.getPostPic2() != null) {
+			postVO.setPostPic2(new byte[0]);
+		}else if(postVO.getPostPic3() != null) {
+			postVO.setPostPic3(new byte[0]);
+		}
+		
+		return postVO;
+	}
 
 	public PostVO updatePost(Integer postNo, Integer desNo, String postCon, byte[] postPic1, byte[] postPic2,
 			Integer postStatus, Boolean postPror) {
@@ -115,8 +133,8 @@ public class PostService {
 		return postVO;
 	}
 
-	public void deletePost(Integer postNo) {
-		dao.delete(postNo);
+	public void deletePost(Integer postNo,Integer postStatus) {
+		dao.delete(postNo,postStatus);
 	}
 
 	public PostVO getOnePost(Integer postNo) {

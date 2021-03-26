@@ -40,7 +40,7 @@
 												</c:if>
 											</c:forEach>
 												<div class="msg"
-													style="padding-bottom: 8px; margin-top: 0px;">${chatVO.chatText}</div>
+													style="padding-bottom: 8px; margin-top: 0px;"></div>
 												<div class="chat_time">8 天前</div>
 												<!-- react-text: 477 -->
 												<!-- /react-text -->
