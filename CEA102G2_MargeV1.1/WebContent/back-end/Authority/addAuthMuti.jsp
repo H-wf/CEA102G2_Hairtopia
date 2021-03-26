@@ -66,7 +66,7 @@
 									</tr>
 								</table>
 								<br> <input name="action" value="insertMuti" type="hidden">
-								<input type="submit" value="新增" class="btn btn-info">
+								<input type="submit" value="新增" class="btn btn-primary">
 
 							</form>
 						</div>
