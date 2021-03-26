@@ -231,8 +231,8 @@ public class ProductDAO implements ProductDAO_interface{
 				productVO.setProName(rs.getString("proName"));
 				productVO.setProStatus(rs.getBoolean("proStatus"));
 				productVO.setProPrice(rs.getInt("proPrice"));
-				productVO.setProMpic(rs.getBytes("proMpic"));
-				productVO.setProPic(rs.getBytes("proPic"));
+				//productVO.setProMpic(rs.getBytes("proMpic"));
+				//productVO.setProPic(rs.getBytes("proPic"));
 				productVO.setProDesc(rs.getString("proDesc"));
 				list.add(productVO);
 			}
@@ -319,8 +319,8 @@ public class ProductDAO implements ProductDAO_interface{
 				productVO.setProName(rs.getString("proName"));
 				productVO.setProStatus(rs.getBoolean("proStatus"));
 				productVO.setProPrice(rs.getInt("proPrice"));
-				productVO.setProMpic(rs.getBytes("proMpic"));
-				productVO.setProPic(rs.getBytes("proPic"));
+				//productVO.setProMpic(rs.getBytes("proMpic"));
+				//productVO.setProPic(rs.getBytes("proPic"));
 				productVO.setProDesc(rs.getString("proDesc"));
 				list.add(productVO);
 			}

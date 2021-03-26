@@ -153,15 +153,19 @@
 				$(".checkout a").attr("href","##");
 			}
 		})
-		var myKey = [];
-		var myValue = [];
+		
+		
+		var myKey = []; //判斷標籤從品牌、類別、金額、搜尋哪個生出,放入陣列可知是第幾個標籤
+		var myValue = []; //標籤的值
+		//點x把標籤移除,按照索引值刪除對應的myKey、myValue陣列的值,然後呼叫filter篩選
         $(document).on("click", ".label-primary a",  function(){
         	var index = $(this).parent(".label-primary").index();
         	myKey.splice(index,1);
         	myValue.splice(index,1);
         	filter();
             $(this).parent(".label-primary").remove();                        
-        });       
+        });
+		//新增搜尋的標籤，並在myKey、myValue陣列後加入對應的Key和Value,然後呼叫filter篩選
         $(document).on("click", ".btn-outline-success", function() {
             if ($(".form-control").val() !== "") {
                 var text = "<lable class='label-primary search'>" + $(".form-control").val() + "&nbsp;<a><img src='"+$(".PageContext").val()+"/dist/images/x.png'></a></lable>";
@@ -172,42 +176,45 @@
             }
        		
         });
+        //新增品牌的標籤，並在myKey、myValue陣列後加入對應的Key和Value,然後呼叫filter篩選
         $(".brand").on("click", ".dropdown-item", function() {
             var text = "<lable class='label-primary'>" + $(this).text() + "&nbsp;<a><img src='"+$(".PageContext").val()+"/dist/images/x.png'></a></lable>";         
-			var i = myKey.indexOf("brand")
-			if(i==-1){
+			var i = myKey.indexOf("brand") //找出同樣是品牌的標籤
+			if(i==-1){//沒有一樣則直接從後面加入標籤
 				myKey.push("brand");
 				myValue.push($(this).text());
                 $(".searchbar").before("\n" + text);
-			}else{		
+			}else{//有一樣則依照索引值替代掉		
 				myKey.splice(i,1,"brand");
 				myValue.splice(i,1,$(this).text());
         		$(".label-primary").eq(i).html($(this).text() + "&nbsp;<a><img src='"+$(".PageContext").val()+"/dist/images/x.png'></a>");        		
 			}
           	filter();
         }); 
+      //新增品牌的標籤，並在myKey、myValue陣列後加入對應的Key和Value,然後呼叫filter篩選
         $(".ptype").on("click", ".dropdown-item", function() {
         	var text = "<lable class='label-primary'>" + $(this).text() + "&nbsp;<a><img src='"+$(".PageContext").val()+"/dist/images/x.png'></a></lable>";
 			var i = myKey.indexOf("ptype")
-			if(i==-1){
+			if(i==-1){//沒有一樣則直接從後面加入標籤
 				myKey.push("ptype");
 				myValue.push($(this).text());
                 $(".searchbar").before("\n" + text);
-			}else{		
+			}else{//有一樣則依照索引值替代掉	
 				myKey.splice(i,1,"ptype");  
 				myValue.splice(i,1,$(this).text())
         		$(".label-primary").eq(i).html($(this).text() + "&nbsp;<a><img src='"+$(".PageContext").val()+"/dist/images/x.png'></a>");        		
 			}
            	filter();
         });
+      //新增金額的標籤，並在myKey、myValue陣列後加入對應的Key和Value,然後呼叫filter篩選
         $(".price").on("click", ".dropdown-item", function() {
             var text = "<lable class='label-primary'>" + $(this).text() + "&nbsp;<a><img src='"+$(".PageContext").val()+"/dist/images/x.png'></a></lable>";
             var i = myKey.indexOf("price")
-			if(i==-1){
+			if(i==-1){//沒有一樣則直接從後面加入標籤
 				myKey.push("price");
 				myValue.push($(this).text());
                 $(".searchbar").before("\n" + text);
-			}else{		
+			}else{//有一樣則依照索引值替代掉			
 				myKey.splice(i,1,"price");  
 				myValue.splice(i,1,$(this).text())
         		$(".label-primary").eq(i).html($(this).text() + "&nbsp;<a><img src='"+$(".PageContext").val()+"/dist/images/x.png'></a>");        		
@@ -215,29 +222,40 @@
            	filter();            
         });
         
-
-        function filter(){       	
+		//篩選
+        function filter(){
+			//先全部商品show
         	$(".products").each(function(){        			
        			$(this).show();       				
-       		});       				            	
-        	for(let i=0;i<myKey.length;i++){        		       		
+       		});
+			//若有比對不符合的就hide
+        	for(let i=0;i<myKey.length;i++){
+        		//比對品牌
 	        	if(myKey[i]=="brand"){
+	        		//走訪每個商品
 	        		$(".products").each(function(){
+	        			//品牌不符合則hide
 	        			if($(this).find(".braName").val()!=myValue[i]){
 	       					$(this).hide();
 	       				}
 	       			});       				
-	        	}        		
+	        	}
+	        	//比對類別
 	        	if(myKey[i]=="ptype"){
+	        		//走訪每個商品
 	       			$(".products").each(function(){
+	       				//類別不符合則hide
 	       				if($(this).find(".ptypeName").val()!=myValue[i]){
 	       					$(this).hide();
 	       				}
 	       			});       				
 	       		}
+	        	//比對金額
 	        	if(myKey[i]=="price"){
 	        		if(myValue[i]=="100以下"){
+	        			//走訪每個商品
 	        			$(".products").each(function(){
+	        				//金額不符合則hide
 		       				if(parseInt($(this).find(".proPrice").val())>100){
 		       					$(this).hide();
 		       				}
@@ -258,8 +276,10 @@
 		       			}); 
 	        		}
 	        	}
+	        	//比對搜尋列出來的值
 	        	if(myKey[i]=="search"){
 	       			$(".products").each(function(){
+	       				//用正規表示實現模糊查詢,不符則hide
 	       				var ptypeName =$(this).find(".ptypeName").val();	       				
 	       				var braName =$(this).find(".braName").val();
 	       				var proName =$(this).find(".proName").val();

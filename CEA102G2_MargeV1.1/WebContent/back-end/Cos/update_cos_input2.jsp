@@ -24,43 +24,46 @@
 			</c:forEach>
 		</ul>
 	</c:if>
-	<p class="lead mb-0">課程編號:<i>${cosVO.cosNo}</i></p>
-	<p class="lead mb-0">課程名稱:</p>
-		<input type="TEXT" name="cosName" size="45" value="${cosVO.cosName}" />
-		<p class="lead mb-0">講師:</p>
-		<select size="1" name="lecNo" >
+	<p class="lead mb-0"><label>課程編號:<i>${cosVO.cosNo}</i></label></p>
+	<p class="lead mb-0"><label for="cosName">課程名稱:</label></p>
+		<input class="form-control form-control-sm" style="width:200px;" id="cosName" type="TEXT" name="cosName" size="45" value="${cosVO.cosName}" />
+		<p class="lead mb-0"><label for="lecNo">講師:</label></p>
+		<select class="form-control form-control-sm" style="width:100px;" id="lecNo" size="1" name="lecNo" >
 			<c:forEach var="lecturerVO" items="${lecSvc.all}" > 
           		<option value="${lecturerVO.lecNo}"${(cosVO.lecNo==lecturerVO.lecNo)?'selected':'' }>${lecturerVO.lecName}
          	</c:forEach>
 		</select>
-		<p class="lead mb-0">課程類別:</p>
-		<select size="1" name="cosTypeNo" >
+		<p class="lead mb-0"><label for="cosTypeNo">課程類別:</label></p>
+		<select class="form-control form-control-sm" style="width:100px;" id="cosTypeNo" size="1" name="cosTypeNo" >
 			<c:forEach var="cosTypeVO" items="${costypeSvc.all}" > 
           		<option value="${cosTypeVO.cosTypeNo}"${(cosVO.cosTypeNo==cosTypeVO.cosTypeNo)?'selected':'' }>${cosTypeVO.cosTypeName}
          	</c:forEach>
 		</select>
-		<p class="lead mb-0">開訓日:</p>
-		<input name="cosFrom" id="f_date5" type="text" autocomplete="off" value="${cosVO.cosFrom}">
-		<p class="lead mb-0">結訓日:</p>
-		<input name="cosTo" id="f_date6" type="text" autocomplete="off" value="${cosVO.cosTo}">
-		<p class="lead mb-0">課程介紹:</p>
-		<textarea required class="mb-3 mt-0" name="cosIntro" cols="30" rows="10">${cosVO.cosIntro}</textarea>		
-		<p class="lead mb-0">課程圖片:</p>
+		<p class="lead mb-0"><label for="f_date5">開訓日:</label></p>
+		<input class="form-control form-control-sm" style="width:200px;" name="cosFrom" id="f_date5" type="text" autocomplete="off" value="${cosVO.cosFrom}">
+		<p class="lead mb-0"><label for="f_date6">結訓日:</label></p>
+		<input class="form-control form-control-sm" style="width:200px;" name="cosTo" id="f_date6" type="text" autocomplete="off" value="${cosVO.cosTo}">
+		<p class="lead mb-0"><label for="cosIntro">課程介紹:</label></p>
+		<textarea required class="form-control mb-3" id="cosIntro" name="cosIntro" cols="30" rows="10">${cosVO.cosIntro}</textarea>		
+		<p class="lead mb-0"><label>課程圖片:</label></p>
 		<div id="preview1"></div>
-		<input class="mb-3 mt-0" type="file" name="cosPic" id="myFile1">
-		<p class="lead mb-0">課程地址:</p>
-		<div id = "twzipcode"></div><input type="TEXT" id="cosAdd" name="cosAdd" size="45" value="${cosVO.cosAdd}" />
-		<p class="lead mb-0">報名人數上限:</p>
-		<input type="number" name="cosMaxCount" size="45" min="1" value="${cosVO.cosMaxCount}" />
-		<p class="lead mb-0">報名人數下限:</p>
-		<input type="number" name="cosMinCount" size="45" min="1" value="${cosVO.cosMinCount}" />
-		<p class="lead mb-0">課程價格:</p>
-		<input type="number" name="cosPrice" size="45" min="1" value="${cosVO.cosPrice}" />
-		<p class="lead mb-0">報名開始日:</p>
-		<input name="cosApplyFrom" id="f_date7" type="text" autocomplete="off" value="${cosVO.cosApplyFrom}">
-		<p class="lead mb-0">報名截止日:</p>
-		<input name="cosApplyTo" id="f_date8" type="text" autocomplete="off" value="${cosVO.cosApplyTo}">
-		<p class="lead mb-0">課程狀態:</p>
+		<label>
+		<input style="display:none;" class="mb-3 mt-0" type="file" name="cosPic" id="myFile1">
+		<span class="btn btn-primary btn-sm pic"><i class="fas fa-image"></i>上傳圖片</span>
+		</label>
+		<p class="lead mb-0"><label for="cosAdd">課程地址:</label></p>
+		<div id = "twzipcode"></div><input class="form-control form-control-sm" style="width:200px;" type="TEXT" id="cosAdd" name="cosAdd" size="45" value="${cosVO.cosAdd}" />
+		<p class="lead mb-0"><label for="cosMaxCount">報名人數上限:</label></p>
+		<input class="form-control form-control-sm" style="width:100px;" id="cosMaxCount" type="number" name="cosMaxCount" size="45" min="1" value="${cosVO.cosMaxCount}" />
+		<p class="lead mb-0"><label for="cosMinCount">報名人數下限:</label></p>
+		<input class="form-control form-control-sm" style="width:100px;" type="number" name="cosMinCount" size="45" min="1" value="${cosVO.cosMinCount}" />
+		<p class="lead mb-0"><label for="cosPrice">課程價格:</label></p>
+		<input class="form-control form-control-sm" style="width:100px;" id="cosPrice" type="number" name="cosPrice" size="45" min="1" value="${cosVO.cosPrice}" />
+		<p class="lead mb-0"><label for="f_date7">報名開始日:</label></p>
+		<input class="form-control form-control-sm" style="width:200px;" name="cosApplyFrom" id="f_date7" type="text" autocomplete="off" value="${cosVO.cosApplyFrom}">
+		<p class="lead mb-0"><label for="f_date8">報名截止日:</label></p>
+		<input class="form-control form-control-sm" style="width:200px;" name="cosApplyTo" id="f_date8" type="text" autocomplete="off" value="${cosVO.cosApplyTo}">
+		<p class="lead mb-0"><label>課程狀態:</label></p>
 		<label><input type="radio" name="cosStatus" value="true"  ${cosVO.cosStatus==true?'checked':''}/>上架</label>					
 		<label><input type="radio" name="cosStatus" value="false" ${!cosVO.cosStatus==true?'checked':''} />下架</label>
 	<div class="modal-footer">
