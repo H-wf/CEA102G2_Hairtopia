@@ -64,7 +64,7 @@
                     					</c:if>
                 					</c:forEach>
            						 </td>
-								 <td><c:if test="${ordermasterVO.ordStatus==0}">未出貨</c:if>
+								 <td class="ordStatusValue"><c:if test="${ordermasterVO.ordStatus==0}">未出貨</c:if>
 									 <c:if test="${ordermasterVO.ordStatus==1}">已出貨</c:if>
 									 <c:if test="${ordermasterVO.ordStatus==2}">已結案</c:if>
 									 <c:if test="${ordermasterVO.ordStatus==3}">訂單取消</c:if>
@@ -117,6 +117,13 @@
 <script src="<%=request.getContextPath()%>/resource/sweetAlert2/dist/sweetalert2.min.js"></script>
 <script>
 $(".bd-example-modal-lg").modal({show: true});
+$(document).ready(function(){
+	$(".ordStatusValue").each(function(){
+		if($(this).text().trim()=="已結案"){
+			$(this).parent().find(".ordStatus").attr("disabled","true");
+		}
+	});	
+});
 $(".ordStatus").change(function(){
 	var index = $(this).parent().parent().parent().index();
 	Swal.fire({
