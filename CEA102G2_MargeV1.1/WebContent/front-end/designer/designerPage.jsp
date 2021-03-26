@@ -43,9 +43,10 @@
 					<div class="px-4 pt-0 pb-4 cover">
 						<div class="media align-items-end profile-head">
 							<div class="profile mr-3">
-									<img src="<%=request.getContextPath()%>/PicFinder?pic=1&table=Designer&column=desPic&idname=desNo&id=${designerVO.desNo}" alt='沒有圖片' class="rounded mb-2 img-thumbnail" />
+<%-- 									<img src="<%=request.getContextPath()%>/PicFinder?pic=1&table=Designer&column=desPic&idname=desNo&id=${designerVO.desNo}" alt='沒有圖片' class="rounded mb-2 img-thumbnail" /> --%>
+									<img src="<%=request.getContextPath()%>/PicFinder?pic=1&table=Member&column=memPic&idname=memNo&id=${userSession.memNo}" alt='沒有圖片' class="rounded mb-2 img-thumbnail" />
 								<c:if test="${not empty desSession && desSession.desNo eq designerVO.desNo}">
-									<a href="#"	class="btn btn-outline-dark btn-sm btn-block">Edit profile</a>
+									<a href="<%=request.getContextPath()%>/front-end/member/memberSetting.jsp"	class="btn btn-outline-dark btn-sm btn-block">Edit profile</a>
 									<a href="#" class="btn btn-outline-dark btn-sm btn-block" id="addPostBtn" data-toggle="modal" data-target="#addPostModal">Add Post</a>
 								</c:if>			
 							</div>
