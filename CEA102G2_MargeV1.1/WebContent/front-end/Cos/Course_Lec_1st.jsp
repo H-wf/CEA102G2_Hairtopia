@@ -27,8 +27,14 @@
 	color:black; font-family: "Open Sans", Arial, sans-serif;
 }
 
-.submitToWhite {
-        color:gray;
+/* .submitToWhite { */
+/*         color:gray; */
+/* } */
+.btn-primary{
+	color:white !important;
+}
+.btn-primary:hover{
+	color:#d9bf77 !important;
 }
 
 </style>
