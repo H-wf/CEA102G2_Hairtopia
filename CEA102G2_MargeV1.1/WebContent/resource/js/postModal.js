@@ -86,6 +86,7 @@ $(document).ready(function(){
 	});
 	
 function showWholePost(commentList, postVo, tagNameList) {
+	console.log(postVo.postPic2);
     $('#carouselPostIndicators .carousel-inner').append(`<div class="carousel-item active">
                                 							<img src="` + contextPath + `/PicFinder?pic=1&table=post&column=postPic1&idname=postNo&id=` + postVo.postNo + `" class="card-img-top" /></div>`);
     if (postVo.postPic2 != null || postVo.postPic3 != null) {
