@@ -6,6 +6,19 @@ public class CospostVO implements java.io.Serializable{
 		private Integer cosNo;
 		private String cosPubCon;
 		private Timestamp cosPubTime;
+//		chatBox會來找這個參數發生衝突不知道為什麼，所以加這個
+		private String chatText ;
+
+		
+		
+		public String getChatText() {
+			return chatText;
+		}
+
+		public void setChatText(String chatText) {
+			this.chatText = chatText;
+		}
+	//end chatText
 		
 		public Integer getCosPubNo() {
 			return cosPubNo;

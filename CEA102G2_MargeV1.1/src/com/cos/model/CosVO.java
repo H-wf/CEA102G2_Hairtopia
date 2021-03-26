@@ -27,6 +27,19 @@ public class CosVO implements java.io.Serializable{
 	private byte[] lecPic;
 	private String lecIntro ;
 	private Integer lecStatus ;
+//	chatBox會來找這個參數發生衝突不知道為什麼，所以加這個
+	private String chatText ;
+
+	
+	
+	public String getChatText() {
+		return chatText;
+	}
+
+	public void setChatText(String chatText) {
+		this.chatText = chatText;
+	}
+//end chatText
 
 	/**
 	 * @return the lecName

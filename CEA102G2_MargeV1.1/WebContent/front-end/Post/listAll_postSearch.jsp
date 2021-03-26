@@ -86,42 +86,23 @@ img {
 <body>
 	<%@include file="/front-end/tempFile/navBar"%>
 	<div class="container-fluid">
-		<div class="row">
-			<div class="col-md-3">
-				<%-- 	<c:if test="${not empty errorMsgs}"> --%>
-				<!-- 		<font style="color: red">請修正以下錯誤:</font> -->
-				<!-- 		<ul> -->
-				<%-- 			<c:forEach var="message" items="${errorMsgs}"> --%>
-				<%-- 				<li style="color: red">${message}</li> --%>
-				<%-- 			</c:forEach> --%>
-				<!-- 		</ul> -->
-				<%-- 	</c:if> --%>
-			</div>
-			<div class="col-md-6 ">
+		<div class="row justify-content-center">
+			<div class="col-md-8">
 				<c:forEach var="postVO" items="${postList}">
 					<c:if test='${postVO.postStatus != 2}'>
-
-						<div class="card w-auto onePost"  id="${postVO.postNo}" style="width: 18rem;">
+						<div class="card w-auto onePost"  id="${postVO.postNo}">
 							<div class="row no-gutters">
 								<div class="col-md-3 ">
-									<img  class="img-fluid" src="<%=request.getContextPath()%>/PicFinder?pic=1&table=post&column=postPic1&idname=postNo&id=${postVO.postNo}"
-										alt='沒有圖片' />
+									<img  class="img-fluid" src="<%=request.getContextPath()%>/PicFinder?pic=1&table=post&column=postPic1&idname=postNo&id=${postVO.postNo}" />
 								</div>
 								<div class="col-md-5">
 									<div class="card-body pl-3">
 										<p class="card-text">${postVO.postCon}</p>
 										<p class="card-text">
-											<small class="text-muted"><fmt:formatDate
-													value="${postVO.postTime}" pattern="yyyy-MM-dd HH:mm:ss" /></small>
+											<small class="text-muted"><fmt:formatDate value="${postVO.postTime}" pattern="yyyy-MM-dd HH:mm:ss" /></small>
 										</p>
 									</div>
 								</div>
-<!-- 								<div class="col-md-4 align-self-end text-right mb-3"> -->
-<!-- 									<a -->
-<%-- 										href="<%=request.getContextPath()%>/post/post.do?action=getOne_For_Display&postNo=${postVO.postNo}" --%>
-<!-- 										class="btn btn-primary">查看貼文</a> -->
-<!-- 								</div> -->
-								
 							</div>
 						</div>
 					</c:if>
