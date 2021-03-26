@@ -15,10 +15,8 @@
 
 <%
 	DesignerVO designerVO = (DesignerVO) request.getAttribute("designerVO");
-	SalonVO salVo = (SalonVO) request.getAttribute("salVo");
-// 	DesignerService desSvcs = new DesignerService();
-// 	DesignerVO desSession = desSvcs.getOneDesByDesNo(1);
-// 	pageContext.setAttribute("desSession", desSession);
+	SalonVO salVo = salonSvc.getOneSalon(designerVO.getSalNo());
+	request.setAttribute("salVo", salVo);
 %>
 <html lang="en">
 
@@ -71,10 +69,16 @@
 					</div>
 					<div class="bg-light p-4 d-flex justify-content-end text-center">
 						<ul class="list-inline mb-0">
+						
 							<li class="list-inline-item">
-								<h5 class="font-weight-bold mb-0 d-block">215</h5>
-								<small class="text-muted"></i>Post</small>
+								<h5 class="font-weight-bold mb-0 d-block">
+								<c:choose>
+								<c:when test="${designerVO.desCount!=0}"><fmt:formatNumber type="number" value="${designerVO.desTolScore/designerVO.desCount}" maxFractionDigits="1"/></c:when>
+								<c:when test="${designerVO.desCount eq 0}">0.0</c:when>
+								</c:choose></h5>
+								<small class="text-muted"></i><i class="fas fa-star" style="color:#D8CF9E"></i>Score</small>
 							</li>
+						
 							<li class="list-inline-item">
 								<h5 class="font-weight-bold mb-0 d-block">745</h5>
 								<small class="text-muted">Followers</small>
@@ -254,6 +258,11 @@
 	<script src="<%=request.getContextPath()%>/resource/tagify/dist/jQuery.tagify.min.js"></script>
 	<script	src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAgth_SXMI_V6SbxEmCxOFwzUwCXAizZhY&callback=initMap&libraries=&v=weekly" async></script>
 </body>
+<c:if test="${not empty wholePostMap}">
+	<script>
+			var wholePostMap = '${wholePostMap}';
+	</script>
+</c:if>
 <script>
 
 //FOLLOW
@@ -264,7 +273,6 @@
 					memNo:${not empty userSession.memNo?userSession.memNo:"null"},	//userSession
 					desNo:${designerVO.desNo},
 			}
-			
 			if(obj.memNo === null){
 				swal.fire({
 					title:'請先登入',
@@ -288,7 +296,7 @@
 					showCloseButton: true,
 				});
 				return false;
-			}else if($('#followBtn').text() ==="Unfollow"){
+			}else if($('#followBtn').text().trim() =="Unfollow"){
 				obj.action = "deleteByAJAX";
 					$.ajax({
 						type:"POST",
@@ -304,7 +312,7 @@
 						},
 					});
 				
-			}else if($('#followBtn').text() ==="Follow"){
+			}else if($('#followBtn').text().trim() =="Follow"){
 				obj.action = "insertByAJAX";
 					$.ajax({
 							type:"POST",
@@ -349,7 +357,6 @@
 					});
 					return false;
 					}
-					alert("5678");
 					
   				
 			}

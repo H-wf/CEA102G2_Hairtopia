@@ -39,6 +39,25 @@ com.coudet.model.*, com.coudet.controller.*, com.cos.controller.*, com.member.mo
    
    %>
 
+<%
+	Boolean check = false;
+	HashSet<Integer> set = new HashSet<>();
+   CosdetService cosdetSvc = new CosdetService();
+   List<CosdetVO> checkifapplied =  (List<CosdetVO>) cosdetSvc.getAllCosByMemNo(userSession.getMemNo());
+   for (CosdetVO order1 : checkifapplied){
+	   int cosNo1 = order1.getCosNo();
+	   for (CosdetVO order : buylist){
+		   int cosNo2 = order.getCosNo();
+		   if (cosNo1 == cosNo2){
+			   set.add(cosNo1);
+			   check = true;
+	   		}   
+	   }
+   }
+   
+   pageContext.setAttribute("check", check);
+ %>
+
 <%if (buylist != null && (buylist.size() > 0)) {%>
 
 <h5>目前報名課程如下</h5>
@@ -55,10 +74,8 @@ com.coudet.model.*, com.coudet.controller.*, com.cos.controller.*, com.member.mo
   
 <table id="mytb"style="width: 77.5rem">
 	<%
-	// for (CosdetVO order:buylist) {
+	 for (CosdetVO order:buylist) {
 		 CosService cosSvc1 = new CosService();
-		for(int i=0; i<buylist.size(); i++){
-			CosdetVO order = buylist.get(i);
 	%>
 	<tr>
 		<td style="width: 10rem" valign="middle">&emsp;&emsp;&ensp;<%=order.getCosNo()%></td>
@@ -68,7 +85,7 @@ com.coudet.model.*, com.coudet.controller.*, com.cos.controller.*, com.member.mo
         <td style="width: 10rem" valign="middle">
         	<form name="deleteForm" action="<%=request.getContextPath()%>/cos/order.do" method="POST">
               <input type="hidden" name="action"  value="DELETE">
-              <input type="hidden" name="del" value="<%=i %>">
+              <input type="hidden" name="del" value="<%=order.getCosNo() %>">
               <input type="submit" value="刪除" class="button">
           </form>
           </td>
@@ -92,7 +109,22 @@ com.coudet.model.*, com.coudet.controller.*, com.cos.controller.*, com.member.mo
 
 </div>
 <!-- Page Content END -->
-
+<script>
+	let str = '重複報名 (請自行刪除，以免重複收費)：';
+	<jsp:useBean id="cosSvc" scope="page" class="com.cos.model.CosService"/>
+	<%
+		if(check){
+			for(Integer cosNo:set) {	
+	%>
+				str += '<%=cosSvc.findByPrimaryKeyCos(cosNo).getCosName()%>；';
+	<%
+			}
+	%>
+			alert(str);
+	<%
+		}
+	%>
+</script>
 <%@include file="/front-end/tempFile/footer" %>
 <%@include file="/front-end/tempFile/tempJs" %>
 </body>

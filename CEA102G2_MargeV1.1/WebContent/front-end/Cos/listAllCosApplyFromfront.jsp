@@ -4,11 +4,13 @@
 <%@ page import="java.util.*"%>
 <%@ page import="com.cos.model.*, com.coudet.model.*, com.coudet.controller.*"%>
 
+
 <%
     CosService cosSvc = new CosService();
     List<CosVO> list = cosSvc.getAllCosApplyFrom();
     
     pageContext.setAttribute("list",list);
+    
 %>
 
 <!DOCTYPE html>
@@ -104,11 +106,18 @@
 	
 	<%@ include file="/back-end/pages/page1.file"%>
 	
+	<% long now = new Date().getTime();
+			     	request.setAttribute("now", now);
+			     %>
+	
 	<jsp:useBean id="costypeSvc" scope="page" class="com.coutype.model.CostypeService"/>
 	<jsp:useBean id="lecSvc" scope="page" class="com.lecturer.model.LecturerService"/>
 	 
 	<c:forEach var="cosVO" items="${list}" begin="<%=pageIndex%>" end="<%=pageIndex+rowsPerPage-1%>">
+	<c:if test="${cosVO.cosStatus==true}">
+	<c:if test="${cosVO.cosApplyTo.getTime() >= now}">
 	<FORM name="shoppingForm" METHOD="post" ACTION="<%=request.getContextPath()%>/cos/order.do" style="margin-bottom: 0px;" >
+		
 		<tr>
 			<td id=cosNo>${cosVO.cosNo}</td>
 			<td>${lecSvc.getOneLecturer(cosVO.lecNo).lecName}</td>
@@ -130,13 +139,19 @@
 			<td>
                  <input class="test" type="submit" value="報名" id="myBtn" onclick="this.disabled=true;this.form.submit();"/>
 			     <input type="hidden" name="cosNo"  value="${cosVO.cosNo}">
-			     <input type="hidden" name="memNo"  value="${userSession.memNo}">
+			     <input type="hidden" name="memNo"  value="${sessionScope.userSession.memNo}">
 			     <input type="hidden" name="cosDetailPrice"  value="${cosVO.cosPrice}">
 			     <input type="hidden" name="cosCount"  value="${cosVO.cosCount}">
 			     <input type="hidden" name="action"	value="ADD">
+			     <input type="hidden" name="add" value="${cosVO.cosNo}">
+			     
+              
+              
 			</td>
 		</tr>
 	</FORM>
+	</c:if>
+	</c:if>
  	</c:forEach>
 
 </table>
