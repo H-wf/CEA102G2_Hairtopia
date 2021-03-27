@@ -7,7 +7,7 @@
 
 
 <%
-	LecturerVO lecVO = (LecturerVO)request.getAttribute("lecVO");
+	LecturerVO lecVO = (LecturerVO) request.getAttribute("lecVO");
 %>
 <jsp:useBean id="cosSvc" scope="page" class="com.cos.model.CosService" />
 <html lang="en">
@@ -58,8 +58,8 @@ img {
 }
 
 .card:hover {
-	transform: scale(1.05);
-	box-shadow: 0 10px 20px rgba(0, 0, 0, .12), 0 4px 8px rgba(0, 0, 0, .06);
+	transform: none !important;;
+	box-shadow: none !important;;
 }
 
 .myrow {
@@ -251,28 +251,29 @@ img {
 
 						<div class="tab-pane fade show active" id="Post" role="tabpanel"
 							aria-labelledby="Post-tab">
-
-							<div class="container post">
-								<div class="card-columns ">
+							<div class="container">
+								<div class="row justify-content-around my-5 ">
 									<!-- cos Card -->
-									
+
 									<c:forEach var="cosVO" items="${cosSvc.all}">
-									<c:if test="${cosVO.lecNo == lecVO.lecNo}">
-									
-										<div class="col-3 mb-1">
-										<div class="card " style="width: 16rem; height: 30rem;">
-											<img src="<%=request.getContextPath()%>/PicFinder?pic=1&table=Course&column=cosPic&idname=cosNo&id=${cosVO.cosNo}" class="card-img-top" alt="...">
-											<div class="card-body">
-												<h5 class="card-title">${cosVO.cosName}</h5>
-												<p class="card-text">${cosVO.cosIntro}</p>
-												<a href="#" class="btn btn-primary">Go somewhere</a>
+										<c:if test="${cosVO.lecNo == lecVO.lecNo}">
+
+											<div class="col-3 mb-1">
+												<div class="card " style="width: 13rem; height: 25rem;">
+													<img
+														src="<%=request.getContextPath()%>/PicFinder?pic=1&table=Course&column=cosPic&idname=cosNo&id=${cosVO.cosNo}"
+														class="card-img-top" alt="...">
+													<div class="card-body">
+														<h5 class="card-title">${cosVO.cosName}</h5>
+														<p class="card-text">${cosVO.cosIntro}</p>
+														<a href="#" class="btn btn-primary">Go somewhere</a>
+													</div>
+
+												</div>
 											</div>
-											
-										</div>
-										</div>
 										</c:if>
 									</c:forEach>
-								
+
 								</div>
 							</div>
 						</div>

@@ -67,10 +67,12 @@
 									</c:if>
                                     <form  method="post" action="<%=request.getContextPath()%>/staff/staff.do">
                                         <div class="form-group">
-                                            <input class="form-control form-control-user" name="staAcct" placeholder="Enter Email Address...">
+                                            <input class="form-control form-control-user" name="staAcct" placeholder="Enter Email Address..."
+                                            value="${error.staAcct}">
                                  		</div>
                                         <div class="form-group">
-                                            <input type="password" class="form-control form-control-user" name="staPswd" placeholder="Password">                                               
+                                            <input type="password" class="form-control form-control-user" name="staPswd" placeholder="Password"
+                                            value="${error.staPswd}">                                               
                                         </div>
                                         <div class="form-group">
                                             <div class="custom-control custom-checkbox small">

@@ -76,12 +76,15 @@ public class StaffServlet extends HttpServlet {
 			// 【實際上應至資料庫搜尋比對】
 			StaffService staSvc = new StaffService();
 			StaffVO staVO = staSvc.getOneStaff(staAcct, staPswd);
+			StaffVO staVO2 = new StaffVO();
+			staVO2.setStaAcct(staAcct);
+			staVO2.setStaPswd(staPswd);
 
 			/*************************** 3.查詢完成,準備轉交(Send the Success view) *************/
 			if (staVO == null) { // 【帳號 , 密碼無效時】
-
+				req.setAttribute("error", staVO2);
 				errorMsgs.add("error account or password");
-				RequestDispatcher failureView = req.getRequestDispatcher("/back-end/Staff/login.jsp");
+				RequestDispatcher failureView = req.getRequestDispatcher("/back-end/login.jsp");
 				failureView.forward(req, res);
 			} else {
 				HttpSession session = req.getSession();
