@@ -64,7 +64,8 @@
                     					</c:if>
                 					</c:forEach>
            						 </td>
-								 <td><c:if test="${ordermasterVO.ordStatus==0}">未出貨</c:if>
+								 <td class="ordStatusValue">
+								 	<c:if test="${ordermasterVO.ordStatus==0}">未出貨</c:if>
 									 <c:if test="${ordermasterVO.ordStatus==1}">已出貨</c:if>
 									 <c:if test="${ordermasterVO.ordStatus==2}">已結案</c:if>
 									 <c:if test="${ordermasterVO.ordStatus==3}">訂單取消</c:if>
@@ -130,6 +131,13 @@ $(".ordStatus").change(function(){
 			setTimeout(function(){ $(".papa").eq(index).find(".updateform").submit();}, 1500);
 		}			  
 	})
+});
+$(document).ready(function(){
+	$(".ordStatusValue").each(function(){
+		if($(this).text().trim()=="已結案"){
+			$(this).parent().find(".ordStatus").attr("disabled","true");
+		}
+	});	
 });
 </script>
 
