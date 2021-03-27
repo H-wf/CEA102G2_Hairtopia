@@ -80,6 +80,9 @@ private ProductDAO_interface dao;
 		map.put("proStatus",proStatus);
 		try {
 			List<ProductVO> allProduct = dao.getAll(map);
+			if(allProduct.size() == 0) {
+				return reProduct;
+			}
 			Set<Integer> index = new HashSet<Integer>();
 			int count=0;
 			while (index.size() < 5) {

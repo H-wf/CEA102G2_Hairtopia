@@ -428,7 +428,7 @@ public class ResServlet extends HttpServlet{
 //				String msg = "Moriyama Mikuri會員你好，您的預約服務號碼5已確認預約成功，服務時間為2021-3-27 9:30 驗證碼為GeA4Z";//傳送的訊息
 				String endcodeMsg = URLEncoder.encode(msg,"UTF-8");
 				MessageService msgSvc = new MessageService();
-				msgSvc.sendSms(phone,endcodeMsg);
+//				msgSvc.sendSms(phone,endcodeMsg);
 				resVO.setResCode(resCode);
 				resVO.setResStatus(resStatus);
 				
