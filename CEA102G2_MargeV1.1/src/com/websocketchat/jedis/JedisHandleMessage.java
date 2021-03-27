@@ -1,5 +1,6 @@
 package com.websocketchat.jedis;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import redis.clients.jedis.Jedis;
@@ -55,12 +56,13 @@ public class JedisHandleMessage {
 		return AuthenticationCode;
 	}
 	
-	public static  List<String> getEachMessageByMember(){
+	public static  List<String> getLastMessageList(String user){
 		Jedis jedis = pool.getResource();
 		jedis.auth("123456");
+		List<String> historyList = new ArrayList<String>();
 		
 		String cursor = ScanParams.SCAN_POINTER_START;
-	    String key = "KING10" + ":" + "*";
+	    String key = user + ":" + "*";
 	    ScanParams scanParams = new ScanParams();
 	    scanParams.match(key);// 匹配以 test:xttblog:* 为前缀的 key
 	    scanParams.count(1000);
@@ -76,24 +78,26 @@ public class JedisHandleMessage {
 	            List<String> historyData = jedis.lrange(mapentry, -1, -1);
 	            for(int j = 0; j < historyData.size(); j++) {
 	            	System.out.println(historyData.get(j));
+	            	historyList.add(historyData.get(j));
 	            }
 	            //jedis.del(key, mapentry);
 //	            jedis.ltrim("test:xttblog:", 0 ,1);
-	            System.out.println(mapentry);
+//	            System.out.println(mapentry);
 	        }
 	        long t2 = System.currentTimeMillis();
-	        System.out.println("删除" + list.size()
-	            + "条数据，耗时: " + (t2-t1) + "毫秒,cursor:" + cursor);
 	        if ("0".equals(cursor)){
 	            break;
 	        }
 	    }
 		
 		
-		return null;
+		return historyList;
 	}
 	
 	public static void main(String[] args) {
-		JedisHandleMessage.getEachMessageByMember();
+		List<String> list = JedisHandleMessage.getLastMessageList("Aragaki Yui");
+		for(int i = 0; i < list.size(); i++ ) {
+//			System.out.println(list.get(i));
+		}
 	}
 }

@@ -15,12 +15,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.comment.model.CommentService;
-import com.comment.model.CommentVO;
-import com.post.model.PostService;
-import com.post.model.PostVO;
-import com.tag.model.TagService;
-import com.tagdet.model.TagdetService;
+import com.comment.model.*;
+import com.designer.model.*;
+import com.post.model.*;
+import com.tag.model.*;
+import com.tagdet.model.*;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -119,18 +118,12 @@ public class CommentServlet extends HttpServlet {
 
 		
 		if("delete_Comment".equals(action) || "delete_Comment_Front".equals(action)||"deleteCOM".equals(action)) {
-System.out.println("進Servlet");
 			List<String> errorMsgs = new LinkedList<String>();
 			req.setAttribute("errorMsgs", errorMsgs);
 //取得來源路徑
 			String URI = req.getParameter("URI");
-			
 			Integer postNo = new Integer(req.getParameter("postNo"));
-			
 			Integer comNo = new Integer(req.getParameter("comNo"));
-			if (comNo == null || comNo == 0) {
-				errorMsgs.add("請填入有效貼文編號!");
-			}
 			Boolean comStatus = new Boolean(req.getParameter("comStatus"));
 			
 			CommentVO commentVo = new CommentVO();
@@ -143,11 +136,15 @@ System.out.println("狀態更改完成");
 //設定回傳開modal資料
 System.out.println("開始設定modal資料");
 			PostService postSvc = new PostService();
+			DesignerService desSvc = new DesignerService();
 			TagdetService tagdetSvc = new TagdetService();
 			TagService tagSvc = new TagService();
 			CommentService comSvc = new CommentService();
 //取得貼文			
 			PostVO postVO = postSvc.getOnePost(postNo);
+//設定回原頁
+			DesignerVO designerVO = desSvc.getOneDesByDesNo(postVO.getDesNo());
+			
 //判斷幾張照片
 			postVO.setPostPic1(new byte[0]);
 			if(postVO.getPostPic2() != null) {
@@ -164,6 +161,7 @@ System.out.println("開始設定modal資料");
 
 			
 			req.setAttribute("postVO", postVO);
+			req.setAttribute("designerVO", designerVO);
 			
 			Map wholePostMap = new HashMap();
 			wholePostMap.put("postVo", postVO);
@@ -176,7 +174,6 @@ System.out.println("開始設定modal資料");
 			
 			
 			String url =URI;
-			System.out.println(url);
 			RequestDispatcher successView = req.getRequestDispatcher(url);
 			successView.forward(req, res);
 			

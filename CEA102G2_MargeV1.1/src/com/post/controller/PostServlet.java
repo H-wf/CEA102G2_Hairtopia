@@ -184,7 +184,6 @@ public class PostServlet extends HttpServlet {
 				req.setAttribute("postVO", postVO); // 資料庫取出的lecVO物件,存入req
 				boolean openModal=true;
 				req.setAttribute("openModal",openModal);
-System.out.println("postVO設置完成");
 				
 				String url = "";
 				if ("getOne_For_Display".equals(action)) {
@@ -680,48 +679,30 @@ System.out.println("postVO設置完成");
 
 		}
 
-		if ("delete".equals(action) || "deleteBack".equals(action)) { // 來自listAll_lec.jsp
-
-			List<String> errorMsgs = new LinkedList<String>();
-			// Store this set in the request scope, in case we need to
-			// send the ErrorPage view.
-			req.setAttribute("errorMsgs", errorMsgs);
-
+		if ("delete".equals(action) || "deleteBack".equals(action)||"changePostStatus".equals(action)) { // 來自listAll_lec.jsp
 			try {
 				/*************************** 1.接收請求參數 ***************************************/
+				String URI = req.getParameter("URI");
 				Integer postNo = new Integer(req.getParameter("postNo"));
-				Integer desNo = new Integer(req.getParameter("desNo"));
+				Integer postStatus = new Integer(req.getParameter("postStatus"));
 
 				/*************************** 2.開始刪除資料 ***************************************/
 				PostService postSvc = new PostService();
-				postSvc.deletePost(postNo);
-				List<PostVO> list = postSvc.getAll(desNo);
-
-				if (list == null) {
-					errorMsgs.add("查無貼文資料");
-				}
-
-				// Send the use back to the form, if there were errors
-				if (!errorMsgs.isEmpty()) {
-					RequestDispatcher failureView = req.getRequestDispatcher("/front-end/Post/select_post_page.jsp");
-					failureView.forward(req, res);
-					return;// 程式中斷
-				}
-
+				postSvc.deletePost(postNo,postStatus);
 				/*************************** 3.刪除完成,準備轉交(Send the Success view) ***********/
-				req.setAttribute("list", list);
-				String url = "";
-				if ("delete".equals(action)) {
-					url = "/front-end/Post/listAll_postByDesNo.jsp";
-				} else if ("deleteBack".equals(action)) {
-					url = "/back-end/Post/listAll_post_back.jsp";
-				}
+//設定重導頁面資料(設計師VO)
+				DesignerService desSvc = new DesignerService();
+				PostVO postVO = postSvc.getOnePost(postNo);
+				DesignerVO designerVO = desSvc.getOneDesByDesNo(postVO.getDesNo());
+				req.setAttribute("designerVO", designerVO);
+				
+				String url = URI;
+				
 				RequestDispatcher successView = req.getRequestDispatcher(url);// 刪除成功後,轉交回送出刪除的來源網頁
 				successView.forward(req, res);
 
 				/*************************** 其他可能的錯誤處理 **********************************/
 			} catch (Exception e) {
-				errorMsgs.add("刪除資料失敗:" + e.getMessage());
 				RequestDispatcher failureView = req.getRequestDispatcher("/front-end/Post/listAll_postByDesNo.jsp");
 				failureView.forward(req, res);
 			}
@@ -745,6 +726,7 @@ System.out.println("postVO設置完成");
 			}else if(postVo.getPostPic3() != null) {
 				postVo.setPostPic3(new byte[0]);
 			}
+System.out.println(postVo.getPostPic2());
 //用postNo取得tagDet的tagNo再取得所有tagName
 			Set<Integer> tagNoSet = tagdetSvc.getTagNo(postNo);
 			List<String> tagNameList = tagSvc.getTagName(tagNoSet);
@@ -759,6 +741,28 @@ System.out.println("postVO設置完成");
 			ajaxMap.put("commentList", commentList);
 
 			String jsonStr = gson.toJson(ajaxMap);
+			res.setContentType("text/plain");
+			res.setCharacterEncoding("UTF-8");
+			PrintWriter out = res.getWriter();
+			out.print(jsonStr);
+			out.flush();
+			out.close();
+			return;
+		}
+		if("updatePostByAJAX".equals(action)) {
+			String postCon = req.getParameter("postCon");
+			
+			Integer postNo = new Integer(req.getParameter("postNo"));
+			
+			PostVO postVo = new PostVO();
+			postVo.setPostNo(postNo);
+			postVo.setPostCon(postCon);
+			
+			PostService postSvc = new PostService();
+			postVo = postSvc.updatePost(postNo, postCon);
+			String rePostCon = postVo.getPostCon();
+			
+			String jsonStr = gson.toJson(rePostCon);
 			res.setContentType("text/plain");
 			res.setCharacterEncoding("UTF-8");
 			PrintWriter out = res.getWriter();

@@ -84,7 +84,7 @@
   			<a href="<%=request.getContextPath()%>/designer/designer.do?action=getOne_For_Update&desNo=${desSession.desNo}" class="list-group-item list-group-item-action">
 				個人資訊修改
 			</a>
-  			<a href="" class="list-group-item list-group-item-action">
+  			<a href="<%=request.getContextPath()%>/front-end/Post/updatePostSratus.jsp" class="list-group-item list-group-item-action">
 				貼文狀態管理
 			</a>
 		</div>

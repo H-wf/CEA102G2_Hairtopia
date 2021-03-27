@@ -8,6 +8,7 @@
 <%@ page import="java.util.*"%>
 
 <jsp:useBean id="desSvc" scope="page" class="com.designer.model.DesignerService" />
+<jsp:useBean id="memSvc" scope="page" class="com.member.model.MemService" />
 <jsp:useBean id="postSvc" scope="page" 	class="com.post.model.PostService" />
 <jsp:useBean id="followSvc" scope="page" class="com.followlist.model.FollowListService" />
 <jsp:useBean id="salonSvc" scope="page"	class="com.salon.model.SalonService" />
@@ -15,10 +16,8 @@
 
 <%
 	DesignerVO designerVO = (DesignerVO) request.getAttribute("designerVO");
-	SalonVO salVo = (SalonVO) request.getAttribute("salVo");
-// 	DesignerService desSvcs = new DesignerService();
-// 	DesignerVO desSession = desSvcs.getOneDesByDesNo(1);
-// 	pageContext.setAttribute("desSession", desSession);
+	SalonVO salVo = salonSvc.getOneSalon(designerVO.getSalNo());
+	request.setAttribute("salVo", salVo);
 %>
 <html lang="en">
 
@@ -47,7 +46,7 @@
 							<div class="profile mr-3">
 									<img src="<%=request.getContextPath()%>/PicFinder?pic=1&table=Designer&column=desPic&idname=desNo&id=${designerVO.desNo}" alt='沒有圖片' class="rounded mb-2 img-thumbnail" />
 								<c:if test="${not empty desSession && desSession.desNo eq designerVO.desNo}">
-									<a href="#"	class="btn btn-outline-dark btn-sm btn-block">Edit profile</a>
+									<a href="<%=request.getContextPath()%>/front-end/member/memberSetting.jsp"	class="btn btn-outline-dark btn-sm btn-block">Edit profile</a>
 									<a href="#" class="btn btn-outline-dark btn-sm btn-block" id="addPostBtn" data-toggle="modal" data-target="#addPostModal">Add Post</a>
 								</c:if>			
 							</div>
@@ -64,7 +63,9 @@
 										</c:otherwise>
 									</c:choose>
 									</div>
-									<div class="btn btn-outline-primary" id="msgBtn">傳送訊息</div>
+<%-- 									<c:if test="${not empty userSession}"> --%>
+										<div class="btn btn-outline-primary" id="msgBtn">傳送訊息</div>
+<%-- 									</c:if> --%>
 								</div>
 							</div>
 						</div>
@@ -260,6 +261,11 @@
 	<script src="<%=request.getContextPath()%>/resource/tagify/dist/jQuery.tagify.min.js"></script>
 	<script	src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAgth_SXMI_V6SbxEmCxOFwzUwCXAizZhY&callback=initMap&libraries=&v=weekly" async></script>
 </body>
+<c:if test="${not empty wholePostMap}">
+	<script>
+			var wholePostMap = '${wholePostMap}';
+	</script>
+</c:if>
 <script>
 
 //FOLLOW
@@ -293,6 +299,7 @@
 					showCloseButton: true,
 				});
 				return false;
+
 			}else if($('#followBtn').text().trim() =="Unfollow"){
 				obj.action = "deleteByAJAX";
 					$.ajax({
@@ -403,6 +410,39 @@
 				});
 			}
 		});
+		//chat 判定
+		$('#msgBtn').on('click',function(){
+			if(${empty sessionScope.userSession}){
+				swal.fire({
+					title:'請先登入',
+					icon:'warning',
+					showCloseButton: true,
+					showCancelButton: true, 
+					confirmButtonText:'登入',
+					cancelButtonText:'取消',
+				});
+				$('.swal2-confirm').click(function(){
+					window.location=contextPath+"/front-end/member/login.jsp";
+				});
+				$('.swal2-cancel').click(function(){
+					console.log("已取消");
+				});
+				return false;
+			}else if(${sessionScope.userSession.memName == memSvc.getOneMem(designerVO.memNo).memName }){
+					if(${desSession.desNo == designerVO.desNo}){
+						swal.fire({
+	  				  		icon: 'warning',
+	  				  		title: 'Oops...',
+	  				  		text: '不能傳訊給自己',
+	  				  		confirmButtonColor:'rgba(216,207,158,0.8)',
+						});
+						return false;
+					}
+			}
+			chat('${designerVO.desName}', '${designerVO.memNo}','${memSvc.getOneMem(designerVO.memNo).memName}');
+		});
+		
+		
 	});
 	
 // MAP
@@ -428,6 +468,10 @@
                 infoWindow.open(map, marker);
             });
         }
+        
+        
+        
+        
 </script>
 
 </html>

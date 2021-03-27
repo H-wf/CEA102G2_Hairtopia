@@ -28,16 +28,16 @@
 			</c:forEach>
 		</ul>
 		</c:if>
-		<p class="lead mb-0">課程名稱:</p>
-		<select size="1" name="cosNo">
+		<p class="lead mb-0"><label for="cosNo">課程名稱:</label></p>
+		<select class="form-control form-control-sm" style="width:300px;" id="cosNo" size="1" name="cosNo">
 			<c:forEach var="cosVO" items="${cosSvc.all}">
 				<option value="${cosVO.cosNo}">${cosVO.cosName}
 			</c:forEach>
 		</select>
-		<p class="lead mb-0">公告內容:</p>
-		<textarea required class="mb-3 mt-0" name="cosPubCon" cols="30" rows="10" placeholder="請輸入公告內容"></textarea>
-		<p class="lead mb-0">公告時間:</p>
-		<input type="TEXT" name="cosPubTime" size="45"  id="f_date1" autocomplete="off">
+		<p class="lead mb-0"><label for="cosPubCon">公告內容:</label></p>
+		<textarea required class="form-control mb-3" id="cosPubCon" name="cosPubCon" cols="30" rows="10" placeholder="請輸入公告內容"></textarea>
+		<p class="lead mb-0"><label for="f_date1">課程公告時間:</label></p>
+		<input class="form-control form-control-sm mb-3" style="width:200px;" type="TEXT" name="cosPubTime" size="45"  id="f_date1" autocomplete="off">
 		<div class="modal-footer">
 			<input name="action" value="insert" type="hidden" >
 			<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>

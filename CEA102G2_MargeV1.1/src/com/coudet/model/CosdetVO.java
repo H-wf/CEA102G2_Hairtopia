@@ -7,6 +7,19 @@ public class CosdetVO  implements java.io.Serializable{
 	private Integer memNo;
 	private Integer cosComment;
 	private Integer cosDetailPrice;
+//	chatBox會來找這個參數發生衝突不知道為什麼，所以加這個
+	private String chatText ;
+
+	
+	
+	public String getChatText() {
+		return chatText;
+	}
+
+	public void setChatText(String chatText) {
+		this.chatText = chatText;
+	}
+//end chatText
 
 	public Integer getCosNo() {
 		return cosNo;

@@ -12,8 +12,32 @@
 <head>
 
 <style>
+.card{
+	position:relative;
+	width: 15rem;
+	height: 22em;
+}
+.card-body{
+	position:absolute;
+	width:100%;
+	height:60%;
+}
 #lecimg {
-	width: 16rem;
+	position:absolute;
+	top:0;
+	left:0;
+	width: 100%;
+	height:100%;
+	object-fit:cover;
+}
+.btn-primary{
+	position:absolute;
+	bottom:0;
+	width:100%;
+}
+.text{
+	position:absolute;
+	top:65%;
 }
 </style>
 
@@ -36,19 +60,28 @@
 		<c:forEach var="cosVO" items="${cosSvc.all}">
 			<c:if test="${cosVO.lecNo == lecVO.lecNo}">
 
-				<div class="col-3 mb-1">
-					<div class="card " style="width: 16rem; height: 28rem;">
-						<img id="lecimg"
-							src="<%=request.getContextPath()%>/PicFinder?pic=1&table=Course&column=cosPic&idname=cosNo&id=${cosVO.cosNo}"
-							class="card-img-top" alt="...">
+				<div class="col-3 mb-1 ">
+					<div class="card ">
+					
+											
 						<div class="card-body">
-							<h5 class="card-title">${cosVO.cosName}</h5>
-							<p class="card-text">${cosVO.cosIntro}</p>
-							<a href="<%=request.getContextPath()%>/back-end/Lecturer/listAllCosDetail.jsp?cosNo=${cosVO.cosNo}
-							" class="btn btn-primary">查詢報名名單</a>
+							<img id="lecimg"
+							src="<%=request.getContextPath()%>/PicFinder?pic=1&table=Course&column=cosPic&idname=cosNo&id=${cosVO.cosNo}"
+							class="card-img-top" alt="...">	
+							
+							
 						</div>
-
+						<div style="vertical-align:top;">
+						<div class="text">
+						<h5 class="card-title">${cosVO.cosName}</h5>
+						<p class="card-text">${cosVO.cosIntro}</p>
+						
+						</div>
+						</div>
+						<a href="<%=request.getContextPath()%>/back-end/Lecturer/listAllCosDetail.jsp?cosNo=${cosVO.cosNo}
+							" class="btn btn-primary">查詢報名名單</a>
 					</div>
+					
 				</div>
 			</c:if>
 

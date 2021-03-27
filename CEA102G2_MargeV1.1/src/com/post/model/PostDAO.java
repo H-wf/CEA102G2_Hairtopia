@@ -30,7 +30,8 @@ public class PostDAO implements PostDAO_Interface {
 	private static final String UPDATE2 = "UPDATE post set postCon=?, postPic1=?, postPic2=?,postStatus=?,postPror=? where postNo = ?"; // 修改2張照片
 	private static final String UPDATE3 = "UPDATE post set postCon=?, postPic1=?,postStatus=?,postPror=? where postNo = ?";			//修改1張照片
 	private static final String UPDATE4 = "UPDATE post set postCon=?,postStatus=?,postPror=? where postNo = ?";	
-	private static final String DELETE = "DELETE FROM post where postNo = ?";
+	private static final String DELETE = "UPDATE post SET postStatus=? WHERE postNo=?;";
+	private static final String UD_AJAX = "UPDATE post set postCon=? where postNo = ?;";
 
 	@Override
 	public PostVO insert(PostVO postVO) {
@@ -344,7 +345,7 @@ public class PostDAO implements PostDAO_Interface {
 
 
 	@Override
-	public void delete(Integer postNo) {
+	public void delete(Integer postNo,Integer postStatus) {
 		Connection con = null;
 		PreparedStatement pstmt = null;
 
@@ -352,8 +353,9 @@ public class PostDAO implements PostDAO_Interface {
 
 			con = ds.getConnection();
 			pstmt = con.prepareStatement(DELETE);
-
-			pstmt.setInt(1, postNo);
+			Integer ps = (postStatus == 0?1:0);
+			pstmt.setInt(1, ps);
+			pstmt.setInt(2, postNo);
 
 			pstmt.executeUpdate();
 
@@ -557,6 +559,46 @@ public class PostDAO implements PostDAO_Interface {
 		}
 		return list;
 	}
+
+	@Override
+	public PostVO updateAJAX(PostVO postVo) {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+
+		try {
+
+			con = ds.getConnection();
+			pstmt = con.prepareStatement(UD_AJAX);
+
+			pstmt.setString(1,postVo.getPostCon());
+			pstmt.setInt(2, postVo.getPostNo());
+			pstmt.executeUpdate();
+
+			// Handle any driver errors
+		} catch (SQLException se) {
+			throw new RuntimeException("A database error occured. " + se.getMessage());
+			// Clean up JDBC resources
+		} finally {
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
+		
+		return postVo;
+	}
+	
+	
 	
 //	public List<PostVO> getAllByAJAX(String keyword) {
 //

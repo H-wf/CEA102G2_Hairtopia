@@ -412,13 +412,14 @@
 // 		var chatPartnerName = document.getElementById("chatPartnerName");
 		var chatPartnerName = "${friend.memName}";
 		var messagesArea = document.getElementsByClassName("chat-messages")[0];
-
+		console.log(endPointURL);
         //改成登入時,塞進session的memVO
 		var self = '${userSession.memName}';
 		var webSocket;
         
     
         $(document).ready(function () {
+        	connect();
             $('.fa-minus').click(function () {
                 $(this).closest('.chatbox').toggleClass('chatbox-min');
             });
@@ -453,14 +454,15 @@
             
             $('#friend2').click(function(){
             	
-//             	disconnect();
-<%--             	<% --%>
-//             		friend = memSvc.getOneMem(5);
-//             		pageContext.setAttribute("friend", friend);
-<%--             	%> --%>
+//             	chatPartnerName = "KING10";
+    		$('#chatbox-image').attr('src', '<%=request.getContextPath()%>/showImges.do?tableName=member&picColumn=memPic&pkColumn=memNo&memNo=${friend.memNo}');
+//             	$('.firstChatbox').toggle();
+            	// $('.secondChatbox').toggle();
+           	
+            $('#chatPartnerName').text(chatPartnerName);
             	$('.firstChatbox').toggle();
 //             	// $('.secondChatbox').toggle();
-            	connect();
+            	if(webSocket.readyState !== 1) connect();
             });
             
             $('.fa-reply').click(sendMessage);
@@ -489,6 +491,7 @@
     		
     		webSocket.onopen = function(event) {
     			console.log("Connect Success!");
+//     			getNotificationRecord();
     			getHistory();
     			console.log(chatPartnerName);
     		};
@@ -497,7 +500,9 @@
     			var jsonObj = JSON.parse(event.data);
     			console.log(jsonObj);
     			if ("open" === jsonObj.type) {
+    				
     				console.log("open");
+    				
     			} else if ("history" === jsonObj.type) {   				
     				messagesArea.innerHTML = '';
     				
@@ -507,7 +512,9 @@
     					//轉換JSON物件
     					var historyData = JSON.parse(messages[i]);
     					var showMsg = historyData.message;
-    					console.log(historyData.type);
+    					console.log(historyData);
+    					console.log("type:" + historyData.type);
+    					console.log("Time:" + (new Date().getTime() - new Date(historyData.timestamp)));
     					//建立訊息方塊
     					var boxHolder = document.createElement('div');
     					boxHolder.classList.add('message-box-holder');
@@ -546,7 +553,7 @@
 					messagesArea.appendChild(boxHolder);
 					//將視窗拉到底部顯示
     				messagesArea.scrollTop = messagesArea.scrollHeight;
-    			} else if ("image" === jsonObj.type){
+    			} else if ("notification" === jsonObj.type){
                     console.log(jsonObj.message);
 
                 }else if ("close" === jsonObj.type) {
@@ -560,7 +567,7 @@
     		};
     	}
         
-    	function getHistory() {
+    	function getHistory(friend) {
     		var container = document.getElementById("row");
             //要改成抓hidden傳送要交談的對象,可以先傳到session存起來(VO 或 單純朋友名字)
    			var friend = "${friend.memName}";
@@ -569,11 +576,26 @@
    					"type" : "history",
    					"sender" : self,
    					"receiver" : friend,
-   					"message" : ""
+   					"message" : "",
+   					"timestamp": new Date().getTime()
    				};
-   				console.log("123");
+   				console.log(new Date().getTime());
     			webSocket.send(JSON.stringify(jsonObj));
     	}
+    	
+    	
+    	function getNotificationRecord(){
+
+   			var jsonObj = {
+   					"type" : "notification",
+   					"sender" : self,
+   					"receiver" : "",
+   					"message" : "",
+   					"timestamp": new Date()
+   				};
+    			webSocket.send(JSON.stringify(jsonObj));
+    	}
+    	
         
     	function sendMessage(){
 //     		var inputMessage = document.getElementById("message");
@@ -587,7 +609,8 @@
         				"type" : "chat",
         				"sender" : self,
         				"receiver" : friend,
-        				"message" : message
+        				"message" : message,
+        				"timestamp": new Date()
         			};
         		webSocket.send(JSON.stringify(jsonObj));
 //         		inputMessage.value = "";
@@ -596,46 +619,46 @@
     		}
         }
 
-        function sendImage(e){
-            let imageURL = new Float64Array(e.data);;
-            let files = e.target.files;
-            if (files) {
-                    // 取出files物件的第一個
-                let file = files[0];
-                    // 判斷file.type的型別是否包含'image'
-                if (file.type.indexOf('image') > -1) {
-                        // 填入檔名
-                        // filename.value = file.name;
-                        // new a FileReader
-                        let reader = new FileReader();
-                        // 在FileReader物件上註冊load事件 - 載入檔案的意思
-                        reader.addEventListener('load', function(e) {
-                            // 取得結果 提示：從e.target.result取得讀取到結果
-                            imageURL = e.target.result;
-                            console.log('Start');
-                             //要改成抓hidden傳送要交談的對象,可以先傳到session存起來(VO 或 單純朋友名字)
-                            var friend = ${friend.memName};
-    		                var message = imageURL;
-                            console.log("start send image");
-                            var jsonObj = {
-                                "type" : "image",
-                                "sender" : self,
-                                "receiver" : friend,
-                                "message" : "123"
-                            };  
-                            webSocket.send(JSON.stringify(jsonObj));
-                            console.log("finished send image");
-                        });
-                        // 使用FileReader物件上的 readAsDataURL(file) 的方法，傳入要讀取的檔案，並開始進行讀取
-                        reader.readAsDataURL(file);
+//         function sendImage(e){
+//             let imageURL = new Float64Array(e.data);;
+//             let files = e.target.files;
+//             if (files) {
+//                     // 取出files物件的第一個
+//                 let file = files[0];
+//                     // 判斷file.type的型別是否包含'image'
+//                 if (file.type.indexOf('image') > -1) {
+//                         // 填入檔名
+//                         // filename.value = file.name;
+//                         // new a FileReader
+//                         let reader = new FileReader();
+//                         // 在FileReader物件上註冊load事件 - 載入檔案的意思
+//                         reader.addEventListener('load', function(e) {
+//                             // 取得結果 提示：從e.target.result取得讀取到結果
+//                             imageURL = e.target.result;
+//                             console.log('Start');
+//                              //要改成抓hidden傳送要交談的對象,可以先傳到session存起來(VO 或 單純朋友名字)
+//                             var friend = ${friend.memName};
+//     		                var message = imageURL;
+//                             console.log("start send image");
+//                             var jsonObj = {
+//                                 "type" : "image",
+//                                 "sender" : self,
+//                                 "receiver" : friend,
+//                                 "message" : "123"
+//                             };  
+//                             webSocket.send(JSON.stringify(jsonObj));
+//                             console.log("finished send image");
+//                         });
+//                         // 使用FileReader物件上的 readAsDataURL(file) 的方法，傳入要讀取的檔案，並開始進行讀取
+//                         reader.readAsDataURL(file);
                         
     		            
-                } else {
-                    // 彈出警告視窗 alert('請上傳圖片！');
-                    alert('請上傳圖片！');
-                }
-            }  		
-    	}
+//                 } else {
+//                     // 彈出警告視窗 alert('請上傳圖片！');
+//                     alert('請上傳圖片！');
+//                 }
+//             }  		
+//     	}
         
         function disconnect() {
     		webSocket.close();

@@ -16,6 +16,12 @@
 .h5{
 	text-align:center;
 }
+.fa-image{
+	color:white !important;
+}
+.pic:hover .fa-image{
+	color:#D8CF9E !important;
+}
 </style>
 <body>
 	<form METHOD="POST" ACTION="<%=request.getContextPath()%>/brand/brand.do" name="form1" enctype="multipart/form-data">
@@ -27,13 +33,16 @@
 			</c:forEach>
 		</ul>
 		</c:if>
-		<p class="lead mb-0">商品類別名稱:</p>
-		<input required class="mb-3 mt-0" type="TEXT" name="braName" size="20" placeholder="請輸入品牌名稱" value="" />
-		<p class="lead mb-0">商品類別Logo:</p>
+		<p class="lead mb-0"><label for="braName">商品品牌名稱:</label></p>
+		<input required class="form-control form-control-sm" style="width:200px;" id="braName" type="TEXT" name="braName" size="20" placeholder="請輸入品牌名稱" value="" />
+		<p class="lead mb-0"><label>商品品牌Logo:</label></p>
 		<div id="preview"></div>
-		<input required class="mb-3 mt-0" type="file" name="braLogo" id="myFile">
-		<p class="lead mb-0">商品類別介紹:</p>
-		<textarea required class="mb-3 mt-0" name="braIntro" cols="30" rows="10" placeholder="請輸入品牌介紹"></textarea>
+		<label>
+		<input style="display:none;" required class="mb-3 mt-0" type="file" name="braLogo" id="myFile">
+		<span class="btn btn-primary btn-sm pic"><i class="fas fa-image"></i>上傳圖片</span>
+		</label>
+		<p class="lead mb-0"><label for="braIntro">商品品牌介紹:</label></p>
+		<textarea required class="form-control mb-3" id="braIntro" name="braIntro" cols="30" rows="10" placeholder="請輸入品牌介紹"></textarea>
 		<div class="modal-footer">
 			<input name="action" value="insert" type="hidden" >
 			<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>

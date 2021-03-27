@@ -32,55 +32,43 @@
 
 <style>
 #addSalonimg{
-width:18px;
-
-
+	width:18px;
 }
 #xx{
-padding:0px;
-border:0px;
-box-sinzing:border-box;
-vertical-align:bottom;
+	padding:0px;
+	border:0px;
+	box-sinzing:border-box;
+	vertical-align:bottom;
 }
-
-
-
 textarea {
   resize : none;
   
 }
-
 .divDisplayNoneZZZ {
-
-display: none;
-
+	display: none;
 }
-
-
 .container-fluid{
-margin-top: 100px;
+	margin-top: 100px;
 }
 #submitForm{
-margin-right: 0px;
-
+	margin-right: 0px;
 }
 .prviewImg{
-width: 250px;
+	width: 250px;
 }
 .ScheduleTime{
-margin-top:10px;
+	margin-top:10px;
 }
 .Weekday{
-padding:5px;
+	padding:5px;
 }
-.form-control{
-	height:2.5rem !important;
-	font-size:1rem;
+.form-control{ 
+ 	height:2.5rem !important;
+/*  	font-size:1rem; */
+ } 
+.btn-block, .ui-widget button, .ui-widget textarea{
+	font-size:1rem !important;
 }
-
-
-
-
 </style>
  
 </head>
@@ -202,7 +190,7 @@ padding:5px;
 		</div>
 		<div class="form-group ScheduleTime">
 		<label for="desInfor">設計師簡介</label>
-		<textarea id='desInfor' row="10" cols="48" name="desInfor"  class="form-control"  rows ="10"
+		<textarea id='desInfor' row="10" cols="48" name="desInfor"  class="form-control"  rows ="5"
 						size="45" required>${empty designerVO ? ' ' :designerVO.desInfor}</textarea>
 			
 		</div>
@@ -470,7 +458,7 @@ var contextPath = "<%=request.getContextPath()%>";
             });
 
 // JS結束
-					console.log(error);
+// 					console.log(error);
 					
 					
 					$("#submitForm").click(function(){

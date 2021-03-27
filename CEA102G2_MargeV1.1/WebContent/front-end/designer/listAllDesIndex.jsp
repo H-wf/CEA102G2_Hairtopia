@@ -49,7 +49,9 @@
 			<div class="col-md-7 ">
 				<jsp:useBean id="salonSvc" scope="page"
 					class="com.salon.model.SalonService" />
-				<c:forEach var="designerVO" items="${desList}">
+				<jsp:useBean id="desSvc" scope="page"
+					class="com.designer.model.DesignerService" />
+				<c:forEach var="designerVO" items="${desSvc.all}">
 					<div class="card w-auto my-3" style="width: 18rem;">
 					
 						<div class="row no-gutters">

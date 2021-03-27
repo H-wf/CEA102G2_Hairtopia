@@ -21,6 +21,12 @@
 .h5 {
 	text-align: center;
 }
+.fa-image{
+	color:white !important;
+}
+.pic:hover .fa-image{
+	color:#D8CF9E !important;
+}
 </style>
 <body>
 	<form METHOD="POST" ACTION="<%=request.getContextPath()%>/cos/cos.do"
@@ -77,6 +83,7 @@
 		<label><input type="radio" name="cosStatus"
 			value="${cosVO.cosStatus}" checked />上架</label> <label><input
 			type="radio" name="cosStatus" value="${cosVO.cosStatus}" />下架</label>
+
 		<div class="modal-footer">
 			<input name="action" value="insert" type="hidden">
 			<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -181,6 +188,7 @@ $(function() {
 			});
 });
 
+<<<<<<< HEAD
 $(function() {
 	$('#f_date3').datetimepicker(
 			{
@@ -213,6 +221,17 @@ $(function() {
 });
 
 	</script>
+=======
+$("#twzipcode").twzipcode({
+	onDistrictSelect: function() {
+		var country = $("select[name='county']").val();  // 取縣市的值
+		var district = $("select[name='district']").val();  // 取鄉鎮市區的值
+		var zipcode = $("input[name='zipcode']").val();  // 取郵遞區號的值
+		$("#cosAdd").val(zipcode+country+district);
+	},
+})
+</script>
+>>>>>>> refs/heads/master
 
 </body>
 </html>

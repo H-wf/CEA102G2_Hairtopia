@@ -86,6 +86,7 @@ $(document).ready(function(){
 	});
 	
 function showWholePost(commentList, postVo, tagNameList) {
+	console.log(postVo.postPic2);
     $('#carouselPostIndicators .carousel-inner').append(`<div class="carousel-item active">
                                 							<img src="` + contextPath + `/PicFinder?pic=1&table=post&column=postPic1&idname=postNo&id=` + postVo.postNo + `" class="card-img-top" /></div>`);
     if (postVo.postPic2 != null || postVo.postPic3 != null) {
@@ -113,19 +114,25 @@ function showWholePost(commentList, postVo, tagNameList) {
     	$('#desInfo').prepend(`<img src="` + contextPath + `/PicFinder?pic=1&table=designer&column=desPic&idname=desNo&id=` + postVo.desNo + `" id="desPic" class="img-thumbnail" />`);
         $('#postTitle h5').append(postVo.desName);
         $('#postTitle p').append(postVo.postCon);
+        $('#postTitle p').after(`<div class="collapse" id="udPost`+postVo.postNo+`">
+	                            		<div class="input-group">
+                                            <input type="text" class="form-control udPost" placeholder="修改貼文" id="udComCon`+postVo.postNo+`">
+                                            <button class="btn btn-outline-secondary udPostButtom" id="`+postVo.postNo+`" type="submit">修改</button>
+                                        </div>
+								 </div>`);
+        
         $.each(tagNameList, function(index,value) {
             $('#tags').append(`<div>` + value + `</div>`);
-        })
+        });
         $('#postTime').append( postVo.postTime);
         if(isDes === true){
 	        if(desSessionNo === postVo.desNo){
-	        	$('#desInfo').append(`<div class="dropdown" id="postD">
+	        	$('#desInfo').after(`<div class="dropdown" id="postD">
 		                                    	<a class="dropdown-toggle" href="#" id="postDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 		                                    		<i class="bi bi-three-dots-vertical""></i>
 							                    </a>
 												  <div class="dropdown-menu" aria-labelledby="postDropdown">
-												    <a class="dropdown-item" href="#">隱藏此貼文</a>
-												    <a class="dropdown-item" href="#">修改</a>
+												    <a class="dropdown-item" data-toggle="collapse" href="#udPost`+postVo.postNo+`" role="button" aria-expanded="false" aria-controls="udPost`+postVo.postNo+`">修改</a>
 							   					  </div>
 											</div>`);
 	        }
@@ -208,6 +215,39 @@ function showWholePost(commentList, postVo, tagNameList) {
 				},
 			});
 		});
+        $('.udPostButtom').on('click',function(){
+			if($(this).prev('input').val().trim().length === 0 ){
+				window.alert("請輸入修改內容。");
+				swal.fire({
+					title:'請輸入貼文內容',
+					icon:'error',
+					showCloseButton: true,
+				});
+				return false;
+			}
+			$.ajax({
+				type:"POST",
+				url:contextPath + "/post/post.do",
+				data:{
+					action:"updatePostByAJAX",
+					postNo:$('.modal-body').attr('id'),
+					postCon:$(this).prev('input').val(),
+				},
+				success:function(data){
+					var postCon = JSON.parse(data);
+					var postId = $('.modal-body').attr('id');
+					var udPostInput='#udPost'+postId;
+					$('#postTitle p').text(postCon);
+					$('#udPost').text('');
+					$(udPostInput).collapse('hide');
+					swal.fire({
+						title:'貼文已修改',
+						icon:'success',
+						showCloseButton: true,
+					});
+				},
+			});
+		});
         
 }
 
@@ -248,6 +288,15 @@ function addCom(comVo){
                                     		<i class="bi bi-three-dots-vertical"></i>
 					                    </a>
 										  <div class="dropdown-menu" aria-labelledby="comDropdown`+comVo.comNo+`">
+										  	 <form METHOD="POST"	ACTION="`+contextPath+`/comment/comment.do">
+											  	 <a class="dropdown-item" href="javascript:;"onclick="$('#submitBtn`+comVo.comNo+`').click();">刪除留言</a>
+											  	 <input name="action" value="delete_Comment_Front" type="hidden">
+											  	 <input name="postNo" value="`+comVo.postNo+`" type="hidden">
+											  	 <input name="comNo" value="`+comVo.comNo+`" type="hidden">
+											  	 <input name="comStatus" value="`+comVo.comStatus+`" type="hidden">
+											  	 <input name="URI" value="`+URI+`" type="hidden">
+											  	 <button type="submit" id="submitBtn`+comVo.comNo+`" style="display:none;">刪除</button>
+										  	 </form>
 										    <a class="dropdown-item" data-toggle="collapse" href="#udCom`+comVo.comNo+`" role="button" aria-expanded="false" aria-controls="udCom`+comVo.comNo+`">修改</a>
 					   					  </div>
 										</div>`+
@@ -292,4 +341,5 @@ function addCom(comVo){
 				},
 			});
 		});
+		
 }

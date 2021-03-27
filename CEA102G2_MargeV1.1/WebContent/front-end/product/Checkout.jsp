@@ -320,24 +320,26 @@ $(document).ready(function() {
 	$("select").attr("class", "custom-select mr-2 custom-select-sm");
 	$("select").attr("style", "width:100px;height:28px");
 });
-//step1到step2的線
-$(document).ready(function() {
-	var h = $("table:first-child").height()+10 
-	$("head").append("<style>.step2::after{ height:" + h + "}</style>");
-});
-//step2到step3的線
-$(document).ready(function() {
-	var h = $("table:first-child").height()+410
-	$("head").append("<style>.step3::after{ height:" + h + "}</style>");
-});
+var h = $("table:first-child").height()+40;
+var count1 = 0;
 //點選next出現且滑動到下一個part
 $(".go2").click(function(){
 	$(".section2-1+div div:first-of-type").show();
 	$("html,body").animate({scrollTop:$(".section2").offset().top},800);
+	if(count1===0){
+		$("head").append("<style>.step1::after{ height:" + h + "}</style>");
+		count+=1;
+	}	
 });
-$(".go3").click(function(){
+var count2 = 0;
+$(".go3").click(function(){	
 	$(".section3-1+div div:first-of-type").show();
 	$("html,body").animate({scrollTop:$(".section3").offset().top},800);
+	if(count2 === 0){
+		h += 640;
+		$("head").append("<style>.step1::after{ height:" + h + "}</style>");
+		count2+=1;
+	}	
 });
 //點選同上將訂購人資料帶入收件人資料
 $(".form-check-input").click(function() {
