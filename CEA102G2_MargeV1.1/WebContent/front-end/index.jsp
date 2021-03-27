@@ -9,6 +9,7 @@
 <jsp:useBean id="desSvc"  scope="page" class="com.designer.model.DesignerService" />
 <jsp:useBean id="salSvc"  scope="page" class="com.salon.model.SalonService" />
 <jsp:useBean id="trendSvc"  scope="page" class="com.trend.model.TrendService" />
+<jsp:useBean id="proSvc"  scope="page" class="com.product.model.ProductService" />
 
 <!DOCTYPE html>
 <html lang="en">
@@ -258,6 +259,17 @@
             </div>
 	            <div class="row justify-content-between slidemove">
 	            
+	            	<c:forEach var="productVO" items="${proSvc.pickup5Product()}">
+					<div class="col-12">
+					<a href="<%=request.getContextPath()%>/product/product.do?action=getOne_For_Display&from=front-end&proNo=${productVO.proNo}">
+						<div class="card">
+							<img src="<%=request.getContextPath()%>/PicFinder?pic=1&table=product&column=proMpic&idname=proNo&id=${productVO.proNo}"
+							 class="card-img-top post-img img-fluid" />
+						</div>
+					</a>
+					</div>
+				</c:forEach>
+				
 <%-- 	            	<c:forEach  var="trendVO" items="${trendSvc.pickup5Trend()}">   --%>
 <%--  		            </c:forEach> --%>
 <!-- 	            <div class="col-2 "> -->

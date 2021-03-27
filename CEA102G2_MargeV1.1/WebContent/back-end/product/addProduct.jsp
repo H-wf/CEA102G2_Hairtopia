@@ -49,8 +49,8 @@
 		<p class="lead mb-0"><label for="proName">商品名稱:</label></p>
 		<input class="form-control form-control-sm" style="width:200px;" id="proName" required class="mb-3 mt-0" type="TEXT" name="proName" size="20" placeholder="請輸入商品名稱" value="" />
 		<p class="lead mb-0"><label>上架狀態:</label></p>
-		<label><input type="radio" name="proStatus" value="${prodouctVO.proStatus}" checked/>上架</label>					
-		<label><input type="radio" name="proStatus" value="${productVO.proStatus}" />下架</label>	
+		<label><input type="radio" name="proStatus" value="true" />上架</label>					
+		<label><input type="radio" name="proStatus" value="false" checked/>下架</label>	
 		<p class="lead mb-0"><label for="proPrice">商品單價:</label></p>
 		<input required class="form-control form-control-sm"  style="width:200px;" type="number" min="0" name="proPrice" size="20" placeholder="請輸入商品金額" value="" />		
 		<p class="lead mb-0"><label>商品主圖:</label></p>
