@@ -8,14 +8,17 @@
 <% 
 	ChatService chatSvc = new ChatService();
 	MemService memSvc = new MemService();
+	pageContext.setAttribute("memSvc", memSvc);
 	List<ChatVO> list = chatSvc.getAll();
 	MemVO friend = memSvc.getOneMem(4);
 	MemVO userSession = memSvc.getOneMem(2);
-	pageContext.setAttribute("friend", friend);
-	pageContext.setAttribute("userSession", userSession);
-	pageContext.setAttribute("list", list);
-	request.setAttribute("userName", "Tommy");
+// 	pageContext.setAttribute("friend", friend);
+// 	pageContext.setAttribute("userSession", userSession);
+// 	pageContext.setAttribute("list", list);
+// 	request.setAttribute("userName", "Tommy");
 %>
+
+<%-- <jsp:useBean id="memSvc" class="com.member.model.MemService" /> --%>
 
 <!DOCTYPE html>
 <html>
@@ -28,6 +31,7 @@
 <!--     <title>Document</title> -->
 	<link rel="stylesheet" href="<%=request.getContextPath()%>/resource/web-fonts-with-css/css/fontawesome-all.min.css">
 	<script src="<%=request.getContextPath()%>/dist/js/jquery.min.js"></script>
+	<script src="//cdn.jsdelivr.net/npm/sweetalert2@10"></script>
     
 
     <style>
@@ -321,13 +325,12 @@
         <div class="chatbox firstChatbox" style="z-index: 1000;display:none;">
             <div class="chatbox-top">
                 <div class="chatbox-avatar">
-                    <img
-                        src="<%=request.getContextPath()%>/showImges.do?tableName=member&picColumn=memPic&pkColumn=memNo&memNo=${friend.memNo}" />
+                    <img id="chatbox-image" src=""/>
                 </div>
                 <div class="chat-partner-name" id="chatPartnerName">
                     <!-- <span class="status online"></span> -->
 <!--                     <a target="_blank" href="#personal page"> -->
-                    ${designerVO.desName}
+                   
 <!--                     </a> -->
                 </div>
                 <div class="chatbox-icons">
@@ -339,34 +342,19 @@
 			
 			<!--聊天內容方格 -->
             <div id="chat-messages" class="chat-messages">
-	            <c:forEach var="chatVO" items="${list}">
-					<!--會員端內容 -->
-					<c:if test="${chatVO.chatSender == friend.memNo}">
-						<c:if test="${chatVO.chatReceiver == userSession.memNo}">
-							<div class="message-box-holder">
-		                    	<div class="message-box">
-		                        	${chatVO.chatText}
-		                    	</div>
-		                	</div>
-						</c:if >
-					</c:if >
-					<!--對象端內容 -->
-					<c:if test="${chatVO.chatReceiver == friend.memNo}">
-						<c:if test="${chatVO.chatSender == userSession.memNo}">
-							<div class="message-box-holder">
-<!-- 		                    	<div class="message-sender"> -->
-<%-- 			                        ${friend.memName} --%>
-<!-- 			                </div> -->
-			                
-		                    <div class="message-box message-partner">
-		                        ${chatVO.chatText}
-		                    </div>
-	                		</div>
-					
-						</c:if>
-					</c:if>
-				</c:forEach>
-            
+				<!--會員端內容 -->
+<!-- 				<div class="message-box-holder"> -->
+<!-- 		            <div class="message-box"></div> -->
+<!-- 		        </div> -->
+<!-- 					對象端內容 -->
+<!-- 				<div class="message-box-holder"> -->
+<!-- <!-- 		                    	<div class="message-sender"> -->
+<%-- <%-- 			                        ${friend.memName} --%> 
+<!-- <!-- 			                </div> -->
+                
+<!--                    <div class="message-box message-partner"> -->
+<!--                    </div> -->
+<!--               		</div> -->
             </div>
 
             <div class="chat-input-holder">
@@ -376,7 +364,7 @@
                 </div>
                 <input type="text" class="chat-input" id="message" onkeydown="if (event.keyCode == 13) sendMessage();" autocomplete="off">
 				<div class="chat-input-icons">
-                    <a href="javascript:void(0);"><i class="fas fa-reply"></i></a>
+                    <a href="javascript:void(0);"><i class="fas fa-reply" onclick="sendMessage()"></i></a>
                 </div>
 
             </div>
@@ -393,43 +381,41 @@
 		var webCtx = path.substring(0, path.indexOf('/', 1));
 		var endPointURL = "ws://" + host + webCtx + MyPoint;
 		/*需要調整區*/
-		var chatPartnerName = document.getElementById("chatPartnerName");
+		var chatPartnerName;
+		var friendMemberName;
 		/*需要調整區*/
 		var messagesArea = document.getElementsByClassName("chat-messages")[0];
 
         //改成登入時,塞進session的memVO
 		var self = '${userSession.memName}';
+		console.log(self);
 		var webSocket;
         
-    
+//      	getNotiHistory();
+		
         $(document).ready(function () {
+        	connect();
+        	
             $('.fa-minus').click(function () {
                 $(this).closest('.chatbox').toggleClass('chatbox-min');
             });
             $('.fa-times').click(function () {
                 $(this).closest('.chatbox').hide();
-                disconnect();
+//                 disconnect();
                 
             });
-            
-            $('#msgBtn').click(function(){
-            	$('.firstChatbox').toggle();
-            	// $('.secondChatbox').toggle();
-            	connect();
-            });
-            
-            $('.fa-reply').click(sendMessage);
+              
+//             $('.fa-reply').click(sendMessage());
             
             $("#upload_link").on('click', function(e){
                 e.preventDefault();
                 $("#uploadImage:hidden").trigger('click');
             });
             
-            $("#uploadImage").change(function(e){	
-            	console.log("Trigger");
-                sendImage(e);
-
-            });
+//             $("#uploadImage").change(function(e){	
+//             	console.log("Trigger");
+//                 sendImage(e);
+//             });
             
         });
         
@@ -439,16 +425,12 @@
         
         function connect() {
     		// create a websocket
-    		<%
-//     			System.out.println(1234);
-    		%>
     		webSocket = new WebSocket(endPointURL);
-    		webSocket.binaryType = "arraybuffer";
+//     		webSocket.binaryType = "arraybuffer";
     		
     		webSocket.onopen = function(event) {
     			console.log("Connect Success!");
-    			getHistory();
-    			console.log(chatPartnerName.textContent.trim());
+     			getNotiHistory();
     		};
 
     		webSocket.onmessage = function(event) {
@@ -504,11 +486,33 @@
 					messagesArea.appendChild(boxHolder);
 					//將視窗拉到底部顯示
     				messagesArea.scrollTop = messagesArea.scrollHeight;
-    			} else if ("image" === jsonObj.type){
+    			} else if ("notification" === jsonObj.type){
                     console.log(jsonObj.message);
+                    
+                    var messages = JSON.parse(jsonObj.message);
+                    console.log(messages);
+//     				for (var i = 0; i < messages.length; i++) {
+//     					//轉換JSON物件
+//     					var historyData = JSON.parse(messages[i]);
+//     					var showMsg = historyData.message;
+//     					console.log(historyData.type);
+//     					//建立訊息方塊
+//     					var boxHolder = document.createElement('div');
+//     					boxHolder.classList.add('message-box-holder');
+//         				var box = document.createElement('div');
+//         				box.classList.add('message-box');	
+        				
+//     					// 根據發送者是自己還是對方來給予不同的class名, 以達到訊息左右區分
+//     					if(historyData.sender !== self) {box.classList.add('message-partner');}
+    					
+//     					//塞入訊息
+//     					box.textContent = showMsg;
+//     					//塞入方塊區
+//     					boxHolder.appendChild(box);
+//     					messagesArea.appendChild(boxHolder);
 
                 }else if ("close" === jsonObj.type) {
-    				refreshFriendList(jsonObj);
+                	console.log("Disconnected!");
     			}
     			
     		};
@@ -521,13 +525,14 @@
     	function getHistory() {
     		var container = document.getElementById("row");
     		/*需要調整區*/
-   			var designer = "${designerVO.desName}";
+
    			/*需要調整區*/
    			var jsonObj = {
    					"type" : "history",
    					"sender" : self,
-   					"receiver" : designer,
-   					"message" : ""
+   					"receiver" : friendMemberName,
+   					"message" : "",
+   					"timestamp": new Date().getTime()
    				};
     			webSocket.send(JSON.stringify(jsonObj));
     	}
@@ -537,7 +542,8 @@
 
             //要改成抓hidden傳送要交談的對象,可以先傳到session存起來(VO 或 單純朋友名字)
             /*需要調整區*/
-    		var designer = "${designerVO.desName}";
+    		
+//     		var friend = "KING10";
     		/*需要調整區*/
     		var message = $('#message').val().trim();
 
@@ -545,8 +551,9 @@
     			var jsonObj = {
         				"type" : "chat",
         				"sender" : self,
-        				"receiver" : designer,
-        				"message" : message
+        				"receiver" : friendMemberName,
+        				"message" : message,
+        				"timestamp": new Date().getTime()
         			};
         		webSocket.send(JSON.stringify(jsonObj));
 //         		inputMessage.value = "";
@@ -555,52 +562,89 @@
     		}
         }
 
-        function sendImage(e){
-            let imageURL = new Float64Array(e.data);;
-            let files = e.target.files;
-            if (files) {
-                    // 取出files物件的第一個
-                let file = files[0];
-                    // 判斷file.type的型別是否包含'image'
-                if (file.type.indexOf('image') > -1) {
-                        // 填入檔名
-                        // filename.value = file.name;
-                        // new a FileReader
-                        let reader = new FileReader();
-                        // 在FileReader物件上註冊load事件 - 載入檔案的意思
-                        reader.addEventListener('load', function(e) {
-                            // 取得結果 提示：從e.target.result取得讀取到結果
-                            imageURL = e.target.result;
-                            console.log('Start');
-                             //要改成抓hidden傳送要交談的對象,可以先傳到session存起來(VO 或 單純朋友名字)
-                             /*需要調整區*/
-                            var designer = "${designerVO.desName}";
-                            /*需要調整區*/
-    		                var message = imageURL;
-                            console.log("start send image");
-                            var jsonObj = {
-                                "type" : "image",
-                                "sender" : self,
-                                "receiver" : designer,
-                                "message" : "123"
-                            };  
-                            webSocket.send(JSON.stringify(jsonObj));
-                            console.log("finished send image");
-                        });
-                        // 使用FileReader物件上的 readAsDataURL(file) 的方法，傳入要讀取的檔案，並開始進行讀取
-                        reader.readAsDataURL(file);
+    	function getNotiHistory(){
+    		var jsonObj = {
+   					"type" : "notification",
+   					"sender" : self,
+   					"receiver" : "",
+   					"message" :  "",
+   					"timestamp": new Date().getTime()
+   				};
+    			webSocket.send(JSON.stringify(jsonObj));
+    	}
+    	
+//         function sendImage(e){
+//             let imageURL = new Float64Array(e.data);;
+//             let files = e.target.files;
+//             if (files) {
+//                     // 取出files物件的第一個
+//                 let file = files[0];
+//                     // 判斷file.type的型別是否包含'image'
+//                 if (file.type.indexOf('image') > -1) {
+//                         // 填入檔名
+//                         // filename.value = file.name;
+//                         // new a FileReader
+//                         let reader = new FileReader();
+//                         // 在FileReader物件上註冊load事件 - 載入檔案的意思
+//                         reader.addEventListener('load', function(e) {
+//                             // 取得結果 提示：從e.target.result取得讀取到結果
+//                             imageURL = e.target.result;
+//                             console.log('Start');
+//                              //要改成抓hidden傳送要交談的對象,可以先傳到session存起來(VO 或 單純朋友名字)
+//                              /*需要調整區*/
+//                             /*需要調整區*/
+//     		                var message = imageURL;
+//                             console.log("start send image");
+//                             var jsonObj = {
+//                                 "type" : "image",
+//                                 "sender" : self,
+//                                 "receiver" : friend,
+//                                 "message" : "123",
+//                                 "timestamp": new Date().getTime()
+//                             };  
+//                             webSocket.send(JSON.stringify(jsonObj));
+//                             console.log("finished send image");
+//                         });
+//                         // 使用FileReader物件上的 readAsDataURL(file) 的方法，傳入要讀取的檔案，並開始進行讀取
+//                         reader.readAsDataURL(file);
                         
     		            
-                } else {
-                    // 彈出警告視窗 alert('請上傳圖片！');
-                    alert('請上傳圖片！');
-                }
-            }  		
-    	}
+//                 } else {
+//                     // 彈出警告視窗 alert('請上傳圖片！');
+//                     alert('請上傳圖片！');
+//                 }
+//             }  		
+//     	}
         
         function disconnect() {
     		webSocket.close();
     	}
+        
+        
+        
+        
+        function chat(toName, toNO, toMemName){
+			if(self !== toMemName){
+				chatPartnerName = toName;
+	        	friendMemberName = toMemName;
+	        	getHistory();
+	        	
+	        	
+	        	let imageSrc = '<%=request.getContextPath()%>/showImges.do?tableName=member&picColumn=memPic&pkColumn=memNo&memNo=' + toNO;
+	    		$('#chatbox-image').attr('src', imageSrc);
+	            $('#chatPartnerName').text(chatPartnerName);
+	            
+	            $('.firstChatbox').show();
+			}else{
+				Swal.fire({
+		        	  title: '錯誤!',
+		        	  text: '不能發送訊息給自己',
+		        	  icon: 'error',
+		        	  confirmButtonText: '關閉'
+		        	})
+			}
+        	
+        }
         
         
         

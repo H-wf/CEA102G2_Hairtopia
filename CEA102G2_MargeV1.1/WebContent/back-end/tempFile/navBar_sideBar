@@ -83,7 +83,7 @@
                 </a>
                 <div id="frontendmanagement" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <a class="collapse-item" href="##">會員管理</a>
+                        <a class="collapse-item" href="<%=request.getContextPath()%>/back-end/member/listAllMember.jsp">會員管理</a>
                         <a class="collapse-item" href="<%=request.getContextPath()%>/back-end/designer/listAllDesigner.jsp">設計師管理</a>
                     </div>
                 </div>

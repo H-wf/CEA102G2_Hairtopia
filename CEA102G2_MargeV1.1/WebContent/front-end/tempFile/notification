@@ -19,36 +19,35 @@
 									<div class="loader" data-loader="circle"></div>
 								</div>
 								<ul class="notification_list">
-								<script>console.log('XZZ');</script>
-								<c:forEach var="chatVO" items="${list}">
-								<script>console.log('X');</script>
 								
-									<li class="clearfix">
-										<a class="clearfix">
+								
+								
+								
+									<li class="">
+										<a class="">
 											<figure>
-											<c:forEach var="memVO" items="${memSvc.all}">
-												<c:if test="false">
-													<img class="cover_fit"
-													src="">
-												</c:if>
-											</c:forEach>
+												<img class="cover_fit" src="">
 											</figure>
 											<div class="noti_con">
-											<c:forEach var="memVO" items="${memSvc.all}">
-												<c:if test="${chatVO.chatSender==memVO.memNo}">
-													<div class="user_name">${memVO.memName}</div>
-												</c:if>
-											</c:forEach>
+													<div class="user_name"></div>
 												<div class="msg"
-													style="padding-bottom: 8px; margin-top: 0px;">${chatVO.chatText}</div>
-												<div class="chat_time">8 天前</div>
+													style="padding-bottom: 8px; margin-top: 0px;"></div>
+												<div class="chat_time"></div>
 												<!-- react-text: 477 -->
 												<!-- /react-text -->
 											</div>
 										</a>
 									</li>
-									</c:forEach>
-
+									
+									
+									
+									
+									
+									
+									
+									
+									
+									
 									<!-- /react-text -->
 									<li class="notification_more btn_loader"><a>
 											<div class="loader" data-loader="circle"></div> <!-- react-text: 1409 -->載入更多
@@ -76,8 +75,8 @@
 											</figure>
 											<div class="noti_con">
 												<img class="noti_img" src="https://cdn.style-map.com/post/photo/small/625048.jpg">
-												<div class="msg">Rocco  發表了新貼文$</div>
-												<div class="post_time">8 天前</div>
+												<div class="msg">Rocco  </div>
+												<div class="post_time"></div>
 											</div>
 										</a>
 									</li>
