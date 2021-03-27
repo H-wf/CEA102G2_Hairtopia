@@ -78,7 +78,14 @@ public class SalonVO implements Serializable{
 	private Integer salStatus;
 	private String  salLat;
 	private String  salLng;
+	private String  salPicPath;
 	
+	public String getSalPicPath() {
+		return salPicPath;
+	}
+	public void setSalPicPath(String salPicPath) {
+		this.salPicPath = salPicPath;
+	}
 	public Integer getSalNo() {
 		return salNo;
 	}
