@@ -206,7 +206,7 @@ public class BrandDAO implements BrandDAO_interface{
 				brandVO = new BrandVO();
 				brandVO.setBraNo(rs.getInt("BRANO"));
 				brandVO.setBraName(rs.getString("BRANAME"));
-				brandVO.setBraLogo(rs.getBytes("BRALOGO"));
+				//brandVO.setBraLogo(rs.getBytes("BRALOGO"));
 				brandVO.setBraIntro(rs.getString("BRAINTRO"));
 				list.add(brandVO);
 			}

@@ -98,6 +98,7 @@
 	<jsp:useBean id="lecSvc" scope="page" class="com.lecturer.model.LecturerService"/>
 	 
 	<c:forEach var="cosVO" items="${list}" begin="<%=pageIndex%>" end="<%=pageIndex+rowsPerPage-1%>">
+		<c:if test="${cosVO.cosStatus==true}">
 		<tr>
 			<td>${cosVO.cosNo}</td>
 			<td>${lecSvc.getOneLecturer(cosVO.lecNo).lecName}</td>
@@ -117,6 +118,7 @@
 			<td><fmt:formatDate value="${cosVO.cosApplyTo}" type="both"/></td>
 			<td>${cosVO.cosName}</td>
 			</tr>
+			</c:if>
 	</c:forEach>
 </table>
 <%@ include file="/back-end/pages/page2.file" %>

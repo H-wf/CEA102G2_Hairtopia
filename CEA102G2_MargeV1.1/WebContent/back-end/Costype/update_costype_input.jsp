@@ -21,11 +21,11 @@
 			</c:forEach>
 		</ul>
 	</c:if>
-	
-	<p class="lead mb-0">課程類別名稱:</p>
-	<input required class="mb-3 mt-0" type="TEXT" name="cosTypeName" size="45" value="${costypeVO.cosTypeName}" />
-	<p class="lead mb-0">課程類別敘述:</p>
-	<input required class="mb-3 mt-0" type="TEXT" name="cosTypeIntro" size="45" value="${costypeVO.cosTypeIntro}" />
+	<p class="lead mb-0"><label>課程類別編號:<i>${costypeVO.cosTypeNo}</i></label></p>
+	<p class="lead mb-0"><label for="cosTypeName">課程類別名稱:</label></p>
+	<input required class="form-control form-control-sm mb-3" style="width:200px;" id="cosTypeName" type="TEXT" name="cosTypeName" size="45" value="${costypeVO.cosTypeName}" />
+	<p class="lead mb-0"><label for="cosTypeIntro">課程類別敘述:</label></p>
+	<input required class="form-control form-control-sm mb-3" style="width:200px;" id="cosTypeIntro" type="TEXT" name="cosTypeIntro" size="45" value="${costypeVO.cosTypeIntro}" />
 	<div class="modal-footer">
 		<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
 		<input type="submit" class="btn btn-primary" value="修改">

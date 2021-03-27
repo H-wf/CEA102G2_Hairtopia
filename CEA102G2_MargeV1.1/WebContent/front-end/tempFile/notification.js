@@ -1,9 +1,5 @@
-$(function() {
 
-	
-	
-	
-	
+$(function() {
 	$('.bi-bell').click(function() {
 		$('.notification_buble').toggleClass('active');
 		console.log($('.notification_buble'));

@@ -68,7 +68,7 @@
                         </tfoot>
                         <tbody>
 						<c:forEach var="brandVO" items="${brandSvc.all}">
-                            <tr ${(brandVO.braNo==param.braNo) ? 'bgcolor=#F8F7F1':''}>
+                            <tr>
                                 <td>${brandVO.braNo}</td>
                                 <td>${brandVO.braName}</td>                                
                                 <td><img src="<%=request.getContextPath()%>/PicFinder?pic=1&table=brand&column=braLogo&idname=braNo&id=${brandVO.braNo}" alt='沒有圖片' width="50" height="40"></td>
@@ -87,7 +87,7 @@
 							<div class="modal-dialog">
 								<div class="modal-content">
 									<div class="modal-header">
-						                <h4 class="modal-title" id="myModalLabel">商品品牌修改</h4>
+						                <h5 class="modal-title" id="myModalLabel">商品品牌修改</h5>
 						                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 						            </div>
 									

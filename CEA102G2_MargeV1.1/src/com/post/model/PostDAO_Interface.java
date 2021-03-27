@@ -4,7 +4,7 @@ import java.util.List;
 
 public interface PostDAO_Interface {
 	public PostVO insert(PostVO postVo);	//insert a post with 3 pic
-    public void delete(Integer postNo);
+    public void delete(Integer postNo,Integer postStatus);
     public PostVO findByPrimaryKey(Integer postNo);
     public List<PostVO> getAll(Integer desNo);
     public List<PostVO> getAll();
@@ -16,5 +16,6 @@ public interface PostDAO_Interface {
 	public void update2(PostVO postVo);	//修改兩張照片
 	public void update3(PostVO postVo);	//修改三張照片
 	public void update4(PostVO postVo);// for 檢舉隱藏貼文
+	public PostVO updateAJAX(PostVO postVo);// for 檢舉隱藏貼文
 //	public List<PostVO> getAllByAJAX(String keyword); 
 }

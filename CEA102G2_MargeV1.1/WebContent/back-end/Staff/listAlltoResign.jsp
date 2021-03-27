@@ -67,7 +67,7 @@
 					<FORM METHOD="post"
 						ACTION="<%=request.getContextPath()%>/staff/staff.do"
 						style="margin-bottom: 0px;">
-						<input type="submit"  class="btn btn-info" value="離職"> <input type="hidden"
+						<input type="submit"  class="btn btn-primary btn-sm" value="離職"> <input type="hidden"
 							name="staNo" value="${staVO.staNo}"> 
 						<input
 							type="hidden" name="action" value="updateForResign">

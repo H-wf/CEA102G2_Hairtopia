@@ -109,8 +109,6 @@ public class CosDAO implements CosDAO_interface{
 			pstmt.setTimestamp(13, cosVO.getCosApplyTo());
 			pstmt.setString(14, cosVO.getCosName());
 
-			pstmt.executeUpdate("set auto_increment_offset=3;");
-			pstmt.executeUpdate("set auto_increment_increment=3;");
 			pstmt.executeUpdate();
 
 			// Handle any SQL errors

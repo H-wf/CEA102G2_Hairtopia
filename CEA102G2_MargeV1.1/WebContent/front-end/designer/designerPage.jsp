@@ -16,10 +16,8 @@
 
 <%
 	DesignerVO designerVO = (DesignerVO) request.getAttribute("designerVO");
-	SalonVO salVo = (SalonVO) request.getAttribute("salVo");
-// 	DesignerService desSvcs = new DesignerService();
-// 	DesignerVO desSession = desSvcs.getOneDesByDesNo(1);
-// 	pageContext.setAttribute("desSession", desSession);
+	SalonVO salVo = salonSvc.getOneSalon(designerVO.getSalNo());
+	request.setAttribute("salVo", salVo);
 %>
 <html lang="en">
 
@@ -46,7 +44,8 @@
 					<div class="px-4 pt-0 pb-4 cover">
 						<div class="media align-items-end profile-head">
 							<div class="profile mr-3">
-									<img src="<%=request.getContextPath()%>/PicFinder?pic=1&table=Designer&column=desPic&idname=desNo&id=${designerVO.desNo}" alt='沒有圖片' class="rounded mb-2 img-thumbnail" />
+<%-- 									<img src="<%=request.getContextPath()%>/PicFinder?pic=1&table=Designer&column=desPic&idname=desNo&id=${designerVO.desNo}" alt='沒有圖片' class="rounded mb-2 img-thumbnail" /> --%>
+									<img src="<%=request.getContextPath()%>/PicFinder?pic=1&table=Member&column=memPic&idname=memNo&id=${userSession.memNo}" alt='沒有圖片' class="rounded mb-2 img-thumbnail" />
 								<c:if test="${not empty desSession && desSession.desNo eq designerVO.desNo}">
 									<a href="<%=request.getContextPath()%>/front-end/member/memberSetting.jsp"	class="btn btn-outline-dark btn-sm btn-block">Edit profile</a>
 									<a href="#" class="btn btn-outline-dark btn-sm btn-block" id="addPostBtn" data-toggle="modal" data-target="#addPostModal">Add Post</a>
@@ -74,10 +73,16 @@
 					</div>
 					<div class="bg-light p-4 d-flex justify-content-end text-center">
 						<ul class="list-inline mb-0">
+						
 							<li class="list-inline-item">
-								<h5 class="font-weight-bold mb-0 d-block"><fmt:formatNumber type="number" value="${designerVO.desTolScore/designerVO.desCount}" maxFractionDigits="1"/></h5>
+								<h5 class="font-weight-bold mb-0 d-block">
+								<c:choose>
+								<c:when test="${designerVO.desCount!=0}"><fmt:formatNumber type="number" value="${designerVO.desTolScore/designerVO.desCount}" maxFractionDigits="1"/></c:when>
+								<c:when test="${designerVO.desCount eq 0}">0.0</c:when>
+								</c:choose></h5>
 								<small class="text-muted"></i><i class="fas fa-star" style="color:#D8CF9E"></i>Score</small>
 							</li>
+						
 							<li class="list-inline-item">
 								<h5 class="font-weight-bold mb-0 d-block">745</h5>
 								<small class="text-muted">Followers</small>
@@ -257,6 +262,11 @@
 	<script src="<%=request.getContextPath()%>/resource/tagify/dist/jQuery.tagify.min.js"></script>
 	<script	src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAgth_SXMI_V6SbxEmCxOFwzUwCXAizZhY&callback=initMap&libraries=&v=weekly" async></script>
 </body>
+<c:if test="${not empty wholePostMap}">
+	<script>
+			var wholePostMap = '${wholePostMap}';
+	</script>
+</c:if>
 <script>
 
 //FOLLOW
@@ -267,7 +277,6 @@
 					memNo:${not empty userSession.memNo?userSession.memNo:"null"},	//userSession
 					desNo:${designerVO.desNo},
 			}
-			
 			if(obj.memNo === null){
 				swal.fire({
 					title:'請先登入',
@@ -291,7 +300,8 @@
 					showCloseButton: true,
 				});
 				return false;
-			}else if($('#followBtn').text() == "Unfollow"){
+
+			}else if($('#followBtn').text().trim() =="Unfollow"){
 				obj.action = "deleteByAJAX";
 					$.ajax({
 						type:"POST",
@@ -307,7 +317,7 @@
 						},
 					});
 				
-			}else if($('#followBtn').text() == "Follow"){
+			}else if($('#followBtn').text().trim() =="Follow"){
 				obj.action = "insertByAJAX";
 					$.ajax({
 							type:"POST",
