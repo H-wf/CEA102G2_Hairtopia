@@ -425,9 +425,10 @@ public class ResServlet extends HttpServlet{
 				String minute = (resTime%2==0)?"00":"30";
 				String phone = "0932391332"; //接收者的電話 要測試的話可以改成你自己的號碼
 				String msg = memName+"會員你好，您的預約服務號碼"+resNo+"已確認預約成功，服務時間為"+resDate+" "+hour+":"+minute+"驗證碼為"+resCode;//傳送的訊息
+//				String msg = "Moriyama Mikuri會員你好，您的預約服務號碼5已確認預約成功，服務時間為2021-3-27 9:30 驗證碼為GeA4Z";//傳送的訊息
 				String endcodeMsg = URLEncoder.encode(msg,"UTF-8");
 				MessageService msgSvc = new MessageService();
-//				msgSvc.sendSms(phone,endcodeMsg);
+				msgSvc.sendSms(phone,endcodeMsg);
 				resVO.setResCode(resCode);
 				resVO.setResStatus(resStatus);
 				
@@ -709,8 +710,8 @@ if ("searchByResNo".equals(action)) {
 				req.setAttribute("memNo", memNo);
 				
 				//Bootstrap_modal
-				boolean openModal=true;
-				req.setAttribute("openModal",openModal );
+				boolean openResModal=true;
+				req.setAttribute("openResModal",openResModal );
 				
 				String url = "/front-end/member/memberPage.jsp";
 				

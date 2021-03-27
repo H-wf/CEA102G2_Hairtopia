@@ -174,10 +174,10 @@
 					${resVO.resCode}
 				</c:when>
 				<c:when test="${resVO.resStatus == 2}">
-				已到店認證
+					${resVO.resCode}
 				</c:when>
 				<c:when test="${resVO.resStatus == 3}">
-				服務已完成
+					${resVO.resCode}
 				</c:when>
 				<c:when test="${resVO.resStatus == 4}">
 				無法接受預約
