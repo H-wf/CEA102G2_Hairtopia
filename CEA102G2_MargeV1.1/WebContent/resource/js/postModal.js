@@ -86,6 +86,7 @@ $(document).ready(function(){
 	});
 	
 function showWholePost(commentList, postVo, tagNameList) {
+	console.log(postVo.postPic2);
     $('#carouselPostIndicators .carousel-inner').append(`<div class="carousel-item active">
                                 							<img src="` + contextPath + `/PicFinder?pic=1&table=post&column=postPic1&idname=postNo&id=` + postVo.postNo + `" class="card-img-top" /></div>`);
     if (postVo.postPic2 != null || postVo.postPic3 != null) {
@@ -217,6 +218,11 @@ function showWholePost(commentList, postVo, tagNameList) {
         $('.udPostButtom').on('click',function(){
 			if($(this).prev('input').val().trim().length === 0 ){
 				window.alert("請輸入修改內容。");
+				swal.fire({
+					title:'請輸入貼文內容',
+					icon:'error',
+					showCloseButton: true,
+				});
 				return false;
 			}
 			$.ajax({
@@ -234,7 +240,11 @@ function showWholePost(commentList, postVo, tagNameList) {
 					$('#postTitle p').text(postCon);
 					$('#udPost').text('');
 					$(udPostInput).collapse('hide');
-					window.alert("留言已修改。");
+					swal.fire({
+						title:'貼文已修改',
+						icon:'success',
+						showCloseButton: true,
+					});
 				},
 			});
 		});

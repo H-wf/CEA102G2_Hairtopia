@@ -48,7 +48,7 @@
                         </a>
                         <a class="dropdown-item" href="<%=request.getContextPath()%>/front-end/member/memberSetting.jsp">
                             <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
-                            	設定
+                            	會員設定
                         </a>
                         <c:if test="${empty desSession}">
                         <a class="dropdown-item" href="<%=request.getContextPath()%>/front-end/designer/addDesAndSal.jsp">
@@ -58,7 +58,7 @@
                         </c:if>
                         <c:if test="${not empty desSession}">
                         <a class="dropdown-item" href="<%=request.getContextPath()%>/designer/designer.do?action=getOne_For_Display&desNo=${desSession.desNo}">
-                            <i class="fas fa-cut mr-2"></i>
+                            <i class="fas fa-magic mr-2"></i>
                             	設計師頁面
                         </a>
                         <a class="dropdown-item" href="<%=request.getContextPath()%>/front-end/service/listAllSerByDes.jsp">

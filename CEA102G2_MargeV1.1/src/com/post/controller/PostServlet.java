@@ -726,6 +726,7 @@ public class PostServlet extends HttpServlet {
 			}else if(postVo.getPostPic3() != null) {
 				postVo.setPostPic3(new byte[0]);
 			}
+System.out.println(postVo.getPostPic2());
 //用postNo取得tagDet的tagNo再取得所有tagName
 			Set<Integer> tagNoSet = tagdetSvc.getTagNo(postNo);
 			List<String> tagNameList = tagSvc.getTagName(tagNoSet);
