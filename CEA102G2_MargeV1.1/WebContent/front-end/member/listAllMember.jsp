@@ -14,7 +14,7 @@
 
 <html>
 <head>
-<title>所有會員資料 - listAllMem.jsp</title>
+<title>會員資料</title>
 
 <style>
 table#table-1 {

@@ -37,7 +37,7 @@ article, body, dd, div, dl, dt, fieldset, figure, footer, form, h1, h2,
 }
 
 .notification_buble {
-	display: none;
+	display: block;
 	position: absolute;
 	top: 80px;
 	right: 200px;
@@ -148,7 +148,7 @@ a, a:link {
 	left: 6px;
 	top: 6px;
 }
-.navbar-nav img.noti_img {
+img.noti_img {
     float: right;
     height: auto;
     max-height: 52px;
@@ -231,36 +231,21 @@ img.cover_fit {
 									<div class="loader" data-loader="circle"></div>
 								</div>
 								<ul class="notification_list">
-								<script>console.log('XZZ');</script>
-								<c:forEach var="chatVO" items="${list}">
-								<script>console.log('X');</script>
-								
 									<li class="clearfix">
 										<a class="clearfix">
 											<figure>
-											<c:forEach var="memVO" items="${memSvc.all}">
-												<c:if test="${chatVO.chatSender==memVO.memNo}">
-													<img class="cover_fit"
-													src="<%=request.getContextPath()%>/showImges.do?tableName=member&picColumn=memPic&pkColumn=memNo&memNo=${memVO.memNo}">
-												</c:if>
-											</c:forEach>
+												<img class="cover_fit" src="">
 											</figure>
 											<div class="noti_con">
-												<c:forEach var="memVO" items="${memSvc.all}">
-													<c:if test="${chatVO.chatSender==memVO.memNo}">
-														<div class="user_name">${memVO.memName}</div>
-													</c:if>
-												</c:forEach>
-												<div class="msg"
-													style="padding-bottom: 8px; margin-top: 0px;">${chatVO.chatText}</div>
-												<div class="chat_time">8 天前</div>
+												<div class="user_name"></div>
+												<div class="msg" style="padding-bottom: 8px; margin-top: 0px;"></div>
+												<div class="chat_time"></div>
 												<!-- react-text: 477 -->
 												<!-- /react-text -->
 											</div>
 										</a>
 									</li>
-									</c:forEach>
-
+									
 									<!-- /react-text -->
 									<li class="notification_more btn_loader"><a>
 											<div class="loader" data-loader="circle"></div> <!-- react-text: 1409 -->載入更多
@@ -317,7 +302,7 @@ img.cover_fit {
 </body>
 <script>
 $(function() {
-
+	
 	$('.bi-bell').click(function() {
 		$('.notification_buble').toggleClass('active');
 	});

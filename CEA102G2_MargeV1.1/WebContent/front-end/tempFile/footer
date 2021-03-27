@@ -61,4 +61,6 @@
             </div>
         </div>
     </footer>
-    <jsp:include page="/front-end/chat/chatBox_Include.jsp"></jsp:include>
+    <c:if test="${userSession != null}">
+   		<jsp:include page="/front-end/chat/chatBox_Include.jsp"></jsp:include>
+    </c:if>

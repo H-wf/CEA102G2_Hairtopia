@@ -73,8 +73,8 @@
 		<p class="lead mb-0"><label for="f_date4">報名截止日:</label></p>
 		<input class="form-control form-control-sm" style="width:200px;" name="cosApplyTo" id="f_date4" type="text" autocomplete="off">
 		<p class="lead mb-0"><label>課程狀態:</label></p>
-		<label><input type="radio" name="cosStatus" value="${cosVO.cosStatus}" checked/>上架</label>					
-		<label><input type="radio" name="cosStatus" value="${cosVO.cosStatus}" />下架</label>
+		<label><input type="radio" name="cosStatus" value="true" checked/>上架</label>					
+		<label><input type="radio" name="cosStatus" value="false" />下架</label>
 		<div class="modal-footer">
 			<input name="action" value="insert" type="hidden" >
 			<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
