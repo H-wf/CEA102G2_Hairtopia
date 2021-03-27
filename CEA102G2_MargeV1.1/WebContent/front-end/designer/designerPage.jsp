@@ -8,6 +8,7 @@
 <%@ page import="java.util.*"%>
 
 <jsp:useBean id="desSvc" scope="page" class="com.designer.model.DesignerService" />
+<jsp:useBean id="memSvc" scope="page" class="com.member.model.MemService" />
 <jsp:useBean id="postSvc" scope="page" 	class="com.post.model.PostService" />
 <jsp:useBean id="followSvc" scope="page" class="com.followlist.model.FollowListService" />
 <jsp:useBean id="salonSvc" scope="page"	class="com.salon.model.SalonService" />
@@ -63,7 +64,9 @@
 										</c:otherwise>
 									</c:choose>
 									</div>
-									<div class="btn btn-outline-primary" id="msgBtn">傳送訊息</div>
+<%-- 									<c:if test="${not empty userSession}"> --%>
+										<div class="btn btn-outline-primary" id="msgBtn">傳送訊息</div>
+<%-- 									</c:if> --%>
 								</div>
 							</div>
 						</div>
@@ -297,6 +300,7 @@
 					showCloseButton: true,
 				});
 				return false;
+
 			}else if($('#followBtn').text().trim() =="Unfollow"){
 				obj.action = "deleteByAJAX";
 					$.ajax({
@@ -407,6 +411,39 @@
 				});
 			}
 		});
+		//chat 判定
+		$('#msgBtn').on('click',function(){
+			if(${empty sessionScope.userSession}){
+				swal.fire({
+					title:'請先登入',
+					icon:'warning',
+					showCloseButton: true,
+					showCancelButton: true, 
+					confirmButtonText:'登入',
+					cancelButtonText:'取消',
+				});
+				$('.swal2-confirm').click(function(){
+					window.location=contextPath+"/front-end/member/login.jsp";
+				});
+				$('.swal2-cancel').click(function(){
+					console.log("已取消");
+				});
+				return false;
+			}else if(${sessionScope.userSession.memName == memSvc.getOneMem(designerVO.memNo).memName }){
+					if(${desSession.desNo == designerVO.desNo}){
+						swal.fire({
+	  				  		icon: 'warning',
+	  				  		title: 'Oops...',
+	  				  		text: '不能傳訊給自己',
+	  				  		confirmButtonColor:'rgba(216,207,158,0.8)',
+						});
+						return false;
+					}
+			}
+			chat('${designerVO.desName}', '${designerVO.memNo}','${memSvc.getOneMem(designerVO.memNo).memName}');
+		});
+		
+		
 	});
 	
 // MAP
@@ -432,6 +469,10 @@
                 infoWindow.open(map, marker);
             });
         }
+        
+        
+        
+        
 </script>
 
 </html>

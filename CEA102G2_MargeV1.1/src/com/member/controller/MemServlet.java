@@ -44,27 +44,15 @@ public class MemServlet extends HttpServlet {
 		}
 		
 		if("test".equals(action)) {
-			String memEmail = req.getParameter("memEmail");
-			MemService memSvc = new MemService();
-			String confirm = memSvc.validateEmail(memEmail);
-			if(confirm != null) {
-				out.println("false");
-			}else {
-				out.println("true");
-			}
-			
-			/* 圖片處理段落 */
-			byte[] memPic = null;
-			Part part = req.getPart("memPic");
-			InputStream in = part.getInputStream();
-			if (in.available() > 0) {
-				memPic = new byte[in.available()];
-				in.read(memPic);
-				in.close();
-				System.out.println("buffer length_o: " + memPic.length);
-				/*對圖檔進行縮圖*/
-				memPic = ImageUtil.shrink(memPic, 100);
-				System.out.println("buffer length_s: " + memPic.length);
+			System.out.println(123);
+			try {
+				String memEmail = req.getParameter("memEmail");
+				Integer memStatus = new Integer(req.getParameter("memStatus"));
+				MemService memSvc = new MemService();
+				memSvc.updateStatus(memEmail, memStatus);
+				out.println("Update status sucesss");
+			}catch(Exception e){
+				out.println("Update status fail");
 			}
 		}
 		
