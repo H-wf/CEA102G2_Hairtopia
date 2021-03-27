@@ -113,7 +113,7 @@
   			<a href="<%=request.getContextPath()%>/designer/designer.do?action=getOne_For_Update&desNo=${desSession.desNo}" class="list-group-item list-group-item-action">
 				個人資訊修改
 			</a>
-			<a href="" class="list-group-item list-group-item-action">
+			<a href="<%=request.getContextPath()%>/front-end/Post/updatePostSratus.jsp" class="list-group-item list-group-item-action">
 				貼文狀態管理
 			</a>
 		</div>
@@ -205,11 +205,11 @@
 					<input type="hidden" name="action"	value="updateSerStatus">
 				</FORM>
 				</c:if>
-				<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/service/service.do">
-					<input type="submit" value="刪除" class="btn btn-outline-primary bookingBtn">
-					<input type="hidden" name="serNo"  value="${serviceVO.serNo}">
-					<input type="hidden" name="action"	value="delete">
-				</FORM>
+<%-- 				<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/service/service.do"> --%>
+<!-- 					<input type="submit" value="刪除" class="btn btn-outline-primary bookingBtn"> -->
+<%-- 					<input type="hidden" name="serNo"  value="${serviceVO.serNo}"> --%>
+<!-- 					<input type="hidden" name="action"	value="delete"> -->
+<!-- 				</FORM> -->
 			</div></h4>
 			<span style="font-size:1rem;color:#b9b9b9">${serviceVO.serDesc}</span>
 			<h4>服務時長:　

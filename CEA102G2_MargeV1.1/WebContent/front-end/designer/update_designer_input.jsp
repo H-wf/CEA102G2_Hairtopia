@@ -67,7 +67,8 @@
 						href="<%=request.getContextPath()%>/front-end/reservation/listScheduleOfDes.jsp"
 						class="list-group-item list-group-item-action"> 查看預約行程 </a> <a
 						href="#" class="list-group-item list-group-item-action active">
-						個人資訊修改 </a> <a href="" class="list-group-item list-group-item-action">
+						個人資訊修改 </a> <a href="<%=request.getContextPath()%>/front-end/Post/updatePostSratus.jsp" 
+						class="list-group-item list-group-item-action">
 						貼文狀態管理 </a>
 				</div>
 

@@ -17,7 +17,7 @@
         } */
 
         div.stars {
-            width: 150px;
+            width: 140px;
             display: inline-block
         }
 
@@ -58,6 +58,9 @@
         label.star:before {
             content: '\2606';
             font-family: FontAwesome
+        }
+        btn-primary{
+        	vertical-align:top !important; 
         }
     </style>
 </head>
@@ -189,7 +192,7 @@
 	<c:if test="${resVO.resStatus == 2}">
 	<tr><th>確認預約</th>
 		<td><FORM METHOD="post" ACTION="<%=request.getContextPath()%>/reservation/res.do" style="margin-bottom: 0px;">
-			     	<input type="submit" value="服務完成">
+			     	<input type="submit" value="服務完成" class="btn btn-primary">
 			    	<input type="hidden" name="resNo"  value="${resVO.resNo}">
 			     	<input type="hidden" name="action"	value="completeRes">
 			 </FORM></td></tr>

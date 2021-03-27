@@ -427,7 +427,7 @@ public class ResServlet extends HttpServlet{
 				String msg = memName+"會員你好，您的預約服務號碼"+resNo+"已確認預約成功，服務時間為"+resDate+" "+hour+":"+minute+"驗證碼為"+resCode;//傳送的訊息
 				String endcodeMsg = URLEncoder.encode(msg,"UTF-8");
 				MessageService msgSvc = new MessageService();
-				msgSvc.sendSms(phone,endcodeMsg);
+//				msgSvc.sendSms(phone,endcodeMsg);
 				resVO.setResCode(resCode);
 				resVO.setResStatus(resStatus);
 				
@@ -658,8 +658,8 @@ if ("searchByResNo".equals(action)) {
 				req.setAttribute("resVO", resVO);
 				
 				//Bootstrap_modal
-				boolean openModal=true;
-				req.setAttribute("openModal",openModal );
+				boolean openResModal=true;
+				req.setAttribute("openResModal",openResModal );
 				
 				String url = "/front-end/reservation/listAllResByDes.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url); // 修改成功後,轉交listAllEmpBy.jsp

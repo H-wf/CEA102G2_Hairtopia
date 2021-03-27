@@ -44,11 +44,11 @@ article, body, dd, div, dl, dt, fieldset, figure, footer, form, h1, h2,
 	display: block;
 }
 
-a, a:link {
-	color: #48adc5;
-	text-decoration: none;
-	cursor: pointer;
-}
+/* a, a:link { */
+/* 	color: #48adc5; */
+/* 	text-decoration: none; */
+/* 	cursor: pointer; */
+/* } */	
 
 .box {
 	background: #fff;

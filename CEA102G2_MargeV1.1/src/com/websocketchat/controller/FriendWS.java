@@ -2,12 +2,15 @@ package com.websocketchat.controller;
 
 import java.io.IOException;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
+import javax.servlet.http.HttpSession;
 import javax.websocket.CloseReason;
+import javax.websocket.EndpointConfig;
 import javax.websocket.OnClose;
 import javax.websocket.OnError;
 import javax.websocket.OnMessage;
@@ -17,19 +20,24 @@ import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
 
 import com.google.gson.Gson;
-
+import com.member.model.MemVO;
 import com.websocketchat.jedis.JedisHandleMessage;
 import com.websocketchat.model.ChatMessage;
 import com.websocketchat.model.State;
 import com.chat.model.*;
 
-@ServerEndpoint("/FriendWS/{userName}")
+@ServerEndpoint(value="/FriendWS/{userName}", configurator=ServletAwareConfig.class)
 public class FriendWS {
 	private static Map<String, Session> sessionsMap = new ConcurrentHashMap<>();
 	Gson gson = new Gson();
+	private EndpointConfig config;
 
 	@OnOpen
-	public void onOpen(@PathParam("userName") String userName, Session userSession) throws IOException {
+	public void onOpen(@PathParam("userName") String userName, Session userSession, EndpointConfig config) throws IOException {
+		HttpSession httpSession= (HttpSession) config.getUserProperties().get(HttpSession.class.getName());
+//		MemVO user = (MemVO)httpSession.getAttribute("userSession");
+//		System.out.println(user.getMemName());
+		
 		/* save the new user in the map */
 		sessionsMap.put(userName, userSession);
 		/* Sends all the connected users to the new user */
@@ -53,6 +61,7 @@ public class FriendWS {
 		ChatMessage chatMessage = gson.fromJson(message, ChatMessage.class);
 		String sender = chatMessage.getSender();
 		String receiver = chatMessage.getReceiver();
+		String timestamp = chatMessage.getTimstamp();
 		
 		if ("history".equals(chatMessage.getType())) {
 			//從jedis取得歷史資料
@@ -60,7 +69,7 @@ public class FriendWS {
 			//轉型成JSON檔案，作為傳送
 			String historyMsg = gson.toJson(historyData);
 			//產生message格式的物件
-			ChatMessage cmHistory = new ChatMessage("history", sender, receiver, historyMsg);
+			ChatMessage cmHistory = new ChatMessage("history", sender, receiver, historyMsg, timestamp);
 			//確認連線是否正常，再進行傳送
 			if (userSession != null && userSession.isOpen()) {
 				userSession.getAsyncRemote().sendText(gson.toJson(cmHistory));
@@ -83,6 +92,20 @@ public class FriendWS {
 //				JedisHandleMessage.saveChatMessage(sender, receiver, message);
 			}
 			System.out.println("Message received: " + message);
+		}else if("notification".equals(chatMessage.getType())) {
+			//從jedis取得歷史資料
+			List<String> notificationData = JedisHandleMessage.getLastMessageList(sender);
+			//轉型成JSON檔案，作為傳送
+			String notificationMsg = gson.toJson(notificationData);
+			//產生message格式的物件
+			ChatMessage cmHistory = new ChatMessage("notification", sender, receiver, notificationMsg, timestamp);
+			//確認連線是否正常，再進行傳送
+			if (userSession != null && userSession.isOpen()) {
+				userSession.getAsyncRemote().sendText(gson.toJson(cmHistory));
+				System.out.println("notification = " + gson.toJson(cmHistory));
+				return;
+			}
+			
 		}
 		
 		

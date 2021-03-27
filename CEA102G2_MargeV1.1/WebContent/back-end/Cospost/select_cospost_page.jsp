@@ -62,7 +62,7 @@
   <jsp:useBean id="dao" scope="page" class="com.cospost.model.CospostService" />
    
   <li>
-     <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/cospost/cospost.do" >
+     <FORM METHOD="get" ACTION="<%=request.getContextPath()%>/cospost/cospost.do" >
        <b>選擇課程公告編號:</b>
        <select size="1" name="cosPubNo">
          <c:forEach var="cospostVO" items="${dao.all}" > 
