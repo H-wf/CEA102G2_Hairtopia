@@ -186,7 +186,7 @@
 	<servlet>
 		<servlet-name>ScheServlet2</servlet-name>
 		<servlet-class>com.cossche.controller.ScheServlet2</servlet-class>
-		<load-on-startup>10</load-on-startup>
+		<load-on-startup>1</load-on-startup>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>ScheServlet2</servlet-name>

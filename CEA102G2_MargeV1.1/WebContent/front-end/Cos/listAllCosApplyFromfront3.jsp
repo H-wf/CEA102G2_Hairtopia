@@ -147,7 +147,7 @@
 				</th>
 			</tr>
 
-			<%--<%
+			<%
 				for (CosVO cosVO : list) {
 					byte[] cosPic = cosVO.getCosPic();
 					Base64.Encoder encoder = Base64.getEncoder();
@@ -158,7 +158,7 @@
 						src = "/back-end/resource/images/back1.gif";
 					}
 				}
-			--%>
+			%>
 
 			<%@ include file="/back-end/pages/page1.file"%>
 
@@ -177,7 +177,6 @@
 			
 			<c:forEach var="cosVO" items="${list}" begin="<%=pageIndex%>"
 				end="<%=pageIndex+rowsPerPage-1%>">
-				<c:if test="${cosVO.cosCount>=cosVO.cosMaxCount==false}">
 				<c:if test="${cosVO.cosStatus==true}">
 					<c:if test="${cosVO.cosApplyTo.getTime() >= now}">
 						<FORM name="shoppingForm" METHOD="post"
@@ -217,7 +216,6 @@
 						</FORM>
 					</c:if>
 				</c:if>
-				</c:if>
 			</c:forEach>
 
 		</table>
@@ -239,14 +237,8 @@
 
 			<c:set var="memNo" value="${sessionScope.userSession.memNo}">
 			
+			
 			</c:set>
-			<c:if test="${!empty doubleClick}">
-			<script type="text/javascript">
-			alert("請勿重複點選報名")
-			
-			</script>
-			</c:if>
-			
 			<c:if test="${!empty wilsonli}">
 			<script type="text/javascript">
 			alert("已報過該課程")
@@ -254,6 +246,7 @@
 			</script>
 			</c:if>
 			<script type="text/javascript">	
+			
 			
 			<%--var cosCount = document.getElementById('cosCount');
 			var cosMinCount = document.getElementById('cosMinCount');
@@ -266,13 +259,15 @@
 			console.log(parseInt(c));
 			window.onload = changeState(a);
 			function changeState() {
-				if (a <= c) {
+				if (a = c) {
 					document.getElementById('myBtn').disabled = true;
-				} else {
+				} if else (a>c){
+					document.getElementById('myBtn').disabled = true;
+				}
+				else {
 					document.getElementById('myBtn').disabled = false;
 				}
-			}
-			</script>-->
+			}-->
 		<%--var table=document.getElementById('mytb');
 var rows = document.getElementById('listAllCosApplyFrom').rows.length;
 console.log(rows);

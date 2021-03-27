@@ -62,11 +62,10 @@
 		<div id="twzipcode"></div>
 		<input type="TEXT" id="cosAdd" name="cosAdd" size="45"
 			value="${cosVO.cosAdd}" />
-		<p class="lead mb-0">報名人數下限:</p>
-		<input type="number" name="cosMinCount" size="45" min="1" value="" />	
 		<p class="lead mb-0">報名人數上限:</p>
-		<input type="number" name="cosMaxCount" size="45" min="61" value="" />
-		
+		<input type="number" name="cosMaxCount" size="45" min="1" value="" />
+		<p class="lead mb-0">報名人數下限:</p>
+		<input type="number" name="cosMinCount" size="45" min="1" value="" />
 		<p class="lead mb-0">課程價格:</p>
 		<input type="number" name="cosPrice" size="45" min="1" value="" />
 		<p class="lead mb-0">報名開始日:</p>
@@ -89,6 +88,8 @@
 		src="<%=request.getContextPath()%>/resource/datetimepicker/jquery.js"></script>
 	<script
 		src="<%=request.getContextPath()%>/resource/datetimepicker/jquery.datetimepicker.full.js"></script>
+	
+	
 	
 	
 	<script
@@ -135,6 +136,8 @@
 			}
 		});
 
+		
+
 		$("#twzipcode").twzipcode({
 			onDistrictSelect : function() {
 				var country = $("select[name='county']").val(); // 取縣市的值
@@ -148,70 +151,69 @@
 	</script>
 
 <script>
-$.datetimepicker.setLocale('zh');
+	$.datetimepicker.setLocale('zh');
 
-$(function() {
-	$('#f_date1').datetimepicker(
-			{
-				format : 'Y-m-d H:i:s',
-				value : '${cosVO.cosFrom}',
-				minDate : '${cosVO.cosFrom}',
-				onShow : function() {
-					this.setOptions({
-						maxDate : $('#f_date2').val() ? $('#f_date2')
-								.val() : false
-					})
-				},
-				timepicker : true,
-				step : 60
-			});
+	$(function() {
+		$('#f_date1').datetimepicker(
+				{
+					format : 'Y-m-d H:i',
+					value : '${cosVO.cosFrom}',
+					minDate : '${cosVO.cosFrom}',
+					onShow : function() {
+						this.setOptions({
+							maxDate : $('#f_date2').val() ? $('#f_date2')
+									.val() : false
+						})
+					},
+					timepicker : true,
+					step : 60
+				});
 
-	$('#f_date2').datetimepicker(
-			{
-				format : 'Y-m-d H:i:s',
-				value : '${cosVO.cosTo}',
-				onShow : function() {
-					this.setOptions({
-						minDate : $('#f_date1').val() ? $('#f_date1')
-								.val() : false
-					})
-				},
-				timepicker : true,
-				step : 60
-			});
-});
+		$('#f_date2').datetimepicker(
+				{
+					format : 'Y-m-d H:i',
+					value : '${cosVO.cosTo}',
+					onShow : function() {
+						this.setOptions({
+							minDate : $('#f_date1').val() ? $('#f_date1')
+									.val() : false
+						})
+					},
+					timepicker : true,
+					step : 60
+				});
+	});
 
-$(function() {
-	$('#f_date3').datetimepicker(
-			{
-				format : 'Y-m-d H:i:s',
-				value : '${cosVO.cosApplyFrom}',
-				minDate : '${cosVO.cosFrom}',
-				onShow : function() {
-					this.setOptions({
-						maxDate : $('#f_date1').val() ? $('#f_date1')
-								.val() : false
-					})
-				},
-				timepicker : true,
-				step : 60
-			});
+	$(function() {
+		$('#f_date3').datetimepicker(
+				{
+					format : 'Y-m-d H:i',
+					value : '${cosVO.cosApplyFrom}',
+					minDate : '${cosVO.cosFrom}',
+					onShow : function() {
+						this.setOptions({
+							maxDate : $('#f_date1').val() ? $('#f_date1')
+									.val() : false
+						})
+					},
+					timepicker : true,
+					step : 60
+				});
 
-	$('#f_date4').datetimepicker(
-			{
-				format : 'Y-m-d H:i:s',
-				value : '${cosVO.cosApplyTo}',
-				onShow : function() {
-					this.setOptions({
-						minDate : $('#f_date1').val() ? $('#f_date1')
-								.val() : false
-					})
-				},
-				timepicker : true,
-				step : 60
-			});
-});
-
+		$('#f_date4').datetimepicker(
+				{
+					format : 'Y-m-d H:i',
+					value : '${cosVO.cosApplyTo}',
+					onShow : function() {
+						this.setOptions({
+							minDate : $('#f_date1').val() ? $('#f_date1')
+									.val() : false
+						})
+					},
+					timepicker : true,
+					step : 60
+				});
+	});
 	</script>
 
 </body>

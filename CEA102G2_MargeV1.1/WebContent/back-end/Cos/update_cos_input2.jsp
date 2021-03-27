@@ -77,7 +77,7 @@ $.datetimepicker.setLocale('zh');
  	       timepicker:true,       //timepicker:true,
  	       step: 1,                //step: 60 (這是timepicker的預設間隔60分鐘)
  	       format:'Y-m-d H:i:s',         //format:'Y-m-d H:i:s',
- 		   value: '<%=cosVO.getCosFrom()%>', // value:   new Date(),
+ 		   <%--value: '<%=cosVO.getCosFrom()%>',--%> // value:   new Date(),
            //disabledDates:        ['2017/06/08','2017/06/09','2017/06/10'], // 去除特定不含
            //startDate:	            '2017/07/10',  // 起始日
            //minDate:               '-1970-01-01', // 去除今日(不含)之前
@@ -88,21 +88,21 @@ $.datetimepicker.setLocale('zh');
   	       timepicker:true,
   	       step: 1,
   	       format:'Y-m-d H:i:s',
-  		   value: '<%=cosVO.getCosTo()%>',
+  	     <%-- value: '<%=cosVO.getCosTo()%>',--%>
   		   });
         $('#f_date7').datetimepicker({
             theme: '',
   	       timepicker:true,
   	       step: 1,
   	       format:'Y-m-d H:i:s',
-  		   value: '<%=cosVO.getCosTo()%>',
+  		  <%-- value: '<%=cosVO.getCosTo()%>',--%>
   		   });
         $('#f_date8').datetimepicker({
             theme: '',
   	       timepicker:true,
   	       step: 1,
   	       format:'Y-m-d H:i:s',
-  		   value: '<%=cosVO.getCosTo()%>',
+  		  <%-- value: '<%=cosVO.getCosTo()%>',--%>
   		   });
         var customFile1 = document.getElementById("myFile1");
         var preview1 = document.getElementById('preview1');

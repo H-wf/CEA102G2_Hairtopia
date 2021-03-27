@@ -42,10 +42,10 @@ public class OrderServlet2 extends HttpServlet {
 		HttpSession session = req.getSession();
 
 		@SuppressWarnings("unchecked")
-		HashSet<CosdetVO> buylist = (HashSet<CosdetVO>) session.getAttribute("shoppingcart");
+		List<CosdetVO> buylist = (Vector<CosdetVO>) session.getAttribute("shoppingcart");
 
 		if (buylist == null) {
-			buylist = new HashSet<>();
+			buylist = new Vector<CosdetVO>();
 		}
 
 		if (action.equals("DELETE") || action.equals("ADD")) {
@@ -60,32 +60,28 @@ public class OrderServlet2 extends HttpServlet {
 			if (action.equals("DELETE")) {
 				String del = req.getParameter("del");
 				int d = Integer.parseInt(del);
-				for (CosdetVO vo : buylist) {
-
-					int cosNo = vo.getCosNo();
-					if (cosNo == d) {
-						buylist.remove(vo);
-					}
-					if (buylist.size()>0) {
-						url = "/front-end/Cos/Cart.jsp";
-					} else {
-						url = "/front-end/Cos/listAllCosApplyFromfront.jsp";
-
-					}
-					session.setAttribute("shoppingcart", buylist);
-
-					RequestDispatcher rd = req.getRequestDispatcher(url);
-					rd.forward(req, res);
+				buylist.remove(d);
+				if (buylist.size() > 0) {
+					url = "/front-end/Cos/Cart.jsp";
+				} else {
+					url = "/front-end/Cos/listAllCosApplyFromfront.jsp";
 
 				}
+				session.setAttribute("shoppingcart", buylist);
+
+				RequestDispatcher rd = req.getRequestDispatcher(url);
+				rd.forward(req, res);
+
 			}
 			// 新增訂單明細至購物車中
 			else if (action.equals("ADD")) {
 
 				CosdetService cosdetSvc = new CosdetService();
-				MemVO memVO =(MemVO)session.getAttribute("userSession");
+				MemVO memVO = (MemVO) session.getAttribute("userSession");
 				Integer memNo = memVO.getMemNo();
-				System.out.println("orderServlet no. 91 先設死memNo 1000：" + memNo);
+				System.out.println("orderServlet no. 91 ：" + memNo);
+				
+				
 
 				// 取得後來新增的訂單明細
 				Integer cosNo = new Integer(req.getParameter("cosNo"));
@@ -97,35 +93,31 @@ public class OrderServlet2 extends HttpServlet {
 				CosdetVO deleteCosIfDouble = cosdetSvc.findQRCodeByCosNoAndCosNo(cosNo, memNo);
 				if (deleteCosIfDouble == null) {
 
-					System.out.println("orderServlet no.95沒有重複報名：");
 					CosdetVO cosdetVO = new CosdetVO();
 					cosdetVO.setCosNo(new Integer(cosNo));
 					cosdetVO.setMemNo(new Integer(memNo));
 					cosdetVO.setCosDetailPrice(new Integer(cosDetailPrice));
-					System.out.println("OrderServlet no.93：" + cosdetVO);
+//					if (buylist == null) {
+//						buylist = new Vector<CosdetVO>();
+//					}
 					buylist.add(cosdetVO);
-				}
+					
+					
 
-				if (deleteCosIfDouble != null) {
-
-					CosdetVO cosdetVO = new CosdetVO();
-					cosdetVO.setCosNo(new Integer(cosNo));
-					cosdetVO.setMemNo(new Integer(memNo));
-					cosdetVO.setCosDetailPrice(new Integer(cosDetailPrice));
-					System.out.println("OrderServlet no.109：" + cosdetVO);
-					buylist.remove(cosdetVO);
-					url = "/front-end/Cos/alreadyCosApplied.jsp";
-					RequestDispatcher rd = req.getRequestDispatcher(url);
-					rd.forward(req, res);
-				} else {
-					url = "/front-end/Cos/listAllCosApplyFromfront.jsp";
-
+					url = "/front-end/Cos/Cart.jsp";
+					
 					session.setAttribute("shoppingcart", buylist);
-
 					RequestDispatcher rd = req.getRequestDispatcher(url);
 					rd.forward(req, res);
-
 				}
+				if (deleteCosIfDouble != null) {
+					req.setAttribute("wilsonli","重覆報名" );
+					url = "/front-end/Cos/listAllCosApplyFromfront.jsp";
+					RequestDispatcher rd = req.getRequestDispatcher(url);
+					rd.forward(req, res);
+				}
+//				//去購物車找出同樣報名的產品
+//				for(int i=0; )
 
 			}
 		}

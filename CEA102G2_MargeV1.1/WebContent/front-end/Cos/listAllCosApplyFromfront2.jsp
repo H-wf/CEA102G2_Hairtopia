@@ -131,6 +131,10 @@
 				</th>
 				<th style="width: 6rem" valign="middle">報名<br>總人數
 				</th>
+				<th style="width: 6rem" valign="middle">評價<br>總分數
+				</th>
+				<th style="width: 4rem" valign="middle">課程<br>狀態
+				</th>
 				<th style="width: 4rem" valign="middle">最低<br>人數
 				</th>
 				<th style="width: 4rem" valign="middle">最高<br>人數
@@ -147,7 +151,7 @@
 				</th>
 			</tr>
 
-			<%--<%
+			<%
 				for (CosVO cosVO : list) {
 					byte[] cosPic = cosVO.getCosPic();
 					Base64.Encoder encoder = Base64.getEncoder();
@@ -158,7 +162,7 @@
 						src = "/back-end/resource/images/back1.gif";
 					}
 				}
-			--%>
+			%>
 
 			<%@ include file="/back-end/pages/page1.file"%>
 
@@ -171,19 +175,15 @@
 				class="com.coutype.model.CostypeService" />
 			<jsp:useBean id="lecSvc" scope="page"
 				class="com.lecturer.model.LecturerService" />
-			<jsp:useBean id="cosdetSvc" scope="page"
-				class="com.coudet.model.CosdetService" />
-			
-			
+
 			<c:forEach var="cosVO" items="${list}" begin="<%=pageIndex%>"
 				end="<%=pageIndex+rowsPerPage-1%>">
-				<c:if test="${cosVO.cosCount>=cosVO.cosMaxCount==false}">
 				<c:if test="${cosVO.cosStatus==true}">
 					<c:if test="${cosVO.cosApplyTo.getTime() >= now}">
 						<FORM name="shoppingForm" METHOD="post"
 							ACTION="<%=request.getContextPath()%>/cos/order.do"
 							style="margin-bottom: 0px;">
-							
+
 							<tr>
 								<td id=cosNo>${cosVO.cosNo}</td>
 								<td>${lecSvc.getOneLecturer(cosVO.lecNo).lecName}</td>
@@ -196,6 +196,8 @@
 									alt='沒有圖片' /></td>
 								<td>${cosVO.cosAdd}</td>
 								<td id=cosCount>${cosVO.cosCount}</td>
+								<td>${cosVO.cosRate}</td>
+								<td>${cosVO.cosStatus==true?"上架":"下架"}</td>
 								<td id=cosMinCount>${cosVO.cosMinCount}</td>
 								<td id=cosMaxCount>${cosVO.cosMaxCount}</td>
 								<td>${cosVO.cosPrice}</td>
@@ -203,9 +205,8 @@
 										type="both" /></td>
 								<td><fmt:formatDate value="${cosVO.cosApplyTo}" type="both" /></td>
 								<td>${cosVO.cosName}</td>
-								<td><input class="test" type="submit" value="報名"
-									onclick="this.form.submit(); this.disabled=true; this.value='Sending…'; "
-									/> <input
+								<td><input class="test" type="submit" value="報名" id="myBtnClickToStop"
+									onclick="var e=this;setTimeout(function(){e.disabled=true;},0);return true;" /> <input
 									type="hidden" name="cosNo" value="${cosVO.cosNo}"> <input
 									type="hidden" name="memNo"
 									value="${sessionScope.userSession.memNo}"> <input
@@ -217,45 +218,29 @@
 						</FORM>
 					</c:if>
 				</c:if>
-				</c:if>
 			</c:forEach>
 
 		</table>
-		<div class="container">
-			<div class="row">
-				<div class="col-1.5" style="background-image: url()">
-					<form method="POST"
-						action="<%=request.getContextPath()%>/front-end/Cos/Cart.jsp">
-						<input type="hidden" name="action" value="checkCart">
-						<button type="submit" class="cosBtn">查看購物車</button>
-					</form>
-				</div>
-			</div>
+		<form method="POST"
+			action="<%=request.getContextPath()%>/front-end/Cos/Cart.jsp">
+			<input type="hidden" name="action" value="checkCart">
+			<button type="submit">查看購物車</button>
+		</form>
+
+		<%@ include file="/back-end/pages/page2.file"%>
+
+		<script src="https://code.jquery.com/jquery-1.11.3.js"></script>
 
 
-			<%@ include file="/back-end/pages/page2.file"%>
 
-			<script src="https://code.jquery.com/jquery-1.11.3.js"></script>
-
-			<c:set var="memNo" value="${sessionScope.userSession.memNo}">
+		<script type="text/javascript">
+			$(".test").click(function() {
+				if (cosCount)
+				alert("已加入");
+				$(this).addClass("submitToWhite");
+			});
 			
-			</c:set>
-			<c:if test="${!empty doubleClick}">
-			<script type="text/javascript">
-			alert("請勿重複點選報名")
-			
-			</script>
-			</c:if>
-			
-			<c:if test="${!empty wilsonli}">
-			<script type="text/javascript">
-			alert("已報過該課程")
-			
-			</script>
-			</c:if>
-			<script type="text/javascript">	
-			
-			<%--var cosCount = document.getElementById('cosCount');
+			var cosCount = document.getElementById('cosCount');
 			var cosMinCount = document.getElementById('cosMinCount');
 			var cosMaxCount = document.getElementById('cosMaxCount');
 			var a = cosCount.innerText;
@@ -266,13 +251,15 @@
 			console.log(parseInt(c));
 			window.onload = changeState(a);
 			function changeState() {
-				if (a <= c) {
-					document.getElementById('myBtn').disabled = true;
-				} else {
-					document.getElementById('myBtn').disabled = false;
+				if (a = c) {
+					document.getElementById('myBtnClickToStop').disabled = true;
+				} if else (a>c){
+					document.getElementById('myBtnClickToStop').disabled = true;
+				}
+				else {
+					document.getElementById('myBtnClickToStop').disabled = false;
 				}
 			}
-			</script>-->
 		<%--var table=document.getElementById('mytb');
 var rows = document.getElementById('listAllCosApplyFrom').rows.length;
 console.log(rows);
@@ -294,12 +281,12 @@ var l = table.rows[3].cells[12].innerHTML;
 var cosNo=document.getElementById('cosNo');
 var m = cosNo.innerText;
 console.log(m);--%>
-				
-			</script>
+			
+		</script>
 
-		</div>
-		<!-- Page Content END -->
-		<%@include file="/front-end/tempFile/footer"%>
-		<%@include file="/front-end/tempFile/tempJs"%>
+	</div>
+	<!-- Page Content END -->
+	<%@include file="/front-end/tempFile/footer"%>
+	<%@include file="/front-end/tempFile/tempJs"%>
 </body>
 </html>

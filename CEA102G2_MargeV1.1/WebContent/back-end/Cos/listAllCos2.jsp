@@ -145,7 +145,12 @@
 <!-- Page Content END -->
                 
 <%@include file="/back-end/tempFile/footer" %>
-<%@include file="/back-end/tempFile/srcJs" %>
+ <script src="<%=request.getContextPath()%>/dist/backTemp/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+ <script src="<%=request.getContextPath()%>/dist/backTemp/vendor/jquery-easing/jquery.easing.min.js"></script>
+ <script src="<%=request.getContextPath()%>/dist/backTemp/js/sb-admin-2.min.js"></script>
+ <script src="<%=request.getContextPath()%>/dist/backTemp/vendor/datatables/jquery.dataTables.min.js"></script>
+ <script src="<%=request.getContextPath()%>/dist/backTemp/vendor/datatables/dataTables.bootstrap4.min.js"></script>
+ <script src="<%=request.getContextPath()%>/dist/backTemp/js/demo/datatables-demo.js"></script>
 
 <script>
 
