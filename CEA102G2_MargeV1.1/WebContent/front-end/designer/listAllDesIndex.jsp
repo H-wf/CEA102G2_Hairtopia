@@ -17,10 +17,6 @@
 <title>搜尋設計師 - SearchDes.jsp</title>
 <%@include file="/front-end/tempFile/head"%>
 <style type="text/css">
-.ftco-navbar-light {
-	position: static;
-}
-
 
 .salName{
 		font-size:1.45rem;
@@ -37,13 +33,22 @@
 .salAdd{
 	font-size:1.2rem;
 }
+#headImg{ 
+ height: 40vh;
+    background-image: url(<%=request.getContextPath()%>/front-end/Post/forHeadBG2.jpg);
+    background-repeat: no-repeat;
+    background-position: 50% 34%;
+    background-size: 100%;
+ } 
 </style>
 
 </head>
 <body>
 	<%@include file="/front-end/tempFile/navBar"%>
 
-	<div class="container-fluid">
+	<div class="container-fluid px-0">
+	<div id="headImg">
+	</div>
 		<div class="row justify-content-center">
 
 			<div class="col-md-7 ">
