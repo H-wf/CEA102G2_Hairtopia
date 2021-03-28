@@ -213,7 +213,7 @@
             </div>
 	            <div class="row justify-content-between slidemove2">
 	           		 <c:forEach  var="salonVO" items="${salSvc.pickup5Sal()}">
-	           		 	    <div class="card mb-3" style="max-width: 505px;">
+	           		 	    <div class="card mb-3">
 	           		 	    	<a href="<%=request.getContextPath()%>/salon/salon.do?action=getOne_For_Display&salNo=${salonVO.salNo}" >
 						        <div class="row no-gutters">
 						            <div class="col-md-4">
@@ -222,10 +222,10 @@
 						            <div class="col-md-8">
 						                <div class="card-body">
 						                    <h5 class="card-title">${salonVO.salName }</h5>
-						                   <span class="icon icon-map-marker mr-3"><i
-											class="bi bi-geo-alt-fill"></i></span><span class="card-text mb-0">${salonVO.salAdd}</span> 
-						                    <span class="icon icon-phone mr-3"><i
-											class="bi bi-telephone-fill"></i></span> <span class="text">${salonVO.salPhone}</span>
+						                   <div><span class="icon icon-map-marker mr-3"><i
+											class="bi bi-geo-alt-fill"></i></span><span class="card-text mb-0">${salonVO.salAdd}</span></div> 
+						                    <div><span class="icon icon-phone mr-3"><i
+											class="bi bi-telephone-fill"></i></span> <span class="text">${salonVO.salPhone}</span></div>
 						                </div>
 						            </div>
 						        </div>
@@ -351,6 +351,7 @@ $('.slidemove2').slick({
 	  slidesToScroll: 1,
 	  autoplay: true,
 	  autoplaySpeed: 2000,
+	  
 	});	
 	
 

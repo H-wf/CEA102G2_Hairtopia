@@ -138,6 +138,19 @@
 		</div>
 		</div>
 		</div>
+		
+		<div class="col-4" align="center">  
+		<div class="card" style="width: 18rem;">
+			<img style="height: 250px;width: auto;object-fit:cover;background-position: 90% 45%;background-image: url(/CEA102G2_Merge/resource/images/hotGirl5.jpg);">
+		<div class="card-body">
+      	<div class="card-body">
+    		<h5 class="card-title">講師名單</h5>
+    		<p class="card-text">查詢講師的個人資訊</p>
+    		<a onclick="location.href='<%=request.getContextPath()%>/front-end/Lecturer/listAllLecturer.jsp';" class="btn btn-primary">點擊前往</a>
+  		</div>
+		</div>
+		</div>
+		</div>
 </div>
 
 <!-- Page Content END -->
