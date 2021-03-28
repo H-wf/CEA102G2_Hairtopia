@@ -56,7 +56,7 @@
 	<nav aria-label="breadcrumb">
 	  <ol class="breadcrumb">
 	    <li class="breadcrumb-item"><a href="<%=request.getContextPath()%>/front-end/index.jsp">首頁</a></li>
-	    <li class="breadcrumb-item active" aria-current="page">搜尋設計師　'${keyword}'</li>
+	    <li class="breadcrumb-item active" aria-current="page">搜尋設計師　' ${keyword} '</li>
 	  </ol>
 	</nav>
 		<div class="row justify-content-center">

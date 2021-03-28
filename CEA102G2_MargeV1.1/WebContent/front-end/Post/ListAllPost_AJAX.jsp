@@ -34,8 +34,14 @@
 	<!-- carousel -->
 	<div id="headImg">
 	</div>
+	<nav aria-label="breadcrumb">
+	  <ol class="breadcrumb">
+	    <li class="breadcrumb-item"><a href="<%=request.getContextPath()%>/front-end/index.jsp">首頁</a></li>
+	    <li class="breadcrumb-item active" aria-current="page">風格貼文</li>
+	  </ol>
+	</nav>
     <h1></h1>
-	<div class="container post">
+	<div class="container post my-5">
 		<div class="card-columns ">
 		<c:forEach  var="postVO" items="${postSvc.all}">
 				<div class="card onePost" id="${postVO.postNo}">

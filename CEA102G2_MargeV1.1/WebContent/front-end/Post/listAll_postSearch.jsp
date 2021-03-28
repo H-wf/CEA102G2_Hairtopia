@@ -41,7 +41,7 @@
 	<nav aria-label="breadcrumb">
 	  <ol class="breadcrumb">
 	    <li class="breadcrumb-item"><a href="<%=request.getContextPath()%>/front-end/index.jsp">首頁</a></li>
-	    <li class="breadcrumb-item active" aria-current="page">搜尋貼文　'${keyword}'</li>
+	    <li class="breadcrumb-item active" aria-current="page">搜尋貼文　' ${keyword} '</li>
 	  </ol>
 	</nav>
 	<div class="container post my-5">

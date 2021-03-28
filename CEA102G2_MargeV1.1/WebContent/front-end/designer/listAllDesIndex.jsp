@@ -49,6 +49,12 @@
 	<div class="container-fluid px-0">
 	<div id="headImg">
 	</div>
+	<nav aria-label="breadcrumb">
+	  <ol class="breadcrumb">
+	    <li class="breadcrumb-item"><a href="<%=request.getContextPath()%>/front-end/index.jsp">首頁</a></li>
+	    <li class="breadcrumb-item active" aria-current="page">所有設計師</li>
+	  </ol>
+	</nav>
 		<div class="row justify-content-center">
 
 			<div class="col-md-7 ">

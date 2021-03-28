@@ -173,21 +173,6 @@
 			</div>
 		</div>
 </c:if>
-		<div class="col-4" align="center">
-			<div class="card" style="width: 18rem;">
-				<img
-					style="height: 250px; width: auto; object-fit: cover; background-position: 55% 58%; background-image: url(/CEA102G2_Merge/resource/images/hotGuy2.jpg);">
-				<div class="card-body">
-					<div class="card-body">
-						<h5 class="card-title">最新消息</h5>
-						<p class="card-text">查詢設計最新趨勢</p>
-						<a
-							onclick="location.href='<%=request.getContextPath()%>/front-end/Post/ListAllPost_AJAX.jsp';"
-							class="btn btn-primary">點擊前往</a>
-					</div>
-				</div>
-			</div>
-		</div>
 		
 		<div class="col-4" align="center">  
 		<div class="card" style="width: 18rem;">
