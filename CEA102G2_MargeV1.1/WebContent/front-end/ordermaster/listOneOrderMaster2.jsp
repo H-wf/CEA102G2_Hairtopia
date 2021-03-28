@@ -99,7 +99,7 @@ ul{
 						<td>${proSvc.getOneProduct(orddVO.proNo).proName}</td>
 						<td>${ptypeSvc.getOnePtype(proSvc.getOneProduct(orddVO.proNo).ptypeNo).ptypeName}</td>
 						<td>${brandSvc.getOneBrand(proSvc.getOneProduct(orddVO.proNo).braNo).braName}</td>
-						<td>${proSvc.getOneProduct(orddVO.proNo).proPrice}</td>
+						<td>${orddVO.ordDetPrice/orddVO.ordDetAmt}</td>
 						<td>${orddVO.ordDetAmt}</td>
 						<td>${orddVO.ordDetPrice}</td>
 					</tr>
