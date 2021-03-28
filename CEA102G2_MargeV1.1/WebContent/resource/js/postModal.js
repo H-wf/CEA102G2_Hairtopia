@@ -112,7 +112,7 @@ function showWholePost(commentList, postVo, tagNameList) {
         // post pic 設置完成
     	$('.modal-body').attr('id',postVo.postNo);
     	$('#desInfo').prepend(`<img src="` + contextPath + `/PicFinder?pic=1&table=designer&column=desPic&idname=desNo&id=` + postVo.desNo + `" id="desPic" class="img-thumbnail" />`);
-        $('#postTitle h5').append(postVo.desName);
+        $('#postTitle h5').append(`<a href="`+ contextPath +`/designer/designer.do?action=getOne_For_Display&desNo=`+postVo.desNo+`" >`+ postVo.desName + `</a>`);
         $('#postTitle p').append(postVo.postCon);
         $('#postTitle p').after(`<div class="collapse" id="udPost`+postVo.postNo+`">
 	                            		<div class="input-group">
