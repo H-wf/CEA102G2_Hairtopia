@@ -2,7 +2,9 @@ package com.salon.model;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
@@ -249,7 +251,7 @@ public class SalonDAO implements SalonDAO_interface{
 			con = ds.getConnection();
 			pstmt = con.prepareStatement(GET_ALL_STMT);
 			rs = pstmt.executeQuery();
-
+	
 			while (rs.next()) {
 				// salonVO 也稱為 Domain objects
 				salonVO = new SalonVO();
@@ -259,6 +261,8 @@ public class SalonDAO implements SalonDAO_interface{
 				salonVO.setSalTime(rs.getString("salTime"));
 				salonVO.setSalPhone(rs.getString("salPhone"));
 				salonVO.setSalStatus(rs.getInt("salStatus"));
+				salonVO.setSalPicPath("/resource/images/salon/" +(((int)(Math.random()*19)) +1)+ ".jpg");
+			
 				list.add(salonVO); // Store the row in the list
 			}
 

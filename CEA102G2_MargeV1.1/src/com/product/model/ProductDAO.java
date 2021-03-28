@@ -290,7 +290,7 @@ public class ProductDAO implements ProductDAO_interface{
 			int count = 0;
 			for(String key : keys) {
 				String value = map.get(key)[0];
-				System.out.println(value);
+
 				if (!"".equals(value) && !"action".equals(key)) {
 					if(count==0) {
 						SQL += "where ";
@@ -307,7 +307,7 @@ public class ProductDAO implements ProductDAO_interface{
 				
 			}			
 			SQL += "order by proNo;";
-			System.out.println(SQL);
+
 			pstmt = con.prepareStatement(SQL);			
 			rs = pstmt.executeQuery();
 			

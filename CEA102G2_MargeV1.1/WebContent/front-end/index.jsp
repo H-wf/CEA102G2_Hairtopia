@@ -217,7 +217,7 @@
 	           		 	    	<a href="<%=request.getContextPath()%>/salon/salon.do?action=getOne_For_Display&salNo=${salonVO.salNo}" >
 						        <div class="row no-gutters">
 						            <div class="col-md-4">
-						                <img class="img-fluid" src="<%=request.getContextPath()%>/PicFinder?pic=1&table=Designer&column=desPic&idname=desNo&id=${designerVO.desNo}" class="card-img-top" alt="...">
+						                <img class="img-fluid " src="<%=request.getContextPath()%>${salonVO.salPicPath}" class="card-img-top" alt="...">
 						            </div>
 						            <div class="col-md-8">
 						                <div class="card-body">
