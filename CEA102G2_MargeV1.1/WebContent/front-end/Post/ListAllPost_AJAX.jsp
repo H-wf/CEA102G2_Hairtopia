@@ -6,11 +6,6 @@
 <%@ page import="com.member.model.*"%>
 
 <jsp:useBean id="postSvc"  scope="page" class="com.post.model.PostService" />
-<%
-	MemService memSvc = new MemService();
-	MemVO userSession = memSvc.getOneMem(2);
-	pageContext.setAttribute("userSession", userSession);
-%>
 
 <!DOCTYPE html>
 <html>
