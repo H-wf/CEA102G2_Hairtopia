@@ -508,6 +508,7 @@ public class DesignerServlet extends HttpServlet {
 		List<DesignerVO> desList = desSvc.searchDes(keyword);
 		
 		req.setAttribute("desList", desList);
+		req.setAttribute("keyword",keyword);
 		
 		String url = "/front-end/designer/SearchDes.jsp";
 		RequestDispatcher successView = req.getRequestDispatcher(url); // 新增成功後轉交listAllDesigner.jsp

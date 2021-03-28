@@ -117,7 +117,7 @@
                                 <p class="mb-4">心動不如馬上行動!<br>立即用Hairtopia預約屬於你的髮廊和設計師!</p>
                             </div>
                             <div id="infoBtn">
-                                <a href="#" class="btn btn-primary d-block px-2 py-4"> 預約 </a>
+                                <a href="<%=request.getContextPath()%>/front-end/designer/listAllDesIndex.jsp" class="btn btn-primary d-block px-2 py-4"> 預約 </a>
                             </div>
                         </div>
                     </div>
@@ -213,19 +213,19 @@
             </div>
 	            <div class="row justify-content-between slidemove2">
 	           		 <c:forEach  var="salonVO" items="${salSvc.pickup5Sal()}">
-	           		 	    <div class="card mb-3" style="max-width: 505px;">
+	           		 	    <div class="card mb-3">
 	           		 	    	<a href="<%=request.getContextPath()%>/salon/salon.do?action=getOne_For_Display&salNo=${salonVO.salNo}" >
 						        <div class="row no-gutters">
 						            <div class="col-md-4">
-						                <img class="img-fluid" src="<%=request.getContextPath()%>/PicFinder?pic=1&table=Designer&column=desPic&idname=desNo&id=${designerVO.desNo}" class="card-img-top" alt="...">
+						                <img class="img-fluid " src="<%=request.getContextPath()%>${salonVO.salPicPath}" class="card-img-top" alt="...">
 						            </div>
 						            <div class="col-md-8">
 						                <div class="card-body">
 						                    <h5 class="card-title">${salonVO.salName }</h5>
-						                   <span class="icon icon-map-marker mr-3"><i
-											class="bi bi-geo-alt-fill"></i></span><span class="card-text mb-0">${salonVO.salAdd}</span> 
-						                    <span class="icon icon-phone mr-3"><i
-											class="bi bi-telephone-fill"></i></span> <span class="text">${salonVO.salPhone}</span>
+						                   <div><span class="icon icon-map-marker mr-3"><i
+											class="bi bi-geo-alt-fill"></i></span><span class="card-text mb-0">${salonVO.salAdd}</span></div> 
+						                    <div><span class="icon icon-phone mr-3"><i
+											class="bi bi-telephone-fill"></i></span> <span class="text">${salonVO.salPhone}</span></div>
 						                </div>
 						            </div>
 						        </div>
@@ -351,6 +351,7 @@ $('.slidemove2').slick({
 	  slidesToScroll: 1,
 	  autoplay: true,
 	  autoplaySpeed: 2000,
+	  
 	});	
 	
 

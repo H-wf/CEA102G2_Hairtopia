@@ -37,16 +37,31 @@
 .salAdd{
 	font-size:1.2rem;
 }
+#headImg{ 
+ height: 40vh;
+    background-image: url(<%=request.getContextPath()%>/front-end/Post/forHeadBG2.jpg);
+    background-repeat: no-repeat;
+    background-position: 50% 34%;
+    background-size: 100%;
+ } 
 </style>
 
 </head>
 <body>
 	<%@include file="/front-end/tempFile/navBar"%>
 
-	<div class="container-fluid">
+	<div class="container-fluid px-0">
+	<div id="headImg">
+	</div>
+	<nav aria-label="breadcrumb">
+	  <ol class="breadcrumb">
+	    <li class="breadcrumb-item"><a href="<%=request.getContextPath()%>/front-end/index.jsp">首頁</a></li>
+	    <li class="breadcrumb-item active" aria-current="page">搜尋設計師　'${keyword}'</li>
+	  </ol>
+	</nav>
 		<div class="row justify-content-center">
 
-			<div class="col-md-7 ">
+			<div class="col-md-7 my-5">
 				<jsp:useBean id="salonSvc" scope="page"
 					class="com.salon.model.SalonService" />
 				<c:forEach var="designerVO" items="${desList}">

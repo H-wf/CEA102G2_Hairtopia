@@ -524,6 +524,7 @@ public class SalonServlet extends HttpServlet {
 			List<SalonVO> salList = salSvc.getSalSearch(keyword);
 
 			req.setAttribute("salList", salList);
+			req.setAttribute("keyword",keyword);
 
 			String url = "/front-end/salon/listAllSalon_Search.jsp";
 			RequestDispatcher successView = req.getRequestDispatcher(url); // 新增成功後轉交listAllDesigner.jsp
