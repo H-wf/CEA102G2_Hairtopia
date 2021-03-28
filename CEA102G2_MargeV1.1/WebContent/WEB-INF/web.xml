@@ -22,7 +22,7 @@
 		<filter-name>loginFilter</filter-name>
 		<url-pattern>/front-end/member/memberSetting.jsp</url-pattern>
 		<url-pattern>/front-end/product/Checkout.jsp</url-pattern>
-<!-- 		<url-pattern>/front-end/Cos/Checkout.jsp</url-pattern> -->
+		<url-pattern>/front-end/Cos/Checkout.jsp</url-pattern>
 		<url-pattern>/front-end/Cos/LoginToRateCos.jsp</url-pattern>
 		<url-pattern>/front-end/Cos/RateCos.jsp</url-pattern>
 		<url-pattern>/front-end/ordermaster/listAllOrderMaster.jsp</url-pattern>
