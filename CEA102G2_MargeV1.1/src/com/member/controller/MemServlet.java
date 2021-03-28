@@ -327,7 +327,7 @@ public class MemServlet extends HttpServlet {
 																// 【/dept/listEmps_ByDeptno.jsp】 或 【
 																// /dept/listAllDept.jsp】
 
-//			try {
+			try {
 				/*************************** 1.接收請求參數 - 輸入格式的錯誤處理 **********************/
 				Integer memNo = new Integer(req.getParameter("memNo"));
 				MemService memSvc = new MemService();
@@ -423,16 +423,17 @@ public class MemServlet extends HttpServlet {
 				session.setAttribute("userSession", memVO);
 				
 				/*************************** 3.修改完成,準備轉交(Send the Success view) *************/
+				req.setAttribute("SettingSuccess", true);
 				String url = requestURL;
 				RequestDispatcher successView = req.getRequestDispatcher(url); // 修改成功後,轉交回送出修改的來源網頁
 				successView.forward(req, res);
 
 				/*************************** 其他可能的錯誤處理 *************************************/
-//			} catch (Exception e) {
-//				errorMsgs.put("Exception","修改資料失敗:" + e.getMessage());
-//				RequestDispatcher failureView = req.getRequestDispatcher("/front-end/member/memberSetting.jsp");
-//				failureView.forward(req, res);
-//			}
+			} catch (Exception e) {
+				errorMsgs.put("Exception","修改資料失敗:" + e.getMessage());
+				RequestDispatcher failureView = req.getRequestDispatcher("/front-end/member/memberSetting.jsp");
+				failureView.forward(req, res);
+			}
 		}
 		
 

@@ -6,11 +6,9 @@ $(function() {
 	
 	$('.bi-bell').click(function() {
 		$('.notification_buble').toggleClass('active');
-		console.log($('.notification_buble'));
 	});
 	var list = document.querySelectorAll(".notification_buble > div");
-	console.log(list);
-	  
+
 	$('#chat').click(function(){
 		$('.notification_buble > div:eq(0)').css('display', 'block');
 		$('.notification_buble > div:eq(1)').css('display', 'none');

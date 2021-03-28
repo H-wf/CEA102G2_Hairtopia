@@ -24,8 +24,8 @@ article, body, dd, div, dl, dt, fieldset, figure, footer, form, h1, h2,
 .notification_buble {
 	display: none;
 	position: absolute;
-	top: 80px;
-	right: 200px;
+	top: 60px;
+	right: 280px;
 	width: 340px;
 	max-height: 480px;
 	background: #fff;

@@ -430,7 +430,7 @@
 						return false;
 					}
 			}
-			chat('${designerVO.desName}', '${designerVO.memNo}','${memSvc.getOneMem(designerVO.memNo).memName}');
+			chat('${designerVO.desName}','${memSvc.getOneMem(designerVO.memNo).memName}');
 		});
 		
 		
