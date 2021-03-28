@@ -117,7 +117,7 @@
                                 <p class="mb-4">心動不如馬上行動!<br>立即用Hairtopia預約屬於你的髮廊和設計師!</p>
                             </div>
                             <div id="infoBtn">
-                                <a href="#" class="btn btn-primary d-block px-2 py-4"> 預約 </a>
+                                <a href="<%=request.getContextPath()%>/front-end/designer/listAllDesIndex.jsp" class="btn btn-primary d-block px-2 py-4"> 預約 </a>
                             </div>
                         </div>
                     </div>
