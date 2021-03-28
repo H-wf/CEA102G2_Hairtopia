@@ -21,12 +21,6 @@
 .h5 {
 	text-align: center;
 }
-.fa-image{
-	color:white !important;
-}
-.pic:hover .fa-image{
-	color:#D8CF9E !important;
-}
 </style>
 <body>
 	<form METHOD="POST" ACTION="<%=request.getContextPath()%>/cos/cos.do"
@@ -68,11 +62,10 @@
 		<div id="twzipcode"></div>
 		<input type="TEXT" id="cosAdd" name="cosAdd" size="45"
 			value="${cosVO.cosAdd}" />
-		<p class="lead mb-0">報名人數下限:</p>
-		<input type="number" name="cosMinCount" size="45" min="1" value="" />	
 		<p class="lead mb-0">報名人數上限:</p>
-		<input type="number" name="cosMaxCount" size="45" min="61" value="" />
-		
+		<input type="number" name="cosMaxCount" size="45" min="1" value="" />
+		<p class="lead mb-0">報名人數下限:</p>
+		<input type="number" name="cosMinCount" size="45" min="1" value="" />
 		<p class="lead mb-0">課程價格:</p>
 		<input type="number" name="cosPrice" size="45" min="1" value="" />
 		<p class="lead mb-0">報名開始日:</p>
@@ -83,7 +76,6 @@
 		<label><input type="radio" name="cosStatus"
 			value="${cosVO.cosStatus}" checked />上架</label> <label><input
 			type="radio" name="cosStatus" value="${cosVO.cosStatus}" />下架</label>
-
 		<div class="modal-footer">
 			<input name="action" value="insert" type="hidden">
 			<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -96,6 +88,8 @@
 		src="<%=request.getContextPath()%>/resource/datetimepicker/jquery.js"></script>
 	<script
 		src="<%=request.getContextPath()%>/resource/datetimepicker/jquery.datetimepicker.full.js"></script>
+	
+	
 	
 	
 	<script
@@ -142,6 +136,8 @@
 			}
 		});
 
+		
+
 		$("#twzipcode").twzipcode({
 			onDistrictSelect : function() {
 				var country = $("select[name='county']").val(); // 取縣市的值
@@ -152,84 +148,73 @@
 			},
 		})
 		
+	</script>
 
-$.datetimepicker.setLocale('zh');
+<script>
+	$.datetimepicker.setLocale('zh');
 
-$(function() {
-	$('#f_date1').datetimepicker(
-			{
-				format : 'Y-m-d H:i:s',
-				value : '',
-				minDate : '${empty cosVO.cosFrom?"-1969-12-31":cosVO.cosFrom}',
-				
-				onShow : function() {
-					this.setOptions({
-						maxDate : $('#f_date2').val() ? $('#f_date2')
-								.val() : false
-					})
-				},
-				timepicker : true,
-				step : 60
-			});
+	$(function() {
+		$('#f_date1').datetimepicker(
+				{
+					format : 'Y-m-d H:i',
+					value : '${cosVO.cosFrom}',
+					minDate : '${cosVO.cosFrom}',
+					onShow : function() {
+						this.setOptions({
+							maxDate : $('#f_date2').val() ? $('#f_date2')
+									.val() : false
+						})
+					},
+					timepicker : true,
+					step : 60
+				});
 
-	$('#f_date2').datetimepicker(
-			{
-				format : 'Y-m-d H:i:s',
-				value : '',
-				onShow : function() {
-					this.setOptions({
-						minDate : $('#f_date1').val() ? $('#f_date1')
-								.val() : false
-					})
-				},
-				timepicker : true,
-				step : 60
-			});
-});
+		$('#f_date2').datetimepicker(
+				{
+					format : 'Y-m-d H:i',
+					value : '${cosVO.cosTo}',
+					onShow : function() {
+						this.setOptions({
+							minDate : $('#f_date1').val() ? $('#f_date1')
+									.val() : false
+						})
+					},
+					timepicker : true,
+					step : 60
+				});
+	});
 
-$(function() {
-	$('#f_date3').datetimepicker(
-			{
-				format : 'Y-m-d H:i:s',
-				value : '',
-				minDate : '',
-				onShow : function() {
-					this.setOptions({
-						maxDate : $('#f_date1').val() ? $('#f_date1')
-								.val() : false
-					})
-				},
-				timepicker : true,
-				step : 60
-			});
+	$(function() {
+		$('#f_date3').datetimepicker(
+				{
+					format : 'Y-m-d H:i',
+					value : '${cosVO.cosApplyFrom}',
+					minDate : '${cosVO.cosFrom}',
+					onShow : function() {
+						this.setOptions({
+							maxDate : $('#f_date1').val() ? $('#f_date1')
+									.val() : false
+						})
+					},
+					timepicker : true,
+					step : 60
+				});
 
-	$('#f_date4').datetimepicker(
-			{
-				format : 'Y-m-d H:i:s',
-				value : '',
-				maxDate : '',
-				onShow : function() {
-					this.setOptions({
-						maxDate : $('#f_date1').val() ? $('#f_date1')
-								.val() : false,
-						minDate : $('#f_date3').val() ? $('#f_date3')
-										.val() : false
-					})
-				},
-				timepicker : true,
-				step : 60
-			});
-});
-
-$("#twzipcode").twzipcode({
-	onDistrictSelect: function() {
-		var country = $("select[name='county']").val();  // 取縣市的值
-		var district = $("select[name='district']").val();  // 取鄉鎮市區的值
-		var zipcode = $("input[name='zipcode']").val();  // 取郵遞區號的值
-		$("#cosAdd").val(zipcode+country+district);
-	},
-})
-</script>
+		$('#f_date4').datetimepicker(
+				{
+					format : 'Y-m-d H:i',
+					value : '${cosVO.cosApplyTo}',
+					onShow : function() {
+						this.setOptions({
+							minDate : $('#f_date1').val() ? $('#f_date1')
+									.val() : false
+						})
+					},
+					timepicker : true,
+					step : 60
+				});
+	});
+	</script>
 
 </body>
 </html>

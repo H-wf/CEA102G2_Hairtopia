@@ -147,7 +147,7 @@
 				</th>
 			</tr>
 
-			<%--<%
+			<%
 				for (CosVO cosVO : list) {
 					byte[] cosPic = cosVO.getCosPic();
 					Base64.Encoder encoder = Base64.getEncoder();
@@ -158,7 +158,7 @@
 						src = "/back-end/resource/images/back1.gif";
 					}
 				}
-			--%>
+			%>
 
 			<%@ include file="/back-end/pages/page1.file"%>
 
@@ -177,7 +177,7 @@
 			
 			<c:forEach var="cosVO" items="${list}" begin="<%=pageIndex%>"
 				end="<%=pageIndex+rowsPerPage-1%>">
-				<c:if test="${cosVO.cosCount>=cosVO.cosMaxCount==false}">
+				<c:if test="${cosVO.cosCount>=cosVO.cosMaxCount?false}">
 				<c:if test="${cosVO.cosStatus==true}">
 					<c:if test="${cosVO.cosApplyTo.getTime() >= now}">
 						<FORM name="shoppingForm" METHOD="post"
@@ -255,7 +255,7 @@
 			</c:if>
 			<script type="text/javascript">	
 			
-			<%--var cosCount = document.getElementById('cosCount');
+			var cosCount = document.getElementById('cosCount');
 			var cosMinCount = document.getElementById('cosMinCount');
 			var cosMaxCount = document.getElementById('cosMaxCount');
 			var a = cosCount.innerText;
@@ -272,7 +272,7 @@
 					document.getElementById('myBtn').disabled = false;
 				}
 			}
-			</script>-->
+			</script>
 		<%--var table=document.getElementById('mytb');
 var rows = document.getElementById('listAllCosApplyFrom').rows.length;
 console.log(rows);
