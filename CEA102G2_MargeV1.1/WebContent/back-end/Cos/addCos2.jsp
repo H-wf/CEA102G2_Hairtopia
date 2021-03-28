@@ -152,17 +152,16 @@
 			},
 		})
 		
-	</script>
 
-<script>
 $.datetimepicker.setLocale('zh');
 
 $(function() {
 	$('#f_date1').datetimepicker(
 			{
 				format : 'Y-m-d H:i:s',
-				value : '${cosVO.cosFrom}',
-				minDate : '${cosVO.cosFrom}',
+				value : '',
+				minDate : '${empty cosVO.cosFrom?"-1969-12-31":cosVO.cosFrom}',
+				
 				onShow : function() {
 					this.setOptions({
 						maxDate : $('#f_date2').val() ? $('#f_date2')
@@ -176,7 +175,7 @@ $(function() {
 	$('#f_date2').datetimepicker(
 			{
 				format : 'Y-m-d H:i:s',
-				value : '${cosVO.cosTo}',
+				value : '',
 				onShow : function() {
 					this.setOptions({
 						minDate : $('#f_date1').val() ? $('#f_date1')
@@ -188,13 +187,12 @@ $(function() {
 			});
 });
 
-<<<<<<< HEAD
 $(function() {
 	$('#f_date3').datetimepicker(
 			{
 				format : 'Y-m-d H:i:s',
-				value : '${cosVO.cosApplyFrom}',
-				minDate : '${cosVO.cosFrom}',
+				value : '',
+				minDate : '',
 				onShow : function() {
 					this.setOptions({
 						maxDate : $('#f_date1').val() ? $('#f_date1')
@@ -208,11 +206,14 @@ $(function() {
 	$('#f_date4').datetimepicker(
 			{
 				format : 'Y-m-d H:i:s',
-				value : '${cosVO.cosApplyTo}',
+				value : '',
+				maxDate : '',
 				onShow : function() {
 					this.setOptions({
-						minDate : $('#f_date1').val() ? $('#f_date1')
-								.val() : false
+						maxDate : $('#f_date1').val() ? $('#f_date1')
+								.val() : false,
+						minDate : $('#f_date3').val() ? $('#f_date3')
+										.val() : false
 					})
 				},
 				timepicker : true,
@@ -220,8 +221,6 @@ $(function() {
 			});
 });
 
-	</script>
-=======
 $("#twzipcode").twzipcode({
 	onDistrictSelect: function() {
 		var country = $("select[name='county']").val();  // 取縣市的值
@@ -231,7 +230,6 @@ $("#twzipcode").twzipcode({
 	},
 })
 </script>
->>>>>>> refs/heads/master
 
 </body>
 </html>
