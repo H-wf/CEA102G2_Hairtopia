@@ -48,8 +48,7 @@ public class CospostDAO implements CospostDAO_interface {
 				pstmt.setString(2, cospostVO.getCosPubCon());
 				pstmt.setTimestamp(3, cospostVO.getCosPubTime());
 
-				pstmt.executeUpdate("set auto_increment_offset=3;");
-				pstmt.executeUpdate("set auto_increment_increment=3;");
+
 				pstmt.executeUpdate();
 				
 			} catch (SQLException se) {

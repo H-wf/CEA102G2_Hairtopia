@@ -74,8 +74,7 @@ public class CosdetDAO implements CosdetDAO_interface {
 				pstmt.setInt(3, cosdetVO.getCosComment());
 				pstmt.setInt(4, cosdetVO.getCosDetailPrice());
 
-				pstmt.executeUpdate("set auto_increment_offset=3;");
-				pstmt.executeUpdate("set auto_increment_increment=3;");
+
 				pstmt.executeUpdate();
 				
 			} catch (SQLException se) {
@@ -325,8 +324,7 @@ public class CosdetDAO implements CosdetDAO_interface {
 				pstmt.setInt(2, cosdetVO.getMemNo());
 				pstmt.setInt(3, cosdetVO.getCosDetailPrice());
 
-				pstmt.executeUpdate("set auto_increment_offset=3;");
-				pstmt.executeUpdate("set auto_increment_increment=3;");
+
 				pstmt.executeUpdate();
 				
 			} catch (SQLException se) {
@@ -365,8 +363,7 @@ public class CosdetDAO implements CosdetDAO_interface {
 				pstmt.setInt(2, cosdetVO.getMemNo());
 				pstmt.setInt(3, cosdetVO.getCosComment());
 
-				pstmt.executeUpdate("set auto_increment_offset=3;");
-				pstmt.executeUpdate("set auto_increment_increment=3;");
+
 				pstmt.executeUpdate();
 				
 			} catch (SQLException se) {
