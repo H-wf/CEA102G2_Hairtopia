@@ -8,7 +8,7 @@
 <!-- 網頁標題要改記得改! -->
  <title>Hairtopia</title>
  <meta charset="utf-8">
-<%-- <%@include file="/front-end/tempFile/head" %> --%>
+
  
 </head>
 <style>
@@ -44,7 +44,7 @@ ul{
 }
 </style>
 <body>
-<%-- <%@include file="/front-end/tempFile/navBar" %> --%>
+
 
 <!-- Begin Page Content -->
 <div class="container-fluid px-0">
@@ -194,32 +194,7 @@ ul{
 							</div>
 						</div>	
 		
-<!-- 			      		<table class="table table-2"> -->
-<!-- 						  <thead> -->
-<!-- 						    <tr> -->
-<!-- 						      <th scope="col">#</th> -->
-<!-- 						      <th scope="col">商品圖片</th> -->
-<!-- 						      <th scope="col">商品名稱</th> -->
-<!-- 						      <th scope="col">數量</th> -->
-<!-- 						      <th scope="col">小計</th> -->
-<!-- 						    </tr> -->
-<!-- 						  </thead> -->
-<!-- 						  <tbody> -->
-<%-- 						  <c:set var="i" value="0" /> --%>
-<%-- 			      		  <c:forEach var="orddVO" items="${orddSvc.all}">			      				      		 --%>
-<%-- 			      		  <c:if test="${orddVO.ordNo == ordmVO.ordNo}"> --%>
-<%-- 			      		  	<c:set var="i" value="${i+1}" /> --%>
-<!-- 						    <tr> -->
-<%-- 						      <th scope="row">${i}</th> --%>
-<%-- 						      <td><img src="<%=request.getContextPath()%>/PicFinder?pic=1&table=product&column=proMpic&idname=proNo&id=${orddVO.proNo}"alt='沒有圖片' width="50" height="40"></td> --%>
-<%-- 						      <td>${proSvc.getOneProduct(orddVO.proNo).proName}</td> --%>
-<%-- 						      <td>${orddVO.ordDetAmt}</td> --%>
-<%-- 						      <td>${orddVO.ordDetPrice}</td> --%>
-<!-- 						    </tr> -->
-<%-- 						   </c:if>						    --%>
-<%-- 			      		   </c:forEach>			      		   --%>
-<!-- 						  </tbody> -->
-<!-- 						</table> -->
+
 			      	
 			    </div>
 			  </div>
@@ -235,70 +210,7 @@ ul{
 
 
 <!-- Page Content END -->
-<%-- <%@include file="/front-end/tempFile/footer" %> --%>
-<%-- <%@include file="/front-end/tempFile/tempJs" %> --%>
+
 </body>
-<script>
-$(document).ready(function(){
-	$(".ordStatus").parent().each(function(){
-		if($.trim($(this).find(".ordStatus").text())!="未出貨"){
-			$(this).find(".cancel").attr("disabled", true);
-		}
-	});
-});
-$(".cancel").click(function(){
-	var ordDate = new Date($(this).parent().parent().find(".ordDate").text());
-	var today = new Date();
-	var difference = new Date(today.getTime()-ordDate.getTime()).getDate();
-	Swal.fire({
-		  title: '確定取消訂單嗎?',
-		  icon: 'warning',
-		  showDenyButton: true,
-		  confirmButtonColor: '#3085d6',
-		  cancelButtonColor: '#d33',
-		  confirmButtonText: '確定取消!',
-	      denyButtonText: '不了,謝謝',
-	      
-		}).then((result) => {
-		  if (result.isConfirmed) {
-			 
-			 if(difference<4){ 			   
-			    Swal.fire(
-			      '成功取消!',
-			      '',
-			      'success'
-			    )
-			    $.ajax({
-					url:"<%=request.getContextPath()%>/ordermaster/ordermaster.do",
-					type:"POST",
-					data:{
-						action:"cancel",
-						ordNo:$(this).parent().parent().find(".ordNo").text(),					
-						memNo:${sessionScope.userSession.memNo},
-						ordStatus:"3",
-						ordAmt:$(this).parent().parent().find(".ordAmt").text(),
-						index:$(this).parent().parent().index()-1
-					},
-					datatype:"text",
-					success:function(index){
-						$(".ordStatus").eq(index).text("訂單取消");
-						$(".cancel").eq(index).attr("disabled", true);
-					}
-				});
-		   }else{
-			   Swal.fire(
-						'已訂購超過三天不能取消!',
-					    '',
-					    'error'
-					   )
-				  	 } 
-	 
-		  }
-		});
-});
 
-
-
-
-</script>
 </html>
