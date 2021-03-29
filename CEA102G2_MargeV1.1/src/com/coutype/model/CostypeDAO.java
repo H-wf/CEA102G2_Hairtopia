@@ -50,8 +50,7 @@ public class CostypeDAO implements CostypeDAO_interface {
 				pstmt.setString(1, costypeVO.getCosTypeName());
 				pstmt.setString(2, costypeVO.getCosTypeIntro());
 
-				pstmt.executeUpdate("set auto_increment_offset=3;");
-				pstmt.executeUpdate("set auto_increment_increment=3;");
+
 				pstmt.executeUpdate();
 				
 			} catch (SQLException se) {

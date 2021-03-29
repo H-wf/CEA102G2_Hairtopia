@@ -545,7 +545,7 @@ img {
 						<div class="tab-pane fade" id="TransRecord" role="tabpanel"
 							aria-labelledby="TransRecord-tab">
 							<div class="ServiceCard">
-								<div class="card shadow mb-4" width="80%">
+								<div class="shadow mb-4" width="80%">
                         			<div class="card-body">
                             			<div class="table-responsive">
                                 			<table class="table" id="dataTable">
