@@ -718,7 +718,63 @@ img {
 <script>
 $("#resModal").modal({show: true});
 $("#cosModal").modal({show: true});
-
+$(document).ready(function(){
+	$(".ordStatus").parent().each(function(){
+		if($.trim($(this).find(".ordStatus").text())!="未出貨"){
+			$(this).find(".cancel").attr("disabled", true);
+		}
+	});
+});
+$(".cancel").click(function(){
+	var ordDate = new Date($(this).parent().parent().find(".ordDate").text());
+	var today = new Date();
+	var difference = new Date(today.getTime()-ordDate.getTime()).getDate();
+	Swal.fire({
+		  title: '確定取消訂單嗎?',
+		  icon: 'warning',
+		  showDenyButton: true,
+		  confirmButtonColor: '#3085d6',
+		  cancelButtonColor: '#d33',
+		  confirmButtonText: '確定取消!',
+	      denyButtonText: '不了,謝謝',
+	      
+		}).then((result) => {
+		  if (result.isConfirmed) {
+			 
+			 if(difference<4){ 			   
+			    Swal.fire(
+			      '成功取消!',
+			      '',
+			      'success'
+			    )
+			    $.ajax({
+					url:"<%=request.getContextPath()%>/ordermaster/ordermaster.do",
+					type:"POST",
+					data:{
+						action:"cancel",
+						ordNo:$(this).parent().parent().find(".ordNo").text(),					
+						memNo:${sessionScope.userSession.memNo},
+						ordStatus:"3",
+						ordAmt:$(this).parent().parent().find(".ordAmt").text(),
+						index:$(this).parent().parent().index()-1
+					},
+					datatype:"text",
+					success:function(index){
+						$(".ordStatus").eq(index).text("訂單取消");
+						$(".cancel").eq(index).attr("disabled", true);
+					}
+				});
+		   }else{
+			   Swal.fire(
+						'已訂購超過三天不能取消!',
+					    '',
+					    'error'
+					   )
+				  	 } 
+	 
+		  }
+		});
+});
 </script>
 
 </html>
