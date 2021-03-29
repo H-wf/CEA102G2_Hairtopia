@@ -154,11 +154,11 @@ public class PostService {
 			List<PostVO> allPost = dao.getAll();
 			Set<Integer> index = new HashSet<Integer>();
 
-			while (index.size() < 5) {
+			while (index.size() < 10) {
 				int x = (int) (Math.random() * allPost.size());
 				index.add(x);
 			}
-			while (rePost.size() < 5) {
+			while (rePost.size() < 10) {
 				for (Integer y : index) {
 					rePost.add(allPost.get(y));
 				}
