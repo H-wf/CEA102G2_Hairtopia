@@ -292,7 +292,6 @@ function change(proNo,beforequantity,afterquantity){
 }
 $(".delete").click(function(){
 	var index = $(this).parent().parent("tr").find(".del").val()
-	console.log("INNNN");
 	var subtotal = $(this).parent().parent("tr").find(".subtotal").text();
 	$.ajax({
 		url:"<%=request.getContextPath()%>/product/product.do",
