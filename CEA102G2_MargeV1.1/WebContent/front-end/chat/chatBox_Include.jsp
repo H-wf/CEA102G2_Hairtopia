@@ -358,10 +358,10 @@
             </div>
 
             <div class="chat-input-holder">
-                <div class="chat-input-icons">
-                	<input type="file" id="uploadImage" accept="image/*">
-                    <a href="javascript:void(0);" id="upload_link"><i class="fas fa-image"></i></a>
-                </div>
+<!--                 <div class="chat-input-icons"> -->
+<!--                 	<input type="file" id="uploadImage" accept="image/*"> -->
+<!--                     <a href="javascript:void(0);" id="upload_link"><i class="fas fa-image"></i></a> -->
+<!--                 </div> -->
                 <input type="text" class="chat-input" id="message" onkeydown="if (event.keyCode == 13) sendMessage();" autocomplete="off">
 				<div class="chat-input-icons">
                     <a href="javascript:void(0);"><i class="fas fa-reply" onclick="sendMessage()"></i></a>
