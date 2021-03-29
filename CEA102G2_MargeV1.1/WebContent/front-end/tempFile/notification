@@ -1,4 +1,4 @@
-
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!--通知欄位 -->
 					<div class="notification_buble box" style="z-index: 1000;">
 						<ul class="nav nav-tabs nav-justified">
@@ -63,4 +63,3 @@
 					</div>
 					
 					<!--通知欄位end -->
-					

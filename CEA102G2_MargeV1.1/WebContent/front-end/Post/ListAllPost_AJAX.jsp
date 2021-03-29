@@ -6,11 +6,6 @@
 <%@ page import="com.member.model.*"%>
 
 <jsp:useBean id="postSvc"  scope="page" class="com.post.model.PostService" />
-<%
-	MemService memSvc = new MemService();
-	MemVO userSession = memSvc.getOneMem(2);
-	pageContext.setAttribute("userSession", userSession);
-%>
 
 <!DOCTYPE html>
 <html>
@@ -39,22 +34,14 @@
 	<!-- carousel -->
 	<div id="headImg">
 	</div>
-<!--     <div id="carouselExampleSlidesOnly" class="carousel slide mb-5" data-ride="carousel"> -->
-<!--         <div class="carousel-inner"> -->
-<!--             <div class="carousel-item active"> -->
-<!--                 <img src="https://picsum.photos/1300/300?random=2" class="d-block w-100"> -->
-<!--             </div> -->
-<!--             <div class="carousel-item"> -->
-<!--                 <img src="https://picsum.photos/1300/300?random=3" class="d-block w-100"> -->
-<!--             </div> -->
-<!--             <div class="carousel-item"> -->
-<!--                 <img src="https://picsum.photos/1300/300?random=4" class="d-block w-100"> -->
-<!--             </div> -->
-<!--         </div> -->
-<!--     </div> -->
-    <!-- csrousel end -->
+	<nav aria-label="breadcrumb">
+	  <ol class="breadcrumb">
+	    <li class="breadcrumb-item"><a href="<%=request.getContextPath()%>/front-end/index.jsp">首頁</a></li>
+	    <li class="breadcrumb-item active" aria-current="page">風格貼文</li>
+	  </ol>
+	</nav>
     <h1></h1>
-	<div class="container post">
+	<div class="container post my-5">
 		<div class="card-columns ">
 		<c:forEach  var="postVO" items="${postSvc.all}">
 				<div class="card onePost" id="${postVO.postNo}">

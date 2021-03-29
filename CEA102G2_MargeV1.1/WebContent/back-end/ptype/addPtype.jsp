@@ -26,8 +26,8 @@
 			</c:forEach>
 		</ul>
 		</c:if>
-		<p class="lead mb-0">商品類別名稱:</p>
-		<input required class="mb-3 mt-0" type="TEXT" name="ptypeName" size="20" placeholder="請輸入類別名稱" value="" />
+		<p class="lead mb-0"><label for="ptypeName">商品類別名稱:</label></p>
+		<input required class="form-control form-control-sm mb-3" style="width:200px;" id="ptypeName" type="TEXT" name="ptypeName" size="20" placeholder="請輸入類別名稱" value="" />
 		<div class="modal-footer">
 			<input name="action" value="insert" type="hidden" >
 			<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>

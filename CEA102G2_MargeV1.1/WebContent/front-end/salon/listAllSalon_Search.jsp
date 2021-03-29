@@ -17,9 +17,14 @@
 
 </head>
 <style>
-.ftco-navbar-light {
-	position: static;
-}
+
+#headImg{ 
+ height: 40vh;
+    background-image: url(<%=request.getContextPath()%>/front-end/Post/forHeadBG2.jpg);
+    background-repeat: no-repeat;
+    background-position: 50% 34%;
+    background-size: 100%;
+ } 
 </style>
 
 <body>
@@ -27,24 +32,20 @@
 
 
 
-	<div class="container-fluid">
-
-		<div class="row">
-			<div class="col-md-3">
-
-				<%-- 錯誤表列 --%>
-				<%-- 				<c:if test="${not empty errorMsgs}"> --%>
-				<!-- 					<font style="color: red">請修正以下錯誤:</font> -->
-				<!-- 					<ul> -->
-				<%-- 						<c:forEach var="message" items="${errorMsgs}"> --%>
-				<%-- 							<li style="color: red">${message}</li> --%>
-				<%-- 						</c:forEach> --%>
-				<!-- 					</ul> -->
-				<%-- 				</c:if> --%>
-			</div>
+	<div class="container-fluid px-0">
+	<div id="headImg">
+	</div>
+	<nav aria-label="breadcrumb">
+		  <ol class="breadcrumb">
+		    <li class="breadcrumb-item"><a href="<%=request.getContextPath()%>/front-end/index.jsp">首頁</a></li>
+		    <li class="breadcrumb-item active" aria-current="page">搜尋髮廊　' ${keyword} '</li>
+		  </ol>
+	</nav>
+		<div class="row justify-content-center">
+			
 
 
-			<div class="col-md-6 ">
+			<div class="col-md-6 my-5">
 
 
 

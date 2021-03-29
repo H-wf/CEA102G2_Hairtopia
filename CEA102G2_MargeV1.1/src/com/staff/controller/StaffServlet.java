@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
+import javax.mail.Session;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
@@ -75,12 +76,15 @@ public class StaffServlet extends HttpServlet {
 			// 【實際上應至資料庫搜尋比對】
 			StaffService staSvc = new StaffService();
 			StaffVO staVO = staSvc.getOneStaff(staAcct, staPswd);
+			StaffVO staVO2 = new StaffVO();
+			staVO2.setStaAcct(staAcct);
+			staVO2.setStaPswd(staPswd);
 
 			/*************************** 3.查詢完成,準備轉交(Send the Success view) *************/
 			if (staVO == null) { // 【帳號 , 密碼無效時】
-
+				req.setAttribute("error", staVO2);
 				errorMsgs.add("error account or password");
-				RequestDispatcher failureView = req.getRequestDispatcher("/back-end/Staff/login.jsp");
+				RequestDispatcher failureView = req.getRequestDispatcher("/back-end/login.jsp");
 				failureView.forward(req, res);
 			} else {
 				HttpSession session = req.getSession();
@@ -181,14 +185,13 @@ public class StaffServlet extends HttpServlet {
 
 			try {
 				/*************************** 1.接收請求參數 ****************************************/
-				Integer staNo = new Integer(req.getParameter("staNo"));
-
+				//Integer staNo = new Integer(req.getParameter("staNo"));
 				/*************************** 2.開始查詢資料 ****************************************/
-				StaffService staSvc = new StaffService();
-				StaffVO staVO = staSvc.getOneStaff(staNo);
+				//StaffService staSvc = new StaffService();
+				//StaffVO staVO = staSvc.getOneStaff(staNo);
 
 				/*************************** 3.查詢完成,準備轉交(Send the Success view) ************/
-				req.setAttribute("staVO", staVO); // 資料庫取出的lecVO物件,存入req
+				//req.setAttribute("staVO", staVO); // 資料庫取出的lecVO物件,存入req
 				String url = "/back-end/Staff/update_sta_input.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url);// 成功轉交 update_lec_input.jsp
 				successView.forward(req, res);

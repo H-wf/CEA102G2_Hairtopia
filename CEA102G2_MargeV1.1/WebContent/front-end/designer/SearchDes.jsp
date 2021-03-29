@@ -26,60 +26,85 @@
 		font-size:1.45rem;
 /* 		text-align:center; */
 	}
+.imgcontainer{
+	position:relative;
+}
+.img-fluid{
+	position:absolute;
+	height:100%;
+	object-fit:cover;
+}
+.salAdd{
+	font-size:1.2rem;
+}
+#headImg{ 
+ height: 40vh;
+    background-image: url(<%=request.getContextPath()%>/front-end/Post/forHeadBG2.jpg);
+    background-repeat: no-repeat;
+    background-position: 50% 34%;
+    background-size: 100%;
+ } 
 </style>
 
 </head>
 <body>
 	<%@include file="/front-end/tempFile/navBar"%>
 
-	<div class="container-fluid">
-		<div class="row">
-			<div class="col-md-3">
+	<div class="container-fluid px-0">
+	<div id="headImg">
+	</div>
+	<nav aria-label="breadcrumb">
+	  <ol class="breadcrumb">
+	    <li class="breadcrumb-item"><a href="<%=request.getContextPath()%>/front-end/index.jsp">首頁</a></li>
+	    <li class="breadcrumb-item active" aria-current="page">搜尋設計師　' ${keyword} '</li>
+	  </ol>
+	</nav>
+		<div class="row justify-content-center">
 
-				<%-- 錯誤表列 --%>
-				<%-- <c:if test="${not empty errorMsgs}"> --%>
-				<!-- 	<font style="color:red">請修正以下錯誤:</font> -->
-				<!-- 	<ul> -->
-				<%-- 		<c:forEach var="message" items="${errorMsgs}"> --%>
-				<%-- 			<li style="color:red">${message}</li> --%>
-				<%-- 		</c:forEach> --%>
-				<!-- 	</ul> -->
-				<%-- </c:if> --%>
-			</div>
-
-			<div class="col-md-6 ">
+			<div class="col-md-7 my-5">
 				<jsp:useBean id="salonSvc" scope="page"
 					class="com.salon.model.SalonService" />
 				<c:forEach var="designerVO" items="${desList}">
-					<div class="card w-auto" style="width: 18rem;">
+					<div class="card w-auto my-3" style="width: 18rem;">
+					
 						<div class="row no-gutters">
-							<div class="col-md-3 ">
+							<div class="col-md-3 imgcontainer">
 								<img class="img-fluid"
 									src="<%=request.getContextPath()%>/PicFinder?pic=1&table=Designer&column=desPic&idname=desNo&id=${designerVO.desNo}"
-									alt='沒有圖片' />
+									alt='沒有圖片'/>
 							</div>
-							<div class="col-md-6 mr-5">
-								<div class="card-body pl-3 pb-0">
-									<h2 class="card-text salName">${designerVO.desName}</h2>
-									<h2 class="card-text salName">${salonSvc.getOneSalon(designerVO.salNo).salName}</h2>
-									<span class="icon icon-map-marker mr-3"><i
-								class="bi bi-geo-alt-fill"></i></span><span class="card-text mb-0 salName">${salonSvc.getOneSalon(designerVO.salNo).salAdd}</span><br>
-								<span class="icon icon-phone mr-3"><i
-											class="bi bi-telephone-fill"></i></span> <span class="text">${salonSvc.getOneSalon(designerVO.salNo).salPhone}</span></a>
+							<div class="col-md-9">
+								<div class="card-body pl-3 ">
 								
+									<h2 class="card-text salName">${designerVO.desName}</h2>
+									<hr>
+									<h2 class="card-text salName"><span class="mr-3"><i class="bi bi-shop"></i></span><span style="font-size:1.2rem;">${salonSvc.getOneSalon(designerVO.salNo).salName}</span></h2>
+									<span class="icon icon-map-marker mr-3">
+										<i class="bi bi-geo-alt-fill"></i>
+									</span>
+									<span class="card-text mb-0 salName salAdd">${salonSvc.getOneSalon(designerVO.salNo).salAdd}</span><br>
+									<span class="icon icon-phone mr-3">
+										<i class="bi bi-telephone-fill"></i>
+									</span> 
+									<span class="text">${salonSvc.getOneSalon(designerVO.salNo).salPhone}</span>
+									<a
+										href="<%=request.getContextPath()%>/designer/designer.do?action=getOne_For_Display&desNo=${designerVO.desNo}"
+										class="btn btn-primary float-right" >查看更多</a>
 								
 								
 								</div>
+								
 							</div>
-							<span class="col-md-2 align-self-end  mb-3 ml-1">
-									<a
-										href="<%=request.getContextPath()%>/designer/designer.do?action=getOne_For_Display&desNo=${designerVO.desNo}"
-										class="btn btn-primary">查看更多</a>
+							<span style="bottom:0;">
 							
 							</span>
 
 
 						</div>
+<!-- 						<span class="m-1"> -->
+									
+							
+<!-- 						</span> -->
 					</div>
 
 				</c:forEach>

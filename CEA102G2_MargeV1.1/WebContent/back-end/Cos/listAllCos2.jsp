@@ -89,25 +89,58 @@
 	                                <div class="modal fade bd-example-modal-lg${cosVO.cosNo}" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
 									  <div class="modal-dialog modal-lg">
 									    <div class="modal-content p-1">
-											<div>課程編號:${cosVO.cosNo}</div>
-										    <div>課程名稱:${cosVO.cosName}</div>
-										    <div>講師名稱:${lecSvc.getOneLecturer(cosVO.lecNo).lecName}</div>
-										    <div>類別名稱:${costypeSvc.getOneCosType(cosVO.cosTypeNo).cosTypeName}</div>
-										    <div>上課期間:<fmt:formatDate value="${cosVO.cosFrom}" pattern="yyyy-MM-dd"/>~<fmt:formatDate value="${cosVO.cosTo}" pattern="yyyy-MM-dd"/></div>
-										    <div>報名期間:<fmt:formatDate value="${cosVO.cosApplyFrom}" pattern="yyyy-MM-dd"/>~<fmt:formatDate value="${cosVO.cosApplyTo}" pattern="yyyy-MM-dd"/></div>
-										    <div>課程介紹:${cosVO.cosIntro}</div>
-										    <div>課程地址:${cosVO.cosAdd}</div>
-										    <div>報名總人數:${cosVO.cosCount}</div>
-										    <div>評價總分數:${cosVO.cosRate}</div>
-										    <div>課程狀態:${cosVO.cosStatus==true?"上架":"下架"}</div>
-										    <div>最低人數:${cosVO.cosMinCount}</div>
-										    <div>最高人數:${cosVO.cosMaxCount}</div>
-										    <div>課程價格:${cosVO.cosPrice}</div>
-										    <div>報名會員:</div>
+									    <table class="table">
+									    	<tr>
+											<th>課程編號:</th><td>${cosVO.cosNo}</td>
+											</tr>
+											<tr>
+										    <th>課程名稱:</th><td>${cosVO.cosName}</td>
+										    </tr>
+										    <tr>
+										    <th>講師名稱:</th><td>${lecSvc.getOneLecturer(cosVO.lecNo).lecName}</td>
+										    </tr>
+										    <tr>
+										    <th>類別名稱:</th><td>${costypeSvc.getOneCosType(cosVO.cosTypeNo).cosTypeName}</td>
+										    </tr>
+										    <tr>
+										    <th>上課期間:</th><td><fmt:formatDate value="${cosVO.cosFrom}" pattern="yyyy-MM-dd"/>~<fmt:formatDate value="${cosVO.cosTo}" pattern="yyyy-MM-dd"/></td>
+										    </tr>
+										    <tr>
+										    <th>報名期間:</th><td><fmt:formatDate value="${cosVO.cosApplyFrom}" pattern="yyyy-MM-dd"/>~<fmt:formatDate value="${cosVO.cosApplyTo}" pattern="yyyy-MM-dd"/></td>
+										    </tr>
+										    <tr>
+										    <th>課程介紹:</th><td>${cosVO.cosIntro}</td>
+										    </tr>
+										    <tr>
+										    <th>課程地址:</th><td>${cosVO.cosAdd}</td>
+										    </tr>
+										    <tr>
+										    <th>報名總人數:</th><td>${cosVO.cosCount}</td>
+										    </tr>
+										    <tr>
+										    <th>評價總分數:</th><td>${cosVO.cosRate}</td>
+										    </tr>
+										    <tr>
+										    <th>課程狀態:</th><td>${cosVO.cosStatus==true?"上架":"下架"}</td>
+										    </tr>
+										    <tr>
+										    <th>最低人數:</th><td>${cosVO.cosMinCount}</td>
+										    </tr>
+										    <tr>
+										    <th>最高人數:</th><td>${cosVO.cosMaxCount}</td>
+										    </tr>
+										    <tr>
+										    <th>課程價格:</th><td>${cosVO.cosPrice}</td>
+										    </tr>
+										    <tr>
+										    <th>報名會員:</th>
+										    <td>
 										    <c:forEach var="coudetVO" items="${cosdetSvc.getOneCosDet(cosVO.cosNo)}">
 												${memSvc.getOneMem(coudetVO.memNo).memName}&emsp;
-
 											</c:forEach>
+											</td>
+											<tr>
+										</table>
 									    </div>
 									  </div>
 									</div>
@@ -127,7 +160,7 @@
 							<div class="modal-dialog">
 								<div class="modal-content">
 									<div class="modal-header">
-						                <h4 class="modal-title" id="myModalLabel">課程修改</h4>
+						                <h5 class="modal-title" id="myModalLabel">課程修改</h5>
 						                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 						            </div>									
 									<div class="modal-body pb-0">
@@ -145,7 +178,12 @@
 <!-- Page Content END -->
                 
 <%@include file="/back-end/tempFile/footer" %>
-<%@include file="/back-end/tempFile/srcJs" %>
+ <script src="<%=request.getContextPath()%>/dist/backTemp/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+ <script src="<%=request.getContextPath()%>/dist/backTemp/vendor/jquery-easing/jquery.easing.min.js"></script>
+ <script src="<%=request.getContextPath()%>/dist/backTemp/js/sb-admin-2.min.js"></script>
+ <script src="<%=request.getContextPath()%>/dist/backTemp/vendor/datatables/jquery.dataTables.min.js"></script>
+ <script src="<%=request.getContextPath()%>/dist/backTemp/vendor/datatables/dataTables.bootstrap4.min.js"></script>
+ <script src="<%=request.getContextPath()%>/dist/backTemp/js/demo/datatables-demo.js"></script>
 
 <script>
 

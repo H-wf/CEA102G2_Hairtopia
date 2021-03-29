@@ -4,81 +4,82 @@
 <%@ page import="java.util.*"%>
 <%@ page import="com.cos.model.*"%>
 
-<%
-  CosVO cosVO = (CosVO) request.getAttribute("cosVO");
-%>
-
+<!DOCTYPE html>
 <html>
 <head>
-<title>單一課程資料 - listOneCos.jsp</title>
-
-<style>
-  table#table-1 {
-	background-color: #CCCCFF;
-    border: 2px solid black;
-    text-align: center;
-  }
-  table#table-1 h4 {
-    color: red;
-    display: block;
-    margin-bottom: 1px;
-  }
-  h4 {
-    color: blue;
-    display: inline;
-  }
-</style>
-
-<style>
-  table {
-	width: 600px;
-	background-color: white;
-	margin-top: 5px;
-	margin-bottom: 5px;
-  }
-  table, th, td {
-    border: 1px solid #CCCCFF;
-  }
-  th, td {
-    padding: 5px;
-    text-align: center;
-  }
-</style>
-
+<!-- 網頁標題要改記得改! -->
+ <title>Hairtopia</title>
+ <meta charset="utf-8">
+<%@include file="/front-end/tempFile/head" %>
+ 
 </head>
-<body bgcolor='white'>
+<style>
+.ftco-navbar-light{
+		position:static;
+	}
+#mytb{
+	font-size:0.8rem;
+}
+#mytb td{
+	height:30%;
+}
+#table-1 h4{
+	color:black; font-family: "Open Sans", Arial, sans-serif;
+}
+
+</style>
+<body>
+<%@include file="/front-end/tempFile/navBar" %>
+
+<!-- Begin Page Content -->
+<div class="container-fluid">
 
 <table id="table-1">
 	<tr><td>
-		 <h3>單一課程資料 - listOneCos.jsp</h3>
-		 <h4><a href="<%=request.getContextPath()%>/back-end/Cos/select_cos_page.jsp"><img src="<%=request.getContextPath()%>/resource/images/back1.gif" width="100" height="32" border="0">回後台主頁</a></h4>	</td></tr>
+		 <li><a href="<%=request.getContextPath()%>/front-end/Cos/Course_Lec_1st.jsp">回課程前台</a></li>
+		 <li><a href="<%=request.getContextPath()%>/front-end/Cos/listAllCosApplyFromfront.jsp">列出所有報名中課程</a><br><br></li>
+	</td></tr>
 </table>
 
-<table style="width: 100%">
+<%-- 錯誤表列 --%>
+<c:if test="${not empty errorMsgs}">
+	<font style="color:red">請修正以下錯誤:</font>
+	<ul>
+		<c:forEach var="message" items="${errorMsgs}">
+			<li style="color:red">${message}</li>
+		</c:forEach>
+	</ul>
+</c:if>
+
+<table id="mytb" style="width: 77.5rem" class="table table-striped" >
 	<tr>
-		<th>課程編號</th>
-		<th>講師編號</th>
-		<th>課程類別編號</th>
-		<th>上課起</th>
-		<th>上課迄</th>
-		<th>課程介紹</th>
-		<th>課程圖片</th>
-		<th>課程地址</th>
-		<th>報名總人數</th>
-		<th>評價總分數</th>
-		<th>課程狀態</th>
-		<th>最低人數</th>
-		<th>最高人數</th>
-		<th>課程價格</th>
-		<th>報名開始日</th>
-		<th>報名截止日</th>
-		<th>課程名稱</th>
+		<th style="width: 4rem" valign="middle">課程<br>編號</th>
+		<th style="width: 4rem" valign="middle">講師<br>編號</th>
+		<th style="width: 4rem" valign="middle">類別<br>編號</th>
+		<th style="width: 4rem" valign="middle">上課<br>起</th>
+		<th style="width: 4rem" valign="middle">上課<br>迄</th>
+		<th style="width: 9.5rem" valign="middle">課程<br>介紹</th>
+		<th style="width: 4rem" valign="middle">課程<br>圖片</th>
+		<th style="width: 4rem" valign="middle">課程<br>地址</th>
+		<th style="width: 6rem" valign="middle">報名<br>總人數</th>
+		<th style="width: 6rem" valign="middle">評價<br>總分數</th>
+		<th style="width: 4rem" valign="middle">課程<br>狀態</th>
+		<th style="width: 4rem" valign="middle">最低<br>人數</th>
+		<th style="width: 4rem" valign="middle">最高<br>人數</th>
+		<th style="width: 4rem" valign="middle">課程<br>價格</th>
+		<th style="width: 4rem" valign="middle">報名<br>開始日</th>
+		<th style="width: 4rem" valign="middle">報名<br>截止日</th>
+		<th style="width: 4rem" valign="middle">課程<br>名稱</th>
 	</tr>
 	
-	<tr>
-		<td>${cosVO.cosNo}</td>
-			<td>${cosVO.lecNo}</td>
-			<td>${cosVO.cosTypeNo}</td>
+	<jsp:useBean id="costypeSvc" scope="page" class="com.coutype.model.CostypeService"/>
+	<jsp:useBean id="lecSvc" scope="page" class="com.lecturer.model.LecturerService"/>
+	<jsp:useBean id="cosSvc" scope="page" class="com.cos.model.CosService"/>
+
+		<tr>
+			<td>${cosSvc.findByPrimaryKeyCos(cosVO.cosNo).cosName}</td>
+			<td>${lecSvc.getOneLecturer(cosVO.lecNo).lecName}</td>
+			<td>${costypeSvc.getOneCosType(cosVO.cosTypeNo).cosTypeName}</td>
 			<td><fmt:formatDate value="${cosVO.cosFrom}" type="both"/></td>
 			<td><fmt:formatDate value="${cosVO.cosTo}" type="both"/></td>
 			<td>${cosVO.cosIntro}</td>
@@ -93,8 +94,14 @@
 			<td><fmt:formatDate value="${cosVO.cosApplyFrom}" type="both"/></td>
 			<td><fmt:formatDate value="${cosVO.cosApplyTo}" type="both"/></td>
 			<td>${cosVO.cosName}</td>
-	</tr>
+			</tr>
 </table>
 
+<input type ="button" onclick="history.back()" value="回到上一頁"></input>
+
+</div>
+<!-- Page Content END -->
+<%@include file="/front-end/tempFile/footer" %>
+<%@include file="/front-end/tempFile/tempJs" %>
 </body>
 </html>

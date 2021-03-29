@@ -20,20 +20,10 @@
                                 <div class="card-title" id="postTitle">
                                 	<div id="desInfo">
                                     	<h5></h5>
-                                    	<div class="dropdown" id="postD">
-	                                    	<a class="dropdown-toggle" href="#" id="postDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-	                                    		<i class="bi bi-three-dots-vertical""></i>
-						                    </a>
-											  <div class="dropdown-menu" aria-labelledby="postDropdown">
-											    <a class="dropdown-item" href="#">隱藏此貼文</a>
-											    <a class="dropdown-item" href="#">修改</a>
-						   					  </div>
-										</div>
                                		</div>
                                     <p id="postCon" class="m-0"></p>
                                     <div id="tags"></div>
                                    	<small class="text-muted" id="postTime"></small>
-                                    
                                 </div>
                                 <hr id="postHr">
                                 <p class="card-text">

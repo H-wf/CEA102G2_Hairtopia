@@ -137,6 +137,7 @@ public class TagServlet extends HttpServlet {
 			}
 			/***************************準備轉交***************************************/
 			req.setAttribute("postList", postList);
+			req.setAttribute("keyword",keyword);
 			
 			String url = "/front-end/Post/listAll_postSearch.jsp";
 			RequestDispatcher successView = req.getRequestDispatcher(url);

@@ -23,14 +23,15 @@ public class PostDAO implements PostDAO_Interface {
 	private static final String INSERT_STMT2 = " INSERT INTO POST(desNo,postCon,postPic1,postPic2,postStatus,postPror) VALUES(?,?,?,?,?,?)";
 	private static final String INSERT_STMT3 = " INSERT INTO POST(desNo,postCon,postPic1,postStatus,postPror) VALUES(?,?,?,?,?)";
 	private static final String GET_ALL_STMT = "SELECT * FROM hairtopia.post";
-	private static final String GET_ONE_STMT = "SELECT postNo,desNo,postCon,postTime,postStatus,postPror FROM hairtopia.post where postNo=?";
-	private static final String GET_DES_POST = "SELECT postNo,desNo,postCon,postTime,postStatus,postPror FROM post where desNo = ? order by postNo";
+	private static final String GET_ONE_STMT =  "SELECT postNo,desNo,postCon,postPic1,postPic2,postPic3,postTime,postStatus,postPror FROM hairtopia.post where postNo=?";
+	private static final String GET_DES_POST = "SELECT postNo,desNo,postCon,postPic1,postPic2,postPic3,postTime,postStatus,postPror FROM post where desNo = ? order by postNo";
 //	private static final String GET_POST_AJAX = "SELECT postNo,desNo,postCon,postPic1,postPic2,postPic3,postTime,postStatus,postPror FROM post where desNo = ? order by postNo";
 	private static final String UPDATE = "UPDATE post set postCon=?, postPic1=?, postPic2=?, postPic3=?,postStatus=?,postPror=? where postNo = ?"; // 修改3張照片																															
 	private static final String UPDATE2 = "UPDATE post set postCon=?, postPic1=?, postPic2=?,postStatus=?,postPror=? where postNo = ?"; // 修改2張照片
 	private static final String UPDATE3 = "UPDATE post set postCon=?, postPic1=?,postStatus=?,postPror=? where postNo = ?";			//修改1張照片
 	private static final String UPDATE4 = "UPDATE post set postCon=?,postStatus=?,postPror=? where postNo = ?";	
-	private static final String DELETE = "DELETE FROM post where postNo = ?";
+	private static final String DELETE = "UPDATE post SET postStatus=? WHERE postNo=?;";
+	private static final String UD_AJAX = "UPDATE post set postCon=? where postNo = ?;";
 
 	@Override
 	public PostVO insert(PostVO postVO) {
@@ -344,7 +345,7 @@ public class PostDAO implements PostDAO_Interface {
 
 
 	@Override
-	public void delete(Integer postNo) {
+	public void delete(Integer postNo,Integer postStatus) {
 		Connection con = null;
 		PreparedStatement pstmt = null;
 
@@ -352,8 +353,9 @@ public class PostDAO implements PostDAO_Interface {
 
 			con = ds.getConnection();
 			pstmt = con.prepareStatement(DELETE);
-
-			pstmt.setInt(1, postNo);
+			Integer ps = (postStatus == 0?1:0);
+			pstmt.setInt(1, ps);
+			pstmt.setInt(2, postNo);
 
 			pstmt.executeUpdate();
 
@@ -402,6 +404,9 @@ public class PostDAO implements PostDAO_Interface {
 				postVO.setPostNo(rs.getInt("postNo"));
 				postVO.setDesNo(rs.getInt("desNo"));
 				postVO.setPostCon(rs.getString("postCon"));
+				postVO.setPostPic1(rs.getBytes("postPic1"));
+				postVO.setPostPic2(rs.getBytes("postPic2"));
+				postVO.setPostPic3(rs.getBytes("postPic3"));
 				postVO.setPostTime(rs.getTimestamp("postTime"));
 				postVO.setPostStatus(rs.getInt("postStatus"));
 				postVO.setPostPror(rs.getBoolean("postPror"));
@@ -460,6 +465,9 @@ public class PostDAO implements PostDAO_Interface {
 				postVo.setPostNo(rs.getInt("postNo"));
 				postVo.setDesNo(rs.getInt("desNo"));
 				postVo.setPostCon(rs.getString("postCon"));
+				postVo.setPostPic1(rs.getBytes("postPic1"));
+				postVo.setPostPic1(rs.getBytes("postPic2"));
+				postVo.setPostPic1(rs.getBytes("postPic3"));
 				postVo.setPostTime(rs.getTimestamp("postTime"));
 				postVo.setPostStatus(rs.getInt("postStatus"));
 				postVo.setPostPror(rs.getBoolean("postPror"));
@@ -522,6 +530,9 @@ public class PostDAO implements PostDAO_Interface {
 				postVo.setPostNo(rs.getInt("postNo"));
 				postVo.setDesNo(rs.getInt("desNo"));
 				postVo.setPostCon(rs.getString("postCon"));
+				postVo.setPostPic1(rs.getBytes("postPic1"));
+				postVo.setPostPic2(rs.getBytes("postPic2"));
+				postVo.setPostPic3(rs.getBytes("postPic3"));
 				postVo.setPostTime(rs.getTimestamp("postTime"));
 				postVo.setPostStatus(rs.getInt("postStatus"));
 				postVo.setPostPror(rs.getBoolean("postPror"));
@@ -557,69 +568,46 @@ public class PostDAO implements PostDAO_Interface {
 		}
 		return list;
 	}
+
+	@Override
+	public PostVO updateAJAX(PostVO postVo) {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+
+		try {
+
+			con = ds.getConnection();
+			pstmt = con.prepareStatement(UD_AJAX);
+
+			pstmt.setString(1,postVo.getPostCon());
+			pstmt.setInt(2, postVo.getPostNo());
+			pstmt.executeUpdate();
+
+			// Handle any driver errors
+		} catch (SQLException se) {
+			throw new RuntimeException("A database error occured. " + se.getMessage());
+			// Clean up JDBC resources
+		} finally {
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
+		
+		return postVo;
+	}
 	
-//	public List<PostVO> getAllByAJAX(String keyword) {
-//
-//		List<PostVO> list = new ArrayList<PostVO>();
-//		PostVO postVo = null;
-//
-//		Connection con = null;
-//		PreparedStatement pstmt = null;
-//		
-//	
-//		
-//		ResultSet rs = null;
-//
-//		try {
-//
-//			con = ds.getConnection();
-//			pstmt = con.prepareStatement(GET_POST_AJAX);
-//			pstmt.setString(1, keyword);
-//			
-//			rs = pstmt.executeQuery();
-//
-//			while (rs.next()) {
-//				// empVO 也稱為 Domain objects
-//				postVo = new PostVO();
-//				postVo.setPostNo(rs.getInt("postNo"));
-//				postVo.setDesNo(rs.getInt("desNo"));
-//				postVo.setPostCon(rs.getString("postCon"));
-//				postVo.setPostPic1(rs.getBytes("postPic1"));
-//				postVo.setPostPic2(rs.getBytes("postPic2"));
-//				postVo.setPostPic3(rs.getBytes("postPic3"));
-//				postVo.setPostTime(rs.getTimestamp("postTime"));
-//				postVo.setPostStatus(rs.getInt("postStatus"));
-//				postVo.setPostPror(rs.getBoolean("postPror"));
-//				list.add(postVo); // Store the row in the list
-//			}
-//
-//			// Handle any driver errors
-//		} catch (SQLException se) {
-//			throw new RuntimeException("A database error occured. " + se.getMessage());
-//			// Clean up JDBC resources
-//		} finally {
-//			if (rs != null) {
-//				try {
-//					rs.close();
-//				} catch (SQLException se) {
-//					se.printStackTrace(System.err);
-//				}
-//			}
-//			if (pstmt != null) {
-//				try {
-//					pstmt.close();
-//				} catch (SQLException se) {
-//					se.printStackTrace(System.err);
-//				}
-//			}
-//			if (con != null) {
-//				try {
-//					con.close();
-//				} catch (Exception e) {
-//					e.printStackTrace(System.err);
-//				}
-//			}
-//		}
-//		return list;
-//	} 
+	
+	
+
 }

@@ -101,7 +101,7 @@
 							<div class="modal-dialog">
 								<div class="modal-content">
 									<div class="modal-header">
-						                <h4 class="modal-title" id="myModalLabel">課程公告修改</h4>
+						                <h5 class="modal-title" id="myModalLabel">課程公告修改</h5>
 						                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 						            </div>
 									

@@ -11,6 +11,7 @@ import java.util.Vector;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -24,6 +25,7 @@ import com.coudet.model.CosdetService;
 import com.coudet.model.CosdetVO;
 import com.member.controller.MemServlet;
 import com.member.model.MemService;
+import com.member.model.MemVO;
 import com.util.mail.MailService;
 import com.cos.model.CosService;
 import com.cos.model.CosVO;
@@ -33,6 +35,9 @@ public class OrderServlet extends HttpServlet {
 
 	protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 		doPost(req, res);
+		System.out.println("=======================");
+		System.out.println(req);
+		System.out.println(res);
 	}
 
 	protected void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
@@ -41,10 +46,10 @@ public class OrderServlet extends HttpServlet {
 		HttpSession session = req.getSession();
 
 		@SuppressWarnings("unchecked")
-		HashSet<CosdetVO> buylist = (HashSet<CosdetVO>) session.getAttribute("shoppingcart");
+		List<CosdetVO> buylist = (Vector<CosdetVO>) session.getAttribute("shoppingcart");
 
 		if (buylist == null) {
-			buylist = new HashSet<>();
+			buylist = new Vector<CosdetVO>();
 		}
 
 		if (action.equals("DELETE") || action.equals("ADD")) {
@@ -54,41 +59,31 @@ public class OrderServlet extends HttpServlet {
 			// Store this set in the request scope, in case we need to
 			// send the ErrorPage view.
 			req.setAttribute("errorMsgs", errorMsgs);
-//			//會員登入頁面後擷取帳戶(先關閉，因為還沒有加入過濾器)
-			Object account = session.getAttribute("account");
-			if (account == null) {
-				res.sendRedirect(req.getContextPath() + "/front-end/member/login.jsp");
-				return;
-			}
+
 			// 刪除購物車中的訂單明細
 			if (action.equals("DELETE")) {
 				String del = req.getParameter("del");
 				int d = Integer.parseInt(del);
-				for (CosdetVO vo : buylist) {
-
-					int cosNo = vo.getCosNo();
-					if (cosNo == d) {
-						buylist.remove(vo);
-					}
-					if (buylist != null) {
-						url = "/front-end/Cos/Cart.jsp";
-					} else {
-						url = "/front-end/Cos/listAllCosApplyFromfront.jsp";
-
-					}
-					session.setAttribute("shoppingcart", buylist);
-
-					RequestDispatcher rd = req.getRequestDispatcher(url);
-					rd.forward(req, res);
+				buylist.remove(d);
+				if (buylist.size() > 0) {
+					url = "/front-end/Cos/Cart.jsp";
+				} else {
+					url = "/front-end/Cos/listAllCosApplyFromfront.jsp";
 
 				}
+				session.setAttribute("shoppingcart", buylist);
+
+				RequestDispatcher rd = req.getRequestDispatcher(url);
+				rd.forward(req, res);
+
 			}
 			// 新增訂單明細至購物車中
 			else if (action.equals("ADD")) {
 
 				CosdetService cosdetSvc = new CosdetService();
-				Integer memNo = new Integer(req.getParameter("memNo"));// 先設死1000;
-				System.out.println("orderServlet no. 91 先設死memNo 1000：" + memNo);
+				MemVO memVO = (MemVO) session.getAttribute("userSession");
+				Integer memNo = memVO.getMemNo();
+				System.out.println("orderServlet no. 91 ：" + memNo);
 
 				// 取得後來新增的訂單明細
 				Integer cosNo = new Integer(req.getParameter("cosNo"));
@@ -100,35 +95,38 @@ public class OrderServlet extends HttpServlet {
 				CosdetVO deleteCosIfDouble = cosdetSvc.findQRCodeByCosNoAndCosNo(cosNo, memNo);
 				if (deleteCosIfDouble == null) {
 
-					System.out.println("orderServlet no.95沒有重複報名：");
 					CosdetVO cosdetVO = new CosdetVO();
 					cosdetVO.setCosNo(new Integer(cosNo));
 					cosdetVO.setMemNo(new Integer(memNo));
 					cosdetVO.setCosDetailPrice(new Integer(cosDetailPrice));
-					System.out.println("OrderServlet no.93：" + cosdetVO);
-					buylist.add(cosdetVO);
-				}
+//					if (buylist == null) {
+//						buylist = new Vector<CosdetVO>();
+//					}
+					if (buylist.contains(cosdetVO)) {
 
-				if (deleteCosIfDouble != null) {
+						req.setAttribute("doubleClick", "重覆報名");
+						url = "/front-end/Cos/listAllCosApplyFromfront.jsp";
+						RequestDispatcher rd = req.getRequestDispatcher(url);
+						rd.forward(req, res);
+						return;
+					} else {
+						buylist.add(cosdetVO);
+					}
 
-					CosdetVO cosdetVO = new CosdetVO();
-					cosdetVO.setCosNo(new Integer(cosNo));
-					cosdetVO.setMemNo(new Integer(memNo));
-					cosdetVO.setCosDetailPrice(new Integer(cosDetailPrice));
-					System.out.println("OrderServlet no.109：" + cosdetVO);
-					buylist.remove(cosdetVO);
-					url = "/front-end/Cos/alreadyCosApplied.jsp";
-					RequestDispatcher rd = req.getRequestDispatcher(url);
-					rd.forward(req, res);
-				} else {
-					url = "/front-end/Cos/listAllCosApplyFromfront.jsp";
+					url = "/front-end/Cos/Cart.jsp";
 
 					session.setAttribute("shoppingcart", buylist);
-
 					RequestDispatcher rd = req.getRequestDispatcher(url);
 					rd.forward(req, res);
-
 				}
+				if (deleteCosIfDouble != null) {
+					req.setAttribute("wilsonli", "重覆報名");
+					url = "/front-end/Cos/listAllCosApplyFromfront.jsp";
+					RequestDispatcher rd = req.getRequestDispatcher(url);
+					rd.forward(req, res);
+				}
+//				//去購物車找出同樣報名的產品
+//				for(int i=0; )
 
 			}
 		}
@@ -138,11 +136,17 @@ public class OrderServlet extends HttpServlet {
 			Integer total = 0;
 			for (CosdetVO order : buylist) {
 				Integer cosDetailPrice = order.getCosDetailPrice();
+				Integer cosNo = order.getCosNo();
+				System.out.println("orderServlet no.142：" + cosNo);
 				total += (cosDetailPrice);
 			}
 
 			String ordAmt = String.valueOf(total);
 			req.setAttribute("ordAmt", ordAmt);
+//			sessionUser = session.getAttribute("sessionUser");
+			Integer memNo = null;
+//			req.setAttribute(sessionUser, memNo);
+			System.out.println("orderServlet no.149：" + memNo);
 			String url = "/front-end/Cos/Checkout.jsp";
 			RequestDispatcher rd = req.getRequestDispatcher(url);
 			rd.forward(req, res);
@@ -180,7 +184,7 @@ public class OrderServlet extends HttpServlet {
 				// insert into cosdet table
 				CosdetVO cosdetVO = new CosdetVO();
 				cosdetVO.setCosNo(cosNo);
-				cosdetVO.setMemNo(memNo);// 因為memNo還沒抓到，因此先用1000代替
+				cosdetVO.setMemNo(memNo);
 				System.out.println("orderServlet no.187：" + memNo);
 				cosdetVO.setCosDetailPrice(cosDetailPrice);
 
@@ -200,6 +204,8 @@ public class OrderServlet extends HttpServlet {
 				cosVO = cosSvc2.AddCountApplyNo(cosNo, cosCount);
 				System.out.println("OrderServlet no.167：成功送入cos人數");
 			}
+
+//			session.setAttribute("ordAmt", ordAmt);
 
 			RequestDispatcher SuccessView = req.getRequestDispatcher("/front-end/Cos/pass.jsp");
 			SuccessView.forward(req, res);
