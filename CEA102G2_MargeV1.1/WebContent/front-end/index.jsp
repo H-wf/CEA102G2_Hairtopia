@@ -166,7 +166,7 @@
 	            <div class="row justify-content-between slidemove">
 	            <c:forEach var="postVO" items="${postSvc.pickup5Post()}">
 					<div class="col-2 ">
-						<div class="card onePost" id="${postVO.postNo}">
+						<div class="card onePost" postId="${postVO.postNo}">
 							<img src="<%=request.getContextPath()%>/PicFinder?pic=1&table=post&column=postPic1&idname=postNo&id=${postVO.postNo}"
 							 class="card-img-top post-img img-fluid" />
 						</div>

@@ -21,7 +21,7 @@ $(document).ready(function(){
 				url:contextPath+"/post/post.do",
 				data:{
 						action:"getWholePost",							
-						postNo:$(this).attr('id'),
+						postNo:$(this).attr('postId'),
 					},
 				success:function(data){
 					emptyModal();
@@ -69,7 +69,7 @@ $(document).ready(function(){
 				data:{
 					action:"addComByAJAX",
 					userSessionNo:userSessionNo,
-					postNo:$('.modal-body').attr('id'),
+					postNo:$('.modal-body').attr('postId'),
 					comCon:$('#comCon').val(),
 				},
 				success:function(data){
@@ -110,7 +110,7 @@ function showWholePost(commentList, postVo, tagNameList) {
 
     }
         // post pic 設置完成
-    	$('.modal-body').attr('id',postVo.postNo);
+    	$('.modal-body').attr('postId',postVo.postNo);
     	$('#desInfo').prepend(`<img src="` + contextPath + `/PicFinder?pic=1&table=designer&column=desPic&idname=desNo&id=` + postVo.desNo + `" id="desPic" class="img-thumbnail" />`);
         $('#postTitle h5').append(`<a href="`+ contextPath +`/designer/designer.do?action=getOne_For_Display&desNo=`+postVo.desNo+`" >`+ postVo.desName + `</a>`);
         $('#postTitle p').append(postVo.postCon);
