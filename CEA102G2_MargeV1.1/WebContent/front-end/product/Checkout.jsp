@@ -79,7 +79,7 @@
 							<th scope="row"></th>
 							<td colspan="5">TOTAL</td>
 							<td style="text-align:right;">NT$</td>
-							<td class="total">${total}</td>
+							<td class="total">${total}</td> 
 							<td></td>
 						</tr>
 						<tr>
@@ -284,12 +284,15 @@ function change(proNo,beforequantity,afterquantity){
 						total += data[i].proPrice * data[i].quantity;
 				  }
 				  $(".total").html(total);
+				  console.log(total);
 				  $(".ordAmt").attr("value", total);
+				  console.log($(".ordAmt").val());
 		}
 	});
 }
 $(".delete").click(function(){
 	var index = $(this).parent().parent("tr").find(".del").val()
+	console.log("INNNN");
 	var subtotal = $(this).parent().parent("tr").find(".subtotal").text();
 	$.ajax({
 		url:"<%=request.getContextPath()%>/product/product.do",
@@ -299,8 +302,10 @@ $(".delete").click(function(){
 			del : index,
 		},
 		success : function(data){
+			var total=parseInt($(".total").text())-subtotal;
 			$(".content").eq(index).remove();
-			$(".total").html(parseInt($(".total").text())-subtotal);
+			$(".total").html(total);
+			$(".ordAmt").val(total);
 			if(parseInt(data)==0){
 				window.location = "<%=request.getContextPath()%>/front-end/product/EShop2.jsp";
 			}
