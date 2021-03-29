@@ -27,7 +27,8 @@
 	class="com.cos.model.CosService" />
 <jsp:useBean id="cosdetSvc" scope="page"
 	class="com.coudet.model.CosdetService" />
-	
+	<jsp:useBean id="transRecSvc" scope="page"
+	class="com.transactionRecord.model.TransRecService" />
 
 <%
 	MemVO memVO = memSvc.getOneMem(2);
@@ -545,68 +546,87 @@ img {
 						<div class="tab-pane fade" id="TransRecord" role="tabpanel"
 							aria-labelledby="TransRecord-tab">
 							<div class="ServiceCard">
-								<div class="shadow mb-4" width="80%">
-                        			<div class="card-body">
-                            			<div class="table-responsive">
-                                			<table class="table" id="dataTable">
-                                    			<thead>
-                                        			<tr>
-			                                            <th>交易時間</th>
-			                                            <th>項目</th>
-			                                            <th>金額</th>
-			                                            <th>餘額</th>
-                                        			</tr>
-                                    			</thead>
-			                                    <tfoot>
-												<!--foreach取資料-->
-			                                        <tr>
-			                                            <th>交易時間</th>
-			                                            <th>項目</th>
-			                                            <th>金額</th>
-			                                            <th>餘額</th>
-			                                        </tr>
-			                                    </tfoot>
-                                   		 		<tbody>
-			                                        <tr>
-			                                            <td>Edinburgh</td>
-			                                            <td>61</td>
-			                                            <td>2011/04/25</td>
-			                                            <td>$320,800</td>
-			                                        </tr>
-			                                        <tr>
-			                                            <td>Edinburgh</td>
-			                                            <td>61</td>
-			                                            <td>2011/04/25</td>
-			                                            <td>$320,800</td>
+							<table class="table table-striped">
+								<tr>
+									<th>交易日期</th>
+									<th>交易類別</th>
+									<th>交易金額</th>
+									<th>餘額</th>
+								</tr>
+								<c:forEach var="transRecVO" items="${transRecSvc.all}">
+									<c:if test="${userSession.memNo == transRecVO.memNo}">
+										<tr>
+											<td>${transRecVO.traTime}</td>
+											<td>${transRecVO.traDes == 1 ? "儲值":transRecVO.traDes == 2 ? "提領" : ""}</td>
+											<td>${transRecVO.traPri}</td>
+											<td>${transRecVO.traBal}</td>
+										</tr>
+									</c:if>
+								</c:forEach>
+							</table>
+							
+<!-- 								<div class="card shadow mb-4" width="80%"> -->
+<!--                         			<div class="card-body"> -->
+<!--                             			<div class="table-responsive"> -->
+<!--                                 			<table class="table" id="dataTable"> -->
+<!--                                     			<thead> -->
+<!--                                         			<tr> -->
+<!-- 			                                            <th>交易時間</th> -->
+<!-- 			                                            <th>項目</th> -->
+<!-- 			                                            <th>金額</th> -->
+<!-- 			                                            <th>餘額</th> -->
+<!--                                         			</tr> -->
+<!--                                     			</thead> -->
+<!-- 			                                    <tfoot> -->
+<!-- 												foreach取資料 -->
+<!-- 			                                        <tr> -->
+<!-- 			                                            <th>交易時間</th> -->
+<!-- 			                                            <th>項目</th> -->
+<!-- 			                                            <th>金額</th> -->
+<!-- 			                                            <th>餘額</th> -->
+<!-- 			                                        </tr> -->
+<!-- 			                                    </tfoot> -->
+<!--                                    		 		<tbody> -->
+<!-- 			                                        <tr> -->
+<!-- 			                                            <td>Edinburgh</td> -->
+<!-- 			                                            <td>61</td> -->
+<!-- 			                                            <td>2011/04/25</td> -->
+<!-- 			                                            <td>$320,800</td> -->
+<!-- 			                                        </tr> -->
+<!-- 			                                        <tr> -->
+<!-- 			                                            <td>Edinburgh</td> -->
+<!-- 			                                            <td>61</td> -->
+<!-- 			                                            <td>2011/04/25</td> -->
+<!-- 			                                            <td>$320,800</td> -->
 			
-			                                        </tr>
-			                                        <tr>
-			                                            <td>Edinburgh</td>
-			                                            <td>61</td>
-			                                            <td>2011/04/25</td>
-			                                            <td>$320,800</td>
+<!-- 			                                        </tr> -->
+<!-- 			                                        <tr> -->
+<!-- 			                                            <td>Edinburgh</td> -->
+<!-- 			                                            <td>61</td> -->
+<!-- 			                                            <td>2011/04/25</td> -->
+<!-- 			                                            <td>$320,800</td> -->
 			
-			                                        </tr>
-			                                        <tr>
-			                                            <td>Edinburgh</td>
-			                                            <td>61</td>
-			                                            <td>2011/04/25</td>
-			                                            <td>$320,800</td>
+<!-- 			                                        </tr> -->
+<!-- 			                                        <tr> -->
+<!-- 			                                            <td>Edinburgh</td> -->
+<!-- 			                                            <td>61</td> -->
+<!-- 			                                            <td>2011/04/25</td> -->
+<!-- 			                                            <td>$320,800</td> -->
 			
-			                                        </tr>
-			                                        <tr>
-			                                            <td>Edinburgh</td>
-			                                            <td>61</td>
-			                                            <td>2011/04/25</td>
-			                                            <td>$320,800</td>
+<!-- 			                                        </tr> -->
+<!-- 			                                        <tr> -->
+<!-- 			                                            <td>Edinburgh</td> -->
+<!-- 			                                            <td>61</td> -->
+<!-- 			                                            <td>2011/04/25</td> -->
+<!-- 			                                            <td>$320,800</td> -->
 			
-			                                        </tr>
+<!-- 			                                        </tr> -->
 
-                                   				 </tbody>
-                                			</table>
-			                            </div>
-			                        </div>
-			                    </div>						
+<!--                                    				 </tbody> -->
+<!--                                 			</table> -->
+<!-- 			                            </div> -->
+<!-- 			                        </div> -->
+<!-- 			                    </div>						 -->
 							</div>
 						</div>
 						

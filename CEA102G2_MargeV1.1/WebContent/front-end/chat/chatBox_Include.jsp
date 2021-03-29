@@ -388,13 +388,14 @@
 
         //改成登入時,塞進session的memVO
 		var self = '${userSession.memName}';
-		console.log(self);
 		var webSocket;
         
 //      	getNotiHistory();
 		
         $(document).ready(function () {
+        	
         	connect();
+        	
         	
             $('.fa-minus').click(function () {
                 $(this).closest('.chatbox').toggleClass('chatbox-min');
@@ -430,14 +431,12 @@
     		
     		webSocket.onopen = function(event) {
     			console.log("Connect Success!");
-     			getNotiHistory();
     		};
 
     		webSocket.onmessage = function(event) {
     			var jsonObj = JSON.parse(event.data);
-    			console.log(jsonObj);
     			if ("open" === jsonObj.type) {
-    				console.log("open");
+    				getNotiHistory();
     			} else if ("history" === jsonObj.type) {   				
     				messagesArea.innerHTML = '';
     				
@@ -447,7 +446,6 @@
     					//轉換JSON物件
     					var historyData = JSON.parse(messages[i]);
     					var showMsg = historyData.message;
-    					console.log(historyData.type);
     					//建立訊息方塊
     					var boxHolder = document.createElement('div');
     					boxHolder.classList.add('message-box-holder');
@@ -478,39 +476,54 @@
     				
 					//塞入訊息
 					box.textContent = jsonObj.message;
-					
-    				console.log(box);
-    				
+    									
     				//塞入方塊區
 					boxHolder.appendChild(box);
 					messagesArea.appendChild(boxHolder);
 					//將視窗拉到底部顯示
     				messagesArea.scrollTop = messagesArea.scrollHeight;
-    			} else if ("notification" === jsonObj.type){
-                    console.log(jsonObj.message);
-                    
-                    var messages = JSON.parse(jsonObj.message);
-                    console.log(messages);
-//     				for (var i = 0; i < messages.length; i++) {
-//     					//轉換JSON物件
-//     					var historyData = JSON.parse(messages[i]);
-//     					var showMsg = historyData.message;
-//     					console.log(historyData.type);
-//     					//建立訊息方塊
-//     					var boxHolder = document.createElement('div');
-//     					boxHolder.classList.add('message-box-holder');
-//         				var box = document.createElement('div');
-//         				box.classList.add('message-box');	
-        				
-//     					// 根據發送者是自己還是對方來給予不同的class名, 以達到訊息左右區分
-//     					if(historyData.sender !== self) {box.classList.add('message-partner');}
-    					
-//     					//塞入訊息
-//     					box.textContent = showMsg;
-//     					//塞入方塊區
-//     					boxHolder.appendChild(box);
-//     					messagesArea.appendChild(boxHolder);
+					
+					//更新通知頁面
+					getNotiHistory();
 
+    			} else if ("notification" === jsonObj.type){
+    				$('ul.notification_list:eq(0)').empty();
+    			
+    				var messages = JSON.parse(jsonObj.message);
+    				var arr = [];
+    				for(let i = 0;i < messages.length; i++){
+    					arr.push(JSON.parse(messages[i]));
+    				}
+
+    				arr.sort(function(a, b){
+						if(parseInt(a.timestamp) < parseInt(b.timestamp)) return 1;
+						if(parseInt(a.timestamp) > parseInt(b.timestamp)) return -1;
+						return 0;
+					});
+    				
+    				for (var i = 0; i < arr.length; i++) {
+    					var historyData = arr[i];
+    					let sender = (historyData.sender !== "${userSession.memName}")?historyData.sender:historyData.receiver;
+    					
+    					$('ul.notification_list:eq(0)').append(`
+    						<li>
+ 								<a onclick="chat('` + sender + `','` + sender + `')">
+									<figure>
+										<img class="cover_fit" src="<%=request.getContextPath()%>/showImges.do?tableName=member&picColumn=memPic&pkColumn=memName&memName=`+ sender +
+												`">
+									</figure>
+									<div class="noti_con">
+											<div class="user_name">`+ sender +`</div>
+										<div class="msg"
+											style="padding-bottom: 8px; margin-top: 0px;">`+ historyData.message +`</div>
+										<div class="chat_time">` + beforeTime(historyData.timestamp) + `</div>
+									</div>
+								</a>
+							</li>
+    							
+    					`);
+    					
+    				}
                 }else if ("close" === jsonObj.type) {
                 	console.log("Disconnected!");
     			}
@@ -623,14 +636,14 @@
         
         
         
-        function chat(toName, toNO, toMemName){
+        function chat(toName, toMemName){
 			if(self !== toMemName){
 				chatPartnerName = toName;
 	        	friendMemberName = toMemName;
 	        	getHistory();
 	        	
 	        	
-	        	let imageSrc = '<%=request.getContextPath()%>/showImges.do?tableName=member&picColumn=memPic&pkColumn=memNo&memNo=' + toNO;
+	        	let imageSrc = '<%=request.getContextPath()%>/showImges.do?tableName=member&picColumn=memPic&pkColumn=memName&memName=' + toMemName;
 	    		$('#chatbox-image').attr('src', imageSrc);
 	            $('#chatPartnerName').text(chatPartnerName);
 	            
@@ -646,10 +659,61 @@
         	
         }
         
-        
-        
+        //Date formate
+//          function timeFormat(timestamp) {
+//             let now = new Date(timestamp);
+//             //format of the time string
+//             let time = now.getFullYear() + '/' + (now.getMonth() + 1) + '/' + now.getDate() + ' ';
+//             let hours = parseInt(now.getHours());
+//             //0~23 -> 12 is the divide of AM/PM
+//             if (hours > 12) {
+//                 time = time + (hours - 12) + ':' + now.getMinutes() + ' PM';
+//             } else {
+//                 time = time + hours + ':' + now.getMinutes() + ' AM';
+//             }
+//             return time;
+
+//         }
+        //count the day before send
+         function beforeTime(timestamp) {
+        	
+//         	console.log(timestamp);
+//         	console.log(typeof timestamp);
+        	let newTime = new Date().getTime();
+        	let day, hour, min, sec, month, year;
+        	
+        	timestamp = newTime - timestamp;
+        	console.log(timestamp);
+        	timestamp /= 1000;
+       	 	sec = Math.floor(timestamp) % 60;
+       		timestamp /= 60;
+    		min = Math.floor(timestamp) % 60;
+    		timestamp /= 60;
+    		hour = Math.floor(timestamp) % 24;
+    		timestamp /= 24;
+    		day = Math.floor(timestamp) % 30;
+    		year = Math.floor(timestamp) % 355;
+    		timestamp /= 30;
+    		month = Math.floor(timestamp);
+    		
+    		if(year !== 0){
+    			return year + "年前";
+    		}else if(month !== 0){
+    			return month + "個月前";
+    		}else if(day !== 0){
+    			return day	 + "天前";
+    		}else if(hour !== 0){
+    			return hour + "小時前";
+    		}else if(min !== 0){
+    			return min + "分鐘前";
+    		}else{
+    			return "幾秒前";
+    		}
+
+        }
 
     </script>
+
 </body>
 
 </html>

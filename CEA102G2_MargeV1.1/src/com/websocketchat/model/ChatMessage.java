@@ -2,7 +2,7 @@ package com.websocketchat.model;
 
 import java.util.Date;
 
-public class ChatMessage {
+public class ChatMessage{
 	private String type;
 	private String sender;
 	private String receiver;
@@ -58,4 +58,6 @@ public class ChatMessage {
 	public void setTimstamp(String timestamp) {
 		this.timestamp = timestamp;
 	}
+
+
 }
