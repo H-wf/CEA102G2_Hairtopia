@@ -177,7 +177,7 @@ function showWholePost(commentList, postVo, tagNameList) {
 	                            <div class="collapse" id="udCom`+item.comNo+`">
 	                            		<div class="input-group">
                                             <input type="text" class="form-control udComCon" placeholder="修改留言" id="udComCon`+item.comNo+`">
-                                            <button class="btn btn-outline-secondary udComButtom" id="`+item.comNo+`" type="submit">修改</button>
+                                            <button class="btn btn-outline-secondary udComButtom" comId="`+item.comNo+`" type="submit">修改</button>
                                         </div>
 								 </div>
 	                            <small class="text-muted comTime">` + item.comTime + `</small>
@@ -196,7 +196,7 @@ function showWholePost(commentList, postVo, tagNameList) {
 				url:contextPath + "/comment/comment.do",
 				data:{
 					action:"updateComByAJAX",
-					comNo:$(this).attr('id'),
+					comNo:$(this).attr('comId'),
 					comCon:$(this).prev('input').val(),
 				},
 				success:function(data){
@@ -230,12 +230,12 @@ function showWholePost(commentList, postVo, tagNameList) {
 				url:contextPath + "/post/post.do",
 				data:{
 					action:"updatePostByAJAX",
-					postNo:$('.modal-body').attr('id'),
+					postNo:$('.modal-body').attr('postId'),
 					postCon:$(this).prev('input').val(),
 				},
 				success:function(data){
 					var postCon = JSON.parse(data);
-					var postId = $('.modal-body').attr('id');
+					var postId = $('.modal-body').attr('postId');
 					var udPostInput='#udPost'+postId;
 					$('#postTitle p').text(postCon);
 					$('#udPost').text('');
@@ -261,7 +261,7 @@ function emptyModal(){
 	$('#tags').empty();
 	$('#postTime').empty();
 	$('#comList').empty();
-	$('.modal-body').removeAttr('id');
+	$('.modal-body').removeAttr('postId');
 	$('#comCon').val("");
 	
 	
@@ -304,7 +304,7 @@ function addCom(comVo){
                         <div class="collapse" id="udCom`+comVo.comNo+`">
                         		<div class="input-group">
                                     <input type="text" class="form-control udComCon" placeholder="修改留言" id="udComCon`+comVo.comNo+`">
-                                    <button class="btn btn-outline-secondary udComButtom" id="`+comVo.comNo+`" type="submit">修改</button>
+                                    <button class="btn btn-outline-secondary udComButtom" comId="`+comVo.comNo+`" type="submit">修改</button>
                                 </div>
 						 </div>
                         <small class="text-muted comTime">` + comVo.comTime + `</small>
@@ -322,7 +322,7 @@ function addCom(comVo){
 				url:contextPath + "/comment/comment.do",
 				data:{
 					action:"updateComByAJAX",
-					comNo:$(this).attr('id'),
+					comNo:$(this).attr('comId'),
 					comCon:$(this).prev('input').val(),
 				},
 				success:function(data){
