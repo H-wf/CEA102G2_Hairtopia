@@ -1,6 +1,7 @@
 package com.websocketchat.jedis;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import redis.clients.jedis.Jedis;
@@ -53,6 +54,8 @@ public class JedisHandleMessage {
 		jedis.auth("123456");
 		jedis.select(1);
 		AuthenticationCode = jedis.get(key);
+		
+		jedis.close();	
 		return AuthenticationCode;
 	}
 	
@@ -77,27 +80,24 @@ public class JedisHandleMessage {
 	            String mapentry = list.get(i);
 	            List<String> historyData = jedis.lrange(mapentry, -1, -1);
 	            for(int j = 0; j < historyData.size(); j++) {
-	            	System.out.println(historyData.get(j));
+	            	
 	            	historyList.add(historyData.get(j));
 	            }
-	            //jedis.del(key, mapentry);
-//	            jedis.ltrim("test:xttblog:", 0 ,1);
-//	            System.out.println(mapentry);
 	        }
 	        long t2 = System.currentTimeMillis();
 	        if ("0".equals(cursor)){
 	            break;
 	        }
+	        
 	    }
-		
-		
+	    jedis.close();	
 		return historyList;
 	}
 	
 	public static void main(String[] args) {
 		List<String> list = JedisHandleMessage.getLastMessageList("Aragaki Yui");
 		for(int i = 0; i < list.size(); i++ ) {
-//			System.out.println(list.get(i));
+			System.out.println(list.get(i));
 		}
 	}
 }

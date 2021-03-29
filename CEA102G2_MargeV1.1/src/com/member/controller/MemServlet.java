@@ -67,12 +67,12 @@ public class MemServlet extends HttpServlet {
 			// 【取得使用者 帳號(account) 密碼(password)】
 			String memEmail = req.getParameter("memEmail");
 			String password = req.getParameter("password");
-
 			/*************************** 2.開始查詢資料 *****************************************/
 			// 【檢查使用者輸入的帳號(account) 密碼(password)是否有效】
 			// 【實際上應至資料庫搜尋比對】
 			MemService memSvc = new MemService();
 			MemVO memVO = memSvc.validate(memEmail, password);
+			System.out.println(req.getContextPath() + req.getServletPath() );
 
 			/*************************** 3.查詢完成,準備轉交(Send the Success view) *************/
 			if (memVO == null) { // 【帳號 , 密碼無效時】
@@ -220,9 +220,13 @@ public class MemServlet extends HttpServlet {
 						+ "以下是您註冊的資料，請勿遺失。\r\n\n"
 						+ "您的帳號: " + memEmail + " .\r\n\n"
 						+ "啟動連結 (點完以下連結才會完成註冊程序):\r\n"
-						+  "http://localhost:8081/CEA102G2_Merge/member/mem.do?action=verify&memEmail="+memEmail+"&verificationCode=" + VerificationCode +"\r\n\n"
+						+ req.getScheme()+"://"+req.getServerName() +":"
+						+ req.getContextPath() + req.getServletPath() 
+						+ "?action=verify&memEmail="
+						+ memEmail+"&verificationCode=" + VerificationCode +"\r\n\n"
 						+ "若連結無法點選，請複製上方連結，貼入到瀏覽器中使用。\r\n\n"
 						+ "HairTopia 感謝您的支持";
+				//"http://localhost:8081/CEA102G2_Merge/member/mem.do
 
 				/* test用 請改成自己的信箱 */
 				ms.sendMail(EmailForSend, subject, messageText);
@@ -266,7 +270,10 @@ public class MemServlet extends HttpServlet {
 						+ "以下是您註冊的資料，請勿遺失。\r\n\n"
 						+ "您的帳號: " + memEmail + " .\r\n\n"
 						+ "啟動連結 (點完以下連結才會完成註冊程序):\r\n"
-						+  "http://localhost:8081/CEA102G2_Merge/member/mem.do?action=verify&memEmail="+memEmail+"&verificationCode=" + VerificationCode +"\r\n\n"
+						+ req.getScheme()+"://"+req.getServerName() +":"
+						+ req.getServerPort()+req.getContextPath() 
+						+ req.getServletPath() +"?action=verify&memEmail="
+						+ memEmail+"&verificationCode=" + VerificationCode +"\r\n\n"
 						+ "若連結無法點選，請複製上方連結，貼入到瀏覽器中使用。\r\n\n"
 						+ "HairTopia 感謝您的支持";
 
@@ -327,7 +334,7 @@ public class MemServlet extends HttpServlet {
 																// 【/dept/listEmps_ByDeptno.jsp】 或 【
 																// /dept/listAllDept.jsp】
 
-//			try {
+			try {
 				/*************************** 1.接收請求參數 - 輸入格式的錯誤處理 **********************/
 				Integer memNo = new Integer(req.getParameter("memNo"));
 				MemService memSvc = new MemService();
@@ -423,16 +430,17 @@ public class MemServlet extends HttpServlet {
 				session.setAttribute("userSession", memVO);
 				
 				/*************************** 3.修改完成,準備轉交(Send the Success view) *************/
+				req.setAttribute("SettingSuccess", true);
 				String url = requestURL;
 				RequestDispatcher successView = req.getRequestDispatcher(url); // 修改成功後,轉交回送出修改的來源網頁
 				successView.forward(req, res);
 
 				/*************************** 其他可能的錯誤處理 *************************************/
-//			} catch (Exception e) {
-//				errorMsgs.put("Exception","修改資料失敗:" + e.getMessage());
-//				RequestDispatcher failureView = req.getRequestDispatcher("/front-end/member/memberSetting.jsp");
-//				failureView.forward(req, res);
-//			}
+			} catch (Exception e) {
+				errorMsgs.put("Exception","修改資料失敗:" + e.getMessage());
+				RequestDispatcher failureView = req.getRequestDispatcher("/front-end/member/memberSetting.jsp");
+				failureView.forward(req, res);
+			}
 		}
 		
 

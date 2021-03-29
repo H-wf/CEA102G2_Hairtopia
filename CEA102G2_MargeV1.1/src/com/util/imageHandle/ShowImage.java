@@ -28,13 +28,19 @@ public class ShowImage extends HttpServlet {
 			String tableName = req.getParameter("tableName");
 			String picColumn = req.getParameter("picColumn");
 			String pkColumn = req.getParameter("pkColumn");
+			
 			String sql = "SELECT " + picColumn + " FROM " + tableName + " WHERE "+ pkColumn + " = ?";
 			con = ds.getConnection();
 			pstmt = con.prepareStatement(sql);
-			Integer pkNo =new Integer(req.getParameter(pkColumn));
-			pstmt.setInt(1, pkNo);
+			if("memNo".equals(pkColumn)) {
+				Integer pkNo =new Integer(req.getParameter(pkColumn));
+				pstmt.setInt(1, pkNo);
+			}else if("memName".equals(pkColumn)) {
+				String  pkName = req.getParameter(pkColumn);
+				pstmt.setString(1, pkName);
+			}
+			
 			rs = pstmt.executeQuery();
-//			System.out.println(rs.next());
 			if (rs.next()) {
 				
 				BufferedInputStream in = new BufferedInputStream(rs.getBinaryStream(picColumn));

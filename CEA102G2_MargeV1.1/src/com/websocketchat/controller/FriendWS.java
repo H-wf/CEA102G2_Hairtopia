@@ -26,15 +26,15 @@ import com.websocketchat.model.ChatMessage;
 import com.websocketchat.model.State;
 import com.chat.model.*;
 
-@ServerEndpoint(value="/FriendWS/{userName}", configurator=ServletAwareConfig.class)
+@ServerEndpoint(value="/FriendWS/{userName}")
 public class FriendWS {
 	private static Map<String, Session> sessionsMap = new ConcurrentHashMap<>();
 	Gson gson = new Gson();
-	private EndpointConfig config;
+
 
 	@OnOpen
 	public void onOpen(@PathParam("userName") String userName, Session userSession, EndpointConfig config) throws IOException {
-		HttpSession httpSession= (HttpSession) config.getUserProperties().get(HttpSession.class.getName());
+
 //		MemVO user = (MemVO)httpSession.getAttribute("userSession");
 //		System.out.println(user.getMemName());
 		
