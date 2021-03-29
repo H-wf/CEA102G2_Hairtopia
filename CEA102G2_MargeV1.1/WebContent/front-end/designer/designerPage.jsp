@@ -120,7 +120,7 @@
 									<c:forEach var="postVO"
 										items="${postSvc.getAll(designerVO.desNo)}">
 										<c:if test="${postVO.postStatus eq 0}">
-											<div class="card onePost" id="${postVO.postNo}">
+											<div class="card onePost" postId="${postVO.postNo}">
 												<img
 													src="<%=request.getContextPath()%>/PicFinder?pic=1&table=post&column=postPic1&idname=postNo&id=${postVO.postNo}"
 													class="card-img-top post-img" />
