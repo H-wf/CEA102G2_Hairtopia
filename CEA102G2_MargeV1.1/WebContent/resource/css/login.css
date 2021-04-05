@@ -2,7 +2,7 @@ body, html {
 	height: 100%;
 	background-repeat: no-repeat;
 	/*background-image: linear-gradient(rgb(255, 255, 255), rgb(12, 97, 33));*/
-	/*³z©ú¹Ï¼h*/
+	/*ï¿½zï¿½ï¿½ï¿½Ï¼h*/
 	/*background-color: rgba(0, 0, 0, 0.5);*/
 	/* 	background-color: #FFF; */
 }
@@ -156,4 +156,19 @@ body, html {
 	height: 1px;
 	margin-top: 0px !important;
 	margin-bottom: 0px !important;
+}
+
+span#memName-error {
+    color: red;
+}
+span#memEmail-error {
+	color: red;
+}
+
+span#memPswd-error {
+	color: red;
+}
+
+span#comfirmPswd-error {
+	color: red;
 }

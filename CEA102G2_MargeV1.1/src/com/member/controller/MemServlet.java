@@ -220,9 +220,9 @@ public class MemServlet extends HttpServlet {
 						+ "以下是您註冊的資料，請勿遺失。\r\n\n"
 						+ "您的帳號: " + memEmail + " .\r\n\n"
 						+ "啟動連結 (點完以下連結才會完成註冊程序):\r\n"
-						+ req.getScheme()+"://"+req.getServerName() +":"
-						+ req.getContextPath() + req.getServletPath() 
-						+ "?action=verify&memEmail="
+						+ req.getScheme()+"://"+req.getServerName() + ":"
+						+ req.getServerPort() + req.getContextPath() 
+						+ req.getServletPath()+ "?action=verify&memEmail="
 						+ memEmail+"&verificationCode=" + VerificationCode +"\r\n\n"
 						+ "若連結無法點選，請複製上方連結，貼入到瀏覽器中使用。\r\n\n"
 						+ "HairTopia 感謝您的支持";
@@ -415,6 +415,7 @@ public class MemServlet extends HttpServlet {
 
 				// Send the use back to the form, if there were errors
 				if (!errorMsgs.isEmpty()) {
+					req.setAttribute("SettingSuccess", false);
 //					req.setAttribute("memVO", memVO); // 含有輸入格式錯誤的empVO物件,也存入req
 					RequestDispatcher failureView = req
 							.getRequestDispatcher("/front-end/member/memberSetting.jsp");

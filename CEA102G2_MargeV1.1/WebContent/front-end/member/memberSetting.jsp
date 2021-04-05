@@ -179,10 +179,18 @@
 		$(function(){
 			
 			
-			if(${not empty SettingSuccess}){
+			if(${SettingSuccess eq true}){
 				Swal.fire({
 		        	  text: '修改已儲存',
 		        	  icon: 'success',
+		        	  confirmButtonText: '關閉',
+		        	  timer: 1500
+		        	});
+			}
+			if(${SettingSuccess eq false}){
+				Swal.fire({
+		        	  text: '輸入錯誤',
+		        	  icon: 'error',
 		        	  confirmButtonText: '關閉',
 		        	  timer: 1500
 		        	});
