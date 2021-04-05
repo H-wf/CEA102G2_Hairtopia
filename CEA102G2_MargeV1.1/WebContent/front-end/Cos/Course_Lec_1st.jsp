@@ -75,7 +75,7 @@
 					onclick="location.href='<%=request.getContextPath()%>/front-end/Cos/select_cos_pagefront.jsp';"
 					type="button">  <input value="風格貼文"
 					class="btn btn-primary cosBtn"
-					onclick="location.href='<%=request.getContextPath()%>/front-end/Post/ListAllPost_AJAX.jsp.jsp';"
+					onclick="location.href='<%=request.getContextPath()%>/front-end/Post/ListAllPost_AJAX.jsp';"
 					type="button">
 				<c:if test="${not empty userSession}">
 					<input value="查詢修課紀錄及評分" class="btn btn-primary cosBtn"

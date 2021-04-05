@@ -44,10 +44,12 @@
 	<div class="container post my-5">
 		<div class="card-columns ">
 		<c:forEach  var="postVO" items="${postSvc.all}">
-				<div class="card onePost" id="${postVO.postNo}">
+			<c:if test="${postVO.postStatus eq 0}">
+				<div class="card onePost" postId="${postVO.postNo}">
 					<img src="<%=request.getContextPath()%>/PicFinder?pic=1&table=post&column=postPic1&idname=postNo&id=${postVO.postNo}"
 					 class="card-img-top post-img" />
 				</div>
+			</c:if>
 		</c:forEach>
 		</div>
 	</div>

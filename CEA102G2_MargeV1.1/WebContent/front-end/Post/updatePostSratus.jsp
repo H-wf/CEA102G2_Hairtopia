@@ -99,7 +99,7 @@
 									<img  class="img-fluid" src="<%=request.getContextPath()%>/PicFinder?pic=1&table=post&column=postPic1&idname=postNo&id=${postVO.postNo}" />
 								</div>
 								<div class="postStaBtn">
-									<button class="btn btn-outline-primary onePost" id="${postVO.postNo}">顯示貼文</button>
+									<button class="btn btn-outline-primary onePost" postId="${postVO.postNo}">顯示貼文</button>
 									<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/post/post.do">
 										<input type="submit" value="修改狀態" class="btn btn-outline-primary">
 										<input type="hidden" name="postNo"  value="${postVO.postNo}">

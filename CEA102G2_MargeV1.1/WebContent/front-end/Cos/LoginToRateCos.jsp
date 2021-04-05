@@ -102,7 +102,7 @@
 						name="form1">
 						<input type="hidden" name="memNo" value="${userSession.memNo}">
 						<input type="hidden" name="action" value="findByMenNoToCos">
-						<input type="submit" value="查詢休課紀錄">
+						<input type="submit" value="查詢修課紀錄">
 					</form>
 				</div>
 			</div>

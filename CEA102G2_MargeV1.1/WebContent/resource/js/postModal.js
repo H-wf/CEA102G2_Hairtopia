@@ -21,7 +21,7 @@ $(document).ready(function(){
 				url:contextPath+"/post/post.do",
 				data:{
 						action:"getWholePost",							
-						postNo:$(this).attr('id'),
+						postNo:$(this).attr('postId'),
 					},
 				success:function(data){
 					emptyModal();
@@ -69,7 +69,7 @@ $(document).ready(function(){
 				data:{
 					action:"addComByAJAX",
 					userSessionNo:userSessionNo,
-					postNo:$('.modal-body').attr('id'),
+					postNo:$('.modal-body').attr('postId'),
 					comCon:$('#comCon').val(),
 				},
 				success:function(data){
@@ -110,7 +110,7 @@ function showWholePost(commentList, postVo, tagNameList) {
 
     }
         // post pic 設置完成
-    	$('.modal-body').attr('id',postVo.postNo);
+    	$('.modal-body').attr('postId',postVo.postNo);
     	$('#desInfo').prepend(`<img src="` + contextPath + `/PicFinder?pic=1&table=designer&column=desPic&idname=desNo&id=` + postVo.desNo + `" id="desPic" class="img-thumbnail" />`);
         $('#postTitle h5').append(`<a href="`+ contextPath +`/designer/designer.do?action=getOne_For_Display&desNo=`+postVo.desNo+`" >`+ postVo.desName + `</a>`);
         $('#postTitle p').append(postVo.postCon);
@@ -177,7 +177,7 @@ function showWholePost(commentList, postVo, tagNameList) {
 	                            <div class="collapse" id="udCom`+item.comNo+`">
 	                            		<div class="input-group">
                                             <input type="text" class="form-control udComCon" placeholder="修改留言" id="udComCon`+item.comNo+`">
-                                            <button class="btn btn-outline-secondary udComButtom" id="`+item.comNo+`" type="submit">修改</button>
+                                            <button class="btn btn-outline-secondary udComButtom" comId="`+item.comNo+`" type="submit">修改</button>
                                         </div>
 								 </div>
 	                            <small class="text-muted comTime">` + item.comTime + `</small>
@@ -196,7 +196,7 @@ function showWholePost(commentList, postVo, tagNameList) {
 				url:contextPath + "/comment/comment.do",
 				data:{
 					action:"updateComByAJAX",
-					comNo:$(this).attr('id'),
+					comNo:$(this).attr('comId'),
 					comCon:$(this).prev('input').val(),
 				},
 				success:function(data){
@@ -230,12 +230,12 @@ function showWholePost(commentList, postVo, tagNameList) {
 				url:contextPath + "/post/post.do",
 				data:{
 					action:"updatePostByAJAX",
-					postNo:$('.modal-body').attr('id'),
+					postNo:$('.modal-body').attr('postId'),
 					postCon:$(this).prev('input').val(),
 				},
 				success:function(data){
 					var postCon = JSON.parse(data);
-					var postId = $('.modal-body').attr('id');
+					var postId = $('.modal-body').attr('postId');
 					var udPostInput='#udPost'+postId;
 					$('#postTitle p').text(postCon);
 					$('#udPost').text('');
@@ -261,7 +261,7 @@ function emptyModal(){
 	$('#tags').empty();
 	$('#postTime').empty();
 	$('#comList').empty();
-	$('.modal-body').removeAttr('id');
+	$('.modal-body').removeAttr('postId');
 	$('#comCon').val("");
 	
 	
@@ -304,7 +304,7 @@ function addCom(comVo){
                         <div class="collapse" id="udCom`+comVo.comNo+`">
                         		<div class="input-group">
                                     <input type="text" class="form-control udComCon" placeholder="修改留言" id="udComCon`+comVo.comNo+`">
-                                    <button class="btn btn-outline-secondary udComButtom" id="`+comVo.comNo+`" type="submit">修改</button>
+                                    <button class="btn btn-outline-secondary udComButtom" comId="`+comVo.comNo+`" type="submit">修改</button>
                                 </div>
 						 </div>
                         <small class="text-muted comTime">` + comVo.comTime + `</small>
@@ -322,7 +322,7 @@ function addCom(comVo){
 				url:contextPath + "/comment/comment.do",
 				data:{
 					action:"updateComByAJAX",
-					comNo:$(this).attr('id'),
+					comNo:$(this).attr('comId'),
 					comCon:$(this).prev('input').val(),
 				},
 				success:function(data){
