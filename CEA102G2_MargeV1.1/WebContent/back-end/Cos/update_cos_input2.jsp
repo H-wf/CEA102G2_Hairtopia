@@ -35,8 +35,8 @@
 		</select>
 		<p class="lead mb-0"><label for="cosTypeNo">課程類別:</label></p>
 		<select class="form-control form-control-sm" style="width:100px;" id="cosTypeNo" size="1" name="cosTypeNo" >
-			<c:forEach var="cosTypeVO" items="${costypeSvc.all}" > 
-          		<option value="${cosTypeVO.cosTypeNo}"${(cosVO.cosTypeNo==cosTypeVO.cosTypeNo)?'selected':'' }>${cosTypeVO.cosTypeName}
+			<c:forEach var="costypeVO" items="${costypeSvc.all}" > 
+          		<option value="${costypeVO.cosTypeNo}"${(cosVO.cosTypeNo==costypeVO.cosTypeNo)?'selected':'' }>${costypeVO.cosTypeName}
          	</c:forEach>
 		</select>
 		<p class="lead mb-0"><label for="f_date5">開訓日:</label></p>

@@ -151,19 +151,6 @@
 				</th>
 			</tr>
 
-			<%
-				for (CosVO cosVO : list) {
-					byte[] cosPic = cosVO.getCosPic();
-					Base64.Encoder encoder = Base64.getEncoder();
-					String src = "data:image/jpeg;base64,";
-					if (cosPic != null) {
-						src += encoder.encodeToString(cosPic);
-					} else {
-						src = "/back-end/resource/images/back1.gif";
-					}
-				}
-			%>
-
 			<%@ include file="/back-end/pages/page1.file"%>
 
 			<%

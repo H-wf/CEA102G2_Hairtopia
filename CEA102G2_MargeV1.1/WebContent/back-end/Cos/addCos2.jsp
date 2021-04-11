@@ -81,8 +81,8 @@
 		<input name="cosApplyTo" id="f_date4" type="text" autocomplete="off">
 		<p class="lead mb-0">課程狀態:</p>
 		<label><input type="radio" name="cosStatus"
-			value="${cosVO.cosStatus}" checked />上架</label> <label><input
-			type="radio" name="cosStatus" value="${cosVO.cosStatus}" />下架</label>
+			value="true" checked/>上架</label> <label><input
+			type="radio" name="cosStatus" value="false"/>下架</label>
 
 		<div class="modal-footer">
 			<input name="action" value="insert" type="hidden">
@@ -160,7 +160,7 @@ $(function() {
 			{
 				format : 'Y-m-d H:i:s',
 				value : '',
-				minDate : '${empty cosVO.cosFrom?"-1969-12-31":cosVO.cosFrom}',
+				minDate : '-1969-12-31',
 				
 				onShow : function() {
 					this.setOptions({

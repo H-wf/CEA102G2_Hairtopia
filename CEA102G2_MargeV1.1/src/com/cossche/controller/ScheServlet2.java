@@ -23,7 +23,7 @@ public class ScheServlet2 extends HttpServlet{
             
     public void init(){        
         timer = new Timer();
-        Calendar cal = new GregorianCalendar(2021, Calendar.FEBRUARY, 1, 0, 0, 0);        
+        Calendar cal = new GregorianCalendar(2021, Calendar.MARCH, 1, 0, 0, 0);        
         TimerTask task = new TimerTask(){
                    
             public void run(){
@@ -32,7 +32,7 @@ public class ScheServlet2 extends HttpServlet{
                 System.out.println("工作執行的時間 = " + new Date() + "\n");                
                 count++;
                 dao.updateCosStatusWhenApplyStart();
-                dao.updateCosStatusWhenApplyOver();
+//                dao.updateCosStatusWhenApplyOver();
                 
             }
         };

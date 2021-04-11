@@ -157,7 +157,7 @@ public class CosServlet extends HttpServlet {
 					} catch (NumberFormatException e) {
 						cosPrice = 0;
 						System.out.println("update：cosPrice出現NumberFormatException");
-					}					
+					}
 					
 					
 					String cosIntro = req.getParameter("cosIntro");
@@ -331,7 +331,8 @@ public class CosServlet extends HttpServlet {
 						errorMsgs.add("insert：cosTypeNo出現NumberFormatException");
 					}
 					
-					Boolean cosStatus = Boolean.parseBoolean(req.getParameter("cosStatus").trim());					
+					Boolean cosStatus = Boolean.parseBoolean(req.getParameter("cosStatus").trim());
+					System.out.println("cosServlet no.335："+cosStatus);
 					
 					Integer cosMinCount = null;
 					try {

@@ -21,46 +21,46 @@ public class CosscheDAO implements Cossche_interface {
 	}
 
 	private static final String UPDATE_COS_STATUS_WHEN_APPLY_START = 
-			"UPDATE course SET cosStatus = 1 where cosApplyFrom <=now() AND now()< cosApplyTo";
-	private static final String UPDATE_COS_STATUS_WHEN_APPLY_OVER = 
-			"UPDATE course SET cosStatus = 0 where now() <= cosApplyFrom AND now() > cosApplyTo";
+			"UPDATE course SET cosStatus = 1 where cosApplyTo > now()";
+//	private static final String UPDATE_COS_STATUS_WHEN_APPLY_OVER = 
+//			"UPDATE course SET cosStatus = 0 where now() <= cosApplyFrom AND now() > cosApplyTo";
 
-		@Override
-		public void updateCosStatusWhenApplyOver() {
-
-			Connection con = null;
-			PreparedStatement pstmt = null;
-
-			try {
-				con = ds.getConnection();
-				pstmt = con.prepareStatement(UPDATE_COS_STATUS_WHEN_APPLY_START);
-
-				pstmt.executeUpdate("set auto_increment_offset=3;");
-				pstmt.executeUpdate("set auto_increment_increment=3;");
-				pstmt.executeUpdate();
-				
-			} catch (SQLException se) {
-				throw new RuntimeException("A database error occured. "
-							+ se.getMessage());
-
-			} finally {
-				if (pstmt != null) {
-					try {
-						pstmt.close();
-					} catch (SQLException se) {
-						se.printStackTrace(System.err);
-					}
-				}
-				if (con != null) {
-					try {
-						con.close();
-					} catch (Exception e) {
-						e.printStackTrace(System.err);
-					}
-				}
-			}
-
-		}
+//		@Override
+//		public void updateCosStatusWhenApplyOver() {
+//
+//			Connection con = null;
+//			PreparedStatement pstmt = null;
+//
+//			try {
+//				con = ds.getConnection();
+//				pstmt = con.prepareStatement(UPDATE_COS_STATUS_WHEN_APPLY_START);
+//
+//				pstmt.executeUpdate("set auto_increment_offset=3;");
+//				pstmt.executeUpdate("set auto_increment_increment=3;");
+//				pstmt.executeUpdate();
+//				
+//			} catch (SQLException se) {
+//				throw new RuntimeException("A database error occured. "
+//							+ se.getMessage());
+//
+//			} finally {
+//				if (pstmt != null) {
+//					try {
+//						pstmt.close();
+//					} catch (SQLException se) {
+//						se.printStackTrace(System.err);
+//					}
+//				}
+//				if (con != null) {
+//					try {
+//						con.close();
+//					} catch (Exception e) {
+//						e.printStackTrace(System.err);
+//					}
+//				}
+//			}
+//
+//		}
 		
 		@Override
 		public void updateCosStatusWhenApplyStart() {
@@ -70,10 +70,8 @@ public class CosscheDAO implements Cossche_interface {
 
 			try {
 				con = ds.getConnection();
-				pstmt = con.prepareStatement(UPDATE_COS_STATUS_WHEN_APPLY_OVER);
+				pstmt = con.prepareStatement(UPDATE_COS_STATUS_WHEN_APPLY_START);
 
-				pstmt.executeUpdate("set auto_increment_offset=3;");
-				pstmt.executeUpdate("set auto_increment_increment=3;");
 				pstmt.executeUpdate();
 				
 			} catch (SQLException se) {

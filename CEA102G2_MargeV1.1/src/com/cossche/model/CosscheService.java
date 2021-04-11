@@ -14,11 +14,11 @@ public class CosscheService {
 			return cosscheVO;
 	}
 	
-	public CosscheVO updateCosStatusWhenApplyOver() {
-		
-		CosscheVO cosscheVO = new CosscheVO();	
-			dao.updateCosStatusWhenApplyOver();
-			return cosscheVO;
-	}
+//	public CosscheVO updateCosStatusWhenApplyOver() {
+//		
+//		CosscheVO cosscheVO = new CosscheVO();	
+//			dao.updateCosStatusWhenApplyOver();
+//			return cosscheVO;
+//	}
 }
 	

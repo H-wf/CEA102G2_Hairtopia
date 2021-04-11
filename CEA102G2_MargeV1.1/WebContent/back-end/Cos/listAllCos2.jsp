@@ -9,6 +9,7 @@
 <jsp:useBean id="lecSvc" scope="page" class="com.lecturer.model.LecturerService" />
 <jsp:useBean id="cosdetSvc" scope="page" class="com.coudet.model.CosdetService" />
 <jsp:useBean id="memSvc" scope="page" class="com.member.model.MemService" />
+<jsp:useBean id="costypeSvc" scope="page" class="com.coutype.model.CostypeService" />
 <!DOCTYPE html>
 <html lang="en">
 <head>
