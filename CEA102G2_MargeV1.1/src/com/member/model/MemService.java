@@ -7,7 +7,7 @@ public class MemService {
 	private MemDAO_interface dao;
 	
 	public MemService() {
-		dao = new MemDAO();
+		dao = new MemHibernateDAO();
 	}
 	//memName, memGender, memInform ,memEmail, memPswd, memPhone, memAddr, memPic
 	public MemVO addMember(String memName, Integer memGender, String memInform, String memEmail, String memPswd, String memPhone, String memAddr, byte[] memPic) {
@@ -73,7 +73,7 @@ public class MemService {
 		return dao.validate(memEmail, memPswd);
 	}
 	
-	public String validateEmail(String memEmail) {
+	public MemVO validateEmail(String memEmail) {
 		return dao.validateEmail(memEmail);
 	}
 	

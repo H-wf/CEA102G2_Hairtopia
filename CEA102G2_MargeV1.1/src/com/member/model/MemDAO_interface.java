@@ -10,7 +10,7 @@ public interface MemDAO_interface {
 	public void updateStatus(String memEmail, Integer memStatus);
 	public void delete(Integer memno);
     public MemVO findByPrimaryKey(Integer memno);
-    public String validateEmail(String memEmail);
+    public MemVO validateEmail(String memEmail);
     public String validateMemberName(String memName);
     public List<MemVO> getAll();
     public MemVO validate(String memEmail, String memPswd);

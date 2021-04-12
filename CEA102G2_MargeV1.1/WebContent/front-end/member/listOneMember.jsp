@@ -103,7 +103,7 @@ th, td {
 			<td><fmt:formatDate value="${memVO.memEndDate}" pattern="yyyy-MM-dd" /></td>
 			<td>${memVO.memCode}</td>
 			<td><img class="headshot"
-				src="<%=request.getContextPath()%>/member/showImges.do?memNo=${memVO.memNo}"></td>
+				src="<%=request.getContextPath()%>/showImges.do?tableName=member&picColumn=memPic&pkColumn=memNo&memNo=${memVO.memNo}"></td>
 		</tr>
 	</table>
 

@@ -153,7 +153,7 @@ public class OrderServlet2 extends HttpServlet {
 //			/*************************** 2.開始查詢資料 *****************************************/
 			MemService memSvc = new MemService();
 			MailService ms = new MailService();
-			String memName = memSvc.validateEmail(account);
+//			MemVO memVO = memSvc.validateEmail(account);
 
 			// buylist -> cosdet
 			for (CosdetVO vo : buylist) {

@@ -125,14 +125,14 @@ public class MemServlet extends HttpServlet {
 			/*************************** 2.開始查詢資料 *****************************************/
 			MemService memSvc = new MemService();
 			MailService ms = new MailService();
-			String memName = memSvc.validateEmail(account);
-			if (memName != null) {
+			MemVO memVO = memSvc.validateEmail(account);
+			if (memVO != null) {
 				/*************************** 3.查詢完成,準備轉交(Send the Success view) *************/
 //				errorMsgs.add("信箱存在");
 
 				String subject = "密碼通知";
 				String password = genAuthCode(10);
-				String messageText = "親愛的 "+ memName + " 您好\r\n\n"
+				String messageText = "親愛的 "+ memVO.getMemName() + " 您好\r\n\n"
 						+ "以下是您重設的資料，請勿遺失 .\r\n"
 						+ "------------------------\r\n" 
 						+ "密碼: " + password
@@ -182,8 +182,8 @@ public class MemServlet extends HttpServlet {
 					errorMsgs.put("memEmail", "信箱請勿空白");
 				}else {
 					MemService memSvc = new MemService();
-					String emailExist =  memSvc.validateEmail(memEmail);
-					if(emailExist != null) {
+					MemVO memVO =  memSvc.validateEmail(memEmail);
+					if(memVO != null) {
 						errorMsgs.put("emailExist", "信箱已註冊");
 					}
 				}
@@ -220,9 +220,9 @@ public class MemServlet extends HttpServlet {
 						+ "以下是您註冊的資料，請勿遺失。\r\n\n"
 						+ "您的帳號: " + memEmail + " .\r\n\n"
 						+ "啟動連結 (點完以下連結才會完成註冊程序):\r\n"
-						+ req.getScheme()+"://"+req.getServerName() + ":"
-						+ req.getServerPort() + req.getContextPath() 
-						+ req.getServletPath()+ "?action=verify&memEmail="
+						+ req.getScheme()+"://"+req.getServerName() +":"
+						+ req.getContextPath() + req.getServletPath() 
+						+ "?action=verify&memEmail="
 						+ memEmail+"&verificationCode=" + VerificationCode +"\r\n\n"
 						+ "若連結無法點選，請複製上方連結，貼入到瀏覽器中使用。\r\n\n"
 						+ "HairTopia 感謝您的支持";
@@ -262,7 +262,7 @@ public class MemServlet extends HttpServlet {
 				/*************************** 2.開始新增資料 ***************************************/
 				MemService memSvc = new MemService();
 				MailService ms = new MailService();
-				String memName = memSvc.validateEmail(memEmail);
+//				MemVO memVO = memSvc.validateEmail(memEmail);
 				
 				String subject = "註冊認證通知信";
 				String VerificationCode = genAuthCode(20);
@@ -415,7 +415,6 @@ public class MemServlet extends HttpServlet {
 
 				// Send the use back to the form, if there were errors
 				if (!errorMsgs.isEmpty()) {
-					req.setAttribute("SettingSuccess", false);
 //					req.setAttribute("memVO", memVO); // 含有輸入格式錯誤的empVO物件,也存入req
 					RequestDispatcher failureView = req
 							.getRequestDispatcher("/front-end/member/memberSetting.jsp");

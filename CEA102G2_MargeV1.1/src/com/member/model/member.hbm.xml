@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping 
+ PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" 
+ "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd"> 
+ 
+ <hibernate-mapping>
+ 	 <class name="com.member.model.MemVO" table="member"> 
+
+        <id name="memNo" column="memNo"> 
+            <generator class="identity"/> 
+        </id> 
+
+        <property name="memName" column="memName"/> 
+
+        <property name="memGender" column="memGender"/> 
+        <property name="memPic" column="memPic"/> 
+        <property name="memInform" column="memInform"/> 
+        <property name="memEmail" column="memEmail"/> 
+        <property name="memPswd" column="memPswd"/> 
+        <property name="memPhone" column="memPhone"/> 
+        <property name="memAddr" column="memAddr"/> 
+        <property name="memBal" column="memBal"/> 
+        <property name="memStatus" column="memStatus"/> 
+        <property name="memEndDate" column="memEndDate"/> 
+        <property name="memCode" column="memCode"/> 
+
+    </class> 
+ </hibernate-mapping>

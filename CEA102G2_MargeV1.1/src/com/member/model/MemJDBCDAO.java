@@ -466,8 +466,8 @@ public class MemJDBCDAO implements MemDAO_interface {
 	}
 	
 	@Override
-	public String validateEmail(String memEmail) {
-		String memName = null;
+	public MemVO validateEmail(String memEmail) {
+		MemVO memVO = null;
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -481,8 +481,21 @@ public class MemJDBCDAO implements MemDAO_interface {
 
 			rs = pstmt.executeQuery();
 			
-			if(rs.next()) {
-				memName = rs.getString("memName");
+			while(rs.next()) {
+				memVO = new MemVO();
+				memVO.setMemNo(rs.getInt("memNo"));
+				memVO.setMemName(rs.getString("memName"));
+				memVO.setMemGender(rs.getInt("memGender"));
+				memVO.setMemPic(rs.getBytes("memPic"));
+				memVO.setMemInform(rs.getString("memInform"));
+				memVO.setMemEmail(rs.getString("memEmail"));
+				memVO.setMemPswd(rs.getString("memPswd"));
+				memVO.setMemPhone(rs.getString("memPhone"));
+				memVO.setMemAddr(rs.getString("memAddr"));
+				memVO.setMemBal(rs.getInt("memBal"));
+				memVO.setMemStatus(rs.getInt("memStatus"));
+				memVO.setMemEndDate(rs.getDate("memEndDate"));
+				memVO.setMemCode(rs.getString("memCode"));
 			}
 			
 			// Handle any driver errors
@@ -514,7 +527,7 @@ public class MemJDBCDAO implements MemDAO_interface {
 				}
 			}
 		}
-		return memName;
+		return memVO;
 	}
 	
 	@Override
