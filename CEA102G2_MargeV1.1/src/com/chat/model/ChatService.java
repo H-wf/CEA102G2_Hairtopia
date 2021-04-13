@@ -6,7 +6,7 @@ public class ChatService {
 	private ChatDAO_interface dao;
 	
 	public ChatService() {
-		dao = new ChatDAO();
+		dao = new ChatHibernateDAO();
 	}
 	
 	public ChatVO addChat(Integer chatSender, Integer chatReceiver, String chatText, byte[] chatPic) {
