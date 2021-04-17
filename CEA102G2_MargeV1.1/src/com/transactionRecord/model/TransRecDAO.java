@@ -161,7 +161,7 @@ public class TransRecDAO implements TransRecDAO_interface{
 				transRecVO = new TransRecVO();
 				transRecVO.setTraNo(rs.getInt("traNo"));
 				transRecVO.setMemNo(rs.getInt("memNO"));
-				transRecVO.setTraTime(rs.getDate("traTime"));
+				transRecVO.setTraTime(rs.getTimestamp("traTime"));
 				transRecVO.setTraDes(rs.getInt("traDes"));
 				transRecVO.setTraPri(rs.getInt("traPri"));
 				transRecVO.setTraBal(rs.getInt("traBal"));
@@ -216,7 +216,7 @@ public class TransRecDAO implements TransRecDAO_interface{
 				transRecVO = new TransRecVO();
 				transRecVO.setTraNo(rs.getInt("traNo"));
 				transRecVO.setMemNo(rs.getInt("memNO"));
-				transRecVO.setTraTime(rs.getDate("traTime"));
+				transRecVO.setTraTime(rs.getTimestamp("traTime"));
 				transRecVO.setTraDes(rs.getInt("traDes"));
 				transRecVO.setTraPri(rs.getInt("traPri"));
 				transRecVO.setTraBal(rs.getInt("traBal"));
@@ -273,7 +273,7 @@ public class TransRecDAO implements TransRecDAO_interface{
 				transRecVO = new TransRecVO();
 				transRecVO.setTraNo(rs.getInt("traNo"));
 				transRecVO.setMemNo(rs.getInt("memNO"));
-				transRecVO.setTraTime(rs.getDate("traTime"));
+				transRecVO.setTraTime(rs.getTimestamp("traTime"));
 				transRecVO.setTraDes(rs.getInt("traDes"));
 				transRecVO.setTraPri(rs.getInt("traPri"));
 				transRecVO.setTraBal(rs.getInt("traBal"));

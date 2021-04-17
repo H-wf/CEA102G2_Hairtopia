@@ -6,7 +6,7 @@ public class RuleService {
 	private RuleDAO_interface dao;
 
 	public RuleService() {
-		dao = new RuleDAO();
+		dao = new RuleHibernateDAO();
 	}
 
 	public RuleVO addRule(String ruleName, String ruleCon) {

@@ -5,7 +5,7 @@ import java.io.Serializable;
 public class TransRecVO implements Serializable{
 	private Integer traNo;
 	private Integer memNo;
-	private java.sql.Date traTime;
+	private java.sql.Timestamp traTime;
 	private Integer traDes;
 	private Integer traPri;
 	private Integer traBal;
@@ -29,11 +29,11 @@ public class TransRecVO implements Serializable{
 		this.memNo = memNo;
 	}
 
-	public java.sql.Date getTraTime() {
+	public java.sql.Timestamp getTraTime() {
 		return traTime;
 	}
 
-	public void setTraTime(java.sql.Date traTime) {
+	public void setTraTime(java.sql.Timestamp traTime) {
 		this.traTime = traTime;
 	}
 

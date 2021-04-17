@@ -6,7 +6,7 @@ public class TransRecService {
 	private TransRecDAO_interface dao;
 	
 	public TransRecService() {
-		dao = new TransRecDAO();
+		dao = new TransRecHibernateDAO();
 	}
 	
 	public TransRecVO addTransRec(Integer memNo, Integer traDes, Integer traPri, Integer traBal) {

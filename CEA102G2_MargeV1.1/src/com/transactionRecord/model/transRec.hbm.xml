@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping 
+ PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" 
+ "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd"> 
+ 
+ <hibernate-mapping>
+ 	 <class name="com.transactionRecord.model.TransRecVO" table="TRANSACTION_RECORD"> 
+
+        <id name="traNo" column="traNo"> 
+            <generator class="identity"/> 
+        </id> 
+
+		
+        <property name="memNo" column="memNo"/> 
+        <property name="traTime" column="traTime" type="timestamp"/> 
+        <property name="traDes" column="traDes"/> 
+        <property name="traPri" column="traPri"/> 
+        <property name="traBal" column="traBal"/> 
+
+    </class> 
+ </hibernate-mapping>
