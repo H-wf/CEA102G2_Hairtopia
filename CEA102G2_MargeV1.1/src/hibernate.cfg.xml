@@ -31,6 +31,7 @@
 		<!--Java物件與資料庫表格的映射檔 -->
 		<mapping resource="com/member/model/member.hbm.xml" />
 		<mapping resource="com/chat/model/chat.hbm.xml" />
+		<mapping resource="com/news/model/news.hbm.xml" />
 
 	</session-factory>
 	

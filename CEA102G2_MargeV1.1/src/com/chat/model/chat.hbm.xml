@@ -14,7 +14,7 @@
 
         <property name="chatReceiver" column="chatReceiver"/> 
         <property name="chatText" column="chatText"/> 
-        <property name="chatTime" column="chatTime"/> 
+        <property name="chatTime" column="chatTime" type="timestamp"/> 
         <property name="chatIsRead" column="chatIsRead"/> 
         <property name="chatPic" column="chatPic"/> 
 

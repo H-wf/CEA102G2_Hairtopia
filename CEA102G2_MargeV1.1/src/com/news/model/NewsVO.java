@@ -5,7 +5,7 @@ import java.io.Serializable;
 public class NewsVO implements Serializable{
 	private Integer newsNo;
 
-	private java.sql.Date newsTime;
+	private java.sql.Timestamp newsTime;
 	private String newsTitle;
 	private String newsCon;
 	private byte[] newsPic;
@@ -21,11 +21,11 @@ public class NewsVO implements Serializable{
 		this.newsNo = newsNo;
 	}
 
-	public java.sql.Date getNewsTime() {
+	public java.sql.Timestamp getNewsTime() {
 		return newsTime;
 	}
 
-	public void setNewsTime(java.sql.Date newsTime) {
+	public void setNewsTime(java.sql.Timestamp newsTime) {
 		this.newsTime = newsTime;
 	}
 

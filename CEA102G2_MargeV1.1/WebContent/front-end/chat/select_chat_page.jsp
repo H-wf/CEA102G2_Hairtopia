@@ -48,7 +48,7 @@
 </c:if>
 
 <ul>
-  <li><a href='listAllChat.jsp'>List</a> all chat.  <br><br></li>
+  <li><a href='<%=request.getContextPath()%>/front-end/chat/listAllChat.jsp'>List</a> all chat.  <br><br></li>
   
   
   <li>

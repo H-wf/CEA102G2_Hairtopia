@@ -1,4 +1,4 @@
-package com.chat.model;
+package com.news.model;
 
 import org.hibernate.*;
 import org.hibernate.query.Query; //Hibernate 5.2 �}�l ���N�� org.hibernate.Query ����
@@ -9,17 +9,17 @@ import hibernate.util.HibernateUtil;
 import java.util.*;
 
 
-public class ChatHibernateDAO implements ChatDAO_interface{
+public class NewsHibernateDAO implements NewsDAO_interface{
 
-	private static final String GET_ALL_STMT = "FROM ChatVO order by chatNo";
+	private static final String GET_ALL_STMT = "FROM NewsVO order by newsNo";
 	
 	@Override
-	public void insert(ChatVO chatVO) {
+	public void insert(NewsVO newsVO) {
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 		try {
 			session.beginTransaction();
 			
-			session.saveOrUpdate(chatVO);
+			session.saveOrUpdate(newsVO);
 			
 			session.getTransaction().commit();
 
@@ -31,11 +31,11 @@ public class ChatHibernateDAO implements ChatDAO_interface{
 	}
 
 	@Override
-	public void update(ChatVO chatVO) {
+	public void update(NewsVO newsVO) {
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 		try {
 			session.beginTransaction();
-			session.saveOrUpdate(chatVO);
+			session.saveOrUpdate(newsVO);
 			session.getTransaction().commit();
 		} catch (RuntimeException ex) {
 			session.getTransaction().rollback();
@@ -44,12 +44,12 @@ public class ChatHibernateDAO implements ChatDAO_interface{
 	}
 
 	@Override
-	public void delete(Integer chatNo) {
+	public void delete(Integer newsNo) {
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 		try {
 			session.beginTransaction();
-			ChatVO chatVO = (ChatVO) session.get(ChatVO.class, chatNo);
-			session.delete(chatVO);
+			NewsVO newsVO = (NewsVO) session.get(NewsVO.class, newsNo);
+			session.delete(newsVO);
 			session.getTransaction().commit();
 		} catch (RuntimeException ex) {
 			session.getTransaction().rollback();
@@ -58,27 +58,27 @@ public class ChatHibernateDAO implements ChatDAO_interface{
 	}
 
 	@Override
-	public ChatVO findByPrimaryKey(Integer chatNo) {
-		ChatVO chatVO = null;
+	public NewsVO findByPrimaryKey(Integer newsNo) {
+		NewsVO newsVO = null;
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 		try {
 			session.beginTransaction();
-			chatVO = (ChatVO) session.get(ChatVO.class, chatNo);
+			newsVO = (NewsVO) session.get(NewsVO.class, newsNo);
 			session.getTransaction().commit();
 		} catch (RuntimeException ex) {
 			session.getTransaction().rollback();
 			throw ex;
 		} 
-		return chatVO;
+		return newsVO;
 	}
 
 	@Override
-	public List<ChatVO> getAll() {
-		List<ChatVO> list = new ArrayList<ChatVO>();
+	public List<NewsVO> getAll() {
+		List<NewsVO> list = new ArrayList<NewsVO>();
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 		try {
 			session.beginTransaction();
-			Query<ChatVO> query = session.createQuery(GET_ALL_STMT, ChatVO.class);
+			Query<NewsVO> query = session.createQuery(GET_ALL_STMT, NewsVO.class);
 			list = query.getResultList();
 			session.getTransaction().commit();
 		} catch (RuntimeException ex) {
@@ -86,16 +86,6 @@ public class ChatHibernateDAO implements ChatDAO_interface{
 			throw ex;
 		}
 		return list;
-	}
-	
-	public static void main(String[] args) {
-		ChatHibernateDAO dao = new ChatHibernateDAO();
-		ChatVO chatVO = new ChatVO();
-		chatVO.setChatSender(1);
-		chatVO.setChatReceiver(2);
-		chatVO.setChatText("123123");
-		dao.insert(chatVO);
-		
 	}
 
 }

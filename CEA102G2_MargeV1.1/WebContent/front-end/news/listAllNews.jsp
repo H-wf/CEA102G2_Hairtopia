@@ -37,7 +37,7 @@ h4 {
 
 <style>
 table {
-	width: 800px;
+	width: 100%;
 	background-color: white;
 	margin-top: 5px;
 	margin-bottom: 5px;
@@ -95,7 +95,7 @@ th, td {
 			<tr>
 				<td>${newsVO.newsNo}</td>
 				<td><fmt:formatDate value="${newsVO.newsTime}"
-						pattern="yyyy-MM-dd" /></td>
+						pattern="yyyy-MM-dd HH:mm:ss" /></td>
 				<td>${newsVO.newsTitle}</td>
 				<td>${newsVO.newsCon}</td>
 				<td>

@@ -1,12 +1,13 @@
 package com.news.model;
 
+import java.sql.Timestamp;
 import java.util.*;
 
 public class NewsService {
 	private NewsDAO_interface dao;
 	
 	public NewsService() {
-		dao = new NewsDAO();
+		dao = new NewsHibernateDAO();
 	}
 	
 	public NewsVO addNews(String newsTitle, String newsCon) {
@@ -14,6 +15,7 @@ public class NewsService {
 		
 		newsVO.setNewsTitle(newsTitle);
 		newsVO.setNewsCon(newsCon);
+		newsVO.setNewsTime(new Timestamp(new Date().getTime()));
 		
 		dao.insert(newsVO);
 		
@@ -22,7 +24,7 @@ public class NewsService {
 	
 	public NewsVO updateNews(Integer newsNo, String newsTitle, String newsCon) {
 		
-		NewsVO newsVO = new NewsVO();
+		NewsVO newsVO = dao.findByPrimaryKey(newsNo);
 		newsVO.setNewsNo(newsNo);
 		newsVO.setNewsTitle(newsTitle);
 		newsVO.setNewsCon(newsCon);

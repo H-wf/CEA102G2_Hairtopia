@@ -1,5 +1,7 @@
 package com.chat.model;
 
+import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 
 public class ChatService {
@@ -16,6 +18,7 @@ public class ChatService {
 		chatVO.setChatReceiver(chatReceiver);
 		chatVO.setChatText(chatText);
 		chatVO.setChatPic(chatPic);
+		chatVO.setChatTime(new Timestamp(new Date().getTime()));
 		
 		dao.insert(chatVO);
 		
@@ -24,7 +27,7 @@ public class ChatService {
 	
 	public ChatVO updateChat(Integer chatNo, Integer chatSender, Integer chatReceiver, String chatText, byte[] chatPic) {
 		
-		ChatVO chatVO = new ChatVO();
+		ChatVO chatVO = dao.findByPrimaryKey(chatNo);
 		chatVO.setChatNo(chatNo);
 		chatVO.setChatSender(chatSender);
 		chatVO.setChatReceiver(chatReceiver);

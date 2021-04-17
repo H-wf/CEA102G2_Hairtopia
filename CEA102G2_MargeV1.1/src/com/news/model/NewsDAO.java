@@ -162,7 +162,7 @@ public class NewsDAO implements NewsDAO_interface{
 				newsVO.setNewsNo(rs.getInt("newsNo"));
 				newsVO.setNewsTitle(rs.getString("newsTitle"));
 				newsVO.setNewsCon(rs.getString("newsCon"));
-				newsVO.setNewsTime(rs.getDate("newsTime"));
+				newsVO.setNewsTime(rs.getTimestamp("newsTime"));
 			}
 
 			// Handle any driver errors
@@ -216,7 +216,7 @@ public class NewsDAO implements NewsDAO_interface{
 				newsVO.setNewsNo(rs.getInt("newsNo"));
 				newsVO.setNewsTitle(rs.getString("newsTitle"));
 				newsVO.setNewsCon(rs.getString("newsCon"));
-				newsVO.setNewsTime(rs.getDate("newsTime"));
+				newsVO.setNewsTime(rs.getTimestamp("newsTime"));
 				
 				list.add(newsVO);
 			}
